@@ -1,0 +1,147 @@
+.register__page {
+  width: 100%;
+  display: flex;
+  padding-top: 150px;
+  padding-bottom: 200px;
+  justify-content: center;
+}
+.upload__page::-webkit-scrollbar {
+  display: none;
+}
+
+.login__form__overall {
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px #ccc;
+  border: solid #000 4px;
+  background: #ccc;
+  overflow: hidden;
+
+  width: 310px;
+  min-height: 500px;
+}
+.login__form__header {
+  display: flex;
+  background: #000;
+
+  justify-content: center;
+  height: 100px;
+}
+.login__form__box {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  max-width: 600px;
+}
+.login__form {
+  height: 360px;
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+label {
+  display: none;
+}
+
+.login__input {
+  margin-bottom: 20px;
+}
+
+.metamask__button {
+  background: rgb(246, 133, 27);
+  font-family: "Courier";
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: 1px #333 solid;
+  -webkit-appearance: none;
+}
+.metamask__button:hover {
+  font-weight: bold;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.login__button {
+  font-family: "Courier";
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: 1px #333 solid;
+  padding: 15px 0px 15px 0px;
+  background: #131313;
+  font-family: "Courier";
+  color: #fff;
+  font-size: 18px;
+}
+.login__button:hover {
+  font-weight: bold;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+}
+
+.reset__password {
+  padding-top: 5px;
+}
+.reset__password a {
+  color: #888;
+}
+.reset__password a:hover {
+  color: #333;
+}
+.logged__in__already {
+  display: flex;
+  flex-direction: column;
+
+  font-size: 22px;
+  padding-top: 10px;
+}
+.logged__in__email {
+  margin-top: 50px;
+}
+.logout__button {
+  margin-top: 70px;
+}
+
+.temp__user__logout__div {
+  margin-top: 50px;
+}
+.temp__user__info {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-bottom: 20px;
+  font-size: 22px;
+}
+.temp__user__box {
+  height: 370px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.switch__button {
+  background: #fff;
+  color: #000;
+}
+.switch__button:hover {
+  box-shadow: none;
+}
+.connected__info {
+  line-height: 30px;
+  font-size: 16px;
+}
+.necessary__wallet {
+  margin-bottom: -22px;
+}
+.info__p {
+  margin-bottom: 30px;
+}
+.login__heading {
+  font-size: 20px;
+  font-family: "Saira";
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+.new__user__prompt {
+  padding-top: 10px;
+  margin-bottom: -10px;
+}

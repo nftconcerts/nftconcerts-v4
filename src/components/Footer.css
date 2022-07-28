@@ -1,0 +1,177 @@
+.footer {
+  background: #000;
+
+  color: #fff;
+
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
+    url("https://nftconcerts.com/wp-content/uploads/2022/02/2022-Footer-Red-Banner-2000x1300-web-1-1.jpg");
+  background-position: center;
+  background-size: cover;
+  z-index: 0;
+  width: 100%;
+}
+.copyright {
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.social__box {
+  width: 70%;
+  display: inline-block;
+}
+.contact__box {
+  width: 30%;
+  display: inline-block;
+  text-align: right;
+  vertical-align: top;
+  padding-top: 10px;
+}
+.contact__us {
+  padding-bottom: 20px;
+}
+.contact__email {
+  color: #fff;
+  text-decoration: none;
+  line-height: auto;
+  margin-top: 20px;
+}
+.contact__email:hover {
+  color: #ff0000;
+}
+.social__icon__box {
+  display: flex;
+  padding-top: 10px;
+}
+.follow__us {
+  padding-top: 10px;
+}
+
+.fa {
+  font-size: 20px;
+  height: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  background: #fff;
+  vertical-align: center;
+  line-height: 30px;
+  color: #000;
+  border-radius: 5px;
+  margin-right: 10px;
+  transition: all 0.5s;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+  opacity: 0.7;
+  background-color: #ff0000;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.bottom__footer {
+  padding-left: 30px;
+  padding-right: 30px;
+  background: #000;
+}
+
+.foot__thirds {
+  width: 100%;
+  text-align: center;
+}
+.footer__menu__right {
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  overflow: hidden;
+}
+.footer__menu__item {
+  padding: 10px;
+  border-right: solid #fff 1px;
+  border-top: solid #fff 1px;
+  border-radius: 0px;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  width: 50%;
+  height: 35px;
+  line-height: 40px;
+  text-align: center;
+  transition: all 0.7s;
+  min-width: 170px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  background: #222;
+}
+.footer__menu__item:hover {
+  background-color: #ff0000;
+  color: #fff;
+  font-size: 30px;
+}
+
+.under__footer {
+  display: flex;
+  border-left: solid #fff 1px;
+  border-bottom: solid #fff 1px;
+}
+.under__footer__mobile {
+  border-left: solid #fff 1px;
+  border-bottom: solid #fff 1px;
+}
+a span {
+  height: 1px;
+  width: 1px;
+  position: absolute;
+  overflow: hidden;
+  top: -10px;
+}
+
+.footer__black__fade {
+  background: linear-gradient(0deg, rgba(0, 0, 0), rgba(0, 0, 0, 0));
+  height: 200px;
+  margin-top: -200px;
+  padding: 0px;
+}
+
+@media only screen and (max-width: 949px) {
+  .under__footer {
+    display: none;
+  }
+
+  .social__box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .social__icon__box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .footer__hightlights {
+    height: 50px;
+  }
+  .footer__menu__item {
+    font-size: 20px;
+  }
+  .footer__menu__item:hover {
+    font-size: 24px;
+  }
+}
+
+@media only screen and (min-width: 950px) {
+  .under__footer__mobile {
+    display: none;
+    visibility: hidden;
+  }
+}
+@media only screen and (min-width: 550px) {
+  .super__tiny__only {
+    display: none;
+    visibility: hidden;
+  }
+}

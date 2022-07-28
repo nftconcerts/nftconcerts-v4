@@ -1,0 +1,93 @@
+.form__page__container {
+  margin-bottom: -15px;
+}
+.form__page {
+  width: 100%;
+  display: flex;
+  padding-top: 150px;
+  padding-bottom: 100px;
+  justify-content: center;
+}
+
+.form__overall {
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px #ccc;
+  border: solid #000 4px;
+  background: #ccc;
+  overflow: hidden;
+  height: 500px;
+  z-index: 1;
+}
+.form__header {
+  display: flex;
+  background: #000;
+  justify-content: center;
+  height: 100px;
+  -webkit-appearance: none;
+}
+.form__box {
+  width: 310px;
+  justify-content: center;
+  text-align: center;
+  -webkit-appearance: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+.my__form {
+  -webkit-appearance: none;
+}
+label {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.register__button {
+  padding: 15px 0px 15px 0px;
+  background: #131313;
+  font-family: "Courier";
+  color: #fff;
+  font-size: 18px;
+  -webkit-appearance: none;
+}
+
+.register__button:hover {
+  font-weight: bold;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.terms {
+  padding-bottom: 10px;
+  -webkit-appearance: none;
+}
+.nftc__link2 {
+  color: #6c1313;
+  transition: all 0.5s;
+  text-decoration: none;
+  -webkit-appearance: none;
+}
+.nftc__link2:hover {
+  color: #b90000;
+  font-weight: bold;
+  -webkit-appearance: none;
+}
+.large__checkbox {
+  height: 20px;
+  width: 20px;
+}
+.checkbox__div {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding-top: 2px;
+  -webkit-appearance: none;
+}
+.nftc__form {
+  padding: 20px;
+  padding-top: 20px;
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}

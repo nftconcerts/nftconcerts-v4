@@ -1,0 +1,31 @@
+.ci__button {
+  margin-top: 09px;
+}
+.place__input {
+  margin-top: 6px;
+}
+.first__input {
+  margin-top: 0px;
+}
+.concert__name__star {
+  margin-top: 32px;
+  margin-left: 10px;
+}
+.artist__star {
+  margin-left: 10px;
+  margin-top: 88px;
+}
+
+.perf__date__star {
+  margin-left: 10px;
+  margin-top: 146px;
+  z-index: 10;
+}
+.venue__star {
+  margin-left: 10px;
+  margin-top: 204px;
+}
+.location__star {
+  margin-left: 10px;
+  margin-top: 260px;
+}

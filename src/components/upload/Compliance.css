@@ -1,0 +1,32 @@
+.compliance__box {
+  height: 341px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 15;
+}
+.compliance__prompt {
+  display: flex;
+  position: absolute;
+  background: #fff;
+  padding: 05px;
+  font-size: 20px;
+  color: #000;
+  margin-top: -105px;
+  width: 330px;
+  margin-left: -15px;
+  height: 80px;
+  background: #000;
+  color: #fff;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  line-height: 24px;
+  z-index: 15;
+}
+.compliance__bar {
+  margin-top: 5px !important;
+}
+.compliance__button {
+  margin-top: 3px;
+}

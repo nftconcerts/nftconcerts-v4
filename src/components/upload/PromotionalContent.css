@@ -1,0 +1,45 @@
+.thumbnail__float__title {
+  z-index: 5;
+  position: relative;
+  top: 0px;
+  max-width: 300px;
+  margin-left: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 24px;
+  font-size: 18px;
+}
+.thumbnail__center__title {
+  margin-top: 60px;
+  margin-bottom: -85px;
+  z-index: 20;
+  position: relative;
+  pointer-events: none;
+}
+.thumbnail__uploader__box {
+  width: 100%;
+  height: 112px;
+}
+.thumbnail__upload__box__bottom {
+  margin-top: 80px;
+  font-size: 12px;
+}
+.subtitle__float__title {
+  font-size: 14px;
+  font-weight: 500;
+}
+.thumbnail__upload__box__top {
+  font-size: 14px;
+  padding-top: 05px;
+}
+.top__upload__box {
+  margin-top: -15px;
+}
+.pc__button {
+  margin-top: 11px;
+}
+.thumbnail__star {
+  margin-top: 33px;
+  margin-left: 10px;
+}

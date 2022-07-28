@@ -1,0 +1,8 @@
+{
+  "short_name": "NFT Concerts",
+  "name": "NFT Concerts",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
