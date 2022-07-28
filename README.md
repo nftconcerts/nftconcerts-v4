@@ -1,4 +1,4 @@
-# NFT Concerts V2
+# NFT Concerts V4
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
