@@ -49,7 +49,7 @@ function Register() {
       const newUser = await register(email, password, displayName, address);
       if (newUser) {
         var uid = newUser.user.uid;
-        await delay(1000);
+        await delay(500);
         setCurrentUser(newUser);
 
         set(dRef(db, "users/" + uid), {
@@ -125,7 +125,7 @@ function Register() {
           <label>Username</label>
           <input
             name="dispalyName"
-            placeholder="Username"
+            placeholder="Name"
             onChange={(e) => setDisplayName(e.target.value)}
             required={true}
           />

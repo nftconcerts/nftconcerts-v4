@@ -46,7 +46,6 @@ const Confirmation = ({ prevStep, values }) => {
     if (parseFloat(values.concertPrice)) {
       var newPrice = parseFloat(values.concertPrice) * usdExRate;
       let roundedPrice = newPrice.toFixed(2);
-      console.log("Price in USD : ", roundedPrice);
       setPriceInUSD(roundedPrice);
     } else if (values.concertPrice === "") {
       setPriceInUSD("0.00");
@@ -81,77 +80,89 @@ const Confirmation = ({ prevStep, values }) => {
       return songRows;
     }
   };
-  const [concertId, setConcertId] = useState("");
 
   // pushes formdata to database
-  const pushData = async () => {
-    var concertIdRef = dRef(db, "concertID");
+
+  const pushFormData = async (concertId) => {
     var uploadDate = new Date();
     var uploadDateString = dateFormat(uploadDate, "m/d/yyyy, h:MM TT Z ");
-
-    await runTransaction(concertIdRef, (concertID) => {
-      concertID++;
-      setConcertId(concertID);
-      console.log("concert ID: ", concertId);
-      return concertID;
+    set(dRef(db, "concerts/" + concertId), {
+      concertId: concertId,
+      concertRecording: values.concertRecording,
+      concertName: values.concertName,
+      concertArtist: values.concertArtist,
+      concertPerformanceDate: dateFormat(
+        values.concertPerformanceDate,
+        "m/d/yyyy, h:MM TT "
+      ),
+      concertVenue: values.concertVenue,
+      concertLocation: values.concertLocation,
+      concertTourName: values.concertTourName,
+      concertLiveAttendance: values.concertLiveAttendance,
+      concertRecordingType: values.concertRecordingType,
+      concertDescription: values.concertDescription,
+      concertNumSongs: values.concertNumSongs,
+      concertSetList: values.concertSetList,
+      concertThumbnailImage: values.concertThumbnailImage,
+      concertPromoClip: values.concertPromoClip,
+      concertPromoContent: "",
+      concertSupply: values.concertSupply,
+      concertPrice: values.concertPrice,
+      concertResaleFee: values.concertResaleFee,
+      concertReleaseDate: dateFormat(
+        values.concertReleaseDate,
+        "m/d/yyyy, h:MM TT "
+      ),
+      concertListingPrivacy: values.concertListingPrivacy,
+      concertCompliance: "approved",
+      listingApproval: "Awaiting Review",
+      uploaderWalletID: currentUser.user.photoURL,
+      uploaderUID: currentUser.user.uid,
+      uploadTime: uploadDateString,
     })
-      .then(
-        set(dRef(db, "concerts/" + concertId + "-" + values.concertName), {
-          concertId: concertId,
-          concertRecording: values.concertRecording,
-          concertName: values.concertName,
-          concertArtist: values.concertArtist,
-          concertPerformanceDate: dateFormat(
-            values.concertPerformanceDate,
-            "m/d/yyyy, h:MM TT "
+      .then(() => {
+        set(
+          dRef(
+            db,
+            "users/" + currentUser.user.uid + "/submittedConcerts/" + concertId
           ),
-          concertVenue: values.concertVenue,
-          concertLocation: values.concertLocation,
-          concertTourName: values.concertTourName,
-          concertLiveAttendance: values.concertLiveAttendance,
-          concertRecordingType: values.concertRecordingType,
-          concertDescripton: values.concertDescription,
-          concertNumSongs: values.concertNumSongs,
-          concertSetList: values.concertSetList,
-          concertThumbnailImage: values.concertThumbnailImage,
-          concertPromoClip: values.concertPromoClip,
-          concertPromoContent: "",
-          concertSupply: values.concertSupply,
-          concertPrice: values.concertPrice,
-          concertResaleFee: values.concertResaleFee,
-          concertReleaseDate: dateFormat(
-            values.concertReleaseDate,
-            "m/d/yyyy, h:MM TT "
-          ),
-          concertListingPrivacy: values.concertListingPrivacy,
-          concertCompliance: "approved",
-          listingApproval: "Awaiting Review",
-          uploaderWalletID: currentUser.user.photoURL,
-          uploaderUID: currentUser.user.uid,
-          uploadTime: uploadDateString,
-        })
+          {
+            concertId: concertId,
+
+            concertName: values.concertName,
+
+            uploadTime: uploadDateString,
+          }
+        )
           .then(() => {
-            set(dRef(db, "users/" + currentUser.user.uid), {
-              submittedConcerts: concertId,
-            })
-              .then(() => {
-                console.log("data uploaded to db");
-                alert("Listing Submitted");
-              })
-              .catch((error) => {
-                console.log(error);
-                alert("Unsucccessful. Error: ", error);
-              });
+            console.log("data uploaded to db");
+            alert("Listing Submitted");
           })
           .catch((error) => {
-            console.log("error");
+            console.log(error);
             alert("Unsucccessful. Error: ", error);
-          })
-      )
+          });
+      })
       .catch((error) => {
         console.log("error");
         alert("Unsucccessful. Error: ", error);
       });
+  };
+
+  //pulls concert ID and increments, then attaches concert ID to form data and uploads.
+
+  const [myConcertID, setMyConcertID] = useState("");
+
+  const pushData = async () => {
+    var concertIdRef = dRef(db, "concertID");
+    runTransaction(concertIdRef, (concertID) => {
+      if (concertID) {
+        console.log("pushing form data with ID ", concertID);
+        pushFormData(concertID);
+        concertID++;
+      }
+      return concertID;
+    });
   };
 
   return (

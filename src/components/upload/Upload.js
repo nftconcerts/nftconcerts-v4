@@ -35,7 +35,7 @@ function Upload() {
     concertTourName: "",
     concertLiveAttendance: "",
     concertRecordingType: "",
-    concertDescripton: "",
+    concertDescription: "",
     concertNumSongs: "",
     concertSetList: [],
     concertThumbnailImage: "",
