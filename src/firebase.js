@@ -45,8 +45,6 @@ const logout = async () => {
 };
 
 const login = async (email, password) => {
-  console.log("login attempt");
-  console.log("email: ", email, "password: ", password);
   try {
     const user = await signInWithEmailAndPassword(auth, email, password);
     console.log("Logged In: ", user);
@@ -84,7 +82,7 @@ const fetchCurrentUser = () => {
   } else {
     // User is signed out
     // ...
-    console.log("Fetch Current User Failed");
+
     return null;
   }
 };
@@ -96,14 +94,13 @@ const register = async (email, password, userName, walletAddress) => {
       email,
       password
     );
-    console.log(userCredentials);
+
     if (userCredentials) {
       updateProfile(userCredentials.user, {
         displayName: userName,
         photoURL: walletAddress,
       })
         .then(() => {
-          console.log("Attached Name to Profile: ", userName);
           localStorage.setItem("user", JSON.stringify(userCredentials));
         })
         .catch((error) => {

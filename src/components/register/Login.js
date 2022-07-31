@@ -8,6 +8,7 @@ import {
   truncateAddress,
 } from "./../../firebase";
 import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ function Login() {
 
   const connectWithMetamask = useMetamask();
   const address = useAddress();
-
+  let navigate = useNavigate();
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
   }, []);
@@ -36,6 +37,7 @@ function Login() {
 
   const confirmUser = () => {
     setCurrentUser(tempUser);
+    navigate("/my-account");
   };
 
   return (

@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Register from "./components/register/Register";
 import Upload from "./components/upload/Upload";
 import Login from "./components/register/Login";
-import SignUp from "./components/register/SignUp";
 import MyAccount from "./components/register/MyAccount";
 import ResetPassword from "./components/register/ResetPassword";
 import FormBox from "./components/form/FormBox";
@@ -21,7 +20,6 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
-            <Route path="/sign-up" element={<SignUp />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/my-account" element={<MyAccount />} />

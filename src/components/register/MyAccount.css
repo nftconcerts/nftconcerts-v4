@@ -1,0 +1,90 @@
+.no__user {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+  margin-top: 25px;
+  font-family: "Saira";
+  font-size: 20px;
+}
+.no__user h3 {
+  font-size: 24px;
+}
+.account__name {
+  width: 100%;
+  color: #fff;
+  text-align: left;
+}
+.account__info {
+  width: 100%;
+  color: #fff;
+  text-align: right;
+  line-height: 25px;
+}
+.concert__row {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: solid 1px #888;
+  width: 100%;
+  align-items: center;
+}
+
+.concert__table__headers {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: solid 1px #888;
+  width: 100%;
+  align-items: center;
+  background: #000;
+  color: #fff;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 10px;
+}
+.concert__id {
+  text-align: center;
+  width: 50px;
+}
+.concert__thumbnail {
+  display: flex;
+  width: 50px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.concert__name {
+  width: 160px;
+  text-align: left;
+  padding-left: 10px;
+}
+.concert__perf__date {
+  width: 150px;
+}
+.concert__listing__approval {
+  width: 150px;
+}
+.concert__expand__button {
+  width: 40px;
+  color: #333;
+}
+.concert__play__button {
+  width: 40px;
+  color: #333;
+}
+.header__expand__button {
+  width: 40px;
+}
+.header__play__button {
+  width: 40px;
+}
+
+.concert__play__button:hover {
+  transition: all 0.5s;
+  color: #000;
+  cursor: pointer;
+}
+.concert__expand__button:hover {
+  transition: all 0.5s;
+  color: #000;
+  cursor: pointer;
+}
