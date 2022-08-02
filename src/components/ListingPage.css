@@ -1,0 +1,106 @@
+.no__clip {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.promo__h3 {
+  font-size: 22px;
+  padding-bottom: 20px;
+}
+.concert__info__div {
+  padding-right: 20px;
+}
+.promo__clip__disclaimer {
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  background: #111;
+  box-sizing: border-box;
+}
+.c__token__info__div {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  background: #111;
+  color: #fff;
+  width: 100%;
+  justify-content: center;
+
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+  align-items: center;
+}
+.c__token__info__box {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+}
+.c__token__supply {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-left: 1px #ccc solid;
+  border-right: 1px #ccc solid;
+  width: 33%;
+  text-align: center;
+}
+.c__token__remaining {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 33%;
+  text-align: left;
+}
+.c__token__price {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 33%;
+  text-align: right;
+}
+.buy__button__box {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+.buy__now__button {
+  margin: 0px !important;
+  width: 350px;
+}
+.no__clip__button {
+  justify-content: center;
+}
+.button__usd__price {
+  font-size: 18px;
+  color: #ccc;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  padding-left: 10px;
+  margin-top: 5px;
+}
+.white__eth__logo {
+  filter: brightness(0.5) invert(1);
+  margin-top: -5px;
+}
+.inside__button__div {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.button__price {
+  display: flex;
+  align-items: center;
+}
+@media screen and (max-width: 800px) {
+  .concert__info__div {
+    padding-right: 0px;
+  }
+  .buy__button__box {
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -15,7 +15,8 @@
   border: solid #000 4px;
   background: #ccc;
   overflow: hidden;
-  height: 1000px;
+  height: auto;
+  padding-bottom: 20px;
   z-index: 1;
 }
 .contract__header {

@@ -1,0 +1,139 @@
+.player__page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: rgb(55, 55, 55);
+
+  padding-top: 90px;
+  box-sizing: border-box;
+}
+.media__player__div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #000000;
+  min-height: 200px;
+  max-height: 80vh;
+  justify-content: center;
+  object-fit: scale-down;
+  box-sizing: border-box;
+}
+video {
+  width: 100%;
+  height: auto !important;
+  max-height: 80vh;
+}
+.split__col {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 80%;
+  padding-top: 20px;
+  align-self: center;
+  padding-bottom: 180px;
+}
+.player__token__div {
+  z-index: 3;
+  min-width: 350px;
+}
+.concert__info__div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  font-family: "Saira";
+}
+.c__name {
+  padding-top: 40px;
+  padding-bottom: 20px;
+  font-size: 26px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.c__detail {
+  font-size: 20px;
+  padding-top: 10px;
+  font-weight: 500;
+  color: #fff;
+}
+.c__icons {
+  color: #b90000;
+  width: 40px;
+  text-align: center;
+  font-size: 18px;
+}
+.c__description {
+  margin-top: 20px;
+  font-size: 20px;
+}
+.view__token__button {
+  align-self: center;
+  margin-top: 20px;
+}
+.setlist__div {
+  margin-top: 20px;
+  color: #000;
+  background: #000;
+  width: 350px;
+}
+.player__setlist__title {
+  text-align: center;
+  background: #000;
+}
+
+.player__setlist__title {
+  height: 25px;
+  align-content: center;
+}
+.player__song__div {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: #ccc 1px solid;
+  align-content: center;
+  background: #fff;
+}
+.player__song__num {
+  align-content: center;
+  background: #ccc;
+  font-weight: bold;
+  max-width: 25px;
+}
+.player__song__name {
+  margin-top: 5px;
+}
+.player__song__div p {
+  width: 100%;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+@media screen and (max-width: 800px) {
+  .split__col {
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    max-width: 95%;
+    padding-bottom: 80px;
+  }
+  .concert__info__div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-right: 0px;
+  }
+  .player__token__div {
+    margin-top: 20px;
+  }
+}
+@media screen and (min-width: 801px) and (max-width: 900px) {
+  .split__col {
+    max-width: 95%;
+  }
+}

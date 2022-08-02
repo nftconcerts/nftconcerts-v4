@@ -53,7 +53,7 @@
   align-items: center;
 }
 .concert__name {
-  width: 160px;
+  width: 150px;
   text-align: left;
   padding-left: 10px;
 }
@@ -64,18 +64,26 @@
   width: 150px;
 }
 .concert__expand__button {
-  width: 40px;
+  width: 30px;
   color: #333;
 }
 .concert__play__button {
-  width: 40px;
+  width: 30px;
+  color: #333;
+}
+.concert__token__button {
+  width: 30px;
   color: #333;
 }
 .header__expand__button {
-  width: 40px;
+  width: 30px;
 }
 .header__play__button {
-  width: 40px;
+  width: 30px;
+}
+.header__token__button {
+  width: 30px;
+  color: #fff;
 }
 
 .concert__play__button:hover {
@@ -87,4 +95,23 @@
   transition: all 0.5s;
   color: #000;
   cursor: pointer;
+}
+.icon__button {
+  color: #555;
+  font-size: 16px;
+  background: none;
+  border: none;
+}
+.icon__button:hover {
+  transition: all 0.5s;
+  color: #000;
+  cursor: pointer;
+}
+@media screen and (max-width: 720px) {
+  .concert__perf__date {
+    display: none;
+  }
+  .concert__listing__approval {
+    display: none;
+  }
 }

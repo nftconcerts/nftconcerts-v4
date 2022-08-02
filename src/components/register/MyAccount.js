@@ -70,10 +70,31 @@ const MyAccount = () => {
               {tempConcert.listingApproval}
             </div>
             <div className="concert__expand__button">
-              <i class="fa-solid fa-file-signature" />
+              <button
+                type="submit"
+                class="fa-solid fa-file-signature icon__button"
+                onClick={() => {
+                  navigate("/contract?id=" + tempConcert.concertId);
+                }}
+              />
             </div>
             <div className="concert__play__button">
-              <i class="fa-solid fa-play" />
+              <button
+                type="sumbit"
+                onClick={() => {
+                  navigate("/player?id=" + tempConcert.concertId);
+                }}
+                class="fa-solid fa-play icon__button"
+              />
+            </div>
+            <div className="concert__token__button">
+              <button
+                type="sumbit"
+                onClick={() => {
+                  navigate("/concert?id=" + tempConcert.concertId);
+                }}
+                class="fa-solid fa-file-invoice-dollar icon__button"
+              />
             </div>
           </div>
         </>
@@ -133,6 +154,9 @@ const MyAccount = () => {
               </div>
               <div className="header__play__button">
                 <i class="fa-solid fa-play" />
+              </div>
+              <div className="header__token__button">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
               </div>
             </div>
             {userData && submittedConcertTable(userData)}

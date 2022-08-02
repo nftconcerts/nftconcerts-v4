@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import "./Row.css";
 import YouTube from "react-youtube";
+import dateFormat from "dateformat";
 
-function Row({ title, collectionUrl, isLargeRow }) {
-  const [concerts, setConcerts] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+function Row({ title, concertData, isLargeRow }) {
+  const [concerts, setConcerts] = useState([1, 2, 3]);
   const [trailerUrl, setTrailerUrl] = useState("");
   const [singleConcert, setSingleConcert] = useState([]);
 
@@ -44,9 +45,50 @@ function Row({ title, collectionUrl, isLargeRow }) {
       {/* container -> posters */}
 
       <div className="row__posters">
+        {/* {concerts.map((concertID) => (
+          // <div className="token__box">
+          //   <div className="token__header">
+          //     <div className="first__third">
+          //       <p>
+          //         {dateFormat(
+          //           concertData[concertID]?.concertPerformanceDate,
+          //           "m/d/yyyy"
+          //         )}
+          //       </p>
+          //     </div>
+          //     <div className="col__thirds">
+          //       <div className="missing__tab" />
+          //     </div>
+          //     <div className="last__third">
+          //       <p>TOTAL QTY: {concertData[concertID]?.concertSupply}</p>
+          //     </div>
+          //   </div>
+          //   <div className="token__thumbnail__box">
+          //     <img
+          //       src={
+          //         concertData[concertID]?.concertThumbnailImage + "?not-cache"
+          //       }
+          //       height="300px"
+          //     />
+          //   </div>
+          //   <div className="token__footer">
+          //     <div className="token__concert__name">
+          //       {concertData[concertID]?.concertName}
+          //     </div>
+          //     <div className="token__concert__name token__artist__name">
+          //       {concertData[concertID]?.concertArtist}
+          //     </div>
+          //     <img
+          //       src="/media/nftc-logo.png"
+          //       className="center__logo token__logo"
+          //       alt="NFT Concerts Logo"
+          //     />
+          //   </div>
+          // </div>
+        ))} */}
         {concerts.map((concert) => (
           <img
-            key={"001"}
+            key={concert}
             onClick={() => handleClick()}
             className={`row__poster ${isLargeRow && "row__posterLarge"}`}
             src={"/media/babs-0-thumbnail.png"}

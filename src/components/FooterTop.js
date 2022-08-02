@@ -17,7 +17,7 @@ function FooterTop() {
 
             <div className="buttons__box">
               <a href="/login">
-                <button className="my__button" onClick>Log In</button>
+                <button className="my__button">Log In</button>
               </a>
               <a href="/register">
                 <button className="buy__now my__button">Register</button>
