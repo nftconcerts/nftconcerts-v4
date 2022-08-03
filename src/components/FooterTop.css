@@ -19,6 +19,7 @@
   width: 50%;
   min-width: 350px;
   max-width: 600px;
+  z-index: 3;
 }
 .center__prompt__center {
   background: #fff;
@@ -40,4 +41,5 @@
   height: 200px;
   margin-top: -150px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), #131313);
+  pointer-events: none;
 }

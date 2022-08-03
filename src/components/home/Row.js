@@ -4,7 +4,7 @@ import YouTube from "react-youtube";
 import dateFormat from "dateformat";
 
 function Row({ title, concertData, isLargeRow }) {
-  const [concerts, setConcerts] = useState([1, 2, 3]);
+  const [concerts, setConcerts] = useState([1, 2, 3, 4, 5, 6]);
   const [trailerUrl, setTrailerUrl] = useState("");
   const [singleConcert, setSingleConcert] = useState([]);
 

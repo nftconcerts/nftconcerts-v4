@@ -143,7 +143,7 @@
   width: 50%;
   overflow-wrap: break-word;
   font-size: 16px;
-  background: #fff;
+
   white-space: normal;
   max-height: 520px;
   max-width: 315px;
@@ -167,6 +167,7 @@
   overflow-x: hidden;
   overflow-y: scroll;
   max-height: 500px;
+  background: #fff;
 }
 .text__info__scroll__area p {
   overflow-wrap: break-all;
@@ -298,4 +299,12 @@
   .c__confirm__button {
     margin-top: 10px;
   }
+}
+
+.my__button {
+  cursor: pointer;
+}
+.review__content__div video {
+  min-height: 200px;
+  max-height: 200px;
 }

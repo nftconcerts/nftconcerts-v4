@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./FooterTop.css";
 
 function FooterTop() {
+  let navigate = useNavigate();
   return (
     <div className="footer">
       <div className="footer__top__fade"> </div>
@@ -16,12 +18,23 @@ function FooterTop() {
             <h2 className="prompt__text">Ready To Get Started?</h2>
 
             <div className="buttons__box">
-              <a href="/login">
-                <button className="my__button">Log In</button>
-              </a>
-              <a href="/register">
-                <button className="buy__now my__button">Register</button>
-              </a>
+              <button
+                className="my__button"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Log In
+              </button>
+
+              <button
+                className="buy__now my__button"
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                Register
+              </button>
             </div>
           </div>
         </div>
