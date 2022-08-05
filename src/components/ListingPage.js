@@ -17,6 +17,7 @@ const ListingPage = () => {
   const [recordingSrc, setRecordingSrc] = useState("");
   const [formatPrice, setFormatPrice] = useState("");
 
+  //format concert eth price
   useEffect(() => {
     if (parseFloat(concertData?.concertPrice) < 1) {
       setFormatPrice("0" + concertData?.concertPrice);
@@ -25,7 +26,6 @@ const ListingPage = () => {
 
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
-    console.log("Concert ID: ", concertID);
   }, []);
 
   //eth to usd api call

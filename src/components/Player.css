@@ -111,6 +111,22 @@ video {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.not__valid__watcher {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: #fff;
+  font-size: 22px;
+  font-family: "Saira";
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.not__valid__watcher__text {
+  padding-bottom: 30px;
+}
 @media screen and (max-width: 800px) {
   .split__col {
     flex-direction: column;

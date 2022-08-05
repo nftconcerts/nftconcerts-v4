@@ -31,17 +31,21 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  //check if there is logged in user already
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
   }, []);
+
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
+  //basic security checks before registering user.
   const checkThenRegister = async () => {
     if (email == "") return alert("Missing email address");
     if (displayName == "") return alert("Missing email address");
     if (password == "") return alert("Missing password");
     if (passwordConfirm == "") return alert("Missing password confirmation");
-    if (!termsOfService) return alert("Please accept the terms of service.");
+    if (!document.getElementById("acceptTerms").checked)
+      return alert("Please accept the terms of service.");
     if (password == passwordConfirm) {
       var registrationDate = new Date();
       var dateString = dateFormat(registrationDate, "m/d/yyyy, h:MM TT Z ");
@@ -69,20 +73,6 @@ function Register() {
       }
     } else {
       alert("Passwords do not match");
-    }
-  };
-
-  const switchTerms = async () => {
-    await setTermsOfService(!termsOfService);
-    console.log("terms: ", termsOfService);
-  };
-
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log(user);
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
@@ -152,7 +142,6 @@ function Register() {
               className="large__checkbox"
               required={true}
               id="acceptTerms"
-              onChange={switchTerms}
             />
           </div>
           <h3 className="terms">

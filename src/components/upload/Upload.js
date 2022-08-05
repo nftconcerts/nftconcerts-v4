@@ -169,7 +169,7 @@ function Upload() {
     if (!file) return;
     const storageRef = sRef(
       storage,
-      `/private/${currentUser.user.uid}}/${folder}/${file.name}`
+      `/private/${currentUser.user.uid}/${folder}/${file.name}`
     );
     setWhileUploading(true);
     const uploadTask = uploadBytesResumable(storageRef, file);

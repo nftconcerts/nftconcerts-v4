@@ -13,6 +13,7 @@ const Player = () => {
   const [concertData, setConcertData] = useState();
   const [currentUser, setCurrentUser] = useState(null);
   const [recordingSrc, setRecordingSrc] = useState("");
+  const [validUser, setValidUser] = useState(false);
 
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
@@ -28,6 +29,12 @@ const Player = () => {
       setRecordingSrc(cData.concertRecording);
     });
   }, [currentUser, concertID]);
+
+  useEffect(() => {
+    if (currentUser?.user.photoURL == concertData?.uploaderWalletID) {
+      setValidUser(true);
+    } else setValidUser(false);
+  }, [currentUser, concertData, concertID]);
 
   const displaySongs = () => {
     var songRows = [];
@@ -60,13 +67,29 @@ const Player = () => {
   return (
     <div className="player__page">
       <div className="media__player__div">
-        <ReactPlayer
-          url={concertData?.concertRecording}
-          width="100%"
-          height="100%"
-          playing={false}
-          controls={true}
-        />
+        {(validUser && (
+          <ReactPlayer
+            url={concertData?.concertRecording}
+            width="100%"
+            height="100%"
+            playing={false}
+            controls={true}
+          />
+        )) || (
+          <div className="not__valid__watcher">
+            <h3 className="not__valid__watcher__text">
+              You must own the token to watch the content.
+            </h3>
+            <input
+              type="button"
+              value="Go To Marketplace"
+              className="buy__now my__button preview__button buy__now__button"
+              onClick={() => {
+                navigate("/concert?id=" + concertID);
+              }}
+            />
+          </div>
+        )}
       </div>
       <div className="split__col">
         <div className="concert__info__div">

@@ -1,0 +1,37 @@
+.approve__button {
+  background-color: #15960e;
+  border-radius: 10px;
+  border: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+.approve__button:hover {
+  transition: all 0.5s;
+  background-color: #0dff00;
+}
+.red__icon {
+  color: #4d0000;
+}
+.red__icon:hover {
+  color: #b90000;
+}
+.concert__approve__button {
+  width: 100px;
+}
+.concert__delete__button {
+  width: 30px;
+}
+.white__approve__button {
+  background-color: #000;
+  color: #fff;
+  border: solid 2px #fff;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}

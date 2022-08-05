@@ -46,16 +46,26 @@ const MyAccount = () => {
     });
   }, [currentUser]);
 
-  const submittedConcertTable = (myUserData) => {
+  const submittedConcertTable = () => {
+    if (userData?.submittedConcerts.length > 1) {
+      var concertArray = Object.keys(userData?.submittedConcerts).filter(
+        (n) => n
+      );
+    } else var concertArray = Object.keys(userData?.submittedConcerts);
+    console.log("mod arry", concertArray);
+    var arrayLength = concertArray.length;
+
+    console.log("AL: ", arrayLength);
+
     const rows = [];
-    for (var i in myUserData.submittedConcerts) {
+    for (var i = 0; i < arrayLength; i++) {
       var row = [];
-      var tempConcertId = parseInt(myUserData.submittedConcerts[i].concertId);
+      var tempConcertId = parseInt(concertArray[i]);
       var tempConcert = concertData[tempConcertId];
-      console.log(concertData[tempConcertId]);
-      console.log(JSON.stringify(myUserData.submittedConcerts[i].concertId));
-      rows.push(JSON.stringify(myUserData.submittedConcerts[i].concertId));
-      return (
+
+      var contractStr = JSON.stringify(tempConcertId);
+
+      rows.push(
         <>
           <div className="concert__row">
             <div className="concert__id">#{tempConcert.concertId}</div>
@@ -73,16 +83,18 @@ const MyAccount = () => {
               <button
                 type="submit"
                 class="fa-solid fa-file-signature icon__button"
-                onClick={() => {
-                  navigate("/contract?id=" + tempConcert.concertId);
+                name={contractStr}
+                onClick={(i) => {
+                  navigate("/contract?id=" + i.target.name);
                 }}
               />
             </div>
             <div className="concert__play__button">
               <button
                 type="sumbit"
-                onClick={() => {
-                  navigate("/player?id=" + tempConcert.concertId);
+                name={contractStr}
+                onClick={(i) => {
+                  navigate("/player?id=" + i.target.name);
                 }}
                 class="fa-solid fa-play icon__button"
               />
@@ -90,8 +102,9 @@ const MyAccount = () => {
             <div className="concert__token__button">
               <button
                 type="sumbit"
-                onClick={() => {
-                  navigate("/concert?id=" + tempConcert.concertId);
+                name={contractStr}
+                onClick={(i) => {
+                  navigate("/concert?id=" + i.target.name);
                 }}
                 class="fa-solid fa-file-invoice-dollar icon__button"
               />
@@ -114,7 +127,7 @@ const MyAccount = () => {
             <button
               className="login__button"
               onClick={() => {
-                navigate("/sign-up");
+                navigate("/login");
               }}
             >
               Go To Login Page
@@ -122,10 +135,10 @@ const MyAccount = () => {
             <button
               className="login__button"
               onClick={() => {
-                navigate("/login");
+                navigate("/register");
               }}
             >
-              Go To Login Page
+              New User? Sign Up
             </button>
           </div>
         </FormBox>

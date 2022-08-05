@@ -137,6 +137,7 @@ const Confirmation = ({ prevStep, values }) => {
           .then(() => {
             console.log("data uploaded to db");
             alert("Listing Submitted");
+            navigate("/my-account");
           })
           .catch((error) => {
             console.log(error);

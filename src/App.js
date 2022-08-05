@@ -19,24 +19,9 @@ import ListingPage from "./components/ListingPage";
 import Home from "./components/home/Home";
 import { ref as dRef, onValue } from "firebase/database";
 import { db, fetchCurrentUser } from "./firebase";
+import Admin from "./components/register/Admin";
 
 function App() {
-  const [concertData, setConcertData] = useState();
-  const [currentUser, setCurrentUser] = useState(null);
-
-  useEffect(() => {
-    setCurrentUser(fetchCurrentUser());
-  }, []);
-
-  useEffect(() => {
-    var concertDataRef = dRef(db, "concerts/");
-    onValue(concertDataRef, (snapshot) => {
-      var cData = snapshot.val();
-      setConcertData(cData);
-      console.log("concert Data: ", cData);
-    });
-  }, [currentUser]);
-
   return (
     <ThirdwebProvider desiredChainId={ChainId.Rinkeby}>
       <Router>
@@ -52,7 +37,8 @@ function App() {
             <Route path="/player" element={<Player />} />
             <Route path="/contract" element={<ContractPage />} />
             <Route path="/concert" element={<ListingPage />} />
-            <Route exact path="/" element={Home(concertData)} />
+            <Route path="/admin" element={<Admin />} />
+            <Route exact path="/" element={<Home />} />
           </Routes>
           <Footer />
         </div>
