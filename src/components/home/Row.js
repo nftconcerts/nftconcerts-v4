@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Row.css";
 import YouTube from "react-youtube";
 import dateFormat from "dateformat";
+import { useNavigate } from "react-router-dom";
 
 function Row({ title, concertData, isLargeRow }) {
   const [concerts, setConcerts] = useState([1, 2, 3, 4, 5, 6]);
@@ -11,6 +12,7 @@ function Row({ title, concertData, isLargeRow }) {
   const routeChange = (concert) => {
     console.log("learn to change pages idiot");
   };
+  let navigate = useNavigate();
 
   const opts = {
     height: "500",
@@ -156,7 +158,7 @@ function Row({ title, concertData, isLargeRow }) {
               <div className="buttons__box preview__buttons__box">
                 <button
                   className="my__button preview__button"
-                  onClick={() => routeChange(singleConcert)}
+                  onClick={() => navigate("/concert?id=3")}
                 >
                   Learn More
                 </button>

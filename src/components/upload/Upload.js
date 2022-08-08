@@ -15,6 +15,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { storage, fetchCurrentUser } from "./../../firebase";
+import makeid from "./../../scripts/makeid";
 
 function Upload() {
   //State for Steps
@@ -95,7 +96,7 @@ function Upload() {
     if (!file) return;
     const storageRef = sRef(
       storage,
-      `/private/${currentUser.user.uid}/${folder}/${file.name}`
+      `/private/${currentUser.user.uid}/${folder}/${makeid(5)}-${file.name}`
     );
     setWhileUploading(true);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -132,7 +133,7 @@ function Upload() {
     if (!file) return;
     const storageRef = sRef(
       storage,
-      `/private/${currentUser.user.uid}/${folder}/${file.name}`
+      `/private/${currentUser.user.uid}/${folder}/${makeid(5)}-${file.name}`
     );
     setWhileUploading(true);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -169,7 +170,7 @@ function Upload() {
     if (!file) return;
     const storageRef = sRef(
       storage,
-      `/private/${currentUser.user.uid}/${folder}/${file.name}`
+      `/private/${currentUser.user.uid}/${folder}/${makeid(5)}-${file.name}`
     );
     setWhileUploading(true);
     const uploadTask = uploadBytesResumable(storageRef, file);
