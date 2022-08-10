@@ -17,6 +17,11 @@ const ContractPage = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [validUser, setValidUser] = useState(false);
 
+  //Set the current user
+  useEffect(() => {
+    setCurrentUser(fetchCurrentUser());
+  }, []);
+
   //format ETH Price
   useEffect(() => {
     if (parseFloat(concertData?.concertPrice) < 1) {
@@ -40,17 +45,12 @@ const ContractPage = () => {
     console.log(userData?.userType);
     if (userData?.userType === "admin") {
       setValidUser(true);
-    } else if (userData?.userType === "fan") {
+    } else if (userData?.userType === "artist") {
       if (userData?.walletID === concertData?.uploaderWalletID) {
         setValidUser(true);
       }
     } else setValidUser(false);
   }, [currentUser, userData]);
-
-  //Set the current user
-  useEffect(() => {
-    setCurrentUser(fetchCurrentUser());
-  }, []);
 
   //download concert data
   useEffect(() => {
@@ -131,6 +131,13 @@ const ContractPage = () => {
                   height={200}
                   playing={false}
                   controls={true}
+                  config={{
+                    file: {
+                      attributes: {
+                        controlsList: "nodownload",
+                      },
+                    },
+                  }}
                 />
               </div>
               <div className="col2">
@@ -151,6 +158,13 @@ const ContractPage = () => {
                     height={200}
                     playing={false}
                     controls={true}
+                    config={{
+                      file: {
+                        attributes: {
+                          controlsList: "nodownload",
+                        },
+                      },
+                    }}
                   />
                 )}
               </div>

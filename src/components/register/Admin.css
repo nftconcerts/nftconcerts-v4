@@ -7,10 +7,22 @@
   padding-left: 10px;
   padding-right: 10px;
   cursor: pointer;
+  color: #fff;
+  min-width: 75px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: "Saira";
 }
 .approve__button:hover {
   transition: all 0.5s;
   background-color: #0dff00;
+}
+.approve__button:disabled {
+  background: #888;
+  cursor: default;
+}
+.approve__button:disabled:hover {
+  background: #888;
 }
 .red__icon {
   color: #4d0000;
@@ -19,10 +31,18 @@
   color: #b90000;
 }
 .concert__approve__button {
-  width: 100px;
+  min-width: 70px;
 }
 .concert__delete__button {
-  width: 30px;
+  width: 40px;
+}
+.admin__button__div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.multibutton {
+  justify-content: space-between;
 }
 .white__approve__button {
   background-color: #000;
@@ -34,4 +54,19 @@
   padding-bottom: 5px;
   padding-left: 10px;
   padding-right: 10px;
+  box-sizing: border-box;
+  width: 75px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: "Saira";
+}
+.wrong__network__text {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 24px;
+}
+@media screen and (max-width: 725px) {
+  .wrong__network__text {
+    font-size: 14px;
+  }
 }

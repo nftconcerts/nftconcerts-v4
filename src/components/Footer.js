@@ -133,10 +133,7 @@ function Footer() {
             >
               FAQs
             </a>
-            <a
-              href="https://nftconcerts.com/apply"
-              className="my__button footer__menu__item"
-            >
+            <a href="/apply" className="my__button footer__menu__item">
               Artist Application
             </a>
           </div>
@@ -210,10 +207,7 @@ function Footer() {
             </a>
           </div>
           <div className="footer__menu__right" dir="ltr">
-            <a
-              href="https://nftconcerts.com/apply"
-              className="my__button footer__menu__item"
-            >
+            <a href="/apply" className="my__button footer__menu__item">
               Artist Application
             </a>
 

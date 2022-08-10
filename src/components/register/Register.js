@@ -13,7 +13,13 @@ import {
 } from "./../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { ref as dRef, set } from "firebase/database";
-import { useAddress, useMetamask } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useMetamask,
+  useNetworkMismatch,
+  useNetwork,
+  ChainId,
+} from "@thirdweb-dev/react";
 import dateFormat from "dateformat";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -30,6 +36,8 @@ function Register() {
   const address = useAddress();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [, switchNetwork] = useNetwork();
+  const networkMismatch = useNetworkMismatch();
 
   //check if there is logged in user already
   useEffect(() => {
@@ -168,13 +176,25 @@ function Register() {
                   disabled={true}
                 />
               ) : (
-                <input
-                  type="button"
-                  value="Register"
-                  className="register__button"
-                  onClick={checkThenRegister}
-                  disabled={false}
-                />
+                <>
+                  {networkMismatch && (
+                    <button
+                      onClick={() => switchNetwork(ChainId.Mumbai)}
+                      className="register__button"
+                    >
+                      Switch to Polygon
+                    </button>
+                  )}
+                  {!networkMismatch && (
+                    <input
+                      type="button"
+                      value="Register"
+                      className="register__button"
+                      onClick={checkThenRegister}
+                      disabled={false}
+                    />
+                  )}
+                </>
               )}
               <div className="connected__info">
                 Connected as {truncateAddress(address)}

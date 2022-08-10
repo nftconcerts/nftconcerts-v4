@@ -16,6 +16,8 @@ const ListingPage = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [recordingSrc, setRecordingSrc] = useState("");
   const [formatPrice, setFormatPrice] = useState("");
+  const [validListing, setValidListing] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   //format concert eth price
   useEffect(() => {
@@ -24,6 +26,7 @@ const ListingPage = () => {
     } else setFormatPrice(concertData?.concertPrice);
   }, [concertData]);
 
+  //set current user
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
   }, []);
@@ -49,6 +52,7 @@ const ListingPage = () => {
     } else setPriceInUSD("err");
   }, [concertData?.concertPrice, usdExRate]);
 
+  //pull individual concert data
   useEffect(() => {
     var concertDataRef = dRef(db, "concerts/" + concertID + "/");
     onValue(concertDataRef, (snapshot) => {
@@ -56,8 +60,17 @@ const ListingPage = () => {
       setConcertData(cData);
       console.log("concert Data: ", cData);
       setRecordingSrc(cData.concertRecording);
+      if (cData.listingApproval === "Approved") {
+      }
     });
   }, [currentUser, concertID]);
+
+  var twitterLink =
+    "https://twitter.com/intent/tweet?text=%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%20Listen%20to%20this%20insane%20performance%20by%20" +
+    encodeURI(concertData?.concertArtist) +
+    "%20available%20exclusively%20on%20%40nftconcerts%20%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%0A%0APick%20up%20a%20copy%20(if%20you%20can)%20and%20check%20it%20out%20-%3E%20https%3A%2F%2Fnftconcerts.com%2Fconcert%3Fid%3D" +
+    concertID +
+    "%0A%0A%23nftconcerts%20%23livemusic%20%23nfts%20";
 
   const displaySongs = () => {
     var songRows = [];
@@ -97,6 +110,14 @@ const ListingPage = () => {
           </div>
           <div className="media__player__div">
             <ReactPlayer
+              config={{
+                file: {
+                  attributes: {
+                    onContextMenu: (e) => e.preventDefault(),
+                    controlsList: "nodownload",
+                  },
+                },
+              }}
               url={concertData?.concertPromoClip}
               width="100%"
               height="100%"
@@ -174,8 +195,19 @@ const ListingPage = () => {
               </button>
             </div>
           )) || <></>}
-          <h1 className="c__name">{concertData?.concertName}</h1>
 
+          <h1 className="c__name">{concertData?.concertName}</h1>
+          <div className="underplayer__buttons__div listing__buttons__div">
+            <a href={twitterLink} target="_blank">
+              <button className="fa-brands fa-twitter player__icon__button" />
+            </a>
+            <button
+              className="fa-solid fa-play player__icon__button"
+              onClick={() => {
+                navigate("/player?id=" + concertID);
+              }}
+            />
+          </div>
           <h3 className="c__detail">
             <i class="fa-solid fa-user c__icons" title="Artist" />
             {concertData?.concertArtist}

@@ -118,6 +118,7 @@ const Confirmation = ({ prevStep, values }) => {
       listingApproval: "Awaiting Review",
       uploaderWalletID: currentUser.user.photoURL,
       uploaderUID: currentUser.user.uid,
+      uploaderEmail: currentUser.user.email,
       uploadTime: uploadDateString,
     })
       .then(() => {

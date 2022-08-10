@@ -7,7 +7,14 @@ import {
   fetchCurrentUser,
   truncateAddress,
 } from "./../../firebase";
-import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useDisconnect,
+  useMetamask,
+  useNetworkMismatch,
+  useNetwork,
+  ChainId,
+} from "@thirdweb-dev/react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -16,6 +23,8 @@ function Login() {
   const [currentUser, setCurrentUser] = useState(null);
   const [tempUser, setTempUser] = useState(null);
   const [errorMsg, setErrorMessage] = useState("");
+  const [, switchNetwork] = useNetwork();
+  const networkMismatch = useNetworkMismatch();
 
   const connectWithMetamask = useMetamask();
   const address = useAddress();
@@ -33,9 +42,11 @@ function Login() {
   const inlineLogin = async () => {
     await login(email, password);
     setTempUser(fetchCurrentUser());
+    logout();
   };
 
-  const confirmUser = () => {
+  const confirmUser = async () => {
+    await login(email, password);
     setCurrentUser(tempUser);
     navigate("/my-account");
   };
@@ -92,13 +103,23 @@ function Login() {
 
             {address && address === tempUser.user.photoURL && (
               <>
-                <input
-                  type="button"
-                  value="Address Confirmed - Login"
-                  className="register__button"
-                  onClick={confirmUser}
-                  disabled={false}
-                />
+                {networkMismatch && (
+                  <button
+                    onClick={() => switchNetwork(ChainId.Mumbai)}
+                    className="register__button"
+                  >
+                    Switch to Polygon
+                  </button>
+                )}
+                {!networkMismatch && (
+                  <input
+                    type="button"
+                    value="Address Confirmed - Login"
+                    className="register__button"
+                    onClick={confirmUser}
+                    disabled={false}
+                  />
+                )}
                 <div className="connected__info">
                   Connected as {truncateAddress(address)}
                 </div>
@@ -124,12 +145,21 @@ function Login() {
               </>
             )}
             {!address && (
-              <input
-                type="button"
-                value="Connect to MetaMask"
-                className="register__button"
-                onClick={connectWithMetamask}
-              />
+              <div className="temp__buttons">
+                <input
+                  type="button"
+                  value="Confirm with MetaMask"
+                  className="register__button"
+                  onClick={connectWithMetamask}
+                />
+
+                <input
+                  type="button"
+                  value="Mobile Mode (Limited)"
+                  className="register__button"
+                  onClick={confirmUser}
+                />
+              </div>
             )}
           </div>
 
@@ -151,6 +181,7 @@ function Login() {
             <p className="logged__in__email">{currentUser?.user.email}</p>
             <p className="logged__in__email">
               {truncateAddress(currentUser?.user.photoURL)}
+              {networkMismatch}
             </p>
             <button
               className="login__button logout__button"

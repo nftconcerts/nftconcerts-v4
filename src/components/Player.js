@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "./Player.css";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { db, fetchCurrentUser } from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
@@ -14,27 +14,45 @@ const Player = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [recordingSrc, setRecordingSrc] = useState("");
   const [validUser, setValidUser] = useState(false);
+  const [userData, setUserData] = useState();
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
-    console.log("Concert ID: ", concertID);
   }, []);
 
+  //download concert data
   useEffect(() => {
     var concertDataRef = dRef(db, "concerts/" + concertID + "/");
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setConcertData(cData);
-      console.log("concert Data: ", cData);
       setRecordingSrc(cData.concertRecording);
     });
-  }, [currentUser, concertID]);
+  }, [concertID]);
 
+  //download User Data
   useEffect(() => {
-    if (currentUser?.user.photoURL == concertData?.uploaderWalletID) {
+    if (currentUser) {
+      var userDataRef = dRef(db, "users/" + currentUser.user.uid);
+      onValue(userDataRef, (snapshot) => {
+        var data = snapshot.val();
+        setUserData(data);
+      });
+    }
+  }, [currentUser]);
+
+  //check if user is admin or uploader
+  useEffect(() => {
+    console.log(userData?.userType);
+    if (userData?.userType === "admin") {
       setValidUser(true);
+    } else if (userData?.userType === "artist") {
+      if (userData?.walletID === concertData?.uploaderWalletID) {
+        setValidUser(true);
+      }
     } else setValidUser(false);
-  }, [currentUser, concertData, concertID]);
+  }, [currentUser, userData]);
 
   const displaySongs = () => {
     var songRows = [];
@@ -64,16 +82,43 @@ const Player = () => {
     }
   };
 
+  const turnOffLights = () => {
+    document.getElementsByClassName("player__page")[0].style.backgroundColor =
+      "black";
+    setDarkMode(true);
+  };
+
+  const turnOnLights = () => {
+    document.getElementsByClassName("player__page")[0].style.backgroundColor =
+      "#373737";
+    setDarkMode(false);
+  };
+
+  var twitterLink =
+    "https://twitter.com/intent/tweet?text=%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%20Watching%20an%20insane%20performance%20by%20" +
+    encodeURI(concertData?.concertArtist) +
+    "%20available%20exclusively%20on%20%40nftconcerts%20%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%0A%0APick%20up%20a%20copy%20(if%20you%20can)%20and%20check%20it%20out%20-%3E%20https%3A%2F%2Fnftconcerts.com%2Fconcert%3Fid%3D" +
+    concertID +
+    "%0A%0A%23nftconcerts%20%23livemusic%20%23nfts%20";
+
   return (
     <div className="player__page">
       <div className="media__player__div">
         {(validUser && (
           <ReactPlayer
-            url={concertData?.concertRecording}
+            config={{
+              file: {
+                attributes: {
+                  onContextMenu: (e) => e.preventDefault(),
+                  controlsList: "nodownload",
+                },
+              },
+            }}
             width="100%"
             height="100%"
             playing={false}
             controls={true}
+            url={concertData?.concertRecording}
           />
         )) || (
           <div className="not__valid__watcher">
@@ -93,6 +138,30 @@ const Player = () => {
       </div>
       <div className="split__col">
         <div className="concert__info__div">
+          <div className="underplayer__buttons__div">
+            {!darkMode && (
+              <button
+                className="fa-solid fa-lightbulb player__icon__button"
+                onClick={turnOffLights}
+              />
+            )}
+            {darkMode && (
+              <button
+                className="fa-solid fa-lightbulb player__icon__button"
+                onClick={turnOnLights}
+              />
+            )}
+
+            <a href={twitterLink} target="_blank">
+              <button className="fa-brands fa-twitter player__icon__button" />
+            </a>
+            <button
+              className="fa-solid fa-dollar-sign player__icon__button"
+              onClick={() => {
+                navigate("/concert?id=" + concertID);
+              }}
+            />
+          </div>
           <h1 className="c__name">{concertData?.concertName}</h1>
           <h3 className="c__detail">
             <i class="fa-solid fa-user c__icons" title="Artist" />

@@ -145,3 +145,9 @@ label {
   padding-top: 10px;
   margin-bottom: -10px;
 }
+.temp__buttons {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

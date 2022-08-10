@@ -1,5 +1,4 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import {} from "./dotenv/config";
 
 // load your private key in a secure way (env variable, never commited to git)
 const privateKey = process.env.REACT_APP_NFTCONCERTS_ETH_PK;

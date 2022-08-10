@@ -1,22 +1,21 @@
 import editionDrop from "./getContract.mjs";
 
 const createNFT = async (
-  concertID,
   concertName,
   concertArtist,
   concertDescription,
   concertTokenImage
 ) => {
   try {
-    await editionDrop.createBatch([
-      {
-        name: { concertName },
-        artist: { concertArtist },
-        description: { concertDescription },
-        // Get the NFT from a file uploaded to IPFS
-        image: { concertTokenImage },
-      },
-    ]);
+    var dropData = {
+      name: { concertName },
+      artist: { concertArtist },
+      description: { concertDescription },
+      image: { concertTokenImage },
+    };
+    var datastring = JSON.stringify(dropData);
+    console.log(dropData);
+    await editionDrop.createBatch([datastring]);
     console.log("✅ Successfully created a new NFT!");
   } catch (error) {
     console.error("Failed to create the new NFT. Error: ", error);

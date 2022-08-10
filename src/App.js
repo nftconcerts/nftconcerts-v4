@@ -12,7 +12,12 @@ import Login from "./components/register/Login";
 import MyAccount from "./components/register/MyAccount";
 import ResetPassword from "./components/register/ResetPassword";
 import FormBox from "./components/form/FormBox";
-import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
+import {
+  ThirdwebProvider,
+  ChainId,
+  useNetworkMismatch,
+  useNetwork,
+} from "@thirdweb-dev/react";
 import Player from "./components/Player";
 import ContractPage from "./components/ContractPage";
 import ListingPage from "./components/ListingPage";
@@ -20,13 +25,16 @@ import Home from "./components/home/Home";
 import { ref as dRef, onValue } from "firebase/database";
 import { db, fetchCurrentUser } from "./firebase";
 import Admin from "./components/register/Admin";
+import ArtistApp from "./components/register/ArtistApp";
 
 function App() {
+  const [mobileMode, setMobileMode] = useState();
+
   return (
-    <ThirdwebProvider desiredChainId={ChainId.Rinkeby}>
+    <ThirdwebProvider desiredChainId={ChainId.Mumbai}>
       <Router>
         <div className="App">
-          <Nav />
+          <Nav mobileMode={mobileMode} setMobileMode={setMobileMode} />
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
@@ -38,6 +46,7 @@ function App() {
             <Route path="/contract" element={<ContractPage />} />
             <Route path="/concert" element={<ListingPage />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/apply" element={<ArtistApp />} />
             <Route exact path="/" element={<Home />} />
           </Routes>
           <Footer />

@@ -64,25 +64,25 @@
   width: 150px;
 }
 .concert__expand__button {
-  width: 30px;
+  min-width: 30px;
   color: #333;
 }
 .concert__play__button {
-  width: 30px;
+  min-width: 30px;
   color: #333;
 }
 .concert__token__button {
-  width: 30px;
+  min-width: 30px;
   color: #333;
 }
 .header__expand__button {
-  width: 30px;
+  min-width: 30px;
 }
 .header__play__button {
-  width: 30px;
+  min-width: 30px;
 }
 .header__token__button {
-  width: 30px;
+  min-width: 30px;
   color: #fff;
 }
 
@@ -107,6 +107,39 @@
   color: #000;
   cursor: pointer;
 }
+.admin__button__div {
+  width: 100%;
+  padding-top: 20px;
+}
+.admin__button {
+  width: 200px;
+}
+.user__info__div {
+  color: #000;
+  font-family: "Courier";
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20px;
+  margin-bottom: -10px;
+}
+.name__div {
+  text-align: left;
+}
+.wallet__div {
+  text-align: right;
+}
+.bold__text {
+  font-weight: bold;
+}
+.admin__date {
+  width: 200px;
+}
+.concert__name {
+  width: 150px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 @media screen and (max-width: 720px) {
   .concert__perf__date {
     display: none;
@@ -114,4 +147,23 @@
   .concert__listing__approval {
     display: none;
   }
+  .admin__concert__name {
+    display: none;
+  }
+  .name__div {
+    width: 50%;
+    border-right: solid 1px #000;
+  }
+
+  .concert__id {
+    min-width: 60px;
+  }
+  .admin__button {
+    width: 330px;
+  }
+}
+.account__page__concert__thumbnail {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
 }

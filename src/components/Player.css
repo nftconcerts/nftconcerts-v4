@@ -4,9 +4,11 @@
   justify-content: flex-start;
   width: 100%;
   background-color: rgb(55, 55, 55);
-
+  min-height: 100vh;
   padding-top: 90px;
   box-sizing: border-box;
+  margin-bottom: -230px;
+  padding-bottom: 180px;
 }
 .media__player__div {
   display: flex;
@@ -48,7 +50,7 @@ video {
   font-family: "Saira";
 }
 .c__name {
-  padding-top: 40px;
+  padding-top: 20px;
   padding-bottom: 20px;
   font-size: 26px;
   text-transform: uppercase;
@@ -79,6 +81,8 @@ video {
   color: #000;
   background: #000;
   width: 350px;
+  border: 2px solid #373737;
+  box-sizing: border-box;
 }
 .player__setlist__title {
   text-align: center;
@@ -127,6 +131,19 @@ video {
 .not__valid__watcher__text {
   padding-bottom: 30px;
 }
+.player__icon__button {
+  height: 25px;
+  width: 35px;
+  border: none;
+  margin-right: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.player__icon__button:hover {
+  transition: all 0.5s;
+  background: #ccc;
+}
+
 @media screen and (max-width: 800px) {
   .split__col {
     flex-direction: column;
