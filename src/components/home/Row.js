@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Row.css";
 import YouTube from "react-youtube";
 import dateFormat from "dateformat";
 import { useNavigate } from "react-router-dom";
+import { GetUSDExchangeRate } from "../api";
+import { ref as dRef, set, get, onValue } from "firebase/database";
+import { db } from "./../../firebase";
 
-function Row({ title, concertData, isLargeRow }) {
+function Row({ title, isLargeRow }) {
   const [concerts, setConcerts] = useState([1, 2, 3, 4, 5, 6]);
   const [trailerUrl, setTrailerUrl] = useState("");
   const [singleConcert, setSingleConcert] = useState([]);
+  const [concertData, setConcertData] = useState();
+
+  //get concert data
+  useEffect(() => {
+    var concertDataRef = dRef(db, "concerts/");
+    onValue(concertDataRef, (snapshot) => {
+      var cData = snapshot.val();
+      setConcertData(cData);
+    });
+  }, []);
 
   const routeChange = (concert) => {
     console.log("learn to change pages idiot");
@@ -40,6 +53,25 @@ function Row({ title, concertData, isLargeRow }) {
     }
     console.log(concert);
   };
+
+  //eth to usd api call
+  const [usdExRate, setUsdExRate] = useState();
+  const [priceInUSD, setPriceInUSD] = useState("0.00");
+
+  useEffect(() => {
+    GetUSDExchangeRate().then((res) => {
+      setUsdExRate(parseFloat(res));
+      console.log("usd", parseFloat(res));
+    });
+  }, []);
+
+  useEffect(() => {
+    if (0.1) {
+      var newPrice = 0.1 * usdExRate;
+      let roundedPrice = newPrice.toFixed(2);
+      setPriceInUSD(roundedPrice);
+    } else setPriceInUSD("err");
+  }, [concertData?.concertPrice, usdExRate]);
 
   return (
     <div className={`row ${isLargeRow && "row1"}`}>
@@ -147,10 +179,17 @@ function Row({ title, concertData, isLargeRow }) {
                 <div className="thirds price">
                   <p>
                     Price: <br className="desktop__hide" />{" "}
-                    <b className="blow__up"> Ξ .02</b>
+                    <b className="blow__up">
+                      <img
+                        src="/media/eth-logo.png"
+                        height={25}
+                        className="c__eth__logo"
+                      />
+                      0.1
+                    </b>
                     <span className="converted__currency">
                       {" "}
-                      &#40;$60.00&#41;{" "}
+                      (${priceInUSD}){" "}
                     </span>
                   </p>
                 </div>
