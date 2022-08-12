@@ -66,8 +66,8 @@ function Row({ title, isLargeRow }) {
   }, []);
 
   useEffect(() => {
-    if (0.1) {
-      var newPrice = 0.1 * usdExRate;
+    if (0.05) {
+      var newPrice = 0.05 * usdExRate;
       let roundedPrice = newPrice.toFixed(2);
       setPriceInUSD(roundedPrice);
     } else setPriceInUSD("err");
@@ -173,7 +173,7 @@ function Row({ title, isLargeRow }) {
                 <div className="thirds remaining">
                   <p>
                     Remaining: <br className="desktop__hide" />{" "}
-                    <b className="blow__up">64</b>
+                    <b className="blow__up">100</b>
                   </p>
                 </div>
                 <div className="thirds price">
@@ -185,7 +185,7 @@ function Row({ title, isLargeRow }) {
                         height={25}
                         className="c__eth__logo"
                       />
-                      0.1
+                      0.05
                     </b>
                     <span className="converted__currency">
                       {" "}
@@ -197,7 +197,7 @@ function Row({ title, isLargeRow }) {
               <div className="buttons__box preview__buttons__box">
                 <button
                   className="my__button preview__button"
-                  onClick={() => navigate("/concert?id=3")}
+                  onClick={() => navigate("/concert?id=8")}
                 >
                   Learn More
                 </button>

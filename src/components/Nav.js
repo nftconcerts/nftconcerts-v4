@@ -11,8 +11,7 @@ import {
   useNetworkMismatch,
   ChainId,
 } from "@thirdweb-dev/react";
-const Nav = ({ mobileMode, setMobileMode }) => {
-  console.log("mobileMode: ", mobileMode);
+const Nav = () => {
   const [show, handleShow] = useState(false);
   const [menuPopup, handleMenuPopup] = useState(false);
   const [currentUser, setCurrentUser] = useState(fetchCurrentUser());
@@ -74,7 +73,7 @@ const Nav = ({ mobileMode, setMobileMode }) => {
 
   return (
     <div className="total_nav">
-      {networkMismatch && !mobileMode && (
+      {networkMismatch && (
         <div className="network__mismatch__div">
           <div className="network__mismatch__prompt">
             Wrong Network. Switch to Polygon{" "}
@@ -85,10 +84,7 @@ const Nav = ({ mobileMode, setMobileMode }) => {
               >
                 Switch to Polygon
               </button>
-              <button
-                onClick={() => setMobileMode(true)}
-                className="network__prompt__button network__prompt__button__right"
-              >
+              <button className="network__prompt__button network__prompt__button__right">
                 Use in Mobile Mode
               </button>
             </div>
@@ -166,8 +162,8 @@ const Nav = ({ mobileMode, setMobileMode }) => {
               <a href="/admin" className="menu__item" onClick={menuPop}>
                 Admin Panel
               </a>
-              <a href="#" className="menu__item" onClick={menuLogout}>
-                Logout
+              <a href="/upload" className="menu__item" onClick={menuPop}>
+                Upload
               </a>
             </>
           )}

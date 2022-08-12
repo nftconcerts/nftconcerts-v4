@@ -7,16 +7,20 @@ const createNFT = async (
   concertTokenImage
 ) => {
   try {
-    var dropData = {
-      name: { concertName },
-      artist: { concertArtist },
-      description: { concertDescription },
-      image: { concertTokenImage },
-    };
-    var datastring = JSON.stringify(dropData);
+    var dropData = [
+      {
+        name: `${concertName}`,
+        artist: `${concertArtist}`,
+        description: `${concertDescription}`,
+        image: `${concertTokenImage}`,
+      },
+    ];
+
     console.log(dropData);
-    await editionDrop.createBatch([datastring]);
-    console.log("✅ Successfully created a new NFT!");
+    const mint = await editionDrop.createBatch(dropData);
+    const firstTokenId = mint[0].id;
+
+    console.log("✅ Successfully created a new NFT! #");
   } catch (error) {
     console.error("Failed to create the new NFT. Error: ", error);
   }

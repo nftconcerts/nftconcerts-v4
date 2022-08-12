@@ -211,10 +211,10 @@ const Admin = () => {
   //approve concert
   const approveConcert = async (id) => {
     createNFT(
-      JSON.stringify(concertData[id].concertName),
-      JSON.stringify(concertData[id].concertArtist),
-      JSON.stringify(concertData[id].concertDescription),
-      JSON.stringify(concertData[id].concertThumbnailImage)
+      concertData[id].concertName,
+      concertData[id].concertArtist,
+      concertData[id].concertDescription,
+      concertData[id].concertThumbnailImage
     );
   };
 

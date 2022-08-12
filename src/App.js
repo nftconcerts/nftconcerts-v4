@@ -28,13 +28,11 @@ import Admin from "./components/register/Admin";
 import ArtistApp from "./components/register/ArtistApp";
 
 function App() {
-  const [mobileMode, setMobileMode] = useState();
-
   return (
     <ThirdwebProvider desiredChainId={ChainId.Mumbai}>
       <Router>
         <div className="App">
-          <Nav mobileMode={mobileMode} setMobileMode={setMobileMode} />
+          <Nav />
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
