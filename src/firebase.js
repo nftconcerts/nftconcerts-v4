@@ -119,7 +119,23 @@ function truncateAddress(address) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
+const setMobileMode = () => {
+  localStorage.setItem("mobileMode", "true");
+  getMobileMode();
+};
 
+const resetMobileMode = () => {
+  localStorage.removeItem("mobileMode");
+};
+
+const getMobileMode = () => {
+  const mobileModeString = localStorage.getItem("mobileMode");
+  const mobileMode = JSON.parse(mobileModeString);
+  console.log("Mobile Mode? ", mobileMode);
+  if (mobileMode === true) {
+    return true;
+  } else return false;
+};
 
 export {
   auth,
@@ -131,4 +147,7 @@ export {
   logout,
   fetchCurrentUser,
   truncateAddress,
+  setMobileMode,
+  getMobileMode,
+  resetMobileMode,
 };

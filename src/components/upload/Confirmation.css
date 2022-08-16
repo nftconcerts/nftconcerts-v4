@@ -195,7 +195,7 @@
 }
 .song__div {
   display: flex;
-  width: 300px;
+  width: 315px;
   background: #ccc;
 }
 .song__div p {
@@ -299,6 +299,13 @@
   }
   .c__confirm__button {
     margin-top: 10px;
+  }
+  .text__info__scroll__area {
+    max-height: min-content;
+    overflow-y: hidden;
+  }
+  .text__info__div {
+    max-height: min-content;
   }
 }
 

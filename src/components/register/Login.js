@@ -6,6 +6,7 @@ import {
   logout,
   fetchCurrentUser,
   truncateAddress,
+  setMobileMode,
 } from "./../../firebase";
 import {
   useAddress,
@@ -157,7 +158,10 @@ function Login() {
                   type="button"
                   value="Mobile Mode (Limited)"
                   className="register__button"
-                  onClick={confirmUser}
+                  onClick={() => {
+                    confirmUser();
+                    setMobileMode();
+                  }}
                 />
               </div>
             )}

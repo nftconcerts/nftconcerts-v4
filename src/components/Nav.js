@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./Nav.css";
-import { auth, logout, fetchCurrentUser } from "./../firebase";
+import {
+  auth,
+  logout,
+  fetchCurrentUser,
+  setMobileMode,
+  getMobileMode,
+  resetMobileMode,
+} from "./../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { ref as dRef, set, get, onValue } from "firebase/database";
@@ -21,6 +28,12 @@ const Nav = () => {
   const navigate = useNavigate();
   const [, switchNetwork] = useNetwork();
   const networkMismatch = useNetworkMismatch();
+  const [navMobileMode, setNavMobileMode] = useState(false);
+
+  useEffect(() => {
+    setNavMobileMode(getMobileMode());
+    console.log("Mobile Mode: ", navMobileMode);
+  }, [networkMismatch]);
 
   const scrollClr = () => {};
 
@@ -73,7 +86,7 @@ const Nav = () => {
 
   return (
     <div className="total_nav">
-      {networkMismatch && (
+      {!navMobileMode && networkMismatch && (
         <div className="network__mismatch__div">
           <div className="network__mismatch__prompt">
             Wrong Network. Switch to Polygon{" "}
@@ -84,8 +97,33 @@ const Nav = () => {
               >
                 Switch to Polygon
               </button>
-              <button className="network__prompt__button network__prompt__button__right">
+              <button
+                className="network__prompt__button network__prompt__button__right"
+                onClick={() => {
+                  setMobileMode();
+                  setNavMobileMode(true);
+                }}
+              >
                 Use in Mobile Mode
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {navMobileMode && (
+        <div className="network__mismatch__div">
+          <div className="network__mismatch__prompt">
+            Moblie Mode Enabled{" "}
+            <div className="two__buttons__div">
+              <button
+                onClick={() => {
+                  resetMobileMode();
+                  setNavMobileMode(false);
+                  switchNetwork(ChainId.Mumbai);
+                }}
+                className="network__prompt__button full__width__button"
+              >
+                Connect to Web3
               </button>
             </div>
           </div>

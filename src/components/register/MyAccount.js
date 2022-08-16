@@ -4,6 +4,7 @@ import {
   fetchCurrentUser,
   logout,
   truncateAddress,
+  resetMobileMode,
 } from "./../../firebase";
 import FormBox from "../form/FormBox";
 import Contract from "../form/Contract";
@@ -199,7 +200,10 @@ const MyAccount = () => {
             {!address && (
               <button
                 className="login__button admin__button"
-                onClick={connectWithMetamask}
+                onClick={() => {
+                  resetMobileMode();
+                  connectWithMetamask();
+                }}
               >
                 Connect to Metamask
               </button>
