@@ -17,6 +17,7 @@ import {
   useNetwork,
   useNetworkMismatch,
   ChainId,
+  useMetamask,
 } from "@thirdweb-dev/react";
 const Nav = () => {
   const [show, handleShow] = useState(false);
@@ -29,6 +30,8 @@ const Nav = () => {
   const [, switchNetwork] = useNetwork();
   const networkMismatch = useNetworkMismatch();
   const [navMobileMode, setNavMobileMode] = useState(false);
+  const address = useAddress();
+  const connectWithMetamask = useMetamask();
 
   useEffect(() => {
     setNavMobileMode(getMobileMode());
@@ -86,29 +89,57 @@ const Nav = () => {
 
   return (
     <div className="total_nav">
-      {!navMobileMode && networkMismatch && (
-        <div className="network__mismatch__div">
-          <div className="network__mismatch__prompt">
-            Wrong Network. Switch to Polygon{" "}
-            <div className="two__buttons__div">
-              <button
-                onClick={() => switchNetwork(ChainId.Mumbai)}
-                className="network__prompt__button"
-              >
-                Switch to Polygon
-              </button>
-              <button
-                className="network__prompt__button network__prompt__button__right"
-                onClick={() => {
-                  setMobileMode();
-                  setNavMobileMode(true);
-                }}
-              >
-                Use in Mobile Mode
-              </button>
+      {!navMobileMode && (
+        <>
+          {address && networkMismatch && (
+            <div className="network__mismatch__div">
+              <div className="network__mismatch__prompt">
+                Wrong Network. Switch to Polygon{" "}
+                <div className="two__buttons__div">
+                  <button
+                    onClick={() => switchNetwork(ChainId.Mumbai)}
+                    className="network__prompt__button"
+                  >
+                    Switch to Polygon
+                  </button>
+                  <button
+                    className="network__prompt__button network__prompt__button__right"
+                    onClick={() => {
+                      setMobileMode();
+                      setNavMobileMode(true);
+                    }}
+                  >
+                    Use in Mobile Mode
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+          {!address && (
+            <div className="network__mismatch__div">
+              <div className="network__mismatch__prompt">
+                Not Connected to Web3.{" "}
+                <div className="two__buttons__div">
+                  <button
+                    onClick={connectWithMetamask}
+                    className="network__prompt__button"
+                  >
+                    Connect to Polygon
+                  </button>
+                  <button
+                    className="network__prompt__button network__prompt__button__right"
+                    onClick={() => {
+                      setMobileMode();
+                      setNavMobileMode(true);
+                    }}
+                  >
+                    Use in Mobile Mode
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
       {navMobileMode && (
         <div className="network__mismatch__div">

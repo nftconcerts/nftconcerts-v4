@@ -1,12 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { db, fetchCurrentUser } from "../firebase";
-import { ref as dRef, onValue } from "firebase/database";
+import { db, fetchCurrentUser, storage } from "../firebase";
+import { ref as dRef, onValue, set } from "firebase/database";
 import Contract from "./form/Contract";
 import ReactPlayer from "react-player";
 import dateFormat from "dateformat";
 import "./upload/Confirmation.css";
 import { GetUSDExchangeRate } from "./api";
+import html2canvas from "html2canvas";
+import {
+  getDownloadURL,
+  ref as sRef,
+  uploadBytesResumable,
+} from "firebase/storage";
+import makeid from "./../scripts/makeid";
+import createNFT from "../scripts/createNft.mjs";
+
+import { FileUploader } from "react-drag-drop-files";
+import "./upload/Confirmation.css";
+import "./upload/Upload.css";
+import "./upload/UploadRecording.css";
+import { Buffer } from "buffer";
+import { create } from "ipfs-http-client";
+
+const fileTypes = ["PNG"];
 
 const ContractPage = () => {
   let navigate = useNavigate();
@@ -16,6 +33,10 @@ const ContractPage = () => {
   const [concertData, setconcertData] = useState();
   const [currentUser, setCurrentUser] = useState(null);
   const [validUser, setValidUser] = useState(false);
+  const [adminUser, setAdminUser] = useState(false);
+  const [fileUrl, updateFileUrl] = useState(``);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
 
   //Set the current user
   useEffect(() => {
@@ -42,9 +63,9 @@ const ContractPage = () => {
 
   //Check if user is admin or was uploader
   useEffect(() => {
-    console.log(userData?.userType);
     if (userData?.userType === "admin") {
       setValidUser(true);
+      setAdminUser(true);
     } else if (userData?.userType === "artist") {
       if (userData?.walletID === concertData?.uploaderWalletID) {
         setValidUser(true);
@@ -58,7 +79,6 @@ const ContractPage = () => {
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setconcertData(cData);
-      console.log("concert Data: ", cData);
     });
   }, [currentUser, concertID]);
 
@@ -73,7 +93,6 @@ const ContractPage = () => {
   useEffect(() => {
     GetUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
-      console.log("usd", parseFloat(res));
     });
   }, []);
 
@@ -116,10 +135,163 @@ const ContractPage = () => {
     }
   };
 
+  //ADMIN VIEW ONLY - screenshot + donwload image for corrections.
+
+  const [showUploadPop, setShowUploadPop] = useState(false);
+
+  const [tokenFileUrl, setTokenFileUrl] = useState();
+
+  const printRef = React.useRef();
+  const captureImage = async () => {
+    const element = printRef.current;
+    const canvas = await html2canvas(element, {
+      scale: 3,
+    });
+
+    const data = canvas.toDataURL(concertID.toString());
+
+    const link = document.createElement("a");
+    if (typeof link.download === "string") {
+      link.href = data;
+      link.download = `${concertID} - Token Outline.png`;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(data);
+    }
+  };
+
+  const uploadPop = () => {
+    setShowUploadPop(true);
+  };
+
+  //ADMIN UPLOAD FINAL TOKEN IMAGE
+  //upload files to Firebase Storage
+  const [file, setFile] = useState("");
+  const [whileUploading, setWhileUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  const uploadFile = async (file, folder) => {
+    var tokenRef = dRef(db, "concerts/" + concertID + "/concertTokenImage");
+    if (!file) return;
+    const storageRef = sRef(storage, `/public/${folder}/${file.name}`);
+    setWhileUploading(true);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    // const response = await fetch(file.uri);
+    // const blob = await response.blob();
+    // var ref = storage().ref().child("colors");
+    // ref.put(blob);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setUploadProgress(prog);
+        if (prog === 100) {
+          setWhileUploading(true);
+        }
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setTokenFileUrl(url);
+          set(tokenRef, url);
+        });
+      }
+    );
+  };
+  const handleChange = (file) => {
+    setFile(file);
+    uploadFile(file, "Token Image");
+    uploadFileToIpfs(file);
+  };
+
+  const projectId = `${process.env.REACT_APP_INFURA_PROJECT_ID}`;
+  const projectSecret = `${process.env.REACT_APP_INFURA_PROJECT_SECRET}`;
+
+  const auth =
+    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+
+  const client = create({
+    host: "ipfs.infura.io",
+    port: 5001,
+    protocol: "https",
+    headers: {
+      authorization: auth,
+    },
+  });
+
+  //infura upload function
+  const [ipfsUrl, setIpfsUrl] = useState("");
+
+  useEffect(() => {
+    if (concertData) {
+      setIpfsUrl(concertData.tokenIpfs);
+      console.log("ipfs: ", concertData.tokenIpfs);
+    }
+  }, [concertData]);
+
+  async function uploadFileToIpfs(file) {
+    var ipfsRef = dRef(db, "concerts/" + concertID + "/tokenIpfs");
+    try {
+      const added = await client.add(file);
+      const url = `https://ipfs.infura.io/ipfs/${added.path}`;
+      const ipfsUrl = `ipfs://${added.path}`;
+      set(ipfsRef, ipfsUrl);
+      updateFileUrl(url);
+      setIpfsUrl(ipfsUrl);
+      console.log("File Url: ", url);
+    } catch (error) {
+      console.log("Error uploading file: ", error);
+      setErrorMessage("Error uploading file: ", error);
+      setShowError(true);
+    }
+  }
+  //approve concert
+  const [mintLoading, setMintLoading] = useState(false);
+
+  const approveConcert = async () => {
+    var tokenIdRef = dRef(db, "concerts/" + concertID + "/tokenId");
+    setMintLoading(true);
+    console.log("minting attempt");
+    const mint = await createNFT(
+      concertData.concertName,
+      concertData.concertArtist,
+      concertData.concertDescription,
+      ipfsUrl
+    );
+    console.log("minted");
+    const firstTokenId = mint[0].id;
+    set(tokenIdRef, JSON.stringify(firstTokenId));
+    console.log("New Token: ", firstTokenId);
+    setMintLoading(false);
+  };
+
   return (
     <>
       {(validUser && (
         <Contract>
+          {mintLoading && (
+            <div className="minting__alert">
+              <h3>Creating NFT.</h3>
+              <div className="center">
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+                <div className="wave"></div>
+              </div>
+            </div>
+          )}
           <h2>This is a copy of your listing contract.</h2>
           <div className="keep__left">
             <div className="review__content__div">
@@ -284,7 +456,7 @@ const ContractPage = () => {
               </div>
               <div className="token__div">
                 <h3 className="token__heading">Non-Fungible Token (NFT)</h3>
-                <div className="token__box">
+                <div className="token__box" ref={printRef}>
                   <div className="token__header">
                     <div className="first__third">
                       <p>
@@ -333,12 +505,150 @@ const ContractPage = () => {
                 navigate("/my-account");
               }}
             />
+
             <input
               type="button"
               value="Request Edits"
               className="login__button c__confirm__button"
             />
           </div>
+          {adminUser && (
+            <div className="admin__panel">
+              <h3>Admin Panel</h3>
+              <div className="confirmation__button__div">
+                <input
+                  type="button"
+                  value="Print Token Outline"
+                  className="login__button c__confirm__button admin__button"
+                  onClick={captureImage}
+                />
+
+                <input
+                  type="button"
+                  value="Upload Final Token"
+                  className="login__button c__confirm__button admin__button"
+                  onClick={uploadPop}
+                />
+              </div>
+              {concertData?.concertTokenImage && (
+                <>
+                  {!showUploadPop && (
+                    <div className="flex__div">
+                      <div className="token__preview">
+                        <h3 className="token__image__heading">Current Token</h3>
+                        <img
+                          src={concertData.concertTokenImage}
+                          className="token__preview__img"
+                        />
+                      </div>
+                      <input
+                        type="button"
+                        value="Approve Listing"
+                        className="login__button c__confirm__button approve__button"
+                        onClick={approveConcert}
+                        disabled={mintLoading}
+                      />
+                      {mintLoading && (
+                        <div className="minting__alert__div">
+                          <h3>Creating NFT.</h3>
+                          <div className="center bottom__center">
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+              {showUploadPop && (
+                <div className="upload__token__pop">
+                  {!mintLoading && (
+                    <>
+                      <div className="center__title">
+                        {file && (
+                          <h3 className="float__title">File: {file.name}</h3>
+                        )}
+                        {file === "" && (
+                          <h3 className="float__title">Upload Final Token</h3>
+                        )}
+                      </div>
+                      <div className="admin__two__col">
+                        <div className="uploader__box admin__upload__box">
+                          <FileUploader
+                            className="uploader__box"
+                            handleChange={handleChange}
+                            name="concertRecording"
+                            types={fileTypes}
+                            multiple={false}
+                            children={
+                              <div className="upload__box__modified">
+                                <div className="upload__box__top">
+                                  <>
+                                    {" "}
+                                    Drag &#38; Drop or{" "}
+                                    <span className="highlight">
+                                      Click to Upload
+                                    </span>
+                                  </>
+                                </div>
+                                <p className="upload__box__bottom">[PNG]</p>
+                              </div>
+                            }
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {file && (
+                    <div className="approve__button__div">
+                      <h3 className="token__image__heading">
+                        Final Token Image
+                      </h3>
+                      <div className="token__preview">
+                        <img
+                          src={URL.createObjectURL(file)}
+                          className="token__preview__img"
+                        />
+                      </div>
+                      <input
+                        type="button"
+                        value="Approve Listing"
+                        className="login__button c__confirm__button approve__button"
+                        onClick={approveConcert}
+                        disabled={mintLoading}
+                      />
+                      {mintLoading && (
+                        <div className="minting__alert__div">
+                          <h3>Creating NFT.</h3>
+                          <div className="center bottom__center">
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                            <div className="wave"></div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </Contract>
       )) || <Contract>Only the uploader may view the contact</Contract>}
     </>

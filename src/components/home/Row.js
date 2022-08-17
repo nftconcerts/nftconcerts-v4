@@ -6,21 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { GetUSDExchangeRate } from "../api";
 import { ref as dRef, set, get, onValue } from "firebase/database";
 import { db } from "./../../firebase";
+import ReactPlayer from "react-player";
 
-function Row({ title, isLargeRow }) {
-  const [concerts, setConcerts] = useState([1, 2, 3, 4, 5, 6]);
+function Row({ title, isLargeRow, concertData, concerts }) {
   const [trailerUrl, setTrailerUrl] = useState("");
   const [singleConcert, setSingleConcert] = useState([]);
-  const [concertData, setConcertData] = useState();
 
-  //get concert data
-  useEffect(() => {
-    var concertDataRef = dRef(db, "concerts/");
-    onValue(concertDataRef, (snapshot) => {
-      var cData = snapshot.val();
-      setConcertData(cData);
-    });
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const routeChange = (concert) => {
     console.log("learn to change pages idiot");
@@ -78,8 +70,9 @@ function Row({ title, isLargeRow }) {
       <h2 className="row__title">{title}</h2>
       {/* container -> posters */}
 
-      <div className="row__posters">
-        {/* {concerts.map((concertID) => (
+      {concertData && (
+        <div className="row__posters">
+          {/* {concerts.map((concertID) => (
           // <div className="token__box">
           //   <div className="token__header">
           //     <div className="first__third">
@@ -120,28 +113,39 @@ function Row({ title, isLargeRow }) {
           //   </div>
           // </div>
         ))} */}
-        {concerts.map((concert) => (
-          <img
-            key={concert}
-            onClick={() => handleClick()}
-            className={`row__poster ${isLargeRow && "row__posterLarge"}`}
-            src={"/media/babs-0-thumbnail.png"}
-            alt={"Babs.0 NFT Concert"}
-          />
-        ))}
-      </div>
-      {trailerUrl && (
+          {concerts.map((concert) => (
+            <img
+              key={concert}
+              onClick={() => handleClick()}
+              className={`row__poster ${isLargeRow && "row__posterLarge"}`}
+              src={concertData[concert]?.concertTokenImage}
+              alt={"Babs.0 NFT Concert"}
+            />
+          ))}
+        </div>
+      )}
+      {concertData && trailerUrl && (
         <div className="click__preview">
           <div>
             <h1 className="preview__title">Babs.0 NFT Concert</h1>
             <p className="performance__info">
               SingleCam Video - 17 mins 09 secs
             </p>
-            <div className="video__player__div">
-              <YouTube
-                videoId="WhQ2B1QRgrA"
-                opts={opts}
-                className="video__player"
+            <div className="row__media__player">
+              <ReactPlayer
+                config={{
+                  file: {
+                    attributes: {
+                      onContextMenu: (e) => e.preventDefault(),
+                      controlsList: "nodownload",
+                    },
+                  },
+                }}
+                url="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/private%2FKDMcAsrw7PNgCyKZW9Q9qWz5Q0u1%2FPromoClip%2FOfQ1F-babspoint0%20nft%20concert%20promo%20clip%20v2.mp4?alt=media&token=15cb0612-9809-4e06-a4be-a7bf53af7102"
+                width="100%"
+                height="100%"
+                playing={false}
+                controls={true}
               />
             </div>
           </div>

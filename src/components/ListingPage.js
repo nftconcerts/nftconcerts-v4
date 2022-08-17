@@ -288,6 +288,24 @@ const ListingPage = () => {
               />
             </div>
           </div>
+          <div className="final__buy__button__div mobile__show">
+            <button className="buy__now my__button preview__button buy__now__button">
+              <div className="inside__button__div">
+                <div>Buy Now</div>{" "}
+                <div className="button__price">
+                  <img
+                    src="/media/eth-logo.png"
+                    height={25}
+                    className="c__eth__logo white__eth__logo"
+                  />
+                  {formatPrice}{" "}
+                  <span className="c__price__in__usd button__usd__price">
+                    (${priceInUSD})
+                  </span>
+                </div>
+              </div>
+            </button>
+          </div>
           <input
             type="button"
             value="View on Opensea"

@@ -153,3 +153,17 @@
     padding-top: 0px;
   }
 }
+.row__media__player {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: #000000;
+  min-height: 200px;
+  max-height: 40vh;
+  justify-content: center;
+  object-fit: scale-down;
+  box-sizing: border-box;
+}
+.row__media__player video {
+  max-height: 40vh;
+}

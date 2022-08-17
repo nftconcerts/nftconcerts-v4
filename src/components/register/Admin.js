@@ -66,16 +66,19 @@ const Admin = () => {
   const approveConcert = async (id) => {
     setMintLoading(true);
     console.log("minting attempt");
+    var token = await fetch(concertData[id].concertTokenImage);
     const mint = await createNFT(
       concertData[id].concertName,
       concertData[id].concertArtist,
       concertData[id].concertDescription,
-      concertData[id].concertThumbnailImage
+      token
     );
     console.log("minted");
     const firstTokenId = mint[0].id;
-
+    const firstTokenData = mint[0].data;
     console.log("New Token: ", firstTokenId);
+    console.log("Token Data: ", firstTokenData);
+
     setMintLoading(false);
   };
 
@@ -277,7 +280,7 @@ const Admin = () => {
           </div>
         </FormBox>
       )}
-      {adminUser && (
+      {adminUser && concertData && (
         <Contract>
           {/* <div className="account__name">
             <p className="user__name">{currentUser.user.name}</p>
@@ -298,7 +301,7 @@ const Admin = () => {
           {mintLoading && (
             <div className="minting__alert">
               <h3>Creating NFT.</h3>
-              <div class="center">
+              <div class="center bottom__center">
                 <div class="wave"></div>
                 <div class="wave"></div>
                 <div class="wave"></div>

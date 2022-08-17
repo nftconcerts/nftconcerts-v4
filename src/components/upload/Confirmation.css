@@ -127,6 +127,7 @@
   margin: 0px;
   padding: 0px;
   height: 300px;
+  background-color: #ff0000;
 }
 .token__concert__name {
   width: 100%;
@@ -242,8 +243,6 @@
 }
 .c__back__button {
   width: 320px;
-  background: #fff;
-  color: #000;
 }
 .no__promo__clip {
   padding-top: 80px;
@@ -307,6 +306,10 @@
   .text__info__div {
     max-height: min-content;
   }
+  .admin__button {
+    max-width: 90%;
+    min-width: 300px;
+  }
 }
 
 .my__button {
@@ -315,4 +318,132 @@
 .review__content__div video {
   min-height: 200px;
   max-height: 200px;
+}
+
+.admin__panel {
+  background-color: #888;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+.admin__button {
+  max-width: 48%;
+}
+.admin__upload__box {
+  min-width: 300px;
+  align-self: center;
+}
+.upload__token__pop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+.token__preview__img {
+  max-width: 310px;
+}
+.bottom__center {
+  background-color: #888 !important;
+}
+.token__image__heading {
+  font-size: 22px;
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+.center {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+}
+.wave {
+  width: 5px;
+  height: 20px;
+  background: #fff;
+  margin: 10px;
+  animation: wave 1s linear infinite;
+  border-radius: 20px;
+}
+.wave:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.wave:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.wave:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.wave:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.wave:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.wave:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.wave:nth-child(8) {
+  animation-delay: 0.7s;
+}
+.wave:nth-child(9) {
+  animation-delay: 0.8s;
+}
+.wave:nth-child(10) {
+  animation-delay: 0.9s;
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+.minting__alert {
+  width: 650px;
+  position: absolute;
+  margin-top: -100px;
+  background-color: #000;
+  color: #fff;
+  height: 80px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-family: "Saira";
+  line-height: 50px;
+
+  display: flex;
+  flex-direction: column;
+}
+.flex__div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.approve__button {
+  margin-top: 10px;
+  background-color: #15960e;
+  font-family: "Saira";
+  font-weight: bold;
+  padding-top: 10px;
+  color: #fff;
+  border: 2px solid #000;
+}
+.approve__button:hover {
+  transition: all 0.5s;
+  background-color: #0dff00;
+  color: #000;
+}
+.approve__button:disabled {
+  background-color: #444 !important;
+  color: #aaa !important;
+  border: none;
 }

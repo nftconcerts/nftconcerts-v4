@@ -69,7 +69,7 @@
 }
 .buy__now__button {
   margin: 0px !important;
-  width: 350px;
+  width: 310px;
 }
 .no__clip__button {
   justify-content: center;
@@ -99,6 +99,10 @@
 .listing__buttons__div {
   padding-bottom: 10px;
 }
+.final__buy__button__div {
+  width: 100%;
+  padding-top: 20px;
+}
 @media screen and (max-width: 800px) {
   .concert__info__div {
     padding-right: 0px;
@@ -106,5 +110,10 @@
   .buy__button__box {
     align-items: center;
     justify-content: center;
+  }
+}
+@media screen and (min-width: 801px) {
+  .mobile__show {
+    display: none;
   }
 }

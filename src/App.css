@@ -78,3 +78,19 @@ input {
   box-sizing: border-box;
   margin-top: 03px;
 }
+.login__button {
+  font-family: "Courier";
+  text-transform: uppercase;
+  border-radius: 5px;
+  border: 1px #333 solid;
+  padding: 15px 0px 15px 0px;
+  background: #131313;
+  font-family: "Courier";
+  color: #fff;
+  font-size: 18px;
+}
+.login__button:hover {
+  font-weight: bold;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+}

@@ -4,7 +4,7 @@ const createNFT = async (
   concertName,
   concertArtist,
   concertDescription,
-  concertTokenImage
+  ipfsUrl
 ) => {
   try {
     var dropData = [
@@ -12,14 +12,12 @@ const createNFT = async (
         name: `${concertName}`,
         artist: `${concertArtist}`,
         description: `${concertDescription}`,
-        image: `${concertTokenImage}`,
+        image: `${ipfsUrl}`,
       },
     ];
 
     console.log(dropData);
     const mint = await editionDrop.createBatch(dropData);
-    const firstTokenId = mint[0].id;
-
     console.log("✅ Successfully created a new NFT! #");
     console.log("mint", mint);
     return mint;

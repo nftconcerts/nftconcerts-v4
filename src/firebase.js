@@ -131,7 +131,7 @@ const resetMobileMode = () => {
 const getMobileMode = () => {
   const mobileModeString = localStorage.getItem("mobileMode");
   const mobileMode = JSON.parse(mobileModeString);
-  console.log("Mobile Mode? ", mobileMode);
+
   if (mobileMode === true) {
     return true;
   } else return false;

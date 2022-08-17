@@ -1,0 +1,12 @@
+.loading__page {
+  position: absolute;
+  z-index: 12;
+  background-color: #fff;
+  opacity: 0.8;
+  width: 100%;
+  height: 100vh;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

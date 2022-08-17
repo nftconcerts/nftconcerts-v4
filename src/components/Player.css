@@ -138,6 +138,7 @@ video {
   margin-right: 5px;
   border-radius: 5px;
   cursor: pointer;
+  color: #222;
 }
 .player__icon__button:hover {
   transition: all 0.5s;
@@ -164,6 +165,15 @@ video {
   }
   .player__token__div {
     margin-top: 20px;
+  }
+  .player__icon__button {
+    height: 40px;
+    width: 60px;
+  }
+  .underplayer__buttons__div {
+    display: flex;
+    width: 350px;
+    justify-content: space-evenly;
   }
 }
 @media screen and (min-width: 801px) and (max-width: 900px) {
