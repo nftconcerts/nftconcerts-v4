@@ -107,6 +107,7 @@ const Nav = () => {
                     onClick={() => {
                       setMobileMode();
                       setNavMobileMode(true);
+                      window.location.reload(false);
                     }}
                   >
                     Use in Mobile Mode
@@ -131,6 +132,7 @@ const Nav = () => {
                     onClick={() => {
                       setMobileMode();
                       setNavMobileMode(true);
+                      window.location.reload(false);
                     }}
                   >
                     Use in Mobile Mode
@@ -150,7 +152,8 @@ const Nav = () => {
                 onClick={() => {
                   resetMobileMode();
                   setNavMobileMode(false);
-                  switchNetwork(ChainId.Mumbai);
+                  connectWithMetamask();
+                  window.location.reload(false);
                 }}
                 className="network__prompt__button full__width__button"
               >

@@ -60,42 +60,7 @@
   width: 33%;
   text-align: right;
 }
-.buy__button__box {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  padding-top: 20px;
-  box-sizing: border-box;
-}
-.buy__now__button {
-  margin: 0px !important;
-  width: 310px;
-}
-.no__clip__button {
-  justify-content: center;
-}
-.button__usd__price {
-  font-size: 18px;
-  color: #ccc;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: row;
-  padding-left: 10px;
-  margin-top: 5px;
-}
-.white__eth__logo {
-  filter: brightness(0.5) invert(1);
-  margin-top: -5px;
-}
-.inside__button__div {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-.button__price {
-  display: flex;
-  align-items: center;
-}
+
 .listing__buttons__div {
   padding-bottom: 10px;
 }
@@ -103,6 +68,15 @@
   width: 100%;
   padding-top: 20px;
 }
+
+.not__valid__listing__div {
+  display: flex;
+  flex-direction: column;
+  height: 320px;
+  justify-content: space-between;
+  padding-top: 30px;
+}
+
 @media screen and (max-width: 800px) {
   .concert__info__div {
     padding-right: 0px;

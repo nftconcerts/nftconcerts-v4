@@ -6,7 +6,7 @@ const privateKey = process.env.REACT_APP_NFTCONCERTS_ETH_PK;
 const sdk = ThirdwebSDK.fromPrivateKey(privateKey, "mumbai");
 
 // Set variable for the edition drop contract address which can be found after creating an edition drop in the dashboard
-export const editionDropAddress = "0x1A36D3eC36e258E85E6aC9c01872C9fF730Fc2E4";
+export const editionDropAddress = "0x007636bE8297c7511cEAb8A7de296b8708A649b2";
 // Initialize the edition drop module with the contract address
 const editionDrop = sdk.getEditionDrop(editionDropAddress);
 

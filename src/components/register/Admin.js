@@ -115,16 +115,6 @@ const Admin = () => {
                 {tempConcert.uploadTime}
               </div>
 
-              <div className="concert__expand__button">
-                <button
-                  type="submit"
-                  class="fa-solid fa-file-signature icon__button"
-                  name={contractStr}
-                  onClick={(i) => {
-                    navigate("/contract?id=" + i.target.name);
-                  }}
-                />
-              </div>
               <div className="concert__play__button">
                 <button
                   type="sumbit"
@@ -135,27 +125,18 @@ const Admin = () => {
                   class="fa-solid fa-play icon__button"
                 />
               </div>
-              <div className="concert__token__button">
-                <button
-                  type="sumbit"
-                  name={contractStr}
-                  onClick={(i) => {
-                    navigate("/concert?id=" + i.target.name);
-                  }}
-                  class="fa-solid fa-file-invoice-dollar icon__button"
-                />
-              </div>
+
               <div className="concert__approve__button">
                 <button
                   type="sumbit"
                   name={contractStr}
                   disabled={mintLoading || networkMismatch}
                   onClick={(i) => {
-                    approveConcert(i.target.name);
+                    navigate("/contract?id=" + i.target.name);
                   }}
                   className="approve__button"
                 >
-                  Approve
+                  Review
                 </button>
               </div>
               <div className="concert__delete__button">
@@ -323,18 +304,13 @@ const Admin = () => {
               <div className="concert__name admin__concert__name">Name</div>
               <div className="concert__perf__date admin__date">Upload Date</div>
 
-              <div className="header__expand__button">
-                <i class="fa-solid fa-file-signature" />
-              </div>
               <div className="header__play__button">
                 <i class="fa-solid fa-play" />
               </div>
-              <div className="header__token__button">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-              </div>
+
               <div className="concert__approve__button">
                 <button type="sumbit" className="white__approve__button">
-                  Approve
+                  Review
                 </button>
               </div>
               <div className="concert__delete__button">

@@ -5,6 +5,8 @@ import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { db, fetchCurrentUser } from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
+import { useAddress } from "@thirdweb-dev/react";
+import checkProductionTeam from "../scripts/checkProductionTeam";
 
 const Player = () => {
   let navigate = useNavigate();
@@ -100,6 +102,25 @@ const Player = () => {
     "%20available%20exclusively%20on%20%40nftconcerts%20%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%0A%0APick%20up%20a%20copy%20(if%20you%20can)%20and%20check%20it%20out%20-%3E%20https%3A%2F%2Fnftconcerts.com%2Fconcert%3Fid%3D" +
     concertID +
     "%0A%0A%23nftconcerts%20%23livemusic%20%23nfts%20";
+
+  const [productionTeam, setProductionTeam] = useState(false);
+  let address = useAddress();
+  const productionCheck = () => {
+    if (address) {
+      var checkResult = checkProductionTeam(address);
+      if (checkResult === true) {
+        setProductionTeam(checkResult);
+      } else {
+        setProductionTeam(false);
+      }
+    }
+
+    console.log("Production Team? ", productionTeam);
+  };
+
+  useEffect(() => {
+    productionCheck();
+  }, [concertData, address]);
 
   return (
     <div className="player__page">

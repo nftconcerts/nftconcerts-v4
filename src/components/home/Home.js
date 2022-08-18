@@ -5,10 +5,15 @@ import FooterTop from "../FooterTop";
 import { ref as dRef, set, get, onValue } from "firebase/database";
 import { db } from "./../../firebase";
 import "./Home.css";
+import checkProductionTeam from "../../scripts/checkProductionTeam";
+import FormBox from "../form/FormBox";
+import { useAddress } from "@thirdweb-dev/react";
+import { useNavigate } from "react-router-dom";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const Home = () => {
+  let navigate = useNavigate();
   const [concertData, setConcertData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const firstReleaseConcerts = [1, 2, 7, 4, 5, 6];
@@ -24,9 +29,58 @@ const Home = () => {
     });
   }, []);
 
+  //check if user is holding production team NFT
+  const [productionTeam, setProductionTeam] = useState(false);
+  const address = useAddress();
+  const [showResult, setShowResult] = useState(false);
+  const [ptBalance, setPtBalance] = useState(0);
+  const [plBalance, setPlBalance] = useState(0);
+
+  const productionCheck = async () => {
+    if (address) {
+      var checkResult = await checkProductionTeam(address);
+      setPtBalance(checkResult[0]);
+      setPlBalance(checkResult[1]);
+      if (checkResult[0] > 0) {
+        setProductionTeam(true);
+      } else if (checkResult[1] > 0) {
+        setProductionTeam(true);
+      } else {
+        setProductionTeam(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    productionCheck();
+  }, [address]);
+
   return (
     <>
-      {concertData && (
+      {!productionTeam && (
+        <FormBox>
+          <div className="not__production__div">
+            {" "}
+            <h3>
+              {" "}
+              You must be a member of the production team to view this site.
+            </h3>
+            <img
+              src="/media/production-team.jpg"
+              className="production__team__image__two"
+            />
+            <button
+              onClick={() => {
+                navigate("/");
+              }}
+              className="login__button"
+            >
+              Join Now
+            </button>
+          </div>
+        </FormBox>
+      )}
+      {concertData && productionTeam && (
         <div className="home__page">
           <Banner />
           <Row

@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./components/home/Home";
+import ProductionTeam from "./components/home/ProductionTeam";
 
 import ResetPassword from "./components/register/ResetPassword";
 
@@ -39,7 +40,8 @@ function App() {
               <Route path="/concert" element={<ListingPage />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/apply" element={<ArtistApp />} />
-              <Route exact path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route exact path="/" element={<ProductionTeam />} />
             </Routes>
             <Footer />
           </div>

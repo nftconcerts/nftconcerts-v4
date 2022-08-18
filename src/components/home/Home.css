@@ -10,3 +10,15 @@
   justify-content: center;
   align-items: center;
 }
+.not__production__div {
+  display: flex;
+  flex-direction: column;
+  height: 370px;
+  justify-content: space-between;
+  padding-top: 0px;
+}
+.production__team__image__two {
+  max-width: 250px;
+  align-self: center;
+  border-radius: 20px;
+}

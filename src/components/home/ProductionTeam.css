@@ -1,0 +1,218 @@
+.welcome__title {
+  font-family: "Saira";
+  font-weight: bold;
+  font-size: 30px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.welcome__disclaimer {
+  font-size: 18px;
+}
+.production__team__image {
+  width: 310px;
+  border-radius: 20px;
+}
+.production__team__image:hover {
+  transition: all 0.5s;
+  transform: scale(1.04);
+}
+.prouction__team__image__div {
+  max-width: 310px;
+  max-height: 310px;
+  overflow: hidden;
+  border: #ff0000 0px solid;
+}
+.two__column__div {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 50px;
+}
+.first__column {
+  width: 49%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.second__column {
+  width: 49%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.highlights {
+  font-size: 18px;
+  font-family: "Saira";
+  padding-top: 20px;
+}
+.right__highlights {
+  text-align: right;
+}
+.left__highlights {
+  text-align: left;
+}
+.highlights p {
+  padding-bottom: 20px;
+  text-decoration: underline;
+}
+.high_emp {
+  font-weight: bold;
+  font-size: 20px;
+}
+.no__underline {
+  text-decoration: none !important;
+}
+.bold {
+  font-weight: bold;
+}
+.member__verification__div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border-radius: 10px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("../../../public/media/wristbrand-background.png");
+  background-size: cover;
+  height: 60px;
+  font-size: 20px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  width: 100%;
+  cursor: pointer;
+  text-shadow: 2px 2px 10px #000;
+  font-weight: bold;
+}
+.verify__button {
+  height: 80px;
+  width: 110px;
+  border-radius: 10px;
+  margin-left: 30px;
+  border: solid 2px #000;
+  background: #b90000;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: "BenchNine";
+  cursor: pointer;
+}
+.member__verification__div:hover {
+  transition: all 0.5s;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    url("../../../public/media/wristbrand-background.png");
+  background-size: cover;
+}
+.member__verification__div:hover .verify__button {
+  transition: all 0.5s;
+  transform: scale(1.05);
+}
+
+.wristband__div {
+  background: #aaa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-top: 100px;
+  border-radius: 10px;
+  margin-bottom: 100px;
+  padding-bottom: 30px;
+  max-height: 120px;
+  height: 120px;
+}
+.none__detected {
+  padding-top: 20px;
+  margin-bottom: -20px;
+}
+.right__no__clip__button {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+a {
+  color: #333;
+}
+a:hover {
+  transition: all 0.5s;
+  color: #000;
+}
+.opensea__link__div {
+  padding-top: 30px;
+}
+
+.contract__footer__div {
+  background: #aaa;
+  border-radius: 10px;
+  margin-top: 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.production__footer__button {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  background: #333;
+}
+@media screen and (max-width: 720px) {
+  .two__column__div {
+    flex-direction: column;
+    padding-top: 20px;
+  }
+  .first__column {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  .second__column {
+    width: 100%;
+    align-items: center;
+  }
+  .right__highlights {
+    text-align: center;
+  }
+  .left__highlights {
+    text-align: center;
+  }
+  .no__clip__button {
+    justify-content: center;
+  }
+  .prouction__team__image__div {
+    padding-bottom: 20px;
+  }
+  .opensea__link__div {
+    padding-top: 10px;
+  }
+  .wristband__div {
+    margin-top: 40px;
+    font-size: 14px;
+    margin-bottom: 40px;
+  }
+  .member__verification__div {
+    font-size: 16px;
+  }
+  .verify__button {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20px;
+  }
+  .welcome__title {
+    font-size: 25px;
+  }
+  .mobile__hide__two {
+    display: none;
+  }
+  .contract__footer__div {
+    margin-top: 40px;
+  }
+  .production__footer__button {
+    width: 300px;
+  }
+}
+@media screen and (min-width: 721px) {
+  .mobile__show__two {
+    display: none;
+  }
+}

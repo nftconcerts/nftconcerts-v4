@@ -94,3 +94,50 @@ input {
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
   cursor: pointer;
 }
+.my__button:hover {
+  background-color: rgba(51, 51, 51, 0.8);
+}
+.buy__now {
+  background-color: #b90000;
+}
+.buy__now:hover {
+  background-color: #f00000;
+}
+.buy__button__box {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+.buy__now__button {
+  margin: 0px !important;
+  width: 310px;
+}
+.no__clip__button {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.button__usd__price {
+  font-size: 18px;
+  color: #ccc;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  padding-left: 10px;
+  margin-top: 5px;
+}
+.white__eth__logo {
+  filter: brightness(0.5) invert(1);
+  margin-top: -5px;
+}
+.inside__button__div {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.button__price {
+  display: flex;
+  align-items: center;
+}
