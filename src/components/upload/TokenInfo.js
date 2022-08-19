@@ -3,7 +3,7 @@ import FormBox from "../form/FormBox";
 import "./TokenInfo.css";
 import DatePicker from "react-datepicker";
 import { addDays } from "date-fns";
-import { GetUSDExchangeRate, GetETHExchangeRate } from "./../api";
+import { GetMaticUSDExchangeRate, GetETHExchangeRate } from "./../api";
 
 const TokenInfo = ({
   prevStep,
@@ -27,12 +27,10 @@ const TokenInfo = ({
 
   const dateToString = (date) => {
     const dateString = JSON.stringify(date);
-    console.log("date string: ", dateString);
   };
 
   const timeToSTring = (date) => {
     const timeString = JSON.stringify(date);
-    console.log(timeString);
   };
 
   //eth to usd api call
@@ -40,9 +38,8 @@ const TokenInfo = ({
   const [priceInUSD, setPriceInUSD] = useState("0.00");
 
   useEffect(() => {
-    GetUSDExchangeRate().then((res) => {
+    GetMaticUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
-      console.log("usd", parseFloat(res));
     });
   }, []);
 
@@ -50,7 +47,6 @@ const TokenInfo = ({
     if (parseFloat(values.concertPrice)) {
       var newPrice = parseFloat(values.concertPrice) * usdExRate;
       let roundedPrice = newPrice.toFixed(2);
-      console.log("Price in USD : ", roundedPrice);
       setPriceInUSD(roundedPrice);
     } else if (values.concertPrice === "") {
       setPriceInUSD("0.00");
@@ -101,7 +97,7 @@ const TokenInfo = ({
           <label>Price per NFT</label>
           <input
             name="concertPrice"
-            placeholder="Price per NFT"
+            placeholder="Price per NFT (MATIC)"
             className="price__input"
             onKeyPress={(event) => {
               if (!/[0-9\.]/.test(event.key)) {
@@ -113,9 +109,9 @@ const TokenInfo = ({
             onChange={handleFormData("concertPrice")}
           />{" "}
           <img
-            src="/media/eth-logo.png"
+            src="/media/polygon-logo-white.png"
             height={25}
-            className="price__eth__logo"
+            className="price__eth__logo polygon__logo__dark"
           />
           <div className="eth__to__usd">(${priceInUSD})</div>
         </div>
@@ -213,7 +209,6 @@ const TokenInfo = ({
             <option value="" disabled selected>
               Listing Privacy
             </option>
-            <option value="Private">Private</option>
             <option value="Public">Public</option>
             <option value="Unlisted">Unlisted</option>
           </select>

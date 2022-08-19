@@ -21,6 +21,10 @@
   max-height: 310px;
   overflow: hidden;
   border: #ff0000 0px solid;
+  cursor: pointer;
+}
+.production__team__image__div:disabled {
+  opacity: 0.8;
 }
 .two__column__div {
   display: flex;
@@ -162,6 +166,42 @@ a:hover {
 .paper-overlay {
   margin-top: 90px !important;
 }
+
+.matic__price__in__usd {
+  font-size: 14px;
+  color: #555;
+}
+.qty__div {
+  display: flex;
+  width: 310px;
+  padding-top: 10px;
+  text-align: center;
+  justify-content: center;
+
+  font-family: "Courier";
+}
+.align__end {
+  align-self: flex-end;
+}
+.align__start {
+  align-self: flex-start;
+}
+.purchased__message__div {
+  display: flex;
+
+  margin-top: 20px;
+  background-color: #b90000;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  font-family: "Saira";
+  font-size: 18px;
+  margin-bottom: -20px;
+}
+
 @media screen and (max-width: 720px) {
   .two__column__div {
     flex-direction: column;
@@ -215,6 +255,9 @@ a:hover {
   }
   .production__footer__button {
     width: 300px;
+  }
+  .qty__div {
+    align-self: center;
   }
 }
 @media screen and (min-width: 721px) {

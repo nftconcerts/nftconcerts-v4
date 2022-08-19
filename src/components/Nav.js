@@ -50,7 +50,6 @@ const Nav = () => {
 
   useEffect(() => {
     setNavMobileMode(getMobileMode());
-    console.log("Mobile Mode: ", navMobileMode);
   }, [networkMismatch]);
 
   const scrollClr = () => {};
@@ -128,7 +127,6 @@ const Nav = () => {
       matic = await signer.getBalance();
       matic = ethers.utils.formatEther(matic, 18);
       setMaticBalance(matic);
-      console.log("MATIC: ", matic);
 
       let weth;
       const wethTokenContract = await new ethers.Contract(
@@ -139,7 +137,6 @@ const Nav = () => {
       weth = await wethTokenContract.balanceOf(walletAddress);
       weth = ethers.utils.formatEther(weth, 18);
       setWethBalance(weth);
-      console.log("WETH: ", weth);
     };
     if (address) {
       onLoad();
@@ -179,6 +176,7 @@ const Nav = () => {
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt wallet__balance__prompt">
                 Welcome {userData?.name}{" "}
+                {!userData && address && <>{truncateAddress(address)}</>}
                 <div className="two__buttons__div">
                   <button
                     onClick={() => switchNetwork(ChainId.Mumbai)}
@@ -189,9 +187,9 @@ const Nav = () => {
                   <button
                     className="network__prompt__button network__prompt__button__right buy__matic__button"
                     onClick={() => {
-                      setMobileMode();
-                      setNavMobileMode(true);
-                      window.location.reload(false);
+                      window.open(
+                        `https://pay.sendwyre.com/purchase?&destCurrency=MATIC&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
+                      );
                     }}
                   >
                     <span>MATIC: {maticBalance.substring(0, 6)}</span>

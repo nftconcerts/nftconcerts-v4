@@ -209,14 +209,25 @@ const MyAccount = () => {
               </button>
             )}
             {admin && (
-              <button
-                className="login__button admin__button"
-                onClick={() => {
-                  navigate("/admin");
-                }}
-              >
-                Admin View
-              </button>
+              <>
+                {" "}
+                <button
+                  className="login__button admin__button"
+                  onClick={() => {
+                    navigate("/admin");
+                  }}
+                >
+                  Admin View
+                </button>
+                <button
+                  className="login__button admin__button"
+                  onClick={() => {
+                    inlineLogout();
+                  }}
+                >
+                  Logout
+                </button>
+              </>
             )}
           </div>
 

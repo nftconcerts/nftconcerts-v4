@@ -103,6 +103,10 @@ input {
 .buy__now:hover {
   background-color: #f00000;
 }
+.buy__now:disabled {
+  background-color: #888;
+  pointer-events: none;
+}
 .buy__button__box {
   width: 100%;
   display: flex;
@@ -113,6 +117,10 @@ input {
 .buy__now__button {
   margin: 0px !important;
   width: 310px;
+}
+.buy___now__button:disabled {
+  transition: all 0.5s;
+  background: #333 !important;
 }
 .no__clip__button {
   display: flex;
@@ -140,4 +148,18 @@ input {
 .button__price {
   display: flex;
   align-items: center;
+}
+.polygon__logo {
+  filter: brightness(0.2) invert(1);
+  margin-right: 5px;
+}
+.polygon__logo__dark {
+  filter: brightness(0.5) invert(1);
+  margin-right: 5px;
+}
+.transaction__link {
+  color: #fff;
+}
+.transaction__link:hover {
+  color: #aaa;
 }
