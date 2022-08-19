@@ -9,6 +9,7 @@ import {
   useNetworkMismatch,
   useNetwork,
   ChainId,
+  useMarketplace,
 } from "@thirdweb-dev/react";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 import {
@@ -17,6 +18,7 @@ import {
   db,
   getMobileMode,
 } from "../../firebase";
+import { PaperCheckout } from "@paperxyz/react-client-sdk";
 
 import { ref as dRef, onValue } from "firebase/database";
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -29,6 +31,10 @@ const ProductionTeam = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const [pageMobileMode, setPageMobileMode] = useState(false);
+  const markeplace = useMarketplace(
+    "0x7B3066d24c73966f92F95Ee9585689792E81C692"
+  );
+  const [metamaskDetected, setMetamaskDetected] = useState(false);
 
   useEffect(() => {
     setPageMobileMode(getMobileMode());
@@ -59,6 +65,10 @@ const ProductionTeam = () => {
     GetUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
     });
+    if (typeof window.ethereum !== "undefined") {
+      setMetamaskDetected(true);
+      console.log("metamask detected.");
+    }
   }, []);
 
   //price formatting
@@ -112,7 +122,15 @@ const ProductionTeam = () => {
 
   useEffect(() => {
     productionCheck();
-  }, []);
+  }, [userData]);
+
+  const purchasePtNft = async () => {
+    const tx = await markeplace.direct.buyoutListing(2, 1);
+    console.log("Successful purchase");
+    console.log("tx: ", tx);
+    const receipt = tx.receipt;
+    console.log("receipt: ", receipt);
+  };
 
   return (
     <Contract>
@@ -132,7 +150,12 @@ const ProductionTeam = () => {
         </div>
         <div className="second__column">
           <div className="no__clip__button">
-            <button className="buy__now my__button preview__button buy__now__button">
+            <button
+              className="buy__now my__button preview__button buy__now__button"
+              onClick={() => {
+                purchasePtNft();
+              }}
+            >
               <div className="inside__button__div">
                 <div>Mint Now</div>{" "}
                 <div className="button__price">
@@ -165,6 +188,19 @@ const ProductionTeam = () => {
               Get in early and enjoy Production Access to the NFT Concerts
               Platform
             </p>
+            {/* <PaperCheckout
+              checkoutId="338510c3-94cb-4f37-a0c0-a0c64f8a6f62"
+              display="DRAWER"
+              options={{
+                width: 400,
+                height: 800,
+                colorBackground: "#232323",
+                colorPrimary: "#42ff4f",
+                colorText: "#f1fde3",
+                borderRadius: 6,
+                fontFamily: "Open Sans",
+              }}
+            /> */}
           </div>
         </div>
       </div>

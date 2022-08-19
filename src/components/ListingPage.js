@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "./Player.css";
 import "./ListingPage.css";
+import "./upload/Confirmation.css";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { db, fetchCurrentUser } from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
@@ -68,7 +69,7 @@ const ListingPage = () => {
   //check if listing is valid
 
   useEffect(() => {
-    if (concertData?.listingApproval === "Awaiting Review") {
+    if (concertData?.listingApproval === "Approved") {
       setValidListing(true);
     }
   }, [concertData]);

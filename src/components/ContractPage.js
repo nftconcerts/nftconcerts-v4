@@ -37,6 +37,7 @@ const ContractPage = () => {
   const [fileUrl, updateFileUrl] = useState(``);
   const [errorMessage, setErrorMessage] = useState("");
   const [showError, setShowError] = useState(false);
+  const [approvedListing, setApprovedListing] = useState(false);
 
   //Set the current user
   useEffect(() => {
@@ -46,7 +47,7 @@ const ContractPage = () => {
   //format ETH Price
   useEffect(() => {
     if (parseFloat(concertData?.concertPrice) < 1) {
-      setFormatPrice("0" + concertData?.concertPrice);
+      setFormatPrice(parseFloat(concertData?.concertPrice));
     } else setFormatPrice(concertData?.concertPrice);
   }, [concertData]);
 
@@ -81,6 +82,14 @@ const ContractPage = () => {
       setconcertData(cData);
     });
   }, [currentUser, concertID]);
+
+  //check if concert is approved
+  useEffect(() => {
+    if (concertData?.listingApproval === "Approved") {
+      setApprovedListing(true);
+      console.log("#", concertID, " is approved");
+    }
+  }, [concertData, concertID]);
 
   //price formats
   const resaleFee = parseFloat(concertData?.concertResaleFee) + 5;
@@ -256,6 +265,10 @@ const ContractPage = () => {
 
   const approveConcert = async () => {
     var tokenIdRef = dRef(db, "concerts/" + concertID + "/tokenId");
+    var listingApprovalRef = dRef(
+      db,
+      "concerts/" + concertID + "/listingApproval"
+    );
     setMintLoading(true);
     console.log("minting attempt");
     const mint = await createNFT(
@@ -266,7 +279,8 @@ const ContractPage = () => {
     );
     console.log("minted");
     const firstTokenId = mint[0].id;
-    set(tokenIdRef, JSON.stringify(firstTokenId));
+    set(tokenIdRef, firstTokenId.toString());
+    set(listingApprovalRef, "Approved");
     console.log("New Token: ", firstTokenId);
     setMintLoading(false);
   };
@@ -292,7 +306,12 @@ const ContractPage = () => {
               </div>
             </div>
           )}
+
           <h2>This is a copy of your listing contract.</h2>
+          <div className="listing__status__div">
+            Current Listing Status:{" "}
+            <span className="bold">{concertData?.listingApproval}</span>
+          </div>
           <div className="keep__left">
             <div className="review__content__div">
               <div className="col1">
@@ -515,22 +534,27 @@ const ContractPage = () => {
           {adminUser && (
             <div className="admin__panel">
               <h3>Admin Panel</h3>
-              <div className="confirmation__button__div">
-                <input
-                  type="button"
-                  value="Print Token Outline"
-                  className="login__button c__confirm__button admin__button"
-                  onClick={captureImage}
-                />
+              {approvedListing && (
+                <p>This listing has already been approved.</p>
+              )}
+              {!approvedListing && (
+                <div className="confirmation__button__div">
+                  <input
+                    type="button"
+                    value="Print Token Outline"
+                    className="login__button c__confirm__button admin__button"
+                    onClick={captureImage}
+                  />
 
-                <input
-                  type="button"
-                  value="Upload Final Token"
-                  className="login__button c__confirm__button admin__button"
-                  onClick={uploadPop}
-                />
-              </div>
-              {concertData?.concertTokenImage && (
+                  <input
+                    type="button"
+                    value="Upload Final Token"
+                    className="login__button c__confirm__button admin__button"
+                    onClick={uploadPop}
+                  />
+                </div>
+              )}
+              {!approvedListing && concertData?.concertTokenImage && (
                 <>
                   {!showUploadPop && (
                     <div className="flex__div">

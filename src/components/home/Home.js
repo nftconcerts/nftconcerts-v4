@@ -3,23 +3,54 @@ import Banner from "../Banner";
 import Row from "./Row";
 import FooterTop from "../FooterTop";
 import { ref as dRef, set, get, onValue } from "firebase/database";
-import { db } from "./../../firebase";
+import { db, getMobileMode, fetchCurrentUser } from "./../../firebase";
 import "./Home.css";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 import FormBox from "../form/FormBox";
-import { useAddress } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useNetwork,
+  useNetworkMismatch,
+  useMetamask,
+} from "@thirdweb-dev/react";
 import { useNavigate } from "react-router-dom";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const Home = () => {
   let navigate = useNavigate();
+  const networkMismatch = useNetworkMismatch();
+  const [, switchNetwork] = useNetwork();
+  const connectWithMetamask = useMetamask();
   const [concertData, setConcertData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const firstReleaseConcerts = [1, 2, 7, 4, 5, 6];
   const trendingConcerts = [8, 2, 4, 6, 10];
   const concerts = [5, 4, 7, 2, 1];
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userData, setUserData] = useState();
+  const [pageMobileMode, setPageMobileMode] = useState(false);
 
+  useEffect(() => {
+    setPageMobileMode(getMobileMode());
+    console.log("Mobile Mode: ", pageMobileMode);
+  }, [networkMismatch]);
+
+  //set current user
+  useEffect(() => {
+    setCurrentUser(fetchCurrentUser());
+  }, []);
+  //download User Data
+  useEffect(() => {
+    if (currentUser) {
+      var userDataRef = dRef(db, "users/" + currentUser.user.uid);
+      onValue(userDataRef, (snapshot) => {
+        var data = snapshot.val();
+        setUserData(data);
+        console.log("ud: ", data);
+      });
+    }
+  }, [currentUser]);
   //get concert data
   useEffect(() => {
     var concertDataRef = dRef(db, "concerts/");
@@ -39,6 +70,19 @@ const Home = () => {
   const productionCheck = async () => {
     if (address) {
       var checkResult = await checkProductionTeam(address);
+      console.log("PR: ", checkResult);
+      setPtBalance(checkResult[0]);
+      setPlBalance(checkResult[1]);
+      if (checkResult[0] > 0) {
+        setProductionTeam(true);
+      } else if (checkResult[1] > 0) {
+        setProductionTeam(true);
+      } else {
+        setProductionTeam(false);
+      }
+    } else if (!address && pageMobileMode && userData?.walletID) {
+      var checkResult = await checkProductionTeam(userData.walletID);
+      console.log("PR with User Wallet: ", checkResult);
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {
@@ -53,7 +97,7 @@ const Home = () => {
 
   useEffect(() => {
     productionCheck();
-  }, [address]);
+  }, [address, userData]);
 
   return (
     <>

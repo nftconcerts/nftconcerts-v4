@@ -241,6 +241,7 @@ table {
   border-radius: 10px;
   overflow: hidden;
   margin-top: 10px;
+  border: solid 2px #000;
 }
 .network__mismatch__div {
   display: flex;
@@ -274,20 +275,51 @@ table {
   transition: all 0.5s;
   background: #111;
 }
+.no__metamask__text {
+  font-size: 16px;
+}
+.wallet__balance__prompt {
+  background: #30303045;
+  color: #fff;
+}
+
 @media screen and (max-width: 725px) {
   .network__mismatch__prompt {
     max-width: 100%;
-    height: 80px;
+    height: 50px;
     margin-top: 90px;
-    margin-bottom: -130px;
+    margin-bottom: -110px;
     border-radius: 0px;
     position: relative;
     z-index: 3;
   }
   .network__prompt__button {
-    height: 60px;
+    height: 30px;
   }
   .nav {
     background-color: #000;
   }
+  .nav__mobile__hide {
+    display: none;
+  }
+}
+.buy__weth__button:hover span {
+  display: none;
+}
+.buy__weth__button:hover:before {
+  transition: all 0.5s;
+  content: "BUY WETH";
+}
+.buy__matic__button:hover span {
+  display: none;
+}
+.buy__matic__button:hover:before {
+  transition: all 0.5s;
+  content: "BUY MATIC";
+}
+.buy__matic__button {
+  background: #44444489;
+}
+.buy__weth__button {
+  background: #44444489;
 }

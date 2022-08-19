@@ -181,3 +181,8 @@ video {
     max-width: 95%;
   }
 }
+@media screen and (max-width: 725px) {
+  .player__page {
+    padding-top: 110px;
+  }
+}

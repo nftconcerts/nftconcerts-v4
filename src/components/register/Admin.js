@@ -60,28 +60,6 @@ const Admin = () => {
     });
   }, [currentUser]);
 
-  //approve concert
-  const [mintLoading, setMintLoading] = useState(false);
-
-  const approveConcert = async (id) => {
-    setMintLoading(true);
-    console.log("minting attempt");
-    var token = await fetch(concertData[id].concertTokenImage);
-    const mint = await createNFT(
-      concertData[id].concertName,
-      concertData[id].concertArtist,
-      concertData[id].concertDescription,
-      token
-    );
-    console.log("minted");
-    const firstTokenId = mint[0].id;
-    const firstTokenData = mint[0].data;
-    console.log("New Token: ", firstTokenId);
-    console.log("Token Data: ", firstTokenData);
-
-    setMintLoading(false);
-  };
-
   //turn concert list into pretty table
   const submittedConcertTable = () => {
     var concertArray = concertData.filter((n) => n);
@@ -130,7 +108,7 @@ const Admin = () => {
                 <button
                   type="sumbit"
                   name={contractStr}
-                  disabled={mintLoading || networkMismatch}
+                  disabled={networkMismatch}
                   onClick={(i) => {
                     navigate("/contract?id=" + i.target.name);
                   }}
@@ -278,23 +256,6 @@ const Admin = () => {
                 Network Mistmatch. Please Switch to Polygon.
               </h3>
             </>
-          )}
-          {mintLoading && (
-            <div className="minting__alert">
-              <h3>Creating NFT.</h3>
-              <div class="center bottom__center">
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-              </div>
-            </div>
           )}
           <h3>Awaiting Review</h3>
           <div className="submitted__concerts__table">

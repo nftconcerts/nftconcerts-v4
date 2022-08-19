@@ -156,6 +156,12 @@ a:hover {
   padding: 10px;
   background: #333;
 }
+.transaction-page {
+  z-index: 129;
+}
+.paper-overlay {
+  margin-top: 90px !important;
+}
 @media screen and (max-width: 720px) {
   .two__column__div {
     flex-direction: column;

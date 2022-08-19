@@ -7,6 +7,7 @@ import {
   setMobileMode,
   getMobileMode,
   resetMobileMode,
+  truncateAddress,
 } from "./../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +19,17 @@ import {
   useNetworkMismatch,
   ChainId,
   useMetamask,
+  useTokenBalance,
+  ThirdwebProvider,
 } from "@thirdweb-dev/react";
+import { ethers } from "ethers";
+import { GetUSDExchangeRate, GetMaticUSDExchangeRate } from "./api";
+import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
+
+const WETH_TOKEN_ADDRESS = "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa";
+
+const ERC20ABI = require("./../scripts/abi.json");
+
 const Nav = () => {
   const [show, handleShow] = useState(false);
   const [menuPopup, handleMenuPopup] = useState(false);
@@ -32,6 +43,10 @@ const Nav = () => {
   const [navMobileMode, setNavMobileMode] = useState(false);
   const address = useAddress();
   const connectWithMetamask = useMetamask();
+  const [wethBalance, setWethBalance] = useState("");
+  const [maticBalance, setMaticBalance] = useState("");
+  const [walletAddress, setWalletAddress] = useState();
+  const [metamaskDetected, setMetamaskDetected] = useState(false);
 
   useEffect(() => {
     setNavMobileMode(getMobileMode());
@@ -87,6 +102,50 @@ const Nav = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    if (typeof window.ethereum !== "undefined") {
+      setMetamaskDetected(true);
+    }
+    const onLoad = async () => {
+      let walletAddress;
+      if (address) {
+        walletAddress = address;
+      } else if (userData?.walletID) {
+        walletAddress = userData?.walletID;
+      }
+
+      setWalletAddress(walletAddress);
+
+      let provider = new ethers.providers.Web3Provider(window.ethereum);
+      let signer = provider.getSigner();
+
+      let matic;
+      const maticTokenContract = await new ethers.Contract(
+        NATIVE_TOKEN_ADDRESS,
+        ERC20ABI,
+        provider
+      );
+      matic = await signer.getBalance();
+      matic = ethers.utils.formatEther(matic, 18);
+      setMaticBalance(matic);
+      console.log("MATIC: ", matic);
+
+      let weth;
+      const wethTokenContract = await new ethers.Contract(
+        WETH_TOKEN_ADDRESS,
+        ERC20ABI,
+        provider
+      );
+      weth = await wethTokenContract.balanceOf(walletAddress);
+      weth = ethers.utils.formatEther(weth, 18);
+      setWethBalance(weth);
+      console.log("WETH: ", weth);
+    };
+    if (address) {
+      onLoad();
+    }
+  }, [address, userData, networkMismatch]);
+
   return (
     <div className="total_nav">
       {!navMobileMode && (
@@ -116,16 +175,68 @@ const Nav = () => {
               </div>
             </div>
           )}
-          {!address && (
+          {address && !networkMismatch && (
+            <div className="network__mismatch__div">
+              <div className="network__mismatch__prompt wallet__balance__prompt">
+                Welcome {userData?.name}{" "}
+                <div className="two__buttons__div">
+                  <button
+                    onClick={() => switchNetwork(ChainId.Mumbai)}
+                    className="network__prompt__button buy__weth__button"
+                  >
+                    <span>WETH: {wethBalance.substring(0, 5)}</span>
+                  </button>
+                  <button
+                    className="network__prompt__button network__prompt__button__right buy__matic__button"
+                    onClick={() => {
+                      setMobileMode();
+                      setNavMobileMode(true);
+                      window.location.reload(false);
+                    }}
+                  >
+                    <span>MATIC: {maticBalance.substring(0, 6)}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {!address && metamaskDetected && (
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt">
                 Not Connected to Web3.{" "}
                 <div className="two__buttons__div">
                   <button
                     onClick={connectWithMetamask}
-                    className="network__prompt__button"
+                    className="network__prompt__button "
                   >
                     Connect to Polygon
+                  </button>
+                  <button
+                    className="network__prompt__button network__prompt__button__right"
+                    onClick={() => {
+                      setMobileMode();
+                      setNavMobileMode(true);
+                      window.location.reload(false);
+                    }}
+                  >
+                    Use in Mobile Mode
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          {!address && !metamaskDetected && (
+            <div className="network__mismatch__div">
+              <div className="network__mismatch__prompt">
+                Google Chrome + Metamask Recommended.
+                <div className="two__buttons__div">
+                  <button
+                    onClick={() => {
+                      window.open("https://metamask.io/download/");
+                    }}
+                    className="network__prompt__button"
+                  >
+                    Download Metamask
                   </button>
                   <button
                     className="network__prompt__button network__prompt__button__right"
@@ -144,7 +255,7 @@ const Nav = () => {
         </>
       )}
       {navMobileMode && (
-        <div className="network__mismatch__div">
+        <div className="network__mismatch__div nav__mobile__hide">
           <div className="network__mismatch__prompt">
             Moblie Mode Enabled{" "}
             <div className="two__buttons__div">
@@ -163,6 +274,7 @@ const Nav = () => {
           </div>
         </div>
       )}
+      {address && currentUser && <div className="user__wallet"></div>}
       <div className={`nav ${show && "nav__black"}`}>
         <a href="/">
           <img
