@@ -21,6 +21,7 @@ import {
   useMetamask,
   useTokenBalance,
   ThirdwebProvider,
+  useWalletConnect,
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { GetUSDExchangeRate, GetMaticUSDExchangeRate } from "./api";
@@ -39,6 +40,7 @@ const Nav = () => {
   const [navMobileMode, setNavMobileMode] = useState(false);
   const address = useAddress();
   const connectWithMetamask = useMetamask();
+  const connectWithWalletConnect = useWalletConnect();
   const [ethBalance, setEthBalance] = useState("0.00");
   const [maticBalance, setMaticBalance] = useState("");
   const [walletAddress, setWalletAddress] = useState();
@@ -186,7 +188,7 @@ const Nav = () => {
                     className="network__prompt__button network__prompt__button__right buy__matic__button full__width__button"
                     onClick={() => {
                       window.open(
-                        `https://pay.sendwyre.com/purchase?&destCurrency=MATIC&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
+                        `https://pay.sendwyre.com/purchase?&destCurrency=ETH&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
                       );
                     }}
                   >
@@ -206,7 +208,7 @@ const Nav = () => {
                     onClick={connectWithMetamask}
                     className="network__prompt__button "
                   >
-                    Connect to Ethereum
+                    Use MetaMask
                   </button>
                   <button
                     className="network__prompt__button network__prompt__button__right"
@@ -251,7 +253,32 @@ const Nav = () => {
           )}
         </>
       )}
-      {navMobileMode && (
+      {!address && metamaskDetected && navMobileMode && (
+        <div className="network__mismatch__div mobile__hide">
+          <div className="network__mismatch__prompt">
+            Mobile Mode Enabled.
+            <div className="two__buttons__div">
+              <button
+                onClick={() => {
+                  connectWithMetamask();
+                }}
+                className="network__prompt__button"
+              >
+                Use Metamask
+              </button>
+              <button
+                className="network__prompt__button network__prompt__button__right"
+                onClick={() => {
+                  connectWithWalletConnect();
+                }}
+              >
+                Use Wallet Connect
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* {navMobileMode && (
         <div className="network__mismatch__div nav__mobile__hide">
           <div className="network__mismatch__prompt">
             Moblie Mode Enabled{" "}
@@ -270,7 +297,7 @@ const Nav = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
       {address && currentUser && <div className="user__wallet"></div>}
       <div className={`nav ${show && "nav__black"}`}>
         <a href="/">
@@ -301,7 +328,11 @@ const Nav = () => {
               <a href="/login" className="menu__item" onClick={menuPop}>
                 Login
               </a>{" "}
-              <a href="/about" className="menu__item" onClick={menuPop}>
+              <a
+                href="https://nftconcerts.com/about"
+                className="menu__item"
+                onClick={menuPop}
+              >
                 Learn More..
               </a>
             </>
@@ -309,7 +340,7 @@ const Nav = () => {
           {currentUser && !artistUser && !adminUser && (
             <>
               {" "}
-              <a href="/my-account" className="menu__item" onClick={menuPop}>
+              <a href="#" className="menu__item" onClick={menuPop}>
                 My Account
               </a>
               <a href="/" className="menu__item" onClick={menuPop}>

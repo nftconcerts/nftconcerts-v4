@@ -10,6 +10,9 @@ import ResetPassword from "./components/register/ResetPassword";
 
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
+import WalletConnect from "@walletconnect/client";
+import QRCodeModal from "@walletconnect/qrcode-modal";
+
 function App() {
   const Register = lazy(() => import("./components/register/Register"));
   const Login = lazy(() => import("./components/register/Login"));
@@ -22,9 +25,13 @@ function App() {
   const ListingPage = lazy(() => import("./components/ListingPage"));
 
   const Upload = lazy(() => import("./components/upload/Upload"));
+  const connectors = {
+    injected: {},
+    walletconnect: {},
+  };
 
   return (
-    <ThirdwebProvider desiredChainId={ChainId.Mainnet}>
+    <ThirdwebProvider connectors={connectors} desiredChainId={ChainId.Mainnet}>
       <Router>
         <Suspense fallback={<div className="loading__page">Loading...</div>}>
           <div className="App">
@@ -33,14 +40,14 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/my-account" element={<MyAccount />} />
-              {/* <Route path="/upload" element={<Upload />} /> */}
+              <Route path="/upload" element={<Upload />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               {/* <Route path="/player" element={<Player />} />
-              <Route path="/contract" element={<ContractPage />} />
-              <Route path="/concert" element={<ListingPage />} /> */}
-              {/* <Route path="/admin" element={<Admin />} /> */}
+              <Route path="/contract" element={<ContractPage />} /> */}
+              <Route path="/concert" element={<ListingPage />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="/apply" element={<ArtistApp />} />
-              {/* <Route path="/home" element={<Home />} /> */}
+              <Route path="/home" element={<Home />} />
               <Route exact path="/" element={<ProductionTeam />} />
             </Routes>
             <Footer />

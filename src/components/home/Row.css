@@ -158,3 +158,6 @@
 .row__media__player video {
   max-height: 40vh;
 }
+.no__media__player__row {
+  background-color: #131313;
+}

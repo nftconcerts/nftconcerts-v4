@@ -10,6 +10,8 @@ import {
   useNetwork,
   ChainId,
   useMarketplace,
+  useContract,
+  useNFT,
 } from "@thirdweb-dev/react";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 import {
@@ -19,6 +21,9 @@ import {
   getMobileMode,
 } from "../../firebase";
 import { PaperCheckout } from "@paperxyz/react-client-sdk";
+
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+import editionDrop from "../../scripts/getProductionContract";
 
 import { ref as dRef, onValue, set } from "firebase/database";
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -32,19 +37,16 @@ const ProductionTeam = () => {
   const [userData, setUserData] = useState();
   const [pageMobileMode, setPageMobileMode] = useState(false);
   const markeplace = useMarketplace(
-    "0x7B3066d24c73966f92F95Ee9585689792E81C692"
+    "0x7B03004643624FE3013D7f9DeAf3958B5Fb7c337"
   );
-  const [metamaskDetected, setMetamaskDetected] = useState(false);
+
   const [purchasing, setPurchasing] = useState(false);
-  const [teamRemaining, setTeamRemaining] = useState(5000);
-  const [leadRemaining, setLeadRemaining] = useState(50);
-  var intervalId = window.setInterval(function () {
-    grabRemaining();
-  }, 15000);
+  const [teamRemaining, setTeamRemaining] = useState(4905);
+  const [leadRemaining, setLeadRemaining] = useState(53);
 
   useEffect(() => {
     grabRemaining();
-  }, []);
+  }, [purchasing]);
 
   useEffect(() => {
     setPageMobileMode(getMobileMode());
@@ -77,21 +79,17 @@ const ProductionTeam = () => {
     GetUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
     });
-    GetMaticUSDExchangeRate().then((res) => {
-      setMaticUsdExRate(parseFloat(res));
-    });
     if (typeof window.ethereum !== "undefined") {
       setMetamaskDetected(true);
-      console.log("metamask detected.");
     }
   }, []);
 
   //check for remaining number of team and lead tokens available for sale
   const grabRemaining = async () => {
-    const teamListing = await markeplace.getListing(2);
+    const teamListing = await markeplace.getListing(0);
     const teamListingRemaing = teamListing?.quantity.toString();
     setTeamRemaining(teamListingRemaing);
-    const leadListing = await markeplace.getListing(4);
+    const leadListing = await markeplace.getListing(1);
     const leadListingRemaing = leadListing?.quantity.toString();
     setLeadRemaining(leadListingRemaing);
   };
@@ -107,17 +105,6 @@ const ProductionTeam = () => {
     } else setPriceInUSD("err");
   }, [usdExRate]);
 
-  useEffect(() => {
-    if (maticUsdExRate) {
-      var newPrice = 10 * maticUsdExRate;
-      var leadPrice = 1000 * maticUsdExRate;
-      let roundedPrice = newPrice.toFixed(2);
-      let leadRoundedPrice = leadPrice.toFixed(2);
-      setMaticPriceInUSD(roundedPrice);
-      setMaticLeadPriceInUSD(leadRoundedPrice);
-    } else setMaticPriceInUSD("err");
-  }, [maticUsdExRate]);
-
   //check if user is holding production team NFT
   const [productionTeam, setProductionTeam] = useState(false);
   const address = useAddress();
@@ -130,7 +117,6 @@ const ProductionTeam = () => {
       var checkResult = await checkProductionTeam(address);
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
-      console.log("balance: ", checkResult);
       if (checkResult[0] > 0) {
         setProductionTeam(true);
       } else if (checkResult[1] > 0) {
@@ -157,11 +143,15 @@ const ProductionTeam = () => {
     productionCheck();
   }, [userData, address]);
 
+  //purchasing switches and functions
+
   const [purchased, setPurchased] = useState(false);
   const [plPurchased, setPlPurchased] = useState(false);
   const [txReceipt, setTxReceipt] = useState();
   const [txError, setTxError] = useState(false);
   const [minting, setMinting] = useState(false);
+
+  //purchase Production Team NFT using Metamask
   const purchasePtNft = async () => {
     setTxError(false);
     setPurchased(false);
@@ -171,7 +161,7 @@ const ProductionTeam = () => {
     console.log("purchasing");
     slowSwitchPurchasing();
     try {
-      const tx = await markeplace.direct.buyoutListing(2, 1);
+      const tx = await markeplace.direct.buyoutListing(0, 1);
       console.log("Successful purchase");
       console.log("tx: ", tx);
       const receipt = tx.receipt;
@@ -189,6 +179,7 @@ const ProductionTeam = () => {
     }
   };
 
+  //purchase Production Lead NFT using Metamask
   const purchasePlNft = async () => {
     setTxError(false);
     setPlPurchased(false);
@@ -199,7 +190,7 @@ const ProductionTeam = () => {
     console.log("Purchasing Production Lead");
     slowSwitchPurchasing();
     try {
-      const tx = await markeplace.direct.buyoutListing(4, 1);
+      const tx = await markeplace.direct.buyoutListing(1, 1);
       console.log("Successful Production Lead Purchase");
       console.log("tx: ", tx);
       const receipt = tx.receipt;
@@ -223,12 +214,19 @@ const ProductionTeam = () => {
   };
 
   const slowSwitchPurchasing = async () => {
-    await delay(20000);
+    await delay(15000);
     setPurchasing(false);
   };
 
-  var txLink =
-    "https://mumbai.polygonscan.com/tx/" + txReceipt?.transactionHash;
+  const [metamaskDetected, setMetamaskDetected] = useState(false);
+
+  useEffect(() => {
+    if (typeof window.ethereum !== "undefined") {
+      setMetamaskDetected(true);
+    }
+  }, []);
+
+  var txLink = "https://etherscan.io//tx/" + txReceipt?.transactionHash;
 
   return (
     <Contract>
@@ -259,13 +257,13 @@ const ProductionTeam = () => {
                 connectWithMetamask();
               }
               if (networkMismatch) {
-                switchNetwork(ChainId.Mumbai);
+                switchNetwork(ChainId.Mainnet);
               } else {
                 setPurchasing(true);
                 purchasePtNft();
               }
             }}
-            disabled={purchasing}
+            disabled={purchasing || minting}
           >
             <img
               src="/media/production-team.jpg"
@@ -275,27 +273,72 @@ const ProductionTeam = () => {
         </div>
         <div className="second__column">
           <div className="no__clip__button">
-            <button
-              className="buy__now my__button preview__button buy__now__button"
-              onClick={() => {
-                purchasePtNft();
-              }}
-            >
-              <div className="inside__button__div">
-                <div>Buy Now</div>{" "}
-                <div className="button__price">
-                  <img
-                    src="/media/eth-logo.png"
-                    height={25}
-                    className="c__eth__logo white__eth__logo"
-                  />
-                  0.005{" "}
-                  <span className="c__price__in__usd button__usd__price">
-                    (${priceInUSD})
-                  </span>
+            {!metamaskDetected && (
+              <PaperCheckout
+                checkoutId="73baf406-11e0-4b74-8b3e-300908c7b0ee"
+                display="DRAWER"
+                options={{
+                  width: 400,
+                  height: 800,
+                  colorBackground: "#131313",
+                  colorPrimary: "#b90000",
+                  colorText: "#b90000",
+                  borderRadius: 6,
+                  fontFamily: "Saira",
+                }}
+              >
+                <div className="no__clip__button">
+                  <button
+                    className="buy__now my__button preview__button buy__now__button"
+                    disabled={purchasing || minting}
+                  >
+                    <div className="inside__button__div">
+                      <div>Buy Now</div>{" "}
+                      <div className="button__price">
+                        <img
+                          src="/media/eth-logo.png"
+                          height={25}
+                          className="c__eth__logo white__eth__logo"
+                        />
+                        0.005 <div className="usd__paper"> (${priceInUSD})</div>
+                      </div>
+                    </div>
+                  </button>
                 </div>
-              </div>
-            </button>
+              </PaperCheckout>
+            )}
+            {metamaskDetected && (
+              <button
+                className="buy__now my__button preview__button buy__now__button"
+                onClick={() => {
+                  if (!address) {
+                    connectWithMetamask();
+                  }
+                  if (networkMismatch) {
+                    switchNetwork(ChainId.Mainnet);
+                  } else {
+                    setPurchasing(true);
+                    purchasePtNft();
+                  }
+                }}
+                disabled={purchasing || minting}
+              >
+                <div className="inside__button__div">
+                  <div>Buy Now</div>{" "}
+                  <div className="button__price">
+                    <img
+                      src="/media/eth-logo.png"
+                      height={25}
+                      className="c__eth__logo white__eth__logo"
+                    />
+                    0.005{" "}
+                    <span className="c__price__in__usd button__usd__price">
+                      (${priceInUSD})
+                    </span>
+                  </div>
+                </div>
+              </button>
+            )}
           </div>
           {/* <div className="no__clip__button">
             <button
@@ -305,7 +348,7 @@ const ProductionTeam = () => {
                   connectWithMetamask();
                 }
                 if (networkMismatch) {
-                  switchNetwork(ChainId.Mumbai);
+                  switchNetwork(ChainId.Mainnet);
                 } else {
                   setPurchasing(true);
                   purchasePtNft();
@@ -335,13 +378,13 @@ const ProductionTeam = () => {
           </div>
           <div className="highlights right__highlights">
             <p>
-              <span className="high_emp">Polygon ERC-1155 NFT</span>
+              <span className="high_emp">Production Team NFT</span>
             </p>
             <p>
-              Price: <span className="high_emp">10 MATIC </span>
+              Price: <span className="high_emp">0.005 ETH </span>
               <span className="matic__price__in__usd">
                 ($
-                {maticPriceInUSD})
+                {priceInUSD})
               </span>
             </p>
             <p>
@@ -353,29 +396,80 @@ const ProductionTeam = () => {
               Get in early and enjoy Production Access to the NFT Concerts
               Platform
             </p>
-            {/* <PaperCheckout
-              checkoutId="338510c3-94cb-4f37-a0c0-a0c64f8a6f62"
-              display="DRAWER"
-              options={{
-                width: 400,
-                height: 800,
-                colorBackground: "#232323",
-                colorPrimary: "#42ff4f",
-                colorText: "#f1fde3",
-                borderRadius: 6,
-                fontFamily: "Open Sans",
-              }}
-            /> */}
           </div>
         </div>
       </div>
-      <div className="opensea__link__div">
+      {/* <div className="opensea__link__div">
         <a
           target="_blank"
-          href="https://opensea.io/assets/matic/0x9b45c979d1ffe99aae1aa5a9b27888e6b9c39c30/0"
+          href="https://opensea.io/assets/ethereum/0x9b45c979d1ffe99aae1aa5a9b27888e6b9c39c30/0"
         >
           View NFT on OpenSea
         </a>
+      </div> */}
+      <div className="marketplace__icons__div">
+        <div
+          className="marketplace__icon__div"
+          onClick={() => {
+            window.open(
+              "https://x2y2.io/eth/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/0"
+            );
+          }}
+        >
+          <img src="/media/x2y2-logo.png" className="marketplace__icon" />
+        </div>
+        <div
+          className="marketplace__icon__div"
+          onClick={() => {
+            window.open(
+              "https://looksrare.org/collections/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/0"
+            );
+          }}
+        >
+          <img
+            src="/media/looksrare-logo.png"
+            className="marketplace__icon invert__icon"
+          />
+        </div>
+        <div
+          className="marketplace__icon__div"
+          onClick={() => {
+            window.open(
+              "https://opensea.io/assets/ethereum/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/0"
+            );
+          }}
+        >
+          <img src="/media/opensea-logo.png" className="marketplace__icon" />
+        </div>
+        <div
+          className="marketplace__icon__div"
+          onClick={() => {
+            window.open(
+              "https://etherscan.io/token/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30?a=0"
+            );
+          }}
+        >
+          <img src="/media/etherscan-logo.png" className="marketplace__icon" />
+        </div>
+        {metamaskDetected && (
+          <PaperCheckout
+            checkoutId="73baf406-11e0-4b74-8b3e-300908c7b0ee"
+            display="DRAWER"
+            options={{
+              width: 400,
+              height: 800,
+              colorBackground: "#131313",
+              colorPrimary: "#b90000",
+              colorText: "#b90000",
+              borderRadius: 6,
+              fontFamily: "Saira",
+            }}
+          >
+            <div className="marketplace__icon__div">
+              <img src="/media/cc-logo.png" className="marketplace__icon" />
+            </div>
+          </PaperCheckout>
+        )}
       </div>
       <div className="wristband__div">
         <div
@@ -386,7 +480,7 @@ const ProductionTeam = () => {
               connectWithMetamask();
             }
             if (networkMismatch) {
-              switchNetwork(ChainId.Mumbai);
+              switchNetwork(ChainId.Mainnet);
             } else {
               productionCheck();
               slowResultReveal();
@@ -402,7 +496,7 @@ const ProductionTeam = () => {
                 connectWithMetamask();
               }
               if (networkMismatch) {
-                switchNetwork(ChainId.Mumbai);
+                switchNetwork(ChainId.Mainnet);
               } else {
                 productionCheck();
               }
@@ -422,8 +516,12 @@ const ProductionTeam = () => {
             Connected as {truncateAddress(address || "")} -{" "}
             {!plBalance && <>Production Team Detected.</>}
             {plBalance > 0 && <>Production Lead Detected.</>}{" "}
-            {!currentUser && <a href="/login">Login</a>}
-            {currentUser && <a href="/home">Enter</a>}
+            {!currentUser && (
+              <>
+                <a href="/Register">Register</a> or <a href="/Login">Login</a>
+              </>
+            )}
+            {currentUser && <a href="/">Enter on Sept 1st</a>}
           </p>
         )}
         {pageMobileMode && !currentUser && (
@@ -441,7 +539,7 @@ const ProductionTeam = () => {
           <p className="none__detected">
             Mobile Mode Enabled. {!plBalance && <>Production Team Detected.</>}
             {plBalance > 0 && <>Production Lead Detected.</>}{" "}
-            <a href="/home">Enter</a>
+            <a href="/">Enter on September 1st</a>
           </p>
         )}
       </div>
@@ -471,22 +569,73 @@ const ProductionTeam = () => {
             />
           </div>
           <div className="no__clip__button right__no__clip__button">
-            <button className="buy__now my__button preview__button buy__now__button">
-              <div className="inside__button__div">
-                <div>Buy Now</div>{" "}
-                <div className="button__price">
-                  <img
-                    src="/media/eth-logo.png"
-                    height={25}
-                    className="c__eth__logo white__eth__logo"
-                  />
-                  0.5{" "}
-                  <span className="c__price__in__usd button__usd__price">
-                    (${leadPriceInUSD})
-                  </span>
+            {!metamaskDetected && (
+              <PaperCheckout
+                checkoutId="9a0dbaad-b550-493e-b630-c4f9a3b84539"
+                display="DRAWER"
+                options={{
+                  width: 400,
+                  height: 800,
+                  colorBackground: "#131313",
+                  colorPrimary: "#b90000",
+                  colorText: "#b90000",
+                  borderRadius: 6,
+                  fontFamily: "Saira",
+                }}
+              >
+                <div className="no__clip__button">
+                  <button
+                    className="buy__now my__button preview__button buy__now__button"
+                    disabled={purchasing || minting}
+                  >
+                    <div className="inside__button__div">
+                      <div>Buy Now</div>{" "}
+                      <div className="button__price">
+                        <img
+                          src="/media/eth-logo.png"
+                          height={25}
+                          className="c__eth__logo white__eth__logo"
+                        />
+                        0.005{" "}
+                        <div className="usd__paper">(${leadPriceInUSD})</div>
+                      </div>
+                    </div>
+                  </button>
                 </div>
-              </div>
-            </button>
+              </PaperCheckout>
+            )}
+            {metamaskDetected && (
+              <button
+                disabled={purchasing || minting}
+                onClick={() => {
+                  if (!address) {
+                    connectWithMetamask();
+                  }
+                  if (networkMismatch) {
+                    switchNetwork(ChainId.Mainnet);
+                  } else {
+                    setPurchasing(true);
+                    purchasePlNft();
+                  }
+                }}
+                className="buy__now my__button preview__button buy__now__button"
+              >
+                <div className="inside__button__div">
+                  <div>Buy Now</div>{" "}
+                  <div className="button__price">
+                    <img
+                      src="/media/eth-logo.png"
+                      height={25}
+                      className="c__eth__logo white__eth__logo"
+                    />
+                    0.5{" "}
+                    <span className="c__price__in__usd button__usd__price">
+                      (${leadPriceInUSD})
+                    </span>
+                  </div>
+                </div>
+              </button>
+            )}
           </div>
           {/* <div className="highlights left__highlights">
             <p>Buy in MATIC or WETH</p>
@@ -499,7 +648,7 @@ const ProductionTeam = () => {
                   connectWithMetamask();
                 }
                 if (networkMismatch) {
-                  switchNetwork(ChainId.Mumbai);
+                  switchNetwork(ChainId.Mainnet);
                 } else {
                   setPurchasing(true);
                   purchasePlNft();
@@ -529,13 +678,13 @@ const ProductionTeam = () => {
           </div>
           <div className="highlights left__highlights">
             <p>
-              <span className="high_emp">Polygon ERC-1155 NFT</span>
+              <span className="high_emp">Production Lead NFT</span>
             </p>
             <p>
-              Price: <span className="high_emp">1000 MATIC </span>
+              Price: <span className="high_emp">0.5 ETH </span>
               <span className="matic__price__in__usd">
                 ($
-                {maticLeadPriceInUSD})
+                {leadPriceInUSD})
               </span>
             </p>
             <p>
@@ -549,7 +698,20 @@ const ProductionTeam = () => {
           </div>
         </div>
         <div className="first__column">
-          <div className="prouction__team__image__div mobile__hide__two">
+          <div
+            className="prouction__team__image__div mobile__hide__two"
+            onClick={() => {
+              if (!address) {
+                connectWithMetamask();
+              }
+              if (networkMismatch) {
+                switchNetwork(ChainId.Mainnet);
+              } else {
+                setPurchasing(true);
+                purchasePlNft();
+              }
+            }}
+          >
             <img
               src="/media/production-lead.jpg"
               className="production__team__image"
@@ -557,15 +719,78 @@ const ProductionTeam = () => {
           </div>
         </div>
       </div>
-      <div className="opensea__link__div">
+      {/* <div className="opensea__link__div">
         <a
           target="_blank"
           href="https://opensea.io/collection/nft-concerts-production-team"
         >
           View Collection on OpenSea
         </a>
+      </div> */}
+      <div className="marketplace__icons__div">
+        <div
+          className="marketplace__icon__div"
+          onClick={() => {
+            window.open(
+              "https://x2y2.io/eth/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/1"
+            );
+          }}
+        >
+          <img src="/media/x2y2-logo.png" className="marketplace__icon" />
+        </div>
+        <div
+          className="marketplace__icon__div"
+          onClick={() => {
+            window.open(
+              "https://looksrare.org/collections/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/1"
+            );
+          }}
+        >
+          <img
+            src="/media/looksrare-logo.png"
+            className="marketplace__icon invert__icon"
+          />
+        </div>
+        <div
+          className="marketplace__icon__div"
+          onClick={() => {
+            window.open(
+              "https://opensea.io/assets/ethereum/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/1"
+            );
+          }}
+        >
+          <img src="/media/opensea-logo.png" className="marketplace__icon" />
+        </div>
+        <div
+          className="marketplace__icon__div"
+          onClick={() => {
+            window.open(
+              "https://etherscan.io/token/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30?a=1"
+            );
+          }}
+        >
+          <img src="/media/etherscan-logo.png" className="marketplace__icon" />
+        </div>
+        {metamaskDetected && (
+          <PaperCheckout
+            checkoutId="9a0dbaad-b550-493e-b630-c4f9a3b84539"
+            display="DRAWER"
+            options={{
+              width: 400,
+              height: 800,
+              colorBackground: "#131313",
+              colorPrimary: "#b90000",
+              colorText: "#b90000",
+              borderRadius: 6,
+              fontFamily: "Saira",
+            }}
+          >
+            <div className="marketplace__icon__div">
+              <img src="/media/cc-logo.png" className="marketplace__icon" />
+            </div>
+          </PaperCheckout>
+        )}
       </div>
-
       <div className="contract__footer__div">
         <h3 className="welcome__disclaimer">
           NFT Concerts will be open to the public shortly.
@@ -574,7 +799,7 @@ const ProductionTeam = () => {
           <button
             className="buy__now my__button production__footer__button"
             onClick={() => {
-              navigate("/about");
+              window.location.href = "https://nftconcerts.com/about";
             }}
           >
             Learn More
@@ -582,12 +807,17 @@ const ProductionTeam = () => {
           <button
             className="buy__now my__button production__footer__button"
             onClick={() => {
-              navigate("/blog");
+              window.location.href = "https://nftconcerts.com/blog";
             }}
           >
             Read the Blog
           </button>
-          <button className="buy__now my__button production__footer__button">
+          <button
+            className="buy__now my__button production__footer__button"
+            onClick={() => {
+              window.location.href = "https://nftconcerts.com/contact";
+            }}
+          >
             Get in Touch
           </button>
         </div>

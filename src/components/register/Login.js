@@ -49,7 +49,7 @@ function Login() {
   const confirmUser = async () => {
     await login(email, password);
     setCurrentUser(tempUser);
-    navigate("/my-account");
+    navigate("/");
   };
 
   return (

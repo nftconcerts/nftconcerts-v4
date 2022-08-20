@@ -44,6 +44,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
       setSingleConcert(concert);
     }
     console.log(concert);
+    console.log("CD: ", concertData[concert]);
   };
 
   //eth to usd api call
@@ -55,15 +56,16 @@ function Row({ title, isLargeRow, concertData, concerts }) {
       setUsdExRate(parseFloat(res));
       console.log("usd", parseFloat(res));
     });
-  }, []);
+  }, [singleConcert]);
 
   useEffect(() => {
+    var concertPrice = parseFloat(concertData[singleConcert]?.concertPrice);
     if (0.05) {
-      var newPrice = 0.05 * usdExRate;
+      var newPrice = concertPrice * usdExRate;
       let roundedPrice = newPrice.toFixed(2);
       setPriceInUSD(roundedPrice);
     } else setPriceInUSD("err");
-  }, [concertData?.concertPrice, usdExRate]);
+  }, [singleConcert, usdExRate]);
 
   return (
     <div className={`row ${isLargeRow && "row1"}`}>
@@ -116,7 +118,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
           {concerts.map((concert) => (
             <img
               key={concert}
-              onClick={() => handleClick()}
+              onClick={() => handleClick(concert)}
               className={`row__poster ${isLargeRow && "row__posterLarge"}`}
               src={concertData[concert]?.concertTokenImage}
               alt={"Babs.0 NFT Concert"}
@@ -127,27 +129,51 @@ function Row({ title, isLargeRow, concertData, concerts }) {
       {concertData && trailerUrl && (
         <div className="click__preview">
           <div>
-            <h1 className="preview__title">Babs.0 NFT Concert</h1>
+            <h1 className="preview__title">
+              {concertData[singleConcert]?.concertName} -{" "}
+              {concertData[singleConcert]?.concertArtist}
+            </h1>
             <p className="performance__info">
-              SingleCam Video - 17 mins 09 secs
+              {concertData[singleConcert]?.concertRecordingType}
             </p>
-            <div className="row__media__player">
-              <ReactPlayer
-                config={{
-                  file: {
-                    attributes: {
-                      onContextMenu: (e) => e.preventDefault(),
-                      controlsList: "nodownload",
+
+            {(concertData[singleConcert]?.concertPromoClip && (
+              <div className="row__media__player">
+                <ReactPlayer
+                  config={{
+                    file: {
+                      attributes: {
+                        onContextMenu: (e) => e.preventDefault(),
+                        controlsList: "nodownload",
+                      },
                     },
-                  },
-                }}
-                url="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/private%2FKDMcAsrw7PNgCyKZW9Q9qWz5Q0u1%2FPromoClip%2FOfQ1F-babspoint0%20nft%20concert%20promo%20clip%20v2.mp4?alt=media&token=15cb0612-9809-4e06-a4be-a7bf53af7102"
-                width="100%"
-                height="100%"
-                playing={false}
-                controls={true}
-              />
-            </div>
+                  }}
+                  url={concertData[singleConcert]?.concertPromoClip}
+                  width="100%"
+                  height="100%"
+                  playing={true}
+                  controls={true}
+                  muted={true}
+                  config={{
+                    file: {
+                      attributes: {
+                        controlsList: "nodownload",
+                      },
+                    },
+                  }}
+                />
+              </div>
+            )) || (
+              <>
+                <div className="row__media__player no__media__player__row">
+                  {" "}
+                  <h3 className="promo__h3">No Promo Clip.</h3>
+                  <p>
+                    Only token owners will have access to the show recording.
+                  </p>
+                </div>
+              </>
+            )}
           </div>
           <div className="preview__contents">
             <div className="two__col">
@@ -155,13 +181,17 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                 <p>
                   Performance Date:
                   <br className="desktop__hide" />{" "}
-                  <b className="emph">11/12/2021</b>
+                  <b className="emph">
+                    {concertData[singleConcert]?.concertPerformanceDate}
+                  </b>
                 </p>
               </div>
               <div className="halfs venue">
                 <p>
                   Venue: <br className="desktop__hide" />{" "}
-                  <b className="emph">Babs.0 Home Studio</b>
+                  <b className="emph">
+                    {concertData[singleConcert]?.concertVenue}
+                  </b>
                 </p>
               </div>
             </div>
@@ -171,13 +201,17 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                 <div className="thirds quantity">
                   <p>
                     Total Qty: <br className="desktop__hide" />{" "}
-                    <b className="blow__up">100</b>
+                    <b className="blow__up">
+                      {concertData[singleConcert]?.concertSupply}
+                    </b>
                   </p>
                 </div>
                 <div className="thirds remaining">
                   <p>
                     Remaining: <br className="desktop__hide" />{" "}
-                    <b className="blow__up">100</b>
+                    <b className="blow__up">
+                      {concertData[singleConcert]?.concertSupply}
+                    </b>
                   </p>
                 </div>
                 <div className="thirds price">
@@ -189,7 +223,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                         height={25}
                         className="c__eth__logo"
                       />
-                      0.05
+                      {parseFloat(concertData[singleConcert]?.concertPrice)}
                     </b>
                     <span className="converted__currency">
                       {" "}
@@ -201,7 +235,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
               <div className="buttons__box preview__buttons__box">
                 <button
                   className="my__button preview__button"
-                  onClick={() => navigate("/concert?id=8")}
+                  onClick={() => navigate(`/concert?id=${singleConcert}`)}
                 >
                   Learn More
                 </button>

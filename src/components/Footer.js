@@ -140,7 +140,7 @@ function Footer() {
         </div>
         <div className="footer__thirds">
           <div className="footer__menu__right" dir="ltr">
-            <a href="/my-account" className="my__button footer__menu__item">
+            <a href="/" className="my__button footer__menu__item">
               My Account
             </a>
 
@@ -211,7 +211,7 @@ function Footer() {
               Artist Application
             </a>
 
-            <a href="/my-account" className="my__button footer__menu__item">
+            <a href="/" className="my__button footer__menu__item">
               My Account
             </a>
 

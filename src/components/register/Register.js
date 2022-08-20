@@ -74,6 +74,8 @@ function Register() {
         })
           .then(() => {
             console.log("data uploaded to db");
+            alert("Account Created");
+            navigate("/");
           })
           .catch((error) => {
             console.log("error");

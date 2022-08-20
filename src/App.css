@@ -104,7 +104,7 @@ input {
   background-color: #f00000;
 }
 .buy__now:disabled {
-  background-color: #888;
+  background-color: #888 !important;
   pointer-events: none;
 }
 .buy__button__box {
@@ -162,4 +162,89 @@ input {
 }
 .transaction__link:hover {
   color: #aaa;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  background: #fff;
+  background-image: none;
+  border: solid 1px #000;
+  border-radius: 5px;
+  color: #000;
+  text-align: center;
+}
+
+.select {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 3em;
+  line-height: 3;
+  background: #000000;
+  overflow: hidden;
+  border-radius: 5px;
+
+  margin-bottom: 05px;
+  text-align: center;
+  color: #000;
+}
+
+select {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 0 0 0.5em;
+  cursor: pointer;
+  text-align: center;
+  font-family: "Oxygen";
+  font-size: 16px;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.select::after {
+  content: "\25BC";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 1em;
+  background: #444;
+  pointer-events: none;
+}
+
+.select:hover::after {
+  color: #b90000;
+}
+
+.select::after {
+  -webkit-transition: 0.25s all ease;
+  -o-transition: 0.25s all ease;
+  transition: 0.25s all ease;
+}
+.marketplace__icons__div {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+.marketplace__icon__div {
+  display: flex;
+  width: 50px;
+  padding: 10px;
+  height: 40px;
+  filter: brightness(0.3);
+  cursor: pointer;
+}
+.marketplace__icon__div:hover {
+  transition: all 0.5s;
+  filter: brightness(0);
+}
+.invert__icon {
+  filter: invert(1);
 }

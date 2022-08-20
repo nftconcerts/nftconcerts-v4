@@ -3,7 +3,7 @@ import FormBox from "../form/FormBox";
 import "./TokenInfo.css";
 import DatePicker from "react-datepicker";
 import { addDays } from "date-fns";
-import { GetMaticUSDExchangeRate, GetETHExchangeRate } from "./../api";
+import { GetUSDExchangeRate, GetETHExchangeRate } from "./../api";
 
 const TokenInfo = ({
   prevStep,
@@ -38,7 +38,7 @@ const TokenInfo = ({
   const [priceInUSD, setPriceInUSD] = useState("0.00");
 
   useEffect(() => {
-    GetMaticUSDExchangeRate().then((res) => {
+    GetUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
     });
   }, []);
@@ -97,7 +97,7 @@ const TokenInfo = ({
           <label>Price per NFT</label>
           <input
             name="concertPrice"
-            placeholder="Price per NFT (MATIC)"
+            placeholder="Price per NFT"
             className="price__input"
             onKeyPress={(event) => {
               if (!/[0-9\.]/.test(event.key)) {
@@ -109,9 +109,9 @@ const TokenInfo = ({
             onChange={handleFormData("concertPrice")}
           />{" "}
           <img
-            src="/media/polygon-logo-white.png"
+            src="/media/eth-logo.png"
             height={25}
-            className="price__eth__logo polygon__logo__dark"
+            className="price__eth__logo"
           />
           <div className="eth__to__usd">(${priceInUSD})</div>
         </div>
