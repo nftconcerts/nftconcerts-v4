@@ -315,7 +315,7 @@ table {
 }
 .buy__matic__button:hover:before {
   transition: all 0.5s;
-  content: "BUY MATIC";
+  content: "BUY ETH";
 }
 .buy__matic__button {
   background: #44444489;

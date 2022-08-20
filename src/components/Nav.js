@@ -26,10 +26,6 @@ import { ethers } from "ethers";
 import { GetUSDExchangeRate, GetMaticUSDExchangeRate } from "./api";
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
 
-const WETH_TOKEN_ADDRESS = "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa";
-
-const ERC20ABI = require("./../scripts/abi.json");
-
 const Nav = () => {
   const [show, handleShow] = useState(false);
   const [menuPopup, handleMenuPopup] = useState(false);
@@ -43,10 +39,33 @@ const Nav = () => {
   const [navMobileMode, setNavMobileMode] = useState(false);
   const address = useAddress();
   const connectWithMetamask = useMetamask();
-  const [wethBalance, setWethBalance] = useState("");
+  const [ethBalance, setEthBalance] = useState("0.00");
   const [maticBalance, setMaticBalance] = useState("");
   const [walletAddress, setWalletAddress] = useState();
   const [metamaskDetected, setMetamaskDetected] = useState(false);
+  const [usdExRate, setUsdExRate] = useState();
+  const [balanceInUSD, setBalanceInUSD] = useState("0.00");
+
+  //eth to usd api call
+  useEffect(() => {
+    GetUSDExchangeRate().then((res) => {
+      setUsdExRate(parseFloat(res));
+    });
+    if (typeof window.ethereum !== "undefined") {
+      setMetamaskDetected(true);
+    }
+  }, []);
+
+  //price formatting
+  useEffect(() => {
+    if (usdExRate && ethBalance) {
+      var newPrice = ethBalance * usdExRate;
+
+      let roundedPrice = newPrice.toFixed(2);
+
+      setBalanceInUSD(roundedPrice);
+    } else setBalanceInUSD("err");
+  }, [usdExRate, ethBalance]);
 
   useEffect(() => {
     setNavMobileMode(getMobileMode());
@@ -118,25 +137,10 @@ const Nav = () => {
       let provider = new ethers.providers.Web3Provider(window.ethereum);
       let signer = provider.getSigner();
 
-      let matic;
-      const maticTokenContract = await new ethers.Contract(
-        NATIVE_TOKEN_ADDRESS,
-        ERC20ABI,
-        provider
-      );
-      matic = await signer.getBalance();
-      matic = ethers.utils.formatEther(matic, 18);
-      setMaticBalance(matic);
-
-      let weth;
-      const wethTokenContract = await new ethers.Contract(
-        WETH_TOKEN_ADDRESS,
-        ERC20ABI,
-        provider
-      );
-      weth = await wethTokenContract.balanceOf(walletAddress);
-      weth = ethers.utils.formatEther(weth, 18);
-      setWethBalance(weth);
+      let eth;
+      eth = await signer.getBalance();
+      eth = ethers.utils.formatEther(eth, 18);
+      setEthBalance(eth);
     };
     if (address) {
       onLoad();
@@ -150,13 +154,13 @@ const Nav = () => {
           {address && networkMismatch && (
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt">
-                Wrong Network. Switch to Polygon{" "}
+                Wrong Network. Switch to Mainnet{" "}
                 <div className="two__buttons__div">
                   <button
-                    onClick={() => switchNetwork(ChainId.Mumbai)}
+                    onClick={() => switchNetwork(ChainId.Mainnet)}
                     className="network__prompt__button"
                   >
-                    Switch to Polygon
+                    Switch to Ethereum
                   </button>
                   <button
                     className="network__prompt__button network__prompt__button__right"
@@ -179,20 +183,15 @@ const Nav = () => {
                 {!userData && address && <>{truncateAddress(address)}</>}
                 <div className="two__buttons__div">
                   <button
-                    onClick={() => switchNetwork(ChainId.Mumbai)}
-                    className="network__prompt__button buy__weth__button"
-                  >
-                    <span>WETH: {wethBalance.substring(0, 5)}</span>
-                  </button>
-                  <button
-                    className="network__prompt__button network__prompt__button__right buy__matic__button"
+                    className="network__prompt__button network__prompt__button__right buy__matic__button full__width__button"
                     onClick={() => {
                       window.open(
                         `https://pay.sendwyre.com/purchase?&destCurrency=MATIC&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
                       );
                     }}
                   >
-                    <span>MATIC: {maticBalance.substring(0, 6)}</span>
+                    <span>ETH: {ethBalance.substring(0, 6)} </span>
+                    <span className="wallet__usd__bal">(${balanceInUSD})</span>
                   </button>
                 </div>
               </div>
@@ -207,7 +206,7 @@ const Nav = () => {
                     onClick={connectWithMetamask}
                     className="network__prompt__button "
                   >
-                    Connect to Polygon
+                    Connect to Ethereum
                   </button>
                   <button
                     className="network__prompt__button network__prompt__button__right"

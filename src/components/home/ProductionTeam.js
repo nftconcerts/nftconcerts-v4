@@ -274,7 +274,7 @@ const ProductionTeam = () => {
           </div>
         </div>
         <div className="second__column">
-          {/* <div className="no__clip__button">
+          <div className="no__clip__button">
             <button
               className="buy__now my__button preview__button buy__now__button"
               onClick={() => {
@@ -296,8 +296,8 @@ const ProductionTeam = () => {
                 </div>
               </div>
             </button>
-          </div> */}
-          <div className="no__clip__button">
+          </div>
+          {/* <div className="no__clip__button">
             <button
               className="buy__now my__button preview__button buy__now__button"
               onClick={() => {
@@ -328,7 +328,7 @@ const ProductionTeam = () => {
                 </div>
               </div>
             </button>
-          </div>
+          </div> */}
           <div className="qty__div align__end">
             {" "}
             [{teamRemaining}/5000 Available]
@@ -470,7 +470,7 @@ const ProductionTeam = () => {
               className="production__team__image"
             />
           </div>
-          {/* <div className="no__clip__button right__no__clip__button">
+          <div className="no__clip__button right__no__clip__button">
             <button className="buy__now my__button preview__button buy__now__button">
               <div className="inside__button__div">
                 <div>Buy Now</div>{" "}
@@ -488,10 +488,10 @@ const ProductionTeam = () => {
               </div>
             </button>
           </div>
-          <div className="highlights left__highlights">
+          {/* <div className="highlights left__highlights">
             <p>Buy in MATIC or WETH</p>
           </div> */}
-          <div className="no__clip__button right__no__clip__button">
+          {/* <div className="no__clip__button right__no__clip__button">
             <button
               className="buy__now my__button preview__button buy__now__button"
               onClick={() => {
@@ -522,7 +522,7 @@ const ProductionTeam = () => {
                 </div>
               </div>
             </button>
-          </div>
+          </div> */}
           <div className="qty__div align__start">
             {" "}
             [{leadRemaining}/55 Available]

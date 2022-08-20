@@ -24,7 +24,7 @@ function App() {
   const Upload = lazy(() => import("./components/upload/Upload"));
 
   return (
-    <ThirdwebProvider desiredChainId={ChainId.Mumbai}>
+    <ThirdwebProvider desiredChainId={ChainId.Mainnet}>
       <Router>
         <Suspense fallback={<div className="loading__page">Loading...</div>}>
           <div className="App">
@@ -33,14 +33,14 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/my-account" element={<MyAccount />} />
-              <Route path="/upload" element={<Upload />} />
+              {/* <Route path="/upload" element={<Upload />} /> */}
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/player" element={<Player />} />
+              {/* <Route path="/player" element={<Player />} />
               <Route path="/contract" element={<ContractPage />} />
-              <Route path="/concert" element={<ListingPage />} />
-              <Route path="/admin" element={<Admin />} />
+              <Route path="/concert" element={<ListingPage />} /> */}
+              {/* <Route path="/admin" element={<Admin />} /> */}
               <Route path="/apply" element={<ArtistApp />} />
-              <Route path="/home" element={<Home />} />
+              {/* <Route path="/home" element={<Home />} /> */}
               <Route exact path="/" element={<ProductionTeam />} />
             </Routes>
             <Footer />
