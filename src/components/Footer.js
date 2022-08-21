@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Footer.css";
-
+import { setMobileMode, getMobileMode, resetMobileMode } from "./../firebase";
 function Footer() {
+  const [fotMobileMode, setFotMobileMode] = useState(false);
+
+  useEffect(() => {
+    setFotMobileMode(getMobileMode());
+  }, []);
+
   return (
     <div className="footer">
-      <div className="footer__black__fade" />
+      <div className="footer__black__fade">
+        {fotMobileMode && (
+          <div className="cancel__mobile__div">
+            <div
+              className="cancel__mobile__button"
+              onClick={() => {
+                resetMobileMode();
+                setFotMobileMode(false);
+                window.location.reload();
+              }}
+            >
+              Mobile Mode Enabled - Disable
+            </div>
+          </div>
+        )}
+      </div>
       <div className="bottom__footer">
         <div className="footer__hightlights">
           <div className="social__box">

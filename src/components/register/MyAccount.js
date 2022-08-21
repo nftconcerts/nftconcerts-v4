@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import "./MyAccount.css";
 import { ref as dRef, onValue } from "firebase/database";
 import { useAddress, useMetamask } from "@thirdweb-dev/react";
+import checkProductionTeam from "../../scripts/checkProductionTeam";
 
 const MyAccount = () => {
   let navigate = useNavigate();
@@ -47,7 +48,7 @@ const MyAccount = () => {
 
   //download concert data
   useEffect(() => {
-    var concertDataRef = dRef(db, "concerts/");
+    var concertDataRef = dRef(db, "submittedConcerts/");
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setConcertData(cData);
@@ -100,7 +101,7 @@ const MyAccount = () => {
             <div className="concert__expand__button">
               <button
                 type="submit"
-                class="fa-solid fa-file-signature icon__button"
+                className="fa-solid fa-file-signature icon__button"
                 name={contractStr}
                 onClick={(i) => {
                   navigate("/contract?id=" + i.target.name);
@@ -114,7 +115,7 @@ const MyAccount = () => {
                 onClick={(i) => {
                   navigate("/player?id=" + i.target.name);
                 }}
-                class="fa-solid fa-play icon__button"
+                className="fa-solid fa-play icon__button"
               />
             </div>
             <div className="concert__token__button">
@@ -124,7 +125,7 @@ const MyAccount = () => {
                 onClick={(i) => {
                   navigate("/concert?id=" + i.target.name);
                 }}
-                class="fa-solid fa-file-invoice-dollar icon__button"
+                className="fa-solid fa-file-invoice-dollar icon__button"
               />
             </div>
           </div>
@@ -135,35 +136,97 @@ const MyAccount = () => {
     return rows;
   };
 
+  //check if user is holding production team NFT
+  const [productionTeam, setProductionTeam] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [ptBalance, setPtBalance] = useState(0);
+  const [plBalance, setPlBalance] = useState(0);
+
+  const productionCheck = async () => {
+    if (address) {
+      var checkResult = await checkProductionTeam(address);
+      console.log("PR: ", checkResult);
+      setPtBalance(checkResult[0]);
+      setPlBalance(checkResult[1]);
+      if (checkResult[0] > 0) {
+        setProductionTeam(true);
+      } else if (checkResult[1] > 0) {
+        setProductionTeam(true);
+      } else {
+        setProductionTeam(false);
+      }
+    } else if (!address && userData?.walletID) {
+      var checkResult = await checkProductionTeam(userData.walletID);
+      console.log("PR with User Wallet: ", checkResult);
+      setPtBalance(checkResult[0]);
+      setPlBalance(checkResult[1]);
+      if (checkResult[0] > 0) {
+        setProductionTeam(true);
+      } else if (checkResult[1] > 0) {
+        setProductionTeam(true);
+      } else {
+        setProductionTeam(false);
+      }
+    }
+  };
+  useEffect(() => {
+    productionCheck();
+  }, [address, userData]);
+
   return (
     <>
-      {currentUser === null && (
+      {!productionTeam && (
         <FormBox>
-          <div className="no__user">
-            <h3>No Current User. </h3>
-            <p>Please Register or Login </p>
+          <div className="not__production__div">
+            {" "}
+            <h3>
+              {" "}
+              You must be a member of the production team to view this site.
+            </h3>
+            <img
+              src="/media/production-team.jpg"
+              className="production__team__image__two"
+            />
             <button
-              className="login__button"
               onClick={() => {
-                navigate("/login");
+                navigate("/");
               }}
-            >
-              Go To Login Page
-            </button>
-            <button
               className="login__button"
-              onClick={() => {
-                navigate("/register");
-              }}
             >
-              New User? Sign Up
+              Join Now
             </button>
           </div>
         </FormBox>
       )}
-      {currentUser && (
-        <Contract>
-          {/* <div className="account__name">
+      {productionTeam && (
+        <>
+          {currentUser === null && (
+            <FormBox>
+              <div className="no__user">
+                <h3>No Current User. </h3>
+                <p>Please Register or Login </p>
+                <button
+                  className="login__button"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Go To Login Page
+                </button>
+                <button
+                  className="login__button"
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                >
+                  New User? Sign Up
+                </button>
+              </div>
+            </FormBox>
+          )}
+          {currentUser && (
+            <Contract>
+              {/* <div className="account__name">
             <p className="user__name">{currentUser.user.name}</p>
           </div>
           <div className="account__info">
@@ -172,80 +235,84 @@ const MyAccount = () => {
               {truncateAddress(currentUser.user.photoURL)}
             </p>
           </div> */}
-          <h3>Submitted Concerts</h3>
-          <div className="submitted__concerts__table">
-            <div className="concert__table__headers">
-              <div className="concert__id">ID </div>
-              <div className="concert__thumbnail">IMG</div>
-              <div className="concert__name">Name</div>
-              <div className="concert__perf__date">Performance Date</div>
-              <div className="concert__listing__approval">Listing Approval</div>
-              <div className="header__expand__button">
-                <i class="fa-solid fa-file-signature" />
+              <h3>Submitted Concerts</h3>
+              <div className="submitted__concerts__table">
+                <div className="concert__table__headers">
+                  <div className="concert__id">ID </div>
+                  <div className="concert__thumbnail">IMG</div>
+                  <div className="concert__name">Name</div>
+                  <div className="concert__perf__date">Performance Date</div>
+                  <div className="concert__listing__approval">
+                    Listing Approval
+                  </div>
+                  <div className="header__expand__button">
+                    <i className="fa-solid fa-file-signature" />
+                  </div>
+                  <div className="header__play__button">
+                    <i className="fa-solid fa-play" />
+                  </div>
+                  <div className="header__token__button">
+                    <i className="fa-solid fa-file-invoice-dollar"></i>
+                  </div>
+                </div>
+                {userData && concertData && submittedConcertTable(userData)}
+                <div className="submitted__concert__row">
+                  <div className="submitted__concert__name"></div>
+                </div>
               </div>
-              <div className="header__play__button">
-                <i class="fa-solid fa-play" />
-              </div>
-              <div className="header__token__button">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-              </div>
-            </div>
-            {userData && concertData && submittedConcertTable(userData)}
-            <div className="submitted__concert__row">
-              <div className="submitted__concert__name"></div>
-            </div>
-          </div>
 
-          <div className="admin__button__div">
-            {!address && (
-              <button
-                className="login__button admin__button"
-                onClick={() => {
-                  resetMobileMode();
-                  connectWithMetamask();
-                }}
-              >
-                Connect to Metamask
-              </button>
-            )}
-            {admin && (
-              <>
-                {" "}
-                <button
-                  className="login__button admin__button"
-                  onClick={() => {
-                    navigate("/admin");
-                  }}
-                >
-                  Admin View
-                </button>
-                <button
-                  className="login__button admin__button"
-                  onClick={() => {
-                    inlineLogout();
-                  }}
-                >
-                  Logout
-                </button>
-              </>
-            )}
-          </div>
-
-          <div className="user__info__div">
-            <div className="name__div">
-              <span className="bold__text">User</span>
-              <br />
-              {userData?.name}
-            </div>
-            {userData && (
-              <div className="wallet__div">
-                <span className="bold__text">Wallet</span>
-                <br />
-                {truncateAddress(userData?.walletID)}
+              <div className="admin__button__div">
+                {!address && (
+                  <button
+                    className="login__button admin__button"
+                    onClick={() => {
+                      resetMobileMode();
+                      connectWithMetamask();
+                    }}
+                  >
+                    Connect to Metamask
+                  </button>
+                )}
+                {admin && (
+                  <>
+                    {" "}
+                    <button
+                      className="login__button admin__button"
+                      onClick={() => {
+                        navigate("/admin");
+                      }}
+                    >
+                      Admin View
+                    </button>
+                    <button
+                      className="login__button admin__button"
+                      onClick={() => {
+                        inlineLogout();
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
               </div>
-            )}
-          </div>
-        </Contract>
+
+              <div className="user__info__div">
+                <div className="name__div">
+                  <span className="bold__text">User</span>
+                  <br />
+                  {userData?.name}
+                </div>
+                {userData && (
+                  <div className="wallet__div">
+                    <span className="bold__text">Wallet</span>
+                    <br />
+                    {truncateAddress(userData?.walletID)}
+                  </div>
+                )}
+              </div>
+            </Contract>
+          )}
+        </>
       )}
     </>
   );

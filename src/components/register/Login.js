@@ -159,8 +159,8 @@ function Login() {
                   value="Mobile Mode (Limited)"
                   className="register__button"
                   onClick={() => {
-                    confirmUser();
                     setMobileMode();
+                    confirmUser();
                   }}
                 />
               </div>

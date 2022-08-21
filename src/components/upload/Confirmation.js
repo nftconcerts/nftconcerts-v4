@@ -84,9 +84,10 @@ const Confirmation = ({ prevStep, values }) => {
   // pushes formdata to database
 
   const pushFormData = async (concertId) => {
+    console.log("attempting to upload #", concertId);
     var uploadDate = new Date();
     var uploadDateString = dateFormat(uploadDate, "m/d/yyyy, h:MM TT Z ");
-    set(dRef(db, "concerts/" + concertId), {
+    set(dRef(db, "submittedConcerts/" + concertId), {
       concertId: concertId,
       concertRecording: values.concertRecording,
       concertName: values.concertName,
@@ -156,14 +157,14 @@ const Confirmation = ({ prevStep, values }) => {
   const [myConcertID, setMyConcertID] = useState("");
 
   const pushData = async () => {
-    var concertIdRef = dRef(db, "concertID");
-    runTransaction(concertIdRef, (concertID) => {
-      if (concertID) {
-        console.log("pushing form data with ID ", concertID);
-        pushFormData(concertID);
-        concertID++;
+    var concertIdRef = dRef(db, "submittedConcertID");
+    runTransaction(concertIdRef, (submittedConcertID) => {
+      if (submittedConcertID) {
+        console.log("pushing form data with ID ", submittedConcertID);
+        pushFormData(submittedConcertID);
+        submittedConcertID++;
       }
-      return concertID;
+      return submittedConcertID;
     });
   };
 

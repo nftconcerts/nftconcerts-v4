@@ -138,6 +138,34 @@ a span {
   height: 200px;
   margin-top: -200px;
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.cancel__mobile__div {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  padding-bottom: 5px;
+  border-radius: 5px;
+}
+.cancel__mobile__button {
+  display: flex;
+  align-items: center;
+  background-color: #22222270;
+  width: 90%;
+  max-width: 400px;
+  height: 40px;
+  justify-content: center;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: -80px;
+}
+.cancel__mobile__button:hover {
+  transition: all 0.5s;
+  background-color: #222;
 }
 
 @media only screen and (max-width: 949px) {
@@ -163,6 +191,10 @@ a span {
   }
   .footer__menu__item:hover {
     font-size: 24px;
+  }
+  .cancel__mobile__button {
+    max-width: 1000px;
+    margin-bottom: 10px;
   }
 }
 

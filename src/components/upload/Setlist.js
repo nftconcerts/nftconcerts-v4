@@ -15,11 +15,6 @@ const Setlist = ({
   const [errorMessage, setErrorMessage] = useState("");
   const [showError, setShowError] = useState(false);
 
-  for (let i = 0; i < values.concertNumSongs; i++) {
-    values.concertSetList.push("");
-    console.log("Song Array: ", values.concertNumSongs);
-  }
-
   const notZero = (input) => {
     if (input === "" || input === "0" || input === "00") {
       return false;
@@ -33,6 +28,18 @@ const Setlist = ({
   const setlistInputs = () => {
     var rows = [];
     var rowNums = parseInt(values.concertNumSongs);
+
+    if (rowNums > values.concertSetList.length) {
+      for (
+        let i = values.concertSetList.length;
+        i < values.concertNumSongs;
+        i++
+      ) {
+        values.concertSetList.push("");
+        console.log("Song Array: ", values.concertNumSongs);
+        console.log("ArrayLength", values.concertSetList.length);
+      }
+    }
 
     console.log("number of rows: ", rowNums);
     if (values.concertNumSongs === "") {

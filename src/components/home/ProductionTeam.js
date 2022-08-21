@@ -293,7 +293,7 @@ const ProductionTeam = () => {
                     disabled={purchasing || minting}
                   >
                     <div className="inside__button__div">
-                      <div>Buy Now</div>{" "}
+                      <div>Mint</div>{" "}
                       <div className="button__price">
                         <img
                           src="/media/eth-logo.png"
@@ -324,7 +324,7 @@ const ProductionTeam = () => {
                 disabled={purchasing || minting}
               >
                 <div className="inside__button__div">
-                  <div>Buy Now</div>{" "}
+                  <div>MINT</div>{" "}
                   <div className="button__price">
                     <img
                       src="/media/eth-logo.png"
@@ -589,7 +589,7 @@ const ProductionTeam = () => {
                     disabled={purchasing || minting}
                   >
                     <div className="inside__button__div">
-                      <div>Buy Now</div>{" "}
+                      <div>MINT</div>{" "}
                       <div className="button__price">
                         <img
                           src="/media/eth-logo.png"
@@ -621,7 +621,7 @@ const ProductionTeam = () => {
                 className="buy__now my__button preview__button buy__now__button"
               >
                 <div className="inside__button__div">
-                  <div>Buy Now</div>{" "}
+                  <div>Mint</div>{" "}
                   <div className="button__price">
                     <img
                       src="/media/eth-logo.png"

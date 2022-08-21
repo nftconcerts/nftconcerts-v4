@@ -277,6 +277,9 @@ a:hover {
   .paper-drawer {
     min-width: 100%;
   }
+  .purchased__message__div {
+    margin-bottom: 0px;
+  }
 }
 @media screen and (min-width: 721px) {
   .mobile__show__two {
