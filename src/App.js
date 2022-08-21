@@ -42,8 +42,8 @@ function App() {
               <Route path="/my-account" element={<MyAccount />} />
               <Route path="/upload" element={<Upload />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              {/* <Route path="/player" element={<Player />} />
-              <Route path="/contract" element={<ContractPage />} /> */}
+              <Route path="/player" element={<Player />} />
+              <Route path="/contract" element={<ContractPage />} />
               <Route path="/concert" element={<ListingPage />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/apply" element={<ArtistApp />} />

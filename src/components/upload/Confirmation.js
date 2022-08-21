@@ -351,7 +351,7 @@ const Confirmation = ({ prevStep, values }) => {
         />
         <input
           type="button"
-          value="Confirm with MetaMask"
+          value="Confirm Listing"
           onClick={pushData}
           className="login__button c__confirm__button"
         />

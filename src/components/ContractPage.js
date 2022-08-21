@@ -264,10 +264,10 @@ const ContractPage = () => {
   const [mintLoading, setMintLoading] = useState(false);
 
   const approveConcert = async () => {
-    var tokenIdRef = dRef(db, "concerts/" + concertID + "/tokenId");
+    var tokenIdRef = dRef(db, "submittedConcerts/" + concertID + "/tokenId");
     var listingApprovalRef = dRef(
       db,
-      "concerts/" + concertID + "/listingApproval"
+      "submittedConcerts/" + concertID + "/listingApproval"
     );
     setMintLoading(true);
     console.log("minting attempt");
@@ -279,9 +279,42 @@ const ContractPage = () => {
     );
     console.log("minted");
     const firstTokenId = mint[0].id;
+    const tokenString = firstTokenId.toString();
+    set(dRef(db, "concerts/" + tokenString), {
+      concertId: tokenString,
+      submittedConcertId: concertID,
+      concertRecording: concertData.concertRecording,
+      concertName: concertData.concertName,
+      concertArtist: concertData.concertArtist,
+      concertPerformanceDate: concertData.concertPerformanceDate,
+      concertVenue: concertData.concertVenue,
+      concertLocation: concertData.concertLocation,
+      concertTourName: concertData.concertTourName,
+      concertLiveAttendance: concertData.concertLiveAttendance,
+      concertRecordingType: concertData.concertRecordingType,
+      concertDescription: concertData.concertDescription,
+      concertNumSongs: concertData.concertNumSongs,
+      concertSetList: concertData.concertSetList,
+      concertThumbnailImage: concertData.concertThumbnailImage,
+      concertPromoClip: concertData.concertPromoClip,
+      concertPromoContent: "",
+      concertSupply: concertData.concertSupply,
+      concertPrice: concertData.concertPrice,
+      concertResaleFee: concertData.concertResaleFee,
+      concertReleaseDate: concertData.concertReleaseDate,
+      concertListingPrivacy: concertData.concertListingPrivacy,
+      concertCompliance: "approved",
+      listingApproval: "Approved",
+      uploaderWalletID: concertData.uploaderWalletID,
+      uploaderUID: concertData.uploaderUID,
+      uploaderEmail: concertData.uploaderEmail,
+      uploadTime: concertData.uploadTime,
+    }).then(
+      alert("NFT Concert #", tokenString, " Minted, Approved, and Added to DB.")
+    );
     set(tokenIdRef, firstTokenId.toString());
     set(listingApprovalRef, "Approved");
-    console.log("New Token: ", firstTokenId);
+    console.log("New Token: ", firstTokenId.toString());
     setMintLoading(false);
   };
 
