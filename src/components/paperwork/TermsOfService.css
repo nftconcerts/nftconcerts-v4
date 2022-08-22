@@ -31,3 +31,45 @@
 .italics {
   font-style: italic;
 }
+.faq__question {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+}
+.single__faq__div {
+  display: flex;
+  align-items: center;
+  border-bottom: solid 2px #aaa;
+  padding-bottom: 10px;
+}
+.faq__expand {
+  padding-right: 10px;
+  padding-left: 5px;
+  cursor: pointer;
+  color: #333;
+}
+.faq__expand:hover {
+  transition: all 0.5s;
+  color: #b90000;
+}
+.faq__break {
+  padding-top: 20px;
+}
+.single__faq__expanded__div {
+  padding: 15px;
+
+  text-align: left;
+  background: #fff;
+  line-height: 20px;
+  box-shadow: inset 0px 0px 10px #333;
+}
+.pad__top {
+  padding-top: 10px;
+}
+.production__team__promo {
+  font-size: 18px;
+  font-weight: bold;
+}
+.extra__questions__div {
+  margin-top: 10px;
+}

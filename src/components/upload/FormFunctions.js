@@ -8,12 +8,10 @@ function FormFunctions() {
     if (formNum >= showFormNum) {
       setShowFormNum((showFormNum) => showFormNum + 1);
     }
-    console.log(showFormNum);
   }
 
   function prevFormNum() {
     setFormNum((formNum) => formNum - 1);
-    console.log(showFormNum);
   }
   function updateData(type, newFormData) {
     setFormData((formData) => {

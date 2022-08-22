@@ -45,7 +45,6 @@ const ConcertInformation = ({
 
   const getETH = async () => {
     const val = await fetch("https://api.coinbase.com/v2/prices/ETH-USD/spot");
-    console.log(val);
 
     return val;
   };

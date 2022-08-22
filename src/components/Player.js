@@ -48,7 +48,6 @@ const Player = () => {
 
   //check if user is admin or uploader
   useEffect(() => {
-    console.log(userData?.userType);
     if (userData?.userType === "admin") {
       setValidUser(true);
     } else if (userData?.userType === "artist") {
@@ -115,7 +114,6 @@ const Player = () => {
   const productionCheck = async () => {
     if (address) {
       var checkResult = await checkProductionTeam(address);
-      console.log("PR: ", checkResult);
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {
@@ -127,7 +125,6 @@ const Player = () => {
       }
     } else if (!address && userData?.walletID) {
       var checkResult = await checkProductionTeam(userData.walletID);
-      console.log("PR with User Wallet: ", checkResult);
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {

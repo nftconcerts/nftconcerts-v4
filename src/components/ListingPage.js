@@ -59,7 +59,6 @@ const ListingPage = () => {
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setConcertData(cData);
-      console.log("concert Data: ", cData);
       setRecordingSrc(cData.concertRecording);
       if (cData.listingApproval === "Approved") {
       }

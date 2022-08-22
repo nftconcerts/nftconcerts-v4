@@ -177,13 +177,11 @@ const Admin = () => {
   //reject concert
   const rejectConcert = async (id) => {
     var uploaderUID = concertData[id].uploaderUID;
-    console.log("uploader uid: ", uploaderUID);
     var uploaderUserDataRef = dRef(db, "users/" + uploaderUID + "/email");
 
     get(uploaderUserDataRef, (snapshot) => {
       var data = snapshot.val();
       setUploaderEmail(data);
-      console.log("Uploader Email: ", data);
     }).then(() => {
       setAsRejected(id);
     });

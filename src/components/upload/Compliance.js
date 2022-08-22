@@ -143,7 +143,6 @@ const Compliance = ({
   };
 
   const switchCompliance = () => {
-    console.log("current compiance ", showCompliance);
     if (showCompliance) {
       setShowCompliance(false);
     } else setShowCompliance(true);

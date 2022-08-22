@@ -86,7 +86,6 @@ const Nav = () => {
 
   const Refresh = async (time) => {
     await delay(time * 1000);
-    console.log("refreshing Api");
     setApiRefresh(!apiRefresh);
   };
 

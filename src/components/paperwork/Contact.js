@@ -1,0 +1,102 @@
+import React, { useState, useEffect } from "react";
+import Contract from "../form/Contract";
+import "./../../components/register/ArtistApp.css";
+import {
+  db,
+  fetchCurrentUser,
+  logout,
+  truncateAddress,
+} from "./../../firebase";
+import { ref as dRef, set, get, onValue } from "firebase/database";
+import "./Contact.css";
+import { useSearchParams } from "react-router-dom";
+
+const Contact = () => {
+  let [searchParams, setSearchParams] = useSearchParams();
+  let subject = searchParams.get("sbj");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userData, setUserData] = useState();
+  const [pulledSubject, setPulledSubject] = useState();
+  const [formItems, setFormItems] = useState({
+    name: userData?.name || "",
+    email: userData?.email || "",
+    subject: subject || "",
+    message: "",
+    instagram: "",
+  });
+
+  //set current user
+  useEffect(() => {
+    setCurrentUser(fetchCurrentUser());
+  }, []);
+
+  //get user data
+  useEffect(() => {
+    if (currentUser) {
+      var userDataRef = dRef(db, "users/" + currentUser.user.uid);
+      onValue(userDataRef, (snapshot) => {
+        var data = snapshot.val();
+        setUserData(data);
+      });
+    }
+  }, [currentUser]);
+
+  //deal with form data
+  const handleInputData = (input) => (e) => {
+    // input value from the form
+    const { value } = e.target || {};
+
+    //updating for data state taking previous state and then adding new value to create new object
+    setFormItems((prevState) => ({
+      ...prevState,
+      [input]: value,
+    }));
+    console.log("updated ", input, " to: ", value);
+  };
+
+  return (
+    <Contract className="artist__app">
+      <div className="artist__app__header__div">
+        <h3 className="contact__app__heading">
+          To get in touch send us an email at{" "}
+          <a href="mailto:info@nftconcerts.com">info@nftconcerts.com</a> or fill
+          out this form.
+        </h3>
+        <input
+          type="text"
+          placeholder="Your Name"
+          defaultValue={userData?.name}
+          className="artist__app__input half__width"
+          onChange={handleInputData("name")}
+        />
+        <input
+          type="text"
+          placeholder="Your Email"
+          defaultValue={userData?.email}
+          className="artist__app__input half__width"
+          onChange={handleInputData("email")}
+        />
+        <input
+          type="text"
+          placeholder="Subject"
+          defaultValue={subject}
+          className="artist__app__input half__width"
+          onChange={handleInputData("subject")}
+        />
+        <textarea
+          rows="10"
+          type="textarea"
+          placeholder="Message"
+          className="artist__app__textarea"
+          onChange={handleInputData("message")}
+        />
+
+        <button className="login__button artist__app__button">
+          Submit Message
+        </button>
+      </div>
+    </Contract>
+  );
+};
+
+export default Contact;

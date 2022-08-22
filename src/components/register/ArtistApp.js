@@ -49,7 +49,6 @@ const ArtistApp = () => {
       ...prevState,
       [input]: value,
     }));
-    console.log("updated ", input, " to: ", value);
   };
 
   return (

@@ -47,10 +47,9 @@ const logout = async () => {
 const login = async (email, password) => {
   try {
     const user = await signInWithEmailAndPassword(auth, email, password);
-    console.log("Logged In: ", user);
+
     localStorage.setItem("user", JSON.stringify(user));
   } catch (error) {
-    console.log(error.message);
     alert(error.message);
   }
 };
@@ -72,11 +71,6 @@ const fetchCurrentUser = () => {
     const userEmail = userCredential.user.email;
     const userDisplayName = userCredential.user.displayName;
     const userWalletAddress = userCredential.user.photoURL;
-
-    // console.log("Current user Email: ", userEmail);
-    // console.log("Current user Display Name: ", userDisplayName);
-    // console.log("Current user Wallet Address: ", userWalletAddress);
-    // console.log("Current User: ", userCredential.user);
     return userCredential;
     // ...
   } else {

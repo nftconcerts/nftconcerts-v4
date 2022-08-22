@@ -33,7 +33,6 @@ const Rules = ({
     } else {
       setShowInfo(true);
     }
-    console.log(showInfo);
   };
   useEffect(() => {
     setCurrentUser(fetchCurrentUser()?.user);

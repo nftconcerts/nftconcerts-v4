@@ -36,12 +36,9 @@ const Setlist = ({
         i++
       ) {
         values.concertSetList.push("");
-        console.log("Song Array: ", values.concertNumSongs);
-        console.log("ArrayLength", values.concertSetList.length);
       }
     }
 
-    console.log("number of rows: ", rowNums);
     if (values.concertNumSongs === "") {
       return (
         <div className="no__songs__error">Please set the number of songs.</div>
@@ -63,9 +60,6 @@ const Setlist = ({
                 onChange={(input) => {
                   values.concertSetList[input.target.id - 1] =
                     input.target.value;
-
-                  console.log(input.target.name, ": ", input.target.value);
-                  console.log("current song array: ", values.concertSetList);
                 }}
               />
               <div className="indiv__song__star">&#42;</div>

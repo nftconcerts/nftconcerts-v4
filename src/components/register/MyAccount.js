@@ -145,7 +145,7 @@ const MyAccount = () => {
   const productionCheck = async () => {
     if (address) {
       var checkResult = await checkProductionTeam(address);
-      console.log("PR: ", checkResult);
+
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {
@@ -157,7 +157,7 @@ const MyAccount = () => {
       }
     } else if (!address && userData?.walletID) {
       var checkResult = await checkProductionTeam(userData.walletID);
-      console.log("PR with User Wallet: ", checkResult);
+
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {

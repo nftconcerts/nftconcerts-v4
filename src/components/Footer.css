@@ -195,6 +195,7 @@ a span {
   .cancel__mobile__button {
     max-width: 1000px;
     margin-bottom: 10px;
+    background-color: #222222bb;
   }
 }
 

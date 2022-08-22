@@ -158,23 +158,18 @@ const ProductionTeam = () => {
     setPlPurchased(false);
     setPurchasing(true);
     setMinting(true);
-    console.log("purchasing");
+
     slowSwitchPurchasing();
     try {
       const tx = await markeplace.direct.buyoutListing(0, 1);
-      console.log("Successful purchase");
-      console.log("tx: ", tx);
       const receipt = tx.receipt;
-      console.log("receipt: ", receipt);
       setPurchasing(false);
       setPurchased(true);
       setTxReceipt(receipt);
       setMinting(false);
-      console.log("pruchase completed.");
     } catch (thisError) {
       setPurchased(true);
       setTxError(true);
-      console.log("thisError: ", thisError);
       setMinting(false);
     }
   };
@@ -187,24 +182,19 @@ const ProductionTeam = () => {
     setPurchasing(true);
     setMinting(true);
     setMinting(true);
-    console.log("Purchasing Production Lead");
+
     slowSwitchPurchasing();
     try {
       const tx = await markeplace.direct.buyoutListing(1, 1);
-      console.log("Successful Production Lead Purchase");
-      console.log("tx: ", tx);
       const receipt = tx.receipt;
-      console.log("receipt: ", receipt);
       setPurchasing(false);
       setPlPurchased(true);
       setTxReceipt(receipt);
       setMinting(false);
-      console.log("pruchase completed.");
     } catch (thisError) {
       setPlPurchased(true);
       setTxError(true);
       setMinting(false);
-      console.log("thisError: ", thisError);
     }
   };
 
@@ -475,7 +465,6 @@ const ProductionTeam = () => {
         <div
           className="member__verification__div"
           onClick={() => {
-            console.log("current address :", address);
             if (!address) {
               connectWithMetamask();
             }
@@ -491,7 +480,6 @@ const ProductionTeam = () => {
           <button
             className="verify__button"
             onClick={() => {
-              console.log("current address :", address);
               if (!address) {
                 connectWithMetamask();
               }

@@ -14,9 +14,6 @@ function Row({ title, isLargeRow, concertData, concerts }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const routeChange = (concert) => {
-    console.log("learn to change pages idiot");
-  };
   let navigate = useNavigate();
 
   const opts = {
@@ -43,8 +40,6 @@ function Row({ title, isLargeRow, concertData, concerts }) {
       setTrailerUrl("full");
       setSingleConcert(concert);
     }
-    console.log(concert);
-    console.log("CD: ", concertData[concert]);
   };
 
   //eth to usd api call
@@ -54,7 +49,6 @@ function Row({ title, isLargeRow, concertData, concerts }) {
   useEffect(() => {
     GetUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
-      console.log("usd", parseFloat(res));
     });
   }, [singleConcert]);
 

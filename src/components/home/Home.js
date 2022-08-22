@@ -33,7 +33,6 @@ const Home = () => {
 
   useEffect(() => {
     setPageMobileMode(getMobileMode());
-    console.log("Mobile Mode: ", pageMobileMode);
   }, [networkMismatch]);
 
   //set current user
@@ -47,7 +46,6 @@ const Home = () => {
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
-        console.log("ud: ", data);
       });
     }
   }, [currentUser]);
@@ -70,7 +68,7 @@ const Home = () => {
   const productionCheck = async () => {
     if (address) {
       var checkResult = await checkProductionTeam(address);
-      console.log("PR: ", checkResult);
+
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {
@@ -82,7 +80,6 @@ const Home = () => {
       }
     } else if (!address && pageMobileMode && userData?.walletID) {
       var checkResult = await checkProductionTeam(userData.walletID);
-      console.log("PR with User Wallet: ", checkResult);
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {

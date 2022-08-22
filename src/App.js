@@ -28,6 +28,8 @@ function App() {
   const TermsOfService = lazy(() =>
     import("./components/paperwork/TermsOfService")
   );
+  const FAQs = lazy(() => import("./components/paperwork/FAQs"));
+  const Contact = lazy(() => import("./components/paperwork/Contact"));
   const connectors = {
     injected: {},
     walletconnect: {},
@@ -52,6 +54,8 @@ function App() {
               <Route path="/apply" element={<ArtistApp />} />
               <Route path="/home" element={<Home />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/faqs" element={<FAQs />} />
+              <Route path="/contact" element={<Contact />} />
               <Route exact path="/" element={<ProductionTeam />} />
             </Routes>
             <Footer />
