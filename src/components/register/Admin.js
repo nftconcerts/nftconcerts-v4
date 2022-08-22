@@ -53,7 +53,7 @@ const Admin = () => {
 
   //get concert data
   useEffect(() => {
-    var concertDataRef = dRef(db, "concerts/");
+    var concertDataRef = dRef(db, "submittedConcerts/");
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setConcertData(cData);

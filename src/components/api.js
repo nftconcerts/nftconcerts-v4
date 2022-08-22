@@ -42,3 +42,18 @@ export const GetMaticUSDExchangeRate = async () => {
       return "error", error;
     });
 };
+
+export const getGas = async () => {
+  var requestOptions = { method: "GET", redirect: "follow" };
+  return fetch(
+    `https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=${process.env.REACT_APP_ETHERSCAN_API_TOKEN}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result.result.ProposeGasPrice;
+    })
+    .catch((error) => {
+      return "error", error;
+    });
+};

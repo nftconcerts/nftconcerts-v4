@@ -1,0 +1,33 @@
+.terms__div {
+  font-family: "Saira";
+  font-size: 16px;
+}
+.terms__heading__text {
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: underline;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.terms__disclaimer {
+  line-height: 30px;
+}
+.terms__contract__div {
+  text-align: left;
+  padding-top: 10px;
+}
+.terms__contract__div p {
+  padding-top: 15px;
+  font-family: "Arial";
+}
+.terms__h3 {
+  font-weight: bold;
+  font-size: 18px;
+  font-family: "Arial";
+}
+.terms__break {
+  padding-top: 40px;
+}
+.italics {
+  font-style: italic;
+}

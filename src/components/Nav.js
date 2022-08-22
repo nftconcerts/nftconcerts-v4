@@ -24,8 +24,9 @@ import {
   useWalletConnect,
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
-import { GetUSDExchangeRate, GetMaticUSDExchangeRate } from "./api";
+import { GetUSDExchangeRate, GetMaticUSDExchangeRate, getGas } from "./api";
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const Nav = () => {
   const [show, handleShow] = useState(false);
@@ -47,16 +48,24 @@ const Nav = () => {
   const [metamaskDetected, setMetamaskDetected] = useState(false);
   const [usdExRate, setUsdExRate] = useState();
   const [balanceInUSD, setBalanceInUSD] = useState("0.00");
+  const [gasPrice, setGasPrice] = useState();
+  const [apiRefresh, setApiRefresh] = useState();
 
   //eth to usd api call
   useEffect(() => {
+    Refresh(10);
     GetUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
+    });
+    getGas().then((res) => {
+      if (res) {
+        setGasPrice(res);
+      }
     });
     if (typeof window.ethereum !== "undefined") {
       setMetamaskDetected(true);
     }
-  }, []);
+  }, [apiRefresh]);
 
   //price formatting
   useEffect(() => {
@@ -74,6 +83,12 @@ const Nav = () => {
   }, [networkMismatch]);
 
   const scrollClr = () => {};
+
+  const Refresh = async (time) => {
+    await delay(time * 1000);
+    console.log("refreshing Api");
+    setApiRefresh(!apiRefresh);
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -195,6 +210,10 @@ const Nav = () => {
                     <span>ETH: {ethBalance.substring(0, 6)} </span>
                     <span className="wallet__usd__bal">(${balanceInUSD})</span>
                   </button>
+                  <div className="gas__div">
+                    <i className="fa-solid fa-gas-pump" />
+                    {gasPrice}
+                  </div>
                 </div>
               </div>
             </div>

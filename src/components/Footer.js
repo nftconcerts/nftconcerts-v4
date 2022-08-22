@@ -182,7 +182,7 @@ function Footer() {
               Privacy Policy
             </a>
             <a
-              href="https://nftconcerts.com/terms-of-service"
+              href="/terms-of-service"
               className="my__button footer__menu__item last_item"
             >
               Terms of Service
@@ -250,7 +250,7 @@ function Footer() {
             </a>
 
             <a
-              href="https://nftconcerts.com/terms-of-service"
+              href="/terms-of-service"
               className="my__button footer__menu__item last_item"
             >
               Terms of Service

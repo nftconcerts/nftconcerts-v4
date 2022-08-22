@@ -275,6 +275,10 @@ table {
   transition: all 0.5s;
   background: #111;
 }
+.network__prompt__button:hover .gas__div {
+  transition: all 0.5s;
+  opacity: 1;
+}
 .no__metamask__text {
   font-size: 16px;
 }
@@ -295,6 +299,9 @@ table {
   }
   .network__prompt__button {
     height: 30px;
+  }
+  .gas__div {
+    max-height: 30px;
   }
   .nav {
     background-color: #000;
@@ -322,4 +329,22 @@ table {
 }
 .buy__weth__button {
   background: #44444489;
+}
+.gas__div {
+  width: 100%;
+  display: flex;
+  font-size: 13px;
+
+  position: absolute;
+  align-self: flex-end;
+  justify-content: end;
+  align-items: center;
+  opacity: 0.7;
+  height: 40px;
+  padding: 5px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.gas__div i {
+  padding-right: 5px;
 }
