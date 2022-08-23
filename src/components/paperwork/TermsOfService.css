@@ -19,10 +19,11 @@
 .terms__contract__div p {
   padding-top: 15px;
   font-family: "Arial";
+  line-height: 20px;
 }
 .terms__h3 {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
   font-family: "Arial";
 }
 .terms__break {

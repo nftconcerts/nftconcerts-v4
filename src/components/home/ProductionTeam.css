@@ -6,8 +6,9 @@
   padding-top: 20px;
 }
 .welcome__disclaimer {
-  font-size: 18px;
+  font-size: 22px;
 }
+
 .production__team__image {
   width: 310px;
   border-radius: 20px;
@@ -210,6 +211,12 @@ a:hover {
   justify-content: space-evenly;
   margin-top: 5px;
   padding-left: 10px;
+}
+.pad__top {
+  padding-top: 20px;
+}
+.bold__text {
+  font-weight: bold;
 }
 @media screen and (max-width: 720px) {
   .two__column__div {

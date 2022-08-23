@@ -220,10 +220,11 @@ const ProductionTeam = () => {
 
   return (
     <Contract>
-      <h1 className="welcome__title">Welcome to NFT Concerts</h1>
-      <h3 className="welcome__disclaimer">
-        We are currently building. Access is restricted to Prodcution Team
-        Members.
+      <h1 className="welcome__title">
+        The NFT Concerts Beta will open 9/1/2022
+      </h1>
+      <h3 className="welcome__disclaimer ">
+        Beta Access is restricted to Production Team Members.
       </h3>
       {purchased && (
         <div className="purchased__message__div">
@@ -283,7 +284,7 @@ const ProductionTeam = () => {
                     disabled={purchasing || minting}
                   >
                     <div className="inside__button__div">
-                      <div>Mint</div>{" "}
+                      <div>buy</div>{" "}
                       <div className="button__price">
                         <img
                           src="/media/eth-logo.png"
@@ -314,7 +315,7 @@ const ProductionTeam = () => {
                 disabled={purchasing || minting}
               >
                 <div className="inside__button__div">
-                  <div>MINT</div>{" "}
+                  <div>BUY</div>{" "}
                   <div className="button__price">
                     <img
                       src="/media/eth-logo.png"
@@ -577,7 +578,7 @@ const ProductionTeam = () => {
                     disabled={purchasing || minting}
                   >
                     <div className="inside__button__div">
-                      <div>MINT</div>{" "}
+                      <div>buy</div>{" "}
                       <div className="button__price">
                         <img
                           src="/media/eth-logo.png"
@@ -609,7 +610,7 @@ const ProductionTeam = () => {
                 className="buy__now my__button preview__button buy__now__button"
               >
                 <div className="inside__button__div">
-                  <div>Mint</div>{" "}
+                  <div>buy</div>{" "}
                   <div className="button__price">
                     <img
                       src="/media/eth-logo.png"

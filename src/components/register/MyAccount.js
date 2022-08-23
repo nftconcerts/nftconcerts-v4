@@ -69,71 +69,73 @@ const MyAccount = () => {
 
   //pull users submitted concerts
   const submittedConcertTable = () => {
-    var concertArray = Object.keys(userData?.submittedConcerts);
+    if (userData?.submittedConcertTable) {
+      var concertArray = Object.keys(userData?.submittedConcerts);
 
-    var arrayLength = concertArray.length;
+      var arrayLength = concertArray.length;
 
-    const rows = [];
-    for (var i = 0; i < arrayLength; i++) {
-      var row = [];
-      var tempConcertId = parseInt(concertArray[i]);
-      var tempConcert = concertData[tempConcertId];
+      const rows = [];
+      for (var i = 0; i < arrayLength; i++) {
+        var row = [];
+        var tempConcertId = parseInt(concertArray[i]);
+        var tempConcert = concertData[tempConcertId];
 
-      var contractStr = JSON.stringify(tempConcertId);
+        var contractStr = JSON.stringify(tempConcertId);
 
-      rows.push(
-        <>
-          <div className="concert__row">
-            <div className="concert__id">#{tempConcert?.concertId}</div>
-            <div className="concert__thumbnail">
-              <img
-                src={tempConcert?.concertThumbnailImage}
-                className="account__page__concert__thumbnail"
-              />
+        rows.push(
+          <>
+            <div className="concert__row">
+              <div className="concert__id">#{tempConcert?.concertId}</div>
+              <div className="concert__thumbnail">
+                <img
+                  src={tempConcert?.concertThumbnailImage}
+                  className="account__page__concert__thumbnail"
+                />
+              </div>
+              <div className="concert__name">{tempConcert?.concertName}</div>
+              <div className="concert__perf__date">
+                {tempConcert?.concertPerformanceDate}
+              </div>
+              <div className="concert__listing__approval">
+                {tempConcert?.listingApproval}
+              </div>
+              <div className="concert__expand__button">
+                <button
+                  type="submit"
+                  className="fa-solid fa-file-signature icon__button"
+                  name={contractStr}
+                  onClick={(i) => {
+                    navigate("/contract?id=" + i.target.name);
+                  }}
+                />
+              </div>
+              <div className="concert__play__button">
+                <button
+                  type="sumbit"
+                  name={contractStr}
+                  onClick={(i) => {
+                    navigate("/player?id=" + i.target.name);
+                  }}
+                  className="fa-solid fa-play icon__button"
+                />
+              </div>
+              <div className="concert__token__button">
+                <button
+                  type="sumbit"
+                  name={contractStr}
+                  onClick={(i) => {
+                    navigate("/concert?id=" + i.target.name);
+                  }}
+                  className="fa-solid fa-file-invoice-dollar icon__button"
+                />
+              </div>
             </div>
-            <div className="concert__name">{tempConcert?.concertName}</div>
-            <div className="concert__perf__date">
-              {tempConcert?.concertPerformanceDate}
-            </div>
-            <div className="concert__listing__approval">
-              {tempConcert?.listingApproval}
-            </div>
-            <div className="concert__expand__button">
-              <button
-                type="submit"
-                className="fa-solid fa-file-signature icon__button"
-                name={contractStr}
-                onClick={(i) => {
-                  navigate("/contract?id=" + i.target.name);
-                }}
-              />
-            </div>
-            <div className="concert__play__button">
-              <button
-                type="sumbit"
-                name={contractStr}
-                onClick={(i) => {
-                  navigate("/player?id=" + i.target.name);
-                }}
-                className="fa-solid fa-play icon__button"
-              />
-            </div>
-            <div className="concert__token__button">
-              <button
-                type="sumbit"
-                name={contractStr}
-                onClick={(i) => {
-                  navigate("/concert?id=" + i.target.name);
-                }}
-                className="fa-solid fa-file-invoice-dollar icon__button"
-              />
-            </div>
-          </div>
-        </>
-      );
-    }
+          </>
+        );
+      }
 
-    return rows;
+      return rows;
+    } else return;
   };
 
   //check if user is holding production team NFT
