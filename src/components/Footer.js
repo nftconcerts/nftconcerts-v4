@@ -162,10 +162,7 @@ function Footer() {
               My Account
             </a>
 
-            <a
-              href="https://nftconcerts.com/contact"
-              className="my__button footer__menu__item"
-            >
+            <a href="/contact" className="my__button footer__menu__item">
               Customer Support
             </a>
           </div>
@@ -236,10 +233,7 @@ function Footer() {
             <a href="/faqs" className="my__button footer__menu__item">
               FAQs
             </a>
-            <a
-              href="https://nftconcerts.com/contact"
-              className="my__button footer__menu__item"
-            >
+            <a href="/contact" className="my__button footer__menu__item">
               Customer Support
             </a>
 

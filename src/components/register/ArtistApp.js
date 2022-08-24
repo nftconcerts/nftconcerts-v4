@@ -8,7 +8,7 @@ import {
   truncateAddress,
 } from "./../../firebase";
 import { ref as dRef, set, get, onValue } from "firebase/database";
-
+import emailjs from "@emailjs/browser";
 const ArtistApp = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
@@ -16,7 +16,7 @@ const ArtistApp = () => {
     stageName: "",
     firstName: "",
     lastName: "",
-    email: userData?.email || "",
+    email: userData?.email,
     website: "",
     twitter: "",
     instagram: "",
@@ -51,6 +51,46 @@ const ArtistApp = () => {
     }));
   };
 
+  const [messageSent, setMessageSent] = useState(false);
+  const sendEmail = () => {
+    var template_params = {
+      email: formItems.email,
+      stagename: formItems.stageName,
+      firstname: formItems.firstName,
+      lastname: formItems.lastName,
+      website: formItems.website,
+      twitter: formItems.twitter,
+      instagram: formItems.instagram,
+      numberofshows: formItems.numberOfShows,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_paq2qeo",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setMessageSent(true);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  const verifyThenSend = () => {
+    if (formItems.email === "") {
+      return alert("Email Required. Input and try again.");
+    } else if (formItems.firstName === "") {
+      return alert("Frist Name Required. Input and try again.");
+    } else if (formItems.stageName === "") {
+      return alert("Stage Name Required. Input and try again.");
+    } else sendEmail();
+  };
+
   return (
     <Contract className="artist__app">
       <div className="artist__app__header__div">
@@ -63,6 +103,13 @@ const ArtistApp = () => {
           placeholder="Stage Name"
           className="artist__app__input"
           onChange={handleInputData("stageName")}
+        />
+        <input
+          type="text"
+          placeholder="Email"
+          className="artist__app__input"
+          defaultValue={userData?.email}
+          onChange={handleInputData("email")}
         />
         <input
           type="text"
@@ -122,9 +169,28 @@ const ArtistApp = () => {
             </option>
           </select>
         </div>
-        <button className="login__button artist__app__button">
-          Submit Application
-        </button>
+        {!messageSent && (
+          <button
+            className="login__button artist__app__button disabled__grey"
+            onClick={() => {
+              verifyThenSend();
+            }}
+            disabled={messageSent}
+          >
+            Submit Application
+          </button>
+        )}
+        {messageSent && (
+          <button
+            className="login__button artist__app__button disabled__grey"
+            onClick={() => {
+              verifyThenSend();
+            }}
+            disabled={messageSent}
+          >
+            Application Submitted
+          </button>
+        )}
       </div>
     </Contract>
   );

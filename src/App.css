@@ -248,3 +248,8 @@ select::-ms-expand {
 .invert__icon {
   filter: invert(1);
 }
+.disabled__grey:disabled {
+  background: #777;
+  color: #ccc;
+  pointer-events: none;
+}

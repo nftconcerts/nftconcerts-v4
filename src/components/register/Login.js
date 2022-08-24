@@ -109,7 +109,7 @@ function Login() {
                     onClick={() => switchNetwork(ChainId.Mumbai)}
                     className="register__button"
                   >
-                    Switch to Polygon
+                    Switch to Ethereum
                   </button>
                 )}
                 {!networkMismatch && (

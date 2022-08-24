@@ -326,7 +326,7 @@ const Nav = () => {
           />
         </a>
         <div>
-          <p className="prompt"> Connect to MetaMask on Polygon</p>
+          <p className="prompt"> Connect to MetaMask on Ethereum</p>
         </div>
 
         <img

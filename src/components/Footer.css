@@ -162,6 +162,7 @@ a span {
   color: #fff;
   cursor: pointer;
   margin-bottom: -80px;
+  z-index: 3;
 }
 .cancel__mobile__button:hover {
   transition: all 0.5s;

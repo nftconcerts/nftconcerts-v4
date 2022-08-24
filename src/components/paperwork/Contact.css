@@ -1,0 +1,5 @@
+.disabled__grey:disabled {
+  background: #777;
+  color: #ccc;
+  pointer-events: none;
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Contract from "../form/Contract";
 import "./ProductionTeam.css";
-import { GetMaticUSDExchangeRate, GetUSDExchangeRate } from "./../api";
+import { GetUSDExchangeRate } from "./../api";
 import { useNavigate } from "react-router-dom";
 import {
   useAddress,
@@ -10,8 +10,6 @@ import {
   useNetwork,
   ChainId,
   useMarketplace,
-  useContract,
-  useNFT,
 } from "@thirdweb-dev/react";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 import {
@@ -21,9 +19,6 @@ import {
   getMobileMode,
 } from "../../firebase";
 import { PaperCheckout } from "@paperxyz/react-client-sdk";
-
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import editionDrop from "../../scripts/getProductionContract";
 
 import { ref as dRef, onValue, set } from "firebase/database";
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -43,6 +38,11 @@ const ProductionTeam = () => {
   const [purchasing, setPurchasing] = useState(false);
   const [teamRemaining, setTeamRemaining] = useState(4905);
   const [leadRemaining, setLeadRemaining] = useState(53);
+  //show and set quantity of of nfts ordered
+  const [showQty, setShowQty] = useState(false);
+  const [orderQty, setOrderQty] = useState(1);
+  const [showLeadQty, setShowLeadQty] = useState(false);
+  const [leadOrderQty, setLeadOrderQty] = useState(1);
 
   useEffect(() => {
     grabRemaining();
@@ -70,10 +70,10 @@ const ProductionTeam = () => {
   //eth to usd api call
   const [usdExRate, setUsdExRate] = useState();
   const [priceInUSD, setPriceInUSD] = useState("0.00");
-  const [maticUsdExRate, setMaticUsdExRate] = useState();
-  const [maticPriceInUSD, setMaticPriceInUSD] = useState("0.00");
+
   const [leadPriceInUSD, setLeadPriceInUSD] = useState("0.00");
-  const [maticLeadPriceInUSD, setMaticLeadPriceInUSD] = useState("0.00");
+  const [orderPriceInUSD, setOrderPriceInUSD] = useState("0.00");
+  const [leadOrderPriceInUSD, setLeadOrderPriceInUSD] = useState("0.00");
 
   useEffect(() => {
     GetUSDExchangeRate().then((res) => {
@@ -97,13 +97,19 @@ const ProductionTeam = () => {
   useEffect(() => {
     if (usdExRate) {
       var newPrice = 0.005 * usdExRate;
+      var orderPrice = newPrice * orderQty;
       var leadPrice = 0.5 * usdExRate;
+      var leadOrderPrice = leadPrice * leadOrderQty;
+      let orderRoundedPrice = orderPrice.toFixed(2);
       let roundedPrice = newPrice.toFixed(2);
       let leadRoundedPrice = leadPrice.toFixed(2);
+      let leadOrderRoundedPrice = leadOrderPrice.toFixed(2);
       setPriceInUSD(roundedPrice);
+      setOrderPriceInUSD(orderRoundedPrice);
       setLeadPriceInUSD(leadRoundedPrice);
+      setLeadOrderPriceInUSD(leadOrderRoundedPrice);
     } else setPriceInUSD("err");
-  }, [usdExRate]);
+  }, [usdExRate, orderQty, leadOrderQty]);
 
   //check if user is holding production team NFT
   const [productionTeam, setProductionTeam] = useState(false);
@@ -161,7 +167,7 @@ const ProductionTeam = () => {
 
     slowSwitchPurchasing();
     try {
-      const tx = await markeplace.direct.buyoutListing(0, 1);
+      const tx = await markeplace.direct.buyoutListing(0, orderQty);
       const receipt = tx.receipt;
       setPurchasing(false);
       setPurchased(true);
@@ -185,7 +191,7 @@ const ProductionTeam = () => {
 
     slowSwitchPurchasing();
     try {
-      const tx = await markeplace.direct.buyoutListing(1, 1);
+      const tx = await markeplace.direct.buyoutListing(1, leadOrderQty);
       const receipt = tx.receipt;
       setPurchasing(false);
       setPlPurchased(true);
@@ -216,7 +222,20 @@ const ProductionTeam = () => {
     }
   }, []);
 
-  var txLink = "https://etherscan.io//tx/" + txReceipt?.transactionHash;
+  var txLink = "https://etherscan.io/tx/" + txReceipt?.transactionHash;
+
+  var buyPrice = parseFloat(0.005 * orderQty).toFixed(3);
+  var leadBuyPrice = parseFloat(0.5 * leadOrderQty).toFixed(1);
+
+  const paperOptions = [
+    {
+      width: 600,
+      height: 800,
+      quantity: orderQty,
+      borderRadius: 6,
+      fontFamily: "Saira",
+    },
+  ];
 
   return (
     <Contract>
@@ -257,6 +276,7 @@ const ProductionTeam = () => {
             disabled={purchasing || minting}
           >
             <img
+              alt="production team image"
               src="/media/production-team.jpg"
               className="production__team__image"
             />
@@ -264,19 +284,25 @@ const ProductionTeam = () => {
         </div>
         <div className="second__column">
           <div className="no__clip__button">
+            {metamaskDetected && (
+              <div className="quantity__div">
+                <input
+                  type="number"
+                  min="1"
+                  max="25"
+                  defaultValue="1"
+                  className="qantity__input"
+                  onChange={(x) => {
+                    setOrderQty(parseInt(x.target.value));
+                  }}
+                />
+              </div>
+            )}
             {!metamaskDetected && (
               <PaperCheckout
                 checkoutId="73baf406-11e0-4b74-8b3e-300908c7b0ee"
                 display="DRAWER"
-                options={{
-                  width: 400,
-                  height: 800,
-                  colorBackground: "#131313",
-                  colorPrimary: "#b90000",
-                  colorText: "#b90000",
-                  borderRadius: 6,
-                  fontFamily: "Saira",
-                }}
+                options={paperOptions}
               >
                 <div className="no__clip__button">
                   <button
@@ -287,11 +313,13 @@ const ProductionTeam = () => {
                       <div>buy</div>{" "}
                       <div className="button__price">
                         <img
+                          alt="eth logo"
                           src="/media/eth-logo.png"
                           height={25}
                           className="c__eth__logo white__eth__logo"
                         />
-                        0.005 <div className="usd__paper"> (${priceInUSD})</div>
+                        {buyPrice}{" "}
+                        <div className="usd__paper"> (${priceInUSD})</div>
                       </div>
                     </div>
                   </button>
@@ -318,55 +346,26 @@ const ProductionTeam = () => {
                   <div>BUY</div>{" "}
                   <div className="button__price">
                     <img
+                      alt="eth logo"
                       src="/media/eth-logo.png"
                       height={25}
                       className="c__eth__logo white__eth__logo"
                     />
-                    0.005{" "}
+                    {buyPrice}{" "}
                     <span className="c__price__in__usd button__usd__price">
-                      (${priceInUSD})
+                      (${orderPriceInUSD})
                     </span>
                   </div>
                 </div>
               </button>
             )}
           </div>
-          {/* <div className="no__clip__button">
-            <button
-              className="buy__now my__button preview__button buy__now__button"
-              onClick={() => {
-                if (!address) {
-                  connectWithMetamask();
-                }
-                if (networkMismatch) {
-                  switchNetwork(ChainId.Mainnet);
-                } else {
-                  setPurchasing(true);
-                  purchasePtNft();
-                }
-              }}
-              disabled={purchasing || minting}
-            >
-              <div className="inside__button__div">
-                <div>Buy Now</div>{" "}
-                <div className="button__price">
-                  <img
-                    src="/media/polygon-logo-white.png"
-                    height={25}
-                    className="c__eth__logo white__eth__logo polygon__logo"
-                  />
-                  10{" "}
-                  <span className="c__price__in__usd button__usd__price">
-                    (${maticPriceInUSD})
-                  </span>
-                </div>
-              </div>
-            </button>
-          </div> */}
+
           <div className="qty__div align__end">
-            {" "}
-            [{teamRemaining}/5000 Available]
+            {metamaskDetected && <div className="spacer__div"> </div>}
+            <p>[{teamRemaining}/5000 Available]</p>
           </div>
+
           <div className="highlights right__highlights">
             <p>
               <span className="high_emp">Production Team NFT</span>
@@ -390,14 +389,7 @@ const ProductionTeam = () => {
           </div>
         </div>
       </div>
-      {/* <div className="opensea__link__div">
-        <a
-          target="_blank"
-          href="https://opensea.io/assets/ethereum/0x9b45c979d1ffe99aae1aa5a9b27888e6b9c39c30/0"
-        >
-          View NFT on OpenSea
-        </a>
-      </div> */}
+
       <div className="marketplace__icons__div">
         <div
           className="marketplace__icon__div"
@@ -446,15 +438,7 @@ const ProductionTeam = () => {
           <PaperCheckout
             checkoutId="73baf406-11e0-4b74-8b3e-300908c7b0ee"
             display="DRAWER"
-            options={{
-              width: 400,
-              height: 800,
-              colorBackground: "#131313",
-              colorPrimary: "#b90000",
-              colorText: "#b90000",
-              borderRadius: 6,
-              fontFamily: "Saira",
-            }}
+            options={paperOptions}
           >
             <div className="marketplace__icon__div">
               <img src="/media/cc-logo.png" className="marketplace__icon" />
@@ -558,19 +542,25 @@ const ProductionTeam = () => {
             />
           </div>
           <div className="no__clip__button right__no__clip__button">
+            {metamaskDetected && (
+              <div className="quantity__div">
+                <input
+                  type="number"
+                  min="1"
+                  max="5"
+                  defaultValue="1"
+                  className="qantity__input"
+                  onChange={(x) => {
+                    setLeadOrderQty(parseInt(x.target.value));
+                  }}
+                />
+              </div>
+            )}
             {!metamaskDetected && (
               <PaperCheckout
                 checkoutId="9a0dbaad-b550-493e-b630-c4f9a3b84539"
                 display="DRAWER"
-                options={{
-                  width: 400,
-                  height: 800,
-                  colorBackground: "#131313",
-                  colorPrimary: "#b90000",
-                  colorText: "#b90000",
-                  borderRadius: 6,
-                  fontFamily: "Saira",
-                }}
+                options={paperOptions}
               >
                 <div className="no__clip__button">
                   <button
@@ -617,53 +607,18 @@ const ProductionTeam = () => {
                       height={25}
                       className="c__eth__logo white__eth__logo"
                     />
-                    0.5{" "}
+                    {leadBuyPrice}{" "}
                     <span className="c__price__in__usd button__usd__price">
-                      (${leadPriceInUSD})
+                      (${leadOrderPriceInUSD})
                     </span>
                   </div>
                 </div>
               </button>
             )}
           </div>
-          {/* <div className="highlights left__highlights">
-            <p>Buy in MATIC or WETH</p>
-          </div> */}
-          {/* <div className="no__clip__button right__no__clip__button">
-            <button
-              className="buy__now my__button preview__button buy__now__button"
-              onClick={() => {
-                if (!address) {
-                  connectWithMetamask();
-                }
-                if (networkMismatch) {
-                  switchNetwork(ChainId.Mainnet);
-                } else {
-                  setPurchasing(true);
-                  purchasePlNft();
-                }
-              }}
-              disabled={purchasing || minting}
-            >
-              <div className="inside__button__div">
-                <div>Buy Now</div>{" "}
-                <div className="button__price">
-                  <img
-                    src="/media/polygon-logo-white.png"
-                    height={25}
-                    className="c__eth__logo white__eth__logo polygon__logo"
-                  />
-                  1000{" "}
-                  <span className="c__price__in__usd button__usd__price">
-                    (${maticLeadPriceInUSD})
-                  </span>
-                </div>
-              </div>
-            </button>
-          </div> */}
           <div className="qty__div align__start">
-            {" "}
-            [{leadRemaining}/55 Available]
+            {metamaskDetected && <div className="spacer__div"> </div>} [
+            {leadRemaining}/55 Available]
           </div>
           <div className="highlights left__highlights">
             <p>
@@ -708,14 +663,6 @@ const ProductionTeam = () => {
           </div>
         </div>
       </div>
-      {/* <div className="opensea__link__div">
-        <a
-          target="_blank"
-          href="https://opensea.io/collection/nft-concerts-production-team"
-        >
-          View Collection on OpenSea
-        </a>
-      </div> */}
       <div className="marketplace__icons__div">
         <div
           className="marketplace__icon__div"
@@ -764,15 +711,7 @@ const ProductionTeam = () => {
           <PaperCheckout
             checkoutId="9a0dbaad-b550-493e-b630-c4f9a3b84539"
             display="DRAWER"
-            options={{
-              width: 400,
-              height: 800,
-              colorBackground: "#131313",
-              colorPrimary: "#b90000",
-              colorText: "#b90000",
-              borderRadius: 6,
-              fontFamily: "Saira",
-            }}
+            options={paperOptions}
           >
             <div className="marketplace__icon__div">
               <img src="/media/cc-logo.png" className="marketplace__icon" />
@@ -804,7 +743,7 @@ const ProductionTeam = () => {
           <button
             className="buy__now my__button production__footer__button"
             onClick={() => {
-              window.location.href = "https://nftconcerts.com/contact";
+              navigate("/contact");
             }}
           >
             Get in Touch

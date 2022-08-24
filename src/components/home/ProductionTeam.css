@@ -203,7 +203,8 @@ a:hover {
   margin-bottom: -20px;
 }
 .paper-drawer {
-  max-width: 400px;
+  max-width: 420px;
+  width: 420px;
 }
 .usd__paper {
   color: #ccc;
@@ -292,4 +293,27 @@ a:hover {
   .mobile__show__two {
     display: none;
   }
+}
+.quantity__div {
+  padding-right: 5px;
+}
+.quantity__div input {
+  width: 50px;
+  margin: 0px;
+  font-family: "Courier";
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 7px;
+  padding-left: 10px;
+}
+.show__qty__btn {
+  background: none;
+  border: 1px #888 solid;
+  max-width: 90px;
+  align-self: center;
+}
+.spacer__div {
+  min-width: 55px;
+
+  height: 10px;
 }

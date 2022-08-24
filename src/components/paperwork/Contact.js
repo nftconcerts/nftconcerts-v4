@@ -10,6 +10,7 @@ import {
 import { ref as dRef, set, get, onValue } from "firebase/database";
 import "./Contact.css";
 import { useSearchParams } from "react-router-dom";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -22,7 +23,6 @@ const Contact = () => {
     email: userData?.email || "",
     subject: subject || "",
     message: "",
-    instagram: "",
   });
 
   //set current user
@@ -51,16 +51,53 @@ const Contact = () => {
       ...prevState,
       [input]: value,
     }));
-    console.log("updated ", input, " to: ", value);
+  };
+  const [messageSent, setMessageSent] = useState(false);
+
+  const sendEmail = () => {
+    var template_params = {
+      email: formItems.email,
+      name: formItems.name,
+      subject: formItems.subject,
+      message: formItems.message,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_vfnk00j",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setMessageSent(true);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  const verifyThenSend = () => {
+    if (formItems.email === "") {
+      return alert("Email Required. Input and try again.");
+    } else if (formItems.name === "") {
+      return alert("Name Required. Input and try again.");
+    } else if (formItems.subject === "") {
+      return alert("Subject Required. Input and try again.");
+    } else if (formItems.message === "") {
+      return alert("Message Required. Input and try again.");
+    } else sendEmail();
   };
 
   return (
     <Contract className="artist__app">
       <div className="artist__app__header__div">
         <h3 className="contact__app__heading">
-          To get in touch send us an email at{" "}
-          <a href="mailto:info@nftconcerts.com">info@nftconcerts.com</a> or fill
-          out this form.
+          Email NFT Concerts (
+          <a href="mailto:info@nftconcerts.com">info@nftconcerts.com</a>) or
+          Fill Out this Form
         </h3>
         <input
           type="text"
@@ -91,9 +128,28 @@ const Contact = () => {
           onChange={handleInputData("message")}
         />
 
-        <button className="login__button artist__app__button">
-          Submit Message
-        </button>
+        {!messageSent && (
+          <button
+            className="login__button artist__app__button disabled__grey"
+            onClick={() => {
+              verifyThenSend();
+            }}
+            disabled={messageSent}
+          >
+            Submit Message
+          </button>
+        )}
+        {messageSent && (
+          <button
+            className="login__button artist__app__button disabled__grey"
+            onClick={() => {
+              verifyThenSend();
+            }}
+            disabled={messageSent}
+          >
+            Message Sent
+          </button>
+        )}
       </div>
     </Contract>
   );

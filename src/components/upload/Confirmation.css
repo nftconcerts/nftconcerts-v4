@@ -401,3 +401,6 @@
   color: #aaa !important;
   border: none;
 }
+.quantity__input {
+  max-width: 30px;
+}

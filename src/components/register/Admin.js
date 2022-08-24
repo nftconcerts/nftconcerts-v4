@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import "./MyAccount.css";
 import { ref as dRef, set, get, onValue } from "firebase/database";
 import "./Admin.css";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 import createNFT from "../../scripts/createNft.mjs";
 import { useNetworkMismatch, useNetwork, ChainId } from "@thirdweb-dev/react";
 
@@ -251,7 +251,7 @@ const Admin = () => {
           {networkMismatch && (
             <>
               <h3 className="wrong__network__text">
-                Network Mistmatch. Please Switch to Polygon.
+                Network Mistmatch. Please Switch to Ethereum.
               </h3>
             </>
           )}
@@ -308,7 +308,7 @@ const Admin = () => {
                 className="login__button admin__button"
                 onClick={() => switchNetwork(ChainId.Mumbai)}
               >
-                Switch to Polygon
+                Switch to Ethereum
               </button>
             </div>
           )}
