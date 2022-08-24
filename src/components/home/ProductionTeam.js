@@ -575,7 +575,7 @@ const ProductionTeam = () => {
                           height={25}
                           className="c__eth__logo white__eth__logo"
                         />
-                        0.005{" "}
+                        0.5{" "}
                         <div className="usd__paper">(${leadPriceInUSD})</div>
                       </div>
                     </div>
