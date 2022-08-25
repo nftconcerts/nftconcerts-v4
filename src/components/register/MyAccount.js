@@ -69,7 +69,7 @@ const MyAccount = () => {
 
   //pull users submitted concerts
   const submittedConcertTable = () => {
-    if (userData?.submittedConcertTable) {
+    if (userData?.submittedConcerts) {
       var concertArray = Object.keys(userData?.submittedConcerts);
 
       var arrayLength = concertArray.length;
