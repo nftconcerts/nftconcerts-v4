@@ -15,13 +15,14 @@ import {
 } from "firebase/storage";
 import makeid from "./../scripts/makeid";
 import createNFT from "../scripts/createNft.mjs";
-
+import setNFTclaim from "../scripts/setNftClaim";
 import { FileUploader } from "react-drag-drop-files";
 import "./upload/Confirmation.css";
 import "./upload/Upload.css";
 import "./upload/UploadRecording.css";
 import { Buffer } from "buffer";
 import { create } from "ipfs-http-client";
+import { release } from "process";
 
 const fileTypes = ["PNG"];
 
@@ -183,7 +184,10 @@ const ContractPage = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const uploadFile = async (file, folder) => {
-    var tokenRef = dRef(db, "concerts/" + concertID + "/concertTokenImage");
+    var tokenRef = dRef(
+      db,
+      "submittedConcerts/" + concertID + "/concertTokenImage"
+    );
     if (!file) return;
     const storageRef = sRef(storage, `/public/${folder}/${file.name}`);
     setWhileUploading(true);
@@ -240,12 +244,13 @@ const ContractPage = () => {
   useEffect(() => {
     if (concertData) {
       setIpfsUrl(concertData.tokenIpfs);
+      setTokenFileUrl(concertData.tokenFileUrl);
       console.log("ipfs: ", concertData.tokenIpfs);
     }
   }, [concertData]);
 
   async function uploadFileToIpfs(file) {
-    var ipfsRef = dRef(db, "concerts/" + concertID + "/tokenIpfs");
+    var ipfsRef = dRef(db, "submittedConcerts/" + concertID + "/tokenIpfs");
     try {
       const added = await client.add(file);
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
@@ -263,23 +268,57 @@ const ContractPage = () => {
   //approve concert
   const [mintLoading, setMintLoading] = useState(false);
 
+  const checking = () => {
+    const releaseDate = new Date(concertData.concertReleaseDate);
+    console.log("release date: ", releaseDate);
+    const claimConditions = [
+      {
+        startTime: releaseDate,
+        quantityLimitPerTransaction: 5,
+        price: parseFloat(concertData.concertPrice),
+      },
+    ];
+    console.log("claim conditions: ", claimConditions);
+  };
+
   const approveConcert = async () => {
-    var tokenIdRef = dRef(db, "submittedConcerts/" + concertID + "/tokenId");
-    var listingApprovalRef = dRef(
-      db,
-      "submittedConcerts/" + concertID + "/listingApproval"
-    );
+    const nowDate = new Date();
+    const releaseDate = new Date(concertData.concertReleaseDate);
+    console.log("release date: ", releaseDate);
+    const claimConditions = [
+      {
+        startTime: nowDate,
+        quantityLimitPerTransaction: 1,
+        price: parseFloat(concertData.concertPrice),
+        maxQuantity: 5,
+      },
+      {
+        startTime: releaseDate,
+        quantityLimitPerTransaction: 5,
+        price: parseFloat(concertData.concertPrice),
+        waitInSeconds: 500,
+      },
+    ];
     setMintLoading(true);
     console.log("minting attempt");
     const mint = await createNFT(
       concertData.concertName,
       concertData.concertArtist,
       concertData.concertDescription,
-      ipfsUrl
+      ipfsUrl,
+      claimConditions,
+      concertData.concertResaleFee
     );
     console.log("minted");
+    setMintLoading(false);
     const firstTokenId = mint[0].id;
     const tokenString = firstTokenId.toString();
+    await setNFTclaim(parseInt(tokenString), claimConditions);
+    var tokenIdRef = dRef(db, "submittedConcerts/" + concertID + "/tokenId");
+    var listingApprovalRef = dRef(
+      db,
+      "submittedConcerts/" + concertID + "/listingApproval"
+    );
     set(dRef(db, "concerts/" + tokenString), {
       concertId: tokenString,
       submittedConcertId: concertID,
@@ -296,6 +335,7 @@ const ContractPage = () => {
       concertNumSongs: concertData.concertNumSongs,
       concertSetList: concertData.concertSetList,
       concertThumbnailImage: concertData.concertThumbnailImage,
+      concertTokenImage: concertData.concertTokenImage,
       concertPromoClip: concertData.concertPromoClip,
       concertPromoContent: "",
       concertSupply: concertData.concertSupply,
@@ -309,11 +349,25 @@ const ContractPage = () => {
       uploaderUID: concertData.uploaderUID,
       uploaderEmail: concertData.uploaderEmail,
       uploadTime: concertData.uploadTime,
+      tokenIpfs: ipfsUrl,
+      submittedConcertId: concertID,
     }).then(
-      alert("NFT Concert #", tokenString, " Minted, Approved, and Added to DB.")
+      alert(`NFT Concert #${tokenString} Minted, Approved, and Added to DB.`)
     );
+
     set(tokenIdRef, firstTokenId.toString());
     set(listingApprovalRef, "Approved");
+    var userRef = dRef(
+      db,
+      "users/" + concertData.uploaderUID + "/approvedConcerts/" + tokenString
+    );
+
+    set(userRef, {
+      concertName: concertData.concertName,
+      submittedConcertId: concertID,
+      uploadTime: concertData.uploadTime,
+      approvalTime: nowDate,
+    });
     console.log("New Token: ", firstTokenId.toString());
     setMintLoading(false);
   };
@@ -567,6 +621,7 @@ const ContractPage = () => {
           {adminUser && (
             <div className="admin__panel">
               <h3>Admin Panel</h3>
+
               {approvedListing && (
                 <p>This listing has already been approved.</p>
               )}

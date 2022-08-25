@@ -38,7 +38,6 @@ const Confirmation = ({ prevStep, values }) => {
   useEffect(() => {
     GetUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
-      console.log("usd", parseFloat(res));
     });
   }, []);
 
@@ -213,6 +212,10 @@ const Confirmation = ({ prevStep, values }) => {
               <span className="with__emp">{values.concertName}</span>
             </p>
             <div className="text__info__scroll__area">
+              <p>
+                Artist: <br />
+                <span className="with__emp">{values.concertArtist}</span>
+              </p>
               <p>
                 Performance Date: <br />
                 <span className="with__emp">

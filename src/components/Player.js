@@ -27,7 +27,7 @@ const Player = () => {
 
   //download concert data
   useEffect(() => {
-    var concertDataRef = dRef(db, "concerts/" + concertID + "/");
+    var concertDataRef = dRef(db, "submittedConcerts/" + concertID + "/");
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setConcertData(cData);

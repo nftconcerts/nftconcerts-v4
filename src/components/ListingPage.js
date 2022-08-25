@@ -143,7 +143,7 @@ const ListingPage = () => {
               <div className="no__clip">
                 <h3 className="promo__h3">No Promo Clip.</h3>
                 <p>Only token owners will have access to the show recording.</p>
-                <div className="buy__button__box no__clip__button">
+                <div className="buy__button__box">
                   <button className="buy__now my__button preview__button buy__now__button">
                     <div className="inside__button__div">
                       <div>Buy Now</div>{" "}
