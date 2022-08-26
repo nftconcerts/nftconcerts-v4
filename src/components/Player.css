@@ -56,6 +56,9 @@ video {
   text-transform: uppercase;
   font-weight: bold;
 }
+.owned__info {
+  padding-bottom: 20px;
+}
 .c__detail {
   font-size: 20px;
   padding-top: 10px;
@@ -144,6 +147,35 @@ video {
   transition: all 0.5s;
   background: #ccc;
   color: #000;
+}
+.player__icon__button:disabled {
+  background: #999999a1;
+  pointer-events: none;
+}
+.transaction__result {
+  padding-top: 10px;
+  height: 25px;
+  margin-bottom: -25px;
+}
+.transaction__result a {
+  color: #ccc;
+}
+.transaction__result a:hover {
+  transition: all 0.5s;
+  color: #fff;
+}
+.dark__link {
+  color: #333 !important;
+}
+.dark__link:hover {
+  color: #000 !important;
+}
+.token__image__image {
+  max-width: 308px;
+  align-self: center;
+}
+.final__buy__button__div {
+  padding-top: 20px;
 }
 
 @media screen and (max-width: 800px) {

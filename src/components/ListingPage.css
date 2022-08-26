@@ -76,6 +76,24 @@
   justify-content: space-between;
   padding-top: 30px;
 }
+.buy__button__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.token__image__image {
+  max-width: 308px;
+  align-self: center;
+}
+.token__div__icons {
+  max-width: 300px;
+  align-self: center;
+}
+.token__div__icons img {
+  max-height: 35px;
+}
 
 @media screen and (max-width: 800px) {
   .concert__info__div {

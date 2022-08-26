@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "./Player.css";
+
 import "./upload/Confirmation.css";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { db, fetchCurrentUser } from "../firebase";
@@ -9,6 +10,7 @@ import dateFormat from "dateformat";
 import { useAddress } from "@thirdweb-dev/react";
 import checkProductionTeam from "../scripts/checkProductionTeam";
 import FormBox from "./form/FormBox";
+import { useEditionDrop } from "@thirdweb-dev/react";
 
 const Player = () => {
   let navigate = useNavigate();
@@ -20,6 +22,8 @@ const Player = () => {
   const [validUser, setValidUser] = useState(false);
   const [userData, setUserData] = useState();
   const [darkMode, setDarkMode] = useState(false);
+  const [owned, setOwned] = useState(0);
+  const address = useAddress();
 
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
@@ -54,8 +58,32 @@ const Player = () => {
       if (userData?.walletID === concertData?.uploaderWalletID) {
         setValidUser(true);
       }
+    } else if (owned > 0) {
+      setValidUser(true);
     } else setValidUser(false);
-  }, [currentUser, userData]);
+  }, [currentUser, userData, owned]);
+
+  //check if user owns the proper token
+  const editionDropped = useEditionDrop(
+    "0x1A36D3eC36e258E85E6aC9c01872C9fF730Fc2E4"
+  );
+
+  const checkIfOwned = async (userAddress) => {
+    try {
+      const balance = await editionDropped.balanceOf(userAddress, concertID);
+      const balanceNum = parseInt(balance.toString());
+      console.log("User owns ", balanceNum);
+      setOwned(balanceNum);
+    } catch (err) {
+      console.log("Fucked up check.");
+    }
+  };
+
+  useEffect(() => {
+    if (address) {
+      checkIfOwned(address);
+    }
+  }, [address]);
 
   const displaySongs = () => {
     var songRows = [];
@@ -106,7 +134,7 @@ const Player = () => {
 
   //check if user is holding production team NFT
   const [productionTeam, setProductionTeam] = useState(false);
-  const address = useAddress();
+
   const [showResult, setShowResult] = useState(false);
   const [ptBalance, setPtBalance] = useState(0);
   const [plBalance, setPlBalance] = useState(0);
@@ -228,6 +256,19 @@ const Player = () => {
                 />
               </div>
               <h1 className="c__name">{concertData?.concertName}</h1>
+              {owned > 1 && (
+                <h3 className="owned__info">
+                  {owned}x Copies Owned of {concertData?.concertSupply}
+                </h3>
+              )}
+              {owned == 1 && (
+                <h3 className="owned__info">
+                  {owned} Copy Owned of {concertData?.concertSupply}
+                </h3>
+              )}
+              {owned == 0 && (
+                <h3 className="owned__info">Mint to access the show.</h3>
+              )}
               <h3 className="c__detail">
                 <i class="fa-solid fa-user c__icons" title="Artist" />
                 {concertData?.concertArtist}
@@ -279,51 +320,99 @@ const Player = () => {
             </div>
             <div className="token__div player__token__div">
               <h3 className="token__heading">Non-Fungible Token (NFT)</h3>
-              <div className="token__box">
-                <div className="token__header">
-                  <div className="first__third">
-                    <p>
-                      {dateFormat(
-                        concertData?.concertPerformanceDate,
-                        "m/d/yyyy"
-                      )}
-                    </p>
-                  </div>
-                  <div className="col__thirds">
-                    <div className="missing__tab" />
-                  </div>
-                  <div className="last__third">
-                    <p>TOTAL QTY: {concertData?.concertSupply}</p>
-                  </div>
-                </div>
-                <div className="token__thumbnail__box">
-                  <img
-                    src={concertData?.concertThumbnailImage + "?not-cache"}
-                    height="300px"
-                  />
-                </div>
-                <div className="token__footer">
-                  <div className="token__concert__name">
-                    {concertData?.concertName}
-                  </div>
-                  <div className="token__concert__name token__artist__name">
-                    {concertData?.concertArtist}
-                  </div>
-                  <img
-                    src="/media/nftc-logo.png"
-                    className="center__logo token__logo"
-                    alt="NFT Concerts Logo"
-                  />
-                </div>
-              </div>
-              <input
-                type="button"
-                value="Go To Marketplace"
-                className="login__button view__token__button"
-                onClick={() => {
-                  navigate("/concert?id=" + concertID);
-                }}
+              <img
+                src={concertData?.concertTokenImage}
+                className="token__image__image"
               />
+
+              <div className="final__buy__button__div">
+                <button
+                  className="buy__now my__button preview__button buy__now__button"
+                  onClick={() => {
+                    navigate(`/concert?id=${concertID}`);
+                  }}
+                >
+                  <div className="inside__button__div">
+                    <div>Go To Marketplace</div>{" "}
+                  </div>
+                </button>
+              </div>
+              <div className="marketplace__icons__div token__div__icons">
+                <div
+                  className="marketplace__icon__div"
+                  onClick={() => {
+                    window.open(
+                      `https://x2y2.io/eth/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
+                    );
+                  }}
+                >
+                  <img
+                    src="/media/x2y2-logo.png"
+                    className="marketplace__icon"
+                  />
+                </div>
+                <div
+                  className="marketplace__icon__div"
+                  onClick={() => {
+                    window.open(
+                      `https://looksrare.org/collections/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
+                    );
+                  }}
+                >
+                  <img
+                    src="/media/looksrare-logo.png"
+                    className="marketplace__icon invert__icon"
+                  />
+                </div>
+                <div
+                  className="marketplace__icon__div"
+                  onClick={() => {
+                    window.open(
+                      `https://opensea.io/assets/ethereum/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
+                    );
+                  }}
+                >
+                  <img
+                    src="/media/opensea-logo.png"
+                    className="marketplace__icon"
+                  />
+                </div>
+                <div
+                  className="marketplace__icon__div"
+                  onClick={() => {
+                    window.open(
+                      `https://etherscan.io/token/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30?a=${concertID}`
+                    );
+                  }}
+                >
+                  <img
+                    src="/media/etherscan-logo.png"
+                    className="marketplace__icon"
+                  />
+                </div>
+                {/* {metamaskDetected && (
+                  <PaperCheckout
+                    checkoutId="73baf406-11e0-4b74-8b3e-300908c7b0ee"
+                    display="DRAWER"
+                    options={{
+                      width: 400,
+                      height: 800,
+                      colorBackground: "#131313",
+                      colorPrimary: "#b90000",
+                      colorText: "#b90000",
+                      borderRadius: 6,
+                      fontFamily: "Saira",
+                    }}
+                  >
+                    <div className="marketplace__icon__div">
+                      <img
+                        src="/media/cc-logo.png"
+                        className="marketplace__icon"
+                      />
+                    </div>
+                  </PaperCheckout>
+                )} */}
+              </div>
             </div>
           </div>
         </div>

@@ -1,8 +1,13 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import "./App.css";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./components/home/Home";
 import ProductionTeam from "./components/home/ProductionTeam";
 
@@ -12,6 +17,16 @@ import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   const Register = lazy(() => import("./components/register/Register"));
@@ -47,6 +62,7 @@ function App() {
     <ThirdwebProvider connectors={connectors} desiredChainId={ChainId.Mainnet}>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Router>
+          <ScrollToTop />
           <Suspense fallback={<div className="loading__page">Loading...</div>}>
             <div className="App">
               <Nav />
