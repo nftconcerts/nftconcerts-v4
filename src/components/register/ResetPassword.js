@@ -24,47 +24,52 @@ const ResetPassword = () => {
   };
   return (
     <FormBox>
-      <div className="reset__password">
+      <div className="reset__password__div">
         <h3 className="login__heading">Enter Email to Reset Password</h3>
-        <input
-          placeholder="Email"
-          name="email"
-          className="login__input"
-          autoComplete="email"
-          onChange={(e) => setEmail(e.target.value)}
-          onSubmit={(e) => setEmail(e.target.value)}
-        />
-        {!requested && (
+        <div className="reset__input__box">
           <input
-            type="submit"
-            value="Send Reset Email"
-            className="login__button"
-            onClick={sendReset}
-            disabled={requested}
+            placeholder="Email"
+            name="email"
+            className="login__input"
+            autoComplete="email"
+            onChange={(e) => setEmail(e.target.value)}
+            onSubmit={(e) => setEmail(e.target.value)}
           />
-        )}
-        {requested && (
-          <input
-            type="submit"
-            value="Email Sent"
-            className="login__button"
-            onClick={sendReset}
-            disabled={requested}
-          />
-        )}
-        <div className="email__disclaimer">
-          {" "}
-          Please allow a few minutes for the password reset email to arrive.
+          {!requested && (
+            <input
+              type="submit"
+              value="Send Reset Email"
+              className="login__button"
+              onClick={sendReset}
+              disabled={requested}
+            />
+          )}
+          {requested && (
+            <input
+              type="submit"
+              value="Email Sent"
+              className="login__button"
+              onClick={sendReset}
+              disabled={requested}
+            />
+          )}
+          <div className="email__disclaimer">
+            {" "}
+            Please allow a few minutes for the password reset email to arrive.
+          </div>
         </div>
-        <h3 className="login__heading help__heading">Still need help?</h3>
-        <input
-          type="submit"
-          value="CONTACT SUPPORT"
-          className="register__button switch__button"
-          onClick={() => {
-            navigate("/support");
-          }}
-        />
+
+        <div>
+          <h3 className="login__heading help__heading">Still need help?</h3>
+          <input
+            type="submit"
+            value="CONTACT SUPPORT"
+            className="register__button switch__button"
+            onClick={() => {
+              navigate("/contact?sbj=Login%20Issues");
+            }}
+          />
+        </div>
       </div>
     </FormBox>
   );

@@ -32,7 +32,10 @@
   max-width: 600px;
   -webkit-appearance: none;
 }
-
+.register__form {
+  display: flex;
+  height: 370-x;
+}
 label {
   display: none;
   -webkit-appearance: none;
@@ -122,4 +125,7 @@ label {
 .connect__wallet__heading {
   font-size: 20px;
   padding-top: 10px;
+}
+.register__prompt__header {
+  padding-bottom: 10px;
 }

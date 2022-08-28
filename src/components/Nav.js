@@ -50,6 +50,7 @@ const Nav = () => {
   const [balanceInUSD, setBalanceInUSD] = useState("0.00");
   const [gasPrice, setGasPrice] = useState();
   const [apiRefresh, setApiRefresh] = useState();
+  const [showWalletInfo, setShowWalletInfo] = useState(false);
 
   //eth to usd api call
   useEffect(() => {
@@ -195,25 +196,42 @@ const Nav = () => {
           {address && !networkMismatch && (
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt wallet__balance__prompt">
-                Welcome {userData?.name}{" "}
-                {!userData && address && <>{truncateAddress(address)}</>}
-                <div className="two__buttons__div">
-                  <button
-                    className="network__prompt__button buy__matic__button full__width__button"
+                <div className="wallet__prompt__top">
+                  <div className="icon__spacer__div"> </div>
+                  <div>
+                    Welcome {userData?.name}{" "}
+                    {!userData && address && <>{truncateAddress(address)}</>}
+                  </div>
+                  <div
+                    className="wallet__info__icon"
                     onClick={() => {
-                      window.open(
-                        `https://pay.sendwyre.com/purchase?&destCurrency=ETH&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
-                      );
+                      setShowWalletInfo(!showWalletInfo);
                     }}
                   >
-                    <span>ETH: {ethBalance.substring(0, 6)} </span>
-                    <span className="wallet__usd__bal">(${balanceInUSD})</span>
-                  </button>
-                  <div className="gas__div">
-                    <i className="fa-solid fa-gas-pump" />
-                    {gasPrice}
+                    <i className="fa-solid fa-wallet" />
                   </div>
                 </div>
+                {showWalletInfo && (
+                  <div className="two__buttons__div">
+                    <button
+                      className="network__prompt__button buy__matic__button full__width__button"
+                      onClick={() => {
+                        window.open(
+                          `https://pay.sendwyre.com/purchase?&destCurrency=ETH&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
+                        );
+                      }}
+                    >
+                      <span>ETH: {ethBalance.substring(0, 6)} </span>
+                      <span className="wallet__usd__bal">
+                        (${balanceInUSD})
+                      </span>
+                    </button>
+                    <div className="gas__div">
+                      <i className="fa-solid fa-gas-pump" />
+                      {gasPrice}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

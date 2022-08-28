@@ -50,6 +50,7 @@ function Register() {
   const [wcAddress, setWcAddress] = useState();
   const [cbAddress, setCbAddress] = useState();
   const [savedUserAddress, setSavedUserAddress] = useState();
+  const [rcType, setRcType] = useState();
 
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
@@ -64,7 +65,7 @@ function Register() {
 
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-  const [showWC, setShowWC] = useState(false);
+  const [showWC, setShowWC] = useState(true);
 
   //download User Data
   useEffect(() => {
@@ -77,6 +78,7 @@ function Register() {
       });
     }
   }, [currentUser]);
+
   //basic security checks before registering user.
   const checkThenRegister = async () => {
     if (email == "") return alert("Missing email address");
@@ -98,12 +100,14 @@ function Register() {
           name: displayName,
           email: email,
           registrationDate: dateString,
-          walletID: "",
+          walletID: savedUserAddress,
           userType: "fan",
+          connectionType: rcType,
         })
           .then(() => {
             console.log("data uploaded to db");
-            setShowWC(true);
+            alert(`Welcome ${displayName} to NFT Concerts`);
+            navigate("/");
           })
           .catch((error) => {
             console.log("error");
@@ -204,28 +208,11 @@ function Register() {
     setWalletlinkProvider(null);
   };
 
-  const updateWalletID = async (wallet, connectionType) => {
-    setSavedUserAddress(address);
-    set(
-      dRef(db, "users/" + currentUser.user.uid + "/connectionType"),
-      connectionType
-    )
-      .then(() => {
-        set(dRef(db, "users/" + currentUser.user.uid + "/walletID"), wallet)
-          .then(() => {
-            console.log("Wallet attatched to user in db");
-            alert(`Welcome ${userData.name} to NFT Concerts`);
-            navigate("/");
-          })
-          .catch((error) => {
-            console.log("error");
-          });
-      })
-      .catch((error) => {
-        console.log("error");
-      });
+  const updateWalletID = (wallet, connectionType) => {
+    setSavedUserAddress(wallet);
+    setRcType(connectionType);
+    setShowWC(false);
   };
-  const [formCompleted, setFormCompleted] = useState(false);
 
   useEffect(() => {
     if (userData?.walletID != null) {
@@ -236,7 +223,7 @@ function Register() {
 
   return (
     <FormBox>
-      {currentUser && savedUserAddress && (
+      {currentUser && userData && (
         <div className="login__form">
           <div className="logged__in__already">
             <p>Currently Logged in as </p>
@@ -255,7 +242,10 @@ function Register() {
         </div>
       )}
       {currentUser == null && !showWC && (
-        <div className="register__form">
+        <div className="register__form connect__wallet__div">
+          <h3 className="register__prompt__header">
+            Plese Complete Your Registration
+          </h3>
           <label>Email</label>
           <input
             name="email"
@@ -366,7 +356,7 @@ function Register() {
           />
         </div>
       )}
-      {currentUser && !savedUserAddress && (
+      {showWC && !currentUser && (
         <div className="connect__wallet__div">
           <h3 className="connect__wallet__heading">Connect Your Web3 Wallet</h3>
           <div className="connect__wallet__buttons__div">

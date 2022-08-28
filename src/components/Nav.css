@@ -242,6 +242,8 @@ table {
   overflow: hidden;
   margin-top: 10px;
   border: solid 2px #000;
+  min-height: 30px;
+  justify-content: center;
 }
 .network__mismatch__div {
   display: flex;
@@ -347,4 +349,26 @@ table {
 }
 .gas__div i {
   padding-right: 5px;
+}
+.wallet__info__icon {
+  align-self: flex-end;
+
+  opacity: 0.6;
+  cursor: pointer;
+  width: 30px;
+}
+.wallet__info__icon i {
+  padding-right: 5px;
+}
+.wallet__info__icon:hover {
+  transition: all 0.5s;
+  opacity: 1;
+}
+.wallet__prompt__top {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.icon__spacer__div {
+  width: 20px;
 }

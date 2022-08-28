@@ -37,6 +37,7 @@ function Login() {
 
   const connectWithMetamask = useMetamask();
   const address = useAddress();
+  const disconnectMetamask = useDisconnect();
   let navigate = useNavigate();
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
@@ -191,7 +192,7 @@ function Login() {
           </div>
           <div className="or__split">
             <h3>Featuring Two-Factor Authentication </h3>
-            <div className="reset__password new__user__prompt">
+            <div className="new__user__prompt">
               New User? <a href="/register">Register Now!</a>
             </div>
           </div>
@@ -237,7 +238,10 @@ function Login() {
                       type="button"
                       value="Wrong Address"
                       className="register__button"
-                      onClick={confirmUser}
+                      onClick={() => {
+                        console.log("disonnect attempt");
+                        disconnectMetamask();
+                      }}
                       disabled={true}
                     />
                     <div className="connected__info">
@@ -245,7 +249,7 @@ function Login() {
                         Connected as {truncateAddress(address)}
                       </p>
                       <p className="necessary__wallet">
-                        {/* Please switch to {truncateAddress(userData?.walletID)} */}
+                        Please switch to {truncateAddress(userData?.walletID)}
                       </p>
                     </div>
                   </>
