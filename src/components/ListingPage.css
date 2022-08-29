@@ -82,7 +82,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .token__image__image {
   max-width: 308px;
   align-self: center;
@@ -108,4 +107,115 @@
   .mobile__show {
     display: none;
   }
+}
+
+/* new stuff */
+.purchased__pop__up__overlay__div {
+  position: absolute;
+  min-height: 600px;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  display: flex;
+  background: #00000099;
+  z-index: 5;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 140px;
+  padding-bottom: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.purchased__pop__up__div {
+  max-width: 90%;
+  width: 500px;
+  height: 600px;
+  background: #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  border: solid 4px #000;
+  box-sizing: border-box;
+}
+.purchased__token__img {
+  max-width: 150px;
+}
+.close__pop__up__div {
+  display: flex;
+  justify-content: flex-end;
+  position: asolute;
+  width: 100%;
+  align-items: flex-end;
+  color: #999;
+  margin-top: -10px;
+}
+.close__icon__button {
+  padding: 5px;
+  cursor: pointer;
+}
+.close__icon__button:hover {
+  transition: all 0.5s;
+  color: #000;
+}
+.play__now__icon {
+  padding-left: 20px;
+}
+.play__now__button {
+  background: rgb(27, 172, 14);
+}
+.play__now__button:hover {
+  background: rgb(26, 222, 8);
+}
+.purchased__pop__up__heading {
+  font-size: 16px;
+  font-family: "Saira";
+  font-weight: bold;
+  margin-top: -20px;
+}
+.purchased__title {
+  font-size: 24px;
+  font-family: "Saira";
+  font-weight: bold;
+}
+.motto {
+  font-size: 18px;
+}
+.white__eth__logo {
+  margin-top: -5px !important;
+}
+.buy__button__box__left {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+@media screen and (max-width: 800px) {
+  .split__col {
+    flex-direction: column;
+  }
+  .concert__info__div {
+    align-items: center;
+  }
+  .token__div__container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }
+  .listing__buttons__div {
+    display: flex;
+    width: 300px;
+    justify-content: space-evenly;
+  }
+  .listing__buttons__div button {
+    width: 60px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
+.token__div {
+  z-index: 3;
 }

@@ -37,7 +37,7 @@ function Login() {
 
   const connectWithMetamask = useMetamask();
   const address = useAddress();
-  const disconnectMetamask = useDisconnect();
+  const disconnect = useDisconnect();
   let navigate = useNavigate();
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
@@ -65,6 +65,7 @@ function Login() {
     logout();
     setTempUser(null);
     setCurrentUser(null);
+    window.location.reload();
   };
 
   const inlineLogin = async () => {
@@ -77,6 +78,7 @@ function Login() {
     await login(email, password);
     setCurrentUser(tempUser);
     navigate("/");
+    window.location.reload();
   };
 
   //wallet connenct variables
@@ -240,9 +242,8 @@ function Login() {
                       className="register__button"
                       onClick={() => {
                         console.log("disonnect attempt");
-                        disconnectMetamask();
+                        disconnect();
                       }}
-                      disabled={true}
                     />
                     <div className="connected__info">
                       <p className="current__wallet">

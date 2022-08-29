@@ -11,7 +11,13 @@ import {
 } from "./../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { ref as dRef, set, get, onValue } from "firebase/database";
+import {
+  ref as dRef,
+  set,
+  get,
+  onValue,
+  onDisconnect,
+} from "firebase/database";
 import { db } from "./../firebase";
 import {
   useAddress,
@@ -22,6 +28,7 @@ import {
   useTokenBalance,
   ThirdwebProvider,
   useWalletConnect,
+  useDisconnect,
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { GetUSDExchangeRate, GetMaticUSDExchangeRate, getGas } from "./api";
@@ -36,6 +43,7 @@ const Nav = () => {
   const [adminUser, setAdminUser] = useState(false);
   const [artistUser, setArtistUser] = useState(false);
   const navigate = useNavigate();
+  const disconnect = useDisconnect();
   const [, switchNetwork] = useNetwork();
   const networkMismatch = useNetworkMismatch();
   const [navMobileMode, setNavMobileMode] = useState(false);
@@ -51,6 +59,7 @@ const Nav = () => {
   const [gasPrice, setGasPrice] = useState();
   const [apiRefresh, setApiRefresh] = useState();
   const [showWalletInfo, setShowWalletInfo] = useState(false);
+  const [userConnectionType, setUserConnectionType] = useState();
 
   //eth to usd api call
   useEffect(() => {
@@ -79,17 +88,19 @@ const Nav = () => {
     } else setBalanceInUSD("err");
   }, [usdExRate, ethBalance]);
 
+  //check if mobile mode is enabled.
   useEffect(() => {
     setNavMobileMode(getMobileMode());
   }, [networkMismatch]);
-
-  const scrollClr = () => {};
 
   const Refresh = async (time) => {
     await delay(time * 1000);
     setApiRefresh(!apiRefresh);
   };
 
+  const scrollClr = () => {};
+
+  //change background color on scroll
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
@@ -101,6 +112,7 @@ const Nav = () => {
     };
   }, []);
 
+  //pop menu
   const menuPop = () => {
     setCurrentUser(fetchCurrentUser());
     if (menuPopup) {
@@ -109,6 +121,7 @@ const Nav = () => {
       handleMenuPopup(true);
     }
   };
+
   //get user data
   useEffect(() => {
     if (currentUser) {
@@ -120,6 +133,7 @@ const Nav = () => {
     }
   }, []);
 
+  //check if user is admin or artist
   useEffect(() => {
     if (userData?.userType === "admin") {
       setAdminUser(true);
@@ -131,12 +145,16 @@ const Nav = () => {
     }
   }, [currentUser, userData]);
 
+  //logout user from menu
   const menuLogout = async () => {
     await logout();
     menuPop();
+    disconnect();
     navigate("/");
+    window.location.reload();
   };
 
+  //check if metamask is detected and set wallet address
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
       setMetamaskDetected(true);
@@ -164,36 +182,91 @@ const Nav = () => {
     }
   }, [address, userData, networkMismatch]);
 
+  //determine what type of connection used by user
+  useEffect(() => {
+    if (userData?.connectionType) {
+      setUserConnectionType(userData?.connectionType);
+    }
+  }, [currentUser, userData]);
+
   return (
     <div className="total_nav">
       {!navMobileMode && (
         <>
-          {address && networkMismatch && (
-            <div className="network__mismatch__div">
-              <div className="network__mismatch__prompt">
-                Wrong Network. Switch to Mainnet{" "}
-                <div className="two__buttons__div">
-                  <button
-                    onClick={() => switchNetwork(ChainId.Mainnet)}
-                    className="network__prompt__button"
-                  >
-                    Switch to Ethereum
-                  </button>
-                  <button
-                    className="network__prompt__button network__prompt__button__right"
-                    onClick={() => {
-                      setMobileMode();
-                      setNavMobileMode(true);
-                      window.location.reload(false);
-                    }}
-                  >
-                    Use in Mobile Mode
-                  </button>
+          {userConnectionType === "metamask" && (
+            <>
+              {address && networkMismatch && (
+                <div className="network__mismatch__div">
+                  <div className="network__mismatch__prompt">
+                    Wrong Network. Switch to Mainnet{" "}
+                    <div className="two__buttons__div">
+                      <button
+                        onClick={() => switchNetwork(ChainId.Mainnet)}
+                        className="network__prompt__button"
+                      >
+                        Switch to Ethereum
+                      </button>
+                      <button
+                        className="network__prompt__button network__prompt__button__right"
+                        onClick={() => {
+                          setMobileMode();
+                          setNavMobileMode(true);
+                          window.location.reload(false);
+                        }}
+                      >
+                        Use in Mobile Mode
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              )}
+              {address && !networkMismatch && (
+                <div className="network__mismatch__div">
+                  <div className="network__mismatch__prompt wallet__balance__prompt">
+                    <div className="wallet__prompt__top">
+                      <div className="icon__spacer__div"> </div>
+                      <div>
+                        Welcome {userData?.name}{" "}
+                        {!userData && address && (
+                          <>{truncateAddress(address)}</>
+                        )}
+                      </div>
+                      <div
+                        className="wallet__info__icon"
+                        onClick={() => {
+                          setShowWalletInfo(!showWalletInfo);
+                        }}
+                      >
+                        <i className="fa-solid fa-wallet" />
+                      </div>
+                    </div>
+                    {showWalletInfo && (
+                      <div className="two__buttons__div">
+                        <button
+                          className="network__prompt__button buy__matic__button full__width__button"
+                          onClick={() => {
+                            window.open(
+                              `https://pay.sendwyre.com/purchase?&destCurrency=ETH&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
+                            );
+                          }}
+                        >
+                          <span>ETH: {ethBalance.substring(0, 6)} </span>
+                          <span className="wallet__usd__bal">
+                            (${balanceInUSD})
+                          </span>
+                        </button>
+                        <div className="gas__div">
+                          <i className="fa-solid fa-gas-pump" />
+                          {gasPrice}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
           )}
-          {address && !networkMismatch && (
+          {userConnectionType !== "metamask" && walletAddress && (
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt wallet__balance__prompt">
                 <div className="wallet__prompt__top">

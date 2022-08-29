@@ -23,6 +23,7 @@ const MyAccount = () => {
   const [admin, setAdmin] = useState(false);
   const address = useAddress();
   const connectWithMetamask = useMetamask();
+  const [userConnectionType, setUserConnectionType] = useState();
 
   //set current user
   useEffect(() => {
@@ -65,6 +66,13 @@ const MyAccount = () => {
         setValidUser(true);
       }
     } else setValidUser(false);
+  }, [currentUser, userData]);
+
+  //determine what type of connection used by user
+  useEffect(() => {
+    if (userData?.connectionType) {
+      setUserConnectionType(userData?.connectionType);
+    }
   }, [currentUser, userData]);
 
   //pull users submitted concerts
