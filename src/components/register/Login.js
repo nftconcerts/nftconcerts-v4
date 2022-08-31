@@ -48,15 +48,13 @@ function Login() {
       var userDataRef = dRef(db, "users/" + tempUser.user.uid);
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
-        setUserData(data);
-        console.log("Ud:", data);
+       setUserData(data);
       });
     } else if (currentUser) {
       var userDataRef = dRef(db, "users/" + currentUser.user.uid);
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
-        console.log("Ud:", data);
       });
     }
   }, [tempUser, currentUser]);
@@ -108,9 +106,6 @@ function Login() {
 
       const library = new Web3Provider(provider, "any");
 
-      console.log("library");
-      console.log(library);
-      console.log("account: ", account);
       setWeb3Library(library);
       setWeb3Account(account);
       setWcAddress(account);
@@ -143,8 +138,7 @@ function Login() {
 
       const library = new Web3Provider(provider, "any");
 
-      console.log("library");
-      console.log(library);
+
       setWeb3Library(library);
       setWeb3Account(account);
       setCbAddress(account);
@@ -241,7 +235,6 @@ function Login() {
                       value="Wrong Address"
                       className="register__button"
                       onClick={() => {
-                        console.log("disonnect attempt");
                         disconnect();
                       }}
                     />

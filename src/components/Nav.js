@@ -266,7 +266,7 @@ const Nav = () => {
               )}
             </>
           )}
-          {userConnectionType !== "metamask" && walletAddress && (
+          {userConnectionType !== "metamask" && walletAddress && currentUser && (
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt wallet__balance__prompt">
                 <div className="wallet__prompt__top">
@@ -308,7 +308,7 @@ const Nav = () => {
               </div>
             </div>
           )}
-          {!address && metamaskDetected && (
+          {currentUser && !address && metamaskDetected && (
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt">
                 Not Connected to Web3.{" "}
@@ -333,28 +333,26 @@ const Nav = () => {
               </div>
             </div>
           )}
-          {!address && !metamaskDetected && (
+          {!currentUser && (
             <div className="network__mismatch__div">
-              <div className="network__mismatch__prompt">
-                Google Chrome + Metamask Recommended.
+              <div className="network__mismatch__prompt wallet__balance__prompt">
+                Welcome to NFT Concerts
                 <div className="two__buttons__div">
                   <button
                     onClick={() => {
-                      window.open("https://metamask.io/download/");
+                      navigate("/login");
                     }}
                     className="network__prompt__button"
                   >
-                    Download Metamask
+                    Login
                   </button>
                   <button
                     className="network__prompt__button network__prompt__button__right"
                     onClick={() => {
-                      setMobileMode();
-                      setNavMobileMode(true);
-                      window.location.reload(false);
+                      navigate("/register");
                     }}
                   >
-                    Use in Mobile Mode
+                    Sign Up
                   </button>
                 </div>
               </div>

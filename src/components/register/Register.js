@@ -209,7 +209,6 @@ function Register() {
 
   useEffect(() => {
     if (userData?.walletID != null) {
-      console.log("saved wallet: ", userData?.walletID);
       setSavedUserAddress(userData?.walletID);
     }
   }, [userData]);

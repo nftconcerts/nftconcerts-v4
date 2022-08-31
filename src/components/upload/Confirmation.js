@@ -151,7 +151,6 @@ const Confirmation = ({ prevStep, values }) => {
     var concertIdRef = dRef(db, "submittedConcertID");
     runTransaction(concertIdRef, (submittedConcertID) => {
       if (submittedConcertID) {
-        console.log("pushing form data with ID ", submittedConcertID);
         pushFormData(submittedConcertID);
         submittedConcertID++;
       }

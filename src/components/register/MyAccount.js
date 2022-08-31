@@ -43,7 +43,6 @@ const MyAccount = () => {
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
-        console.log("cu: ", data);
       });
     }
   }, [currentUser]);
@@ -185,12 +184,6 @@ const MyAccount = () => {
     error3,
   } = useOwnedNFTs(editionDrop, address);
 
-  useEffect(() => {
-    if (ownedNFTs) {
-      console.log("users owns :", ownedNFTs);
-    }
-  }, [ownedNFTs]);
-
   //show users owned concerts
   const showConcerts = () => {
     var arrayLength = ownedNFTs.length;
@@ -286,7 +279,7 @@ const MyAccount = () => {
               {truncateAddress(currentUser.user.photoURL)}
             </p>
           </div> */}
-              {ownedNFTs && (
+              {ownedNFTs && ownedNFTs.length > 0 && (
                 <>
                   <h3>Owned Concerts</h3>
                   <div className="concert__library">
