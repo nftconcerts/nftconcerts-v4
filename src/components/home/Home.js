@@ -2,29 +2,19 @@ import React, { useState, useEffect } from "react";
 import Banner from "../Banner";
 import Row from "./Row";
 import FooterTop from "../FooterTop";
-import { ref as dRef, set, get, onValue } from "firebase/database";
+import { ref as dRef, onValue } from "firebase/database";
 import { db, getMobileMode, fetchCurrentUser } from "./../../firebase";
 import "./Home.css";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 import FormBox from "../form/FormBox";
-import {
-  useAddress,
-  useNetwork,
-  useNetworkMismatch,
-  useMetamask,
-} from "@thirdweb-dev/react";
+import { useAddress, useNetworkMismatch } from "@thirdweb-dev/react";
 import { useNavigate } from "react-router-dom";
-
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const Home = () => {
   let navigate = useNavigate();
   const networkMismatch = useNetworkMismatch();
-  const [, switchNetwork] = useNetwork();
-  const connectWithMetamask = useMetamask();
   const [concertData, setConcertData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const firstReleaseConcerts = [1, 2, 7, 4, 5, 6];
+  const firstReleaseConcerts = [1];
   const trendingConcerts = [8, 2, 4, 6, 10];
   const concerts = [5, 4, 7, 2, 1];
   const [currentUser, setCurrentUser] = useState(null);
@@ -61,16 +51,10 @@ const Home = () => {
   //check if user is holding production team NFT
   const [productionTeam, setProductionTeam] = useState(false);
   const address = useAddress();
-  const [showResult, setShowResult] = useState(false);
-  const [ptBalance, setPtBalance] = useState(0);
-  const [plBalance, setPlBalance] = useState(0);
 
   const productionCheck = async () => {
     if (address) {
       var checkResult = await checkProductionTeam(address);
-
-      setPtBalance(checkResult[0]);
-      setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {
         setProductionTeam(true);
       } else if (checkResult[1] > 0) {
@@ -80,8 +64,6 @@ const Home = () => {
       }
     } else if (!address && pageMobileMode && userData?.walletID) {
       var checkResult = await checkProductionTeam(userData.walletID);
-      setPtBalance(checkResult[0]);
-      setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {
         setProductionTeam(true);
       } else if (checkResult[1] > 0) {

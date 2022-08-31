@@ -339,7 +339,7 @@ table {
 
   position: absolute;
   align-self: flex-end;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   opacity: 0.7;
   height: 40px;

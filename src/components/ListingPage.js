@@ -3,46 +3,30 @@ import ReactPlayer from "react-player";
 import "./Player.css";
 import "./ListingPage.css";
 import "./upload/Confirmation.css";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { db, fetchCurrentUser, truncateAddress } from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
 import { GetUSDExchangeRate } from "./api";
 import FormBox from "./form/FormBox";
-import { PaperCheckout } from "@paperxyz/react-client-sdk";
-import {
-  useActiveClaimCondition,
-  useEditionDrop,
-  useClaimNFT,
-  useOwnedNFTs,
-} from "@thirdweb-dev/react";
-import editionDrop from "../scripts/getContract.mjs";
+import { useActiveClaimCondition, useEditionDrop } from "@thirdweb-dev/react";
+import editionDrop, { editionDropAddress } from "../scripts/getContract.mjs";
 import { useAddress } from "@thirdweb-dev/react";
 
 const ListingPage = () => {
   let navigate = useNavigate();
-  let [searchParams, setSearchParams] = useSearchParams();
+  let searchParams = useSearchParams();
   let concertID = parseInt(searchParams.get("id"));
   const [concertData, setConcertData] = useState();
   const [currentUser, setCurrentUser] = useState(null);
-  const [recordingSrc, setRecordingSrc] = useState("");
   const [formatPrice, setFormatPrice] = useState("");
   const [validListing, setValidListing] = useState(false);
   const [metamaskDetected, setMetamaskDetected] = useState(false);
-  const {
-    data: activeClaimCondition,
-    isLoading,
-    error,
-  } = useActiveClaimCondition(editionDrop, concertID);
+  const { data: activeClaimCondition } = useActiveClaimCondition(
+    editionDrop,
+    concertID
+  );
   let address = useAddress();
-
-  const { mutate: claimNft, isLoading: isClaiming } = useClaimNFT(editionDrop);
-
-  //check claim conditions
-  useEffect(() => {
-    console.log("ACC: ", activeClaimCondition);
-    console.log("NFT");
-  }, [activeClaimCondition]);
 
   //format concert eth price
   useEffect(() => {
@@ -87,7 +71,6 @@ const ListingPage = () => {
       var cData = snapshot.val();
       setConcertData(cData);
     });
-    console.log("CD", concertData);
   }, [currentUser, concertID]);
 
   //check if listing is valid
@@ -117,7 +100,6 @@ const ListingPage = () => {
     } else {
       for (var i = 1; i <= rowNums; i++) {
         const songDiv = (n) => {
-          const songPlaceholder = `Song ${n}`;
           return (
             <div className=" player__song__div">
               <p className="player__song__num">{n}:</p>
@@ -137,9 +119,7 @@ const ListingPage = () => {
 
   //claim button
 
-  const editionDropped = useEditionDrop(
-    "0x1A36D3eC36e258E85E6aC9c01872C9fF730Fc2E4"
-  );
+  const editionDropped = useEditionDrop(editionDropAddress);
 
   // State to track when a user is claiming an NFT
   const [claiming, setClaiming] = useState(false);
@@ -165,36 +145,25 @@ const ListingPage = () => {
       setClaiming(false);
     }
   };
+
+  // Check if user owns the current NFT Concert
   const [owned, setOwned] = useState(0);
-  const checkIfOwned = async (userAddress) => {
-    try {
-      const balance = await editionDropped.balanceOf(userAddress, concertID);
-      const balanceNum = parseInt(balance.toString());
-      console.log("User owns ", balanceNum);
-      setOwned(balanceNum);
-    } catch (err) {
-      console.log("Fucked up check.");
-    }
-  };
-
-  const {
-    data: ownedNFTs,
-    isLoading3,
-    error3,
-  } = useOwnedNFTs(editionDrop, address);
 
   useEffect(() => {
-    if (ownedNFTs) {
-      console.log("users owns :", ownedNFTs);
-      console.log("User has ", owned, " of id #", concertID);
-    }
-  }, [ownedNFTs, owned]);
-
-  useEffect(() => {
+    const checkIfOwned = async (userAddress) => {
+      try {
+        const balance = await editionDropped.balanceOf(userAddress, concertID);
+        const balanceNum = parseInt(balance.toString());
+        setOwned(balanceNum);
+      } catch (err) {
+        console.log("Fucked up check.");
+      }
+    };
     if (address) {
       checkIfOwned(address);
     }
   }, [address]);
+
   return (
     <>
       {concertData && showPurchased && (
@@ -217,6 +186,7 @@ const ListingPage = () => {
             <img
               src={concertData.concertTokenImage}
               className="purchased__token__img"
+              alt="NFT Concert Token Peview"
             ></img>
             <h3 className="motto">You Own the Show</h3>
             <p className="motto">
@@ -242,6 +212,7 @@ const ListingPage = () => {
                   href={transactionLink}
                   target="_blank"
                   className="dark__link"
+                  rel="noreferrer"
                 >
                   View Your Receipt - TX:{" "}
                   {truncateAddress(tx?.receipt.transactionHash)}
@@ -295,6 +266,7 @@ const ListingPage = () => {
                           src="/media/eth-logo.png"
                           height={25}
                           className="c__eth__logo white__eth__logo"
+                          alt="eth logo"
                         />
                         {formatPrice}{" "}
                         <span className="c__price__in__usd button__usd__price">
@@ -306,7 +278,11 @@ const ListingPage = () => {
                   {purchased && (
                     <div className="transaction__result">
                       Purchase Completed - TX:{" "}
-                      <a href={transactionLink} target="_blank">
+                      <a
+                        href={transactionLink}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         {truncateAddress(tx?.receipt.transactionHash)}
                       </a>
                     </div>
@@ -333,6 +309,7 @@ const ListingPage = () => {
                   src="/media/eth-logo.png"
                   height={20}
                   className="c__eth__logo white__eth__logo"
+                  alt="eth logo"
                 />
                 {formatPrice}{" "}
                 <span className="c__price__in__usd mobile__hide">
@@ -357,6 +334,7 @@ const ListingPage = () => {
                           src="/media/eth-logo.png"
                           height={25}
                           className="c__eth__logo white__eth__logo"
+                          alt="eth logo"
                         />
                         {formatPrice}{" "}
                         <span className="c__price__in__usd button__usd__price">
@@ -368,7 +346,11 @@ const ListingPage = () => {
                   {purchased && (
                     <div className="transaction__result">
                       Purchase Completed - TX:{" "}
-                      <a href={transactionLink} target="_blank">
+                      <a
+                        href={transactionLink}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         {truncateAddress(tx?.receipt.transactionHash)}
                       </a>
                     </div>
@@ -382,16 +364,16 @@ const ListingPage = () => {
                   {owned}x Copies Owned of {concertData?.concertSupply}
                 </h3>
               )}
-              {owned == 1 && (
+              {owned === 1 && (
                 <h3 className="owned__info">
                   {owned} Copy Owned of {concertData?.concertSupply}
                 </h3>
               )}
-              {owned == 0 && (
+              {owned === 0 && (
                 <h3 className="owned__info">Mint to access the show.</h3>
               )}
               <div className="underplayer__buttons__div listing__buttons__div">
-                <a href={twitterLink} target="_blank">
+                <a href={twitterLink} target="_blank" rel="noreferrer">
                   <button className="fa-brands fa-twitter player__icon__button" />
                 </a>
                 <button
@@ -411,7 +393,10 @@ const ListingPage = () => {
                   class="fa-solid fa-calendar c__icons"
                   title="Performance Date"
                 />
-                {concertData?.concertPerformanceDate}
+                {dateFormat(
+                  concertData.concertPerformanceDate,
+                  "m/d/yyyy, h:MM TT"
+                )}
               </h3>
 
               <h3 className="c__detail">
@@ -457,6 +442,7 @@ const ListingPage = () => {
                 <img
                   src={concertData?.concertTokenImage}
                   className="token__image__image"
+                  alt="NFT Concert Token Preview"
                 />
 
                 <div className="final__buy__button__div">
@@ -472,6 +458,7 @@ const ListingPage = () => {
                           src="/media/eth-logo.png"
                           height={25}
                           className="c__eth__logo white__eth__logo"
+                          alt="eth logo"
                         />
                         {formatPrice}{" "}
                         <span className="c__price__in__usd button__usd__price">
@@ -487,6 +474,7 @@ const ListingPage = () => {
                         href={transactionLink}
                         target="_blank"
                         className="dark__link"
+                        rel="noreferrer"
                       >
                         {truncateAddress(tx?.receipt.transactionHash)}
                       </a>
@@ -505,6 +493,7 @@ const ListingPage = () => {
                     <img
                       src="/media/x2y2-logo.png"
                       className="marketplace__icon"
+                      alt="X2Y2 Logo"
                     />
                   </div>
                   <div
@@ -518,6 +507,7 @@ const ListingPage = () => {
                     <img
                       src="/media/looksrare-logo.png"
                       className="marketplace__icon invert__icon"
+                      alt="LooksRare Logo"
                     />
                   </div>
                   <div
@@ -531,6 +521,7 @@ const ListingPage = () => {
                     <img
                       src="/media/opensea-logo.png"
                       className="marketplace__icon"
+                      alt="OpenSea Logo"
                     />
                   </div>
                   <div
@@ -544,30 +535,9 @@ const ListingPage = () => {
                     <img
                       src="/media/etherscan-logo.png"
                       className="marketplace__icon"
+                      alt="Etherscan Logo"
                     />
                   </div>
-                  {/* {metamaskDetected && (
-                  <PaperCheckout
-                    checkoutId="73baf406-11e0-4b74-8b3e-300908c7b0ee"
-                    display="DRAWER"
-                    options={{
-                      width: 400,
-                      height: 800,
-                      colorBackground: "#131313",
-                      colorPrimary: "#b90000",
-                      colorText: "#b90000",
-                      borderRadius: 6,
-                      fontFamily: "Saira",
-                    }}
-                  >
-                    <div className="marketplace__icon__div">
-                      <img
-                        src="/media/cc-logo.png"
-                        className="marketplace__icon"
-                      />
-                    </div>
-                  </PaperCheckout>
-                )} */}
                 </div>
               </div>
             </div>

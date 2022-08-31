@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
-import FormBox from "../form/FormBox";
 import Contract from "../form/Contract";
 import { useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
 import "./Confirmation.css";
 import "./../form/FormBox.css";
 import dateFormat from "dateformat";
-import { GetUSDExchangeRate, GetETHExchangeRate } from "./../api";
+import { GetUSDExchangeRate } from "./../api";
 import { db, fetchCurrentUser } from "../../firebase";
 import { ref as dRef, set, runTransaction } from "firebase/database";
 
 const Confirmation = ({ prevStep, values }) => {
   let navigate = useNavigate();
-  const routeChange = () => {
-    let path = `/`;
-    navigate(path);
-  };
   const [currentUser, setCurrentUser] = useState(null);
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
@@ -62,7 +57,6 @@ const Confirmation = ({ prevStep, values }) => {
     } else {
       for (var i = 1; i <= rowNums; i++) {
         const songDiv = (n) => {
-          const songPlaceholder = `Song ${n}`;
           return (
             <div className="song__div">
               <p className="song__num">{n}:</p>
@@ -85,7 +79,7 @@ const Confirmation = ({ prevStep, values }) => {
   const pushFormData = async (concertId) => {
     console.log("attempting to upload #", concertId);
     var uploadDate = new Date();
-    var uploadDateString = dateFormat(uploadDate, "m/d/yyyy, h:MM TT Z ");
+    var uploadDateString = dateFormat(uploadDate, "mm/dd/yyyy, hh:MM TT Z ");
     set(dRef(db, "submittedConcerts/" + concertId), {
       concertId: concertId,
       concertRecording: values.concertRecording,
@@ -93,7 +87,7 @@ const Confirmation = ({ prevStep, values }) => {
       concertArtist: values.concertArtist,
       concertPerformanceDate: dateFormat(
         values.concertPerformanceDate,
-        "m/d/yyyy, h:MM TT "
+        "mm/dd/yyyy, hh:MM TT Z"
       ),
       concertVenue: values.concertVenue,
       concertLocation: values.concertLocation,
@@ -111,7 +105,7 @@ const Confirmation = ({ prevStep, values }) => {
       concertResaleFee: values.concertResaleFee,
       concertReleaseDate: dateFormat(
         values.concertReleaseDate,
-        "m/d/yyyy, h:MM TT "
+        "mm/dd/yyyy, hh:MM TT Z"
       ),
       concertListingPrivacy: values.concertListingPrivacy,
       concertCompliance: "approved",
@@ -152,8 +146,6 @@ const Confirmation = ({ prevStep, values }) => {
   };
 
   //pulls concert ID and increments, then attaches concert ID to form data and uploads.
-
-  const [myConcertID, setMyConcertID] = useState("");
 
   const pushData = async () => {
     var concertIdRef = dRef(db, "submittedConcertID");
@@ -278,6 +270,7 @@ const Confirmation = ({ prevStep, values }) => {
                   src="/media/eth-logo.png"
                   height={15}
                   className="c__eth__logo"
+                  alt="eth logo"
                 />
                 <span className="with__emp">{formatPrice}</span>{" "}
                 <span className="c__price__in__usd">(${priceInUSD})</span>
@@ -328,6 +321,7 @@ const Confirmation = ({ prevStep, values }) => {
                 <img
                   src={values.concertThumbnailImage + "?not-cache"}
                   height="300px"
+                  alt="NFT Concert Token"
                 />
               </div>
               <div className="token__footer">

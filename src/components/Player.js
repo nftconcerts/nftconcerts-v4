@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 import "./Player.css";
 
 import "./upload/Confirmation.css";
-import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { db, fetchCurrentUser } from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
@@ -11,6 +11,7 @@ import { useAddress } from "@thirdweb-dev/react";
 import checkProductionTeam from "../scripts/checkProductionTeam";
 import FormBox from "./form/FormBox";
 import { useEditionDrop } from "@thirdweb-dev/react";
+import { editionDropAddress } from "./../scripts/getContract.mjs";
 
 const Player = () => {
   let navigate = useNavigate();
@@ -18,7 +19,6 @@ const Player = () => {
   let concertID = parseInt(searchParams.get("id"));
   const [concertData, setConcertData] = useState();
   const [currentUser, setCurrentUser] = useState(null);
-  const [recordingSrc, setRecordingSrc] = useState("");
   const [validUser, setValidUser] = useState(false);
   const [userData, setUserData] = useState();
   const [darkMode, setDarkMode] = useState(false);
@@ -35,7 +35,6 @@ const Player = () => {
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setConcertData(cData);
-      setRecordingSrc(cData.concertRecording);
     });
   }, [concertID]);
 
@@ -64,15 +63,13 @@ const Player = () => {
   }, [currentUser, userData, owned]);
 
   //check if user owns the proper token
-  const editionDropped = useEditionDrop(
-    "0x1A36D3eC36e258E85E6aC9c01872C9fF730Fc2E4"
-  );
+  const editionDropped = useEditionDrop(editionDropAddress);
 
   const checkIfOwned = async (userAddress) => {
     try {
       const balance = await editionDropped.balanceOf(userAddress, concertID);
       const balanceNum = parseInt(balance.toString());
-      console.log("User owns ", balanceNum);
+
       setOwned(balanceNum);
     } catch (err) {
       console.log("Fucked up check.");
@@ -85,6 +82,7 @@ const Player = () => {
     }
   }, [address]);
 
+  //display the setlist
   const displaySongs = () => {
     var songRows = [];
     var rowNums = parseInt(concertData?.concertNumSongs);
@@ -95,7 +93,6 @@ const Player = () => {
     } else {
       for (var i = 1; i <= rowNums; i++) {
         const songDiv = (n) => {
-          const songPlaceholder = `Song ${n}`;
           return (
             <div className=" player__song__div">
               <p className="player__song__num">{n}:</p>
@@ -113,18 +110,21 @@ const Player = () => {
     }
   };
 
+  //darken the background for better streaming exp
   const turnOffLights = () => {
     document.getElementsByClassName("player__page")[0].style.backgroundColor =
       "black";
     setDarkMode(true);
   };
 
+  //chagne the background back to grey
   const turnOnLights = () => {
     document.getElementsByClassName("player__page")[0].style.backgroundColor =
       "#373737";
     setDarkMode(false);
   };
 
+  //tweet link that user is watching this performance
   var twitterLink =
     "https://twitter.com/intent/tweet?text=%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%20Watching%20an%20insane%20performance%20by%20" +
     encodeURI(concertData?.concertArtist) +
@@ -135,15 +135,9 @@ const Player = () => {
   //check if user is holding production team NFT
   const [productionTeam, setProductionTeam] = useState(false);
 
-  const [showResult, setShowResult] = useState(false);
-  const [ptBalance, setPtBalance] = useState(0);
-  const [plBalance, setPlBalance] = useState(0);
-
   const productionCheck = async () => {
     if (address) {
       var checkResult = await checkProductionTeam(address);
-      setPtBalance(checkResult[0]);
-      setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {
         setProductionTeam(true);
       } else if (checkResult[1] > 0) {
@@ -152,12 +146,10 @@ const Player = () => {
         setProductionTeam(false);
       }
     } else if (!address && userData?.walletID) {
-      var checkResult = await checkProductionTeam(userData.walletID);
-      setPtBalance(checkResult[0]);
-      setPlBalance(checkResult[1]);
-      if (checkResult[0] > 0) {
+      var checkResultMobile = await checkProductionTeam(userData.walletID);
+      if (checkResultMobile[0] > 0) {
         setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
+      } else if (checkResultMobile[1] > 0) {
         setProductionTeam(true);
       } else {
         setProductionTeam(false);
@@ -182,6 +174,7 @@ const Player = () => {
             <img
               src="/media/production-team.jpg"
               className="production__team__image__two"
+              alt="NFT Concerts Production Team NFT"
             />
             <button
               onClick={() => {
@@ -245,7 +238,7 @@ const Player = () => {
                   />
                 )}
 
-                <a href={twitterLink} target="_blank">
+                <a href={twitterLink} target="_blank" rel="noreferrer">
                   <button className="fa-brands fa-twitter player__icon__button" />
                 </a>
                 <button
@@ -261,12 +254,12 @@ const Player = () => {
                   {owned}x Copies Owned of {concertData?.concertSupply}
                 </h3>
               )}
-              {owned == 1 && (
+              {owned === 1 && (
                 <h3 className="owned__info">
                   {owned} Copy Owned of {concertData?.concertSupply}
                 </h3>
               )}
-              {owned == 0 && (
+              {owned === 0 && (
                 <h3 className="owned__info">Mint to access the show.</h3>
               )}
               <h3 className="c__detail">
@@ -278,7 +271,10 @@ const Player = () => {
                   class="fa-solid fa-calendar c__icons"
                   title="Performance Date"
                 />
-                {concertData?.concertPerformanceDate}
+                {dateFormat(
+                  concertData.concertPerformanceDate,
+                  "m/d/yyyy, h:MM TT"
+                )}
               </h3>
 
               <h3 className="c__detail">
@@ -323,6 +319,7 @@ const Player = () => {
               <img
                 src={concertData?.concertTokenImage}
                 className="token__image__image"
+                alt="NFT Concert Token Preview"
               />
 
               <div className="final__buy__button__div">
@@ -349,6 +346,7 @@ const Player = () => {
                   <img
                     src="/media/x2y2-logo.png"
                     className="marketplace__icon"
+                    alt="X2Y2 Logo"
                   />
                 </div>
                 <div
@@ -362,6 +360,7 @@ const Player = () => {
                   <img
                     src="/media/looksrare-logo.png"
                     className="marketplace__icon invert__icon"
+                    alt="LooksRare Logo"
                   />
                 </div>
                 <div
@@ -375,6 +374,7 @@ const Player = () => {
                   <img
                     src="/media/opensea-logo.png"
                     className="marketplace__icon"
+                    alt="OpenSea Logo"
                   />
                 </div>
                 <div
@@ -388,6 +388,7 @@ const Player = () => {
                   <img
                     src="/media/etherscan-logo.png"
                     className="marketplace__icon"
+                    alt="Etherscan Logo"
                   />
                 </div>
                 {/* {metamaskDetected && (

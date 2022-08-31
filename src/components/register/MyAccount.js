@@ -11,7 +11,8 @@ import Contract from "../form/Contract";
 import { useNavigate } from "react-router-dom";
 import "./MyAccount.css";
 import { ref as dRef, onValue } from "firebase/database";
-import { useAddress, useMetamask } from "@thirdweb-dev/react";
+import { useAddress, useMetamask, useOwnedNFTs } from "@thirdweb-dev/react";
+import editionDrop from "../../scripts/getContract.mjs";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 
 const MyAccount = () => {
@@ -23,7 +24,6 @@ const MyAccount = () => {
   const [admin, setAdmin] = useState(false);
   const address = useAddress();
   const connectWithMetamask = useMetamask();
-  const [userConnectionType, setUserConnectionType] = useState();
 
   //set current user
   useEffect(() => {
@@ -43,6 +43,7 @@ const MyAccount = () => {
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
+        console.log("cu: ", data);
       });
     }
   }, [currentUser]);
@@ -54,6 +55,7 @@ const MyAccount = () => {
       var cData = snapshot.val();
       setConcertData(cData);
     });
+    submittedConcertTable();
   }, [currentUser]);
 
   //Check if user is admin or was uploader
@@ -66,13 +68,6 @@ const MyAccount = () => {
         setValidUser(true);
       }
     } else setValidUser(false);
-  }, [currentUser, userData]);
-
-  //determine what type of connection used by user
-  useEffect(() => {
-    if (userData?.connectionType) {
-      setUserConnectionType(userData?.connectionType);
-    }
   }, [currentUser, userData]);
 
   //pull users submitted concerts
@@ -143,7 +138,7 @@ const MyAccount = () => {
       }
 
       return rows;
-    } else return;
+    }
   };
 
   //check if user is holding production team NFT
@@ -182,6 +177,52 @@ const MyAccount = () => {
   useEffect(() => {
     productionCheck();
   }, [address, userData]);
+
+  //get owned NFTs by user
+  const {
+    data: ownedNFTs,
+    isLoading3,
+    error3,
+  } = useOwnedNFTs(editionDrop, address);
+
+  useEffect(() => {
+    if (ownedNFTs) {
+      console.log("users owns :", ownedNFTs);
+    }
+  }, [ownedNFTs]);
+
+  //show users owned concerts
+  const showConcerts = () => {
+    var arrayLength = ownedNFTs.length;
+
+    const nfts = [];
+    for (var i = 0; i < arrayLength; i++) {
+      nfts.push(
+        <div className="single__concert__container">
+          <div
+            className="single__concert__div"
+            name={ownedNFTs[i].metadata.id.toString()}
+            onClick={(i) => {
+              console.log(i);
+              navigate("/player?id=" + i.target.name);
+            }}
+          >
+            <img
+              src={ownedNFTs[i].metadata.image}
+              className="single__concert__image"
+              name={ownedNFTs[i].metadata.id.toString()}
+            />
+            <i className="fa-solid fa-play hidden__play__icon" />
+          </div>
+          <div className="single__concert__qty">
+            You Own {ownedNFTs[i].quantityOwned.toString()} of{" "}
+            {ownedNFTs[i].supply.toString()} Copies
+          </div>
+        </div>
+      );
+    }
+    return nfts;
+  };
 
   return (
     <>
@@ -245,31 +286,46 @@ const MyAccount = () => {
               {truncateAddress(currentUser.user.photoURL)}
             </p>
           </div> */}
-              <h3>Submitted Concerts</h3>
-              <div className="submitted__concerts__table">
-                <div className="concert__table__headers">
-                  <div className="concert__id">ID </div>
-                  <div className="concert__thumbnail">IMG</div>
-                  <div className="concert__name">Name</div>
-                  <div className="concert__perf__date">Performance Date</div>
-                  <div className="concert__listing__approval">
-                    Listing Approval
+              {ownedNFTs && (
+                <>
+                  <h3>Owned Concerts</h3>
+                  <div className="concert__library">
+                    {concertData && showConcerts()}
                   </div>
-                  <div className="header__expand__button">
-                    <i className="fa-solid fa-file-signature" />
+                </>
+              )}
+              {userData?.submittedConcerts && (
+                <>
+                  <h3>Submitted Concerts</h3>
+                  <div className="submitted__concerts__table">
+                    <div className="concert__table__headers">
+                      <div className="concert__id">ID </div>
+                      <div className="concert__thumbnail">IMG</div>
+                      <div className="concert__name">Name</div>
+                      <div className="concert__perf__date">
+                        Performance Date
+                      </div>
+                      <div className="concert__listing__approval">
+                        Listing Approval
+                      </div>
+                      <div className="header__expand__button">
+                        <i className="fa-solid fa-file-signature" />
+                      </div>
+                      <div className="header__play__button">
+                        <i className="fa-solid fa-play" />
+                      </div>
+                      <div className="header__token__button">
+                        <i className="fa-solid fa-file-invoice-dollar"></i>
+                      </div>
+                    </div>
+                    {userData && concertData && submittedConcertTable(userData)}
+                    <div className="submitted__concert__row">
+                      <div className="submitted__concert__name"></div>
+                    </div>
                   </div>
-                  <div className="header__play__button">
-                    <i className="fa-solid fa-play" />
-                  </div>
-                  <div className="header__token__button">
-                    <i className="fa-solid fa-file-invoice-dollar"></i>
-                  </div>
-                </div>
-                {userData && concertData && submittedConcertTable(userData)}
-                <div className="submitted__concert__row">
-                  <div className="submitted__concert__name"></div>
-                </div>
-              </div>
+                </>
+              )}
+              <div className="account__buttons__div"></div>
 
               <div className="admin__button__div">
                 {!address && (

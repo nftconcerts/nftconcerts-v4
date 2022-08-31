@@ -22,7 +22,8 @@ import "./upload/Upload.css";
 import "./upload/UploadRecording.css";
 import { Buffer } from "buffer";
 import { create } from "ipfs-http-client";
-import { release } from "process";
+
+import setNFTroyalties from "../scripts/setNftRoyalties";
 
 const fileTypes = ["PNG"];
 
@@ -267,9 +268,12 @@ const ContractPage = () => {
   }
   //approve concert
   const [mintLoading, setMintLoading] = useState(false);
+  const [settingClaim, setSettingClaim] = useState(false);
+  const [settingRoyalties, setSettingRoyalties] = useState(false);
 
   const checking = () => {
-    const releaseDate = new Date(concertData.concertReleaseDate);
+    console.log("PD: ", concertData?.concertPerformanceDate);
+    const releaseDate = new Date(concertData.concertPerformanceDate);
     console.log("release date: ", releaseDate);
     const claimConditions = [
       {
@@ -288,15 +292,10 @@ const ContractPage = () => {
     const claimConditions = [
       {
         startTime: nowDate,
-        quantityLimitPerTransaction: 1,
-        price: parseFloat(concertData.concertPrice),
-        maxQuantity: 5,
-      },
-      {
-        startTime: releaseDate,
         quantityLimitPerTransaction: 5,
         price: parseFloat(concertData.concertPrice),
         waitInSeconds: 500,
+        maxQuantity: concertData.concertSupply,
       },
     ];
     setMintLoading(true);
@@ -306,14 +305,20 @@ const ContractPage = () => {
       concertData.concertArtist,
       concertData.concertDescription,
       ipfsUrl,
-      claimConditions,
-      concertData.concertResaleFee
+      concertData.concertReleaseDate,
+      concertData.concertPerformanceDate,
+      concertData.concertVenue,
+      concertData.concertLocation,
+      concertData.concertRecordingType,
+      concertData.concertNumSongs
     );
     console.log("minted");
-    setMintLoading(false);
+    setSettingClaim(true);
     const firstTokenId = mint[0].id;
     const tokenString = firstTokenId.toString();
     await setNFTclaim(parseInt(tokenString), claimConditions);
+    setSettingRoyalties(true);
+    await setNFTroyalties(parseInt(tokenString), concertData.concertResaleFee);
     var tokenIdRef = dRef(db, "submittedConcerts/" + concertID + "/tokenId");
     var listingApprovalRef = dRef(
       db,
@@ -621,6 +626,13 @@ const ContractPage = () => {
           {adminUser && (
             <div className="admin__panel">
               <h3>Admin Panel</h3>
+              <button
+                onClick={() => {
+                  checking();
+                }}
+              >
+                Check
+              </button>
 
               {approvedListing && (
                 <p>This listing has already been approved.</p>
@@ -740,7 +752,13 @@ const ContractPage = () => {
                       />
                       {mintLoading && (
                         <div className="minting__alert__div">
-                          <h3>Creating NFT.</h3>
+                          {!settingClaim && !settingRoyalties && (
+                            <h3>Creating NFT.</h3>
+                          )}
+                          {settingClaim && !settingRoyalties && (
+                            <h3>Setting Claim Conditions</h3>
+                          )}
+                          {settingRoyalties && <h3>Setting Royalties</h3>}
                           <div className="center bottom__center">
                             <div className="wave"></div>
                             <div className="wave"></div>

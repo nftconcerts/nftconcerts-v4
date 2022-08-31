@@ -74,7 +74,6 @@ function Register() {
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
-        console.log("Ud:", data);
       });
     }
   }, [currentUser]);
@@ -105,7 +104,6 @@ function Register() {
           connectionType: rcType,
         })
           .then(() => {
-            console.log("data uploaded to db");
             alert(`Welcome ${displayName} to NFT Concerts`);
             navigate("/");
           })
@@ -152,9 +150,6 @@ function Register() {
 
       const library = new Web3Provider(provider, "any");
 
-      console.log("library");
-      console.log(library);
-      console.log("account: ", account);
       setWeb3Library(library);
       setWeb3Account(account);
       setWcAddress(account);
@@ -194,8 +189,6 @@ function Register() {
 
       const library = new Web3Provider(provider, "any");
 
-      console.log("library");
-      console.log(library);
       setWeb3Library(library);
       setWeb3Account(account);
       setCbAddress(account);

@@ -119,7 +119,6 @@ function Upload() {
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
           setFormData((prevState) => ({
             ...prevState,
             ["concertRecording"]: url,
@@ -156,7 +155,6 @@ function Upload() {
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
           setFormData((prevState) => ({
             ...prevState,
             ["concertThumbnailImage"]: url,
@@ -193,7 +191,6 @@ function Upload() {
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
           setFormData((prevState) => ({
             ...prevState,
             ["concertPromoClip"]: url,
