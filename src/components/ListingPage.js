@@ -12,21 +12,31 @@ import FormBox from "./form/FormBox";
 import { useActiveClaimCondition, useEditionDrop } from "@thirdweb-dev/react";
 import editionDrop, { editionDropAddress } from "../scripts/getContract.mjs";
 import { useAddress } from "@thirdweb-dev/react";
+import { ethers } from "ethers";
 
 const ListingPage = () => {
   let navigate = useNavigate();
-  let searchParams = useSearchParams();
+  let [searchParams, setSearchParams] = useSearchParams();
   let concertID = parseInt(searchParams.get("id"));
   const [concertData, setConcertData] = useState();
   const [currentUser, setCurrentUser] = useState(null);
   const [formatPrice, setFormatPrice] = useState("");
   const [validListing, setValidListing] = useState(false);
   const [metamaskDetected, setMetamaskDetected] = useState(false);
+  let bigId = ethers.BigNumber.from(concertID);
   const { data: activeClaimCondition } = useActiveClaimCondition(
     editionDrop,
-    concertID
+    bigId
   );
   let address = useAddress();
+
+  useEffect(() => {
+    console.log("ACC: ", activeClaimCondition);
+  }, [activeClaimCondition]);
+
+  useEffect(() => {
+    console.log("ACC: ", activeClaimCondition);
+  }, [activeClaimCondition]);
 
   //format concert eth price
   useEffect(() => {
@@ -257,7 +267,7 @@ const ListingPage = () => {
                   <button
                     className="buy__now my__button preview__button buy__now__button"
                     onClick={claimButton}
-                    disabled={claiming}
+                    disabled={claiming || !activeClaimCondition}
                   >
                     <div className="inside__button__div">
                       <div>Mint</div>{" "}
@@ -297,7 +307,7 @@ const ListingPage = () => {
               <div className="c__token__remaining">
                 Available:
                 <br className="mobile__show" />{" "}
-                {activeClaimCondition?.availableSupply}
+                {activeClaimCondition?.availableSupply || 50}
               </div>
               <div className="c__token__supply">
                 Total Supply:
@@ -325,7 +335,7 @@ const ListingPage = () => {
                   <button
                     className="buy__now my__button preview__button buy__now__button"
                     onClick={claimButton}
-                    disabled={claiming}
+                    disabled={claiming || !activeClaimCondition}
                   >
                     <div className="inside__button__div">
                       <div>Mint</div>{" "}
@@ -449,7 +459,7 @@ const ListingPage = () => {
                   <button
                     className="buy__now my__button preview__button buy__now__button"
                     onClick={claimButton}
-                    disabled={claiming}
+                    disabled={claiming || !activeClaimCondition}
                   >
                     <div className="inside__button__div">
                       <div>Mint</div>{" "}
@@ -486,21 +496,7 @@ const ListingPage = () => {
                     className="marketplace__icon__div"
                     onClick={() => {
                       window.open(
-                        `https://x2y2.io/eth/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
-                      );
-                    }}
-                  >
-                    <img
-                      src="/media/x2y2-logo.png"
-                      className="marketplace__icon"
-                      alt="X2Y2 Logo"
-                    />
-                  </div>
-                  <div
-                    className="marketplace__icon__div"
-                    onClick={() => {
-                      window.open(
-                        `https://looksrare.org/collections/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
+                        `https://looksrare.org/collections/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
                       );
                     }}
                   >
@@ -514,7 +510,7 @@ const ListingPage = () => {
                     className="marketplace__icon__div"
                     onClick={() => {
                       window.open(
-                        `https://opensea.io/assets/ethereum/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
+                        `https://opensea.io/assets/ethereum/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
                       );
                     }}
                   >
@@ -528,7 +524,21 @@ const ListingPage = () => {
                     className="marketplace__icon__div"
                     onClick={() => {
                       window.open(
-                        `https://etherscan.io/token/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30?a=${concertID}`
+                        `https://x2y2.io/eth/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
+                      );
+                    }}
+                  >
+                    <img
+                      src="/media/x2y2-logo.png"
+                      className="marketplace__icon"
+                      alt="X2Y2 Logo"
+                    />
+                  </div>
+                  <div
+                    className="marketplace__icon__div"
+                    onClick={() => {
+                      window.open(
+                        `https://etherscan.io/token/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a?a=${concertID}`
                       );
                     }}
                   >

@@ -167,3 +167,59 @@
   width: 50px;
   object-fit: cover;
 }
+
+/* //new stuff */
+
+.concert__library {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.single__concert__container {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  min-height: 330px;
+  justify-content: flex-start;
+  align-items: center;
+  border: solid 1px #000;
+  padding-top: 10px;
+}
+.single__concert__div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.single__concert__image {
+  width: 180px;
+  cursor: pointer;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+.single__concert__div:hover .single__concert__image {
+  opacity: 0.5;
+}
+.single__concert__div:hover .hidden__play__icon {
+  opacity: 1;
+}
+.hidden__play__icon {
+  transition: 0.5s ease;
+  position: relative;
+  top: -180px;
+  width: 100px;
+  height: 50px;
+  color: #000;
+  font-size: 30px;
+  pointer-events: none;
+  margin-bottom: -40px;
+  opacity: 0;
+}
+.single__concert__quantity {
+  margin-top: -40px;
+}
+@media screen and (max-width: 720px) {
+  .single__concert__container {
+    width: 100%;
+  }
+}

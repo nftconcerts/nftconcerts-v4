@@ -107,6 +107,7 @@ const ContractPage = () => {
     });
   }, []);
 
+  //set USD price based off concert price and ETH/USD
   useEffect(() => {
     if (parseFloat(concertData?.concertPrice)) {
       var newPrice = parseFloat(concertData?.concertPrice) * usdExRate;
@@ -179,7 +180,7 @@ const ContractPage = () => {
   };
 
   //ADMIN UPLOAD FINAL TOKEN IMAGE
-  //upload files to Firebase Storage
+  //upload token image files to Firebase Storage
   const [file, setFile] = useState("");
   const [whileUploading, setWhileUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -212,7 +213,6 @@ const ContractPage = () => {
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setTokenFileUrl(url);
           set(tokenRef, url);
         });
       }
@@ -224,6 +224,7 @@ const ContractPage = () => {
     uploadFileToIpfs(file);
   };
 
+  //upload token image file to ipfs storage aswell
   const projectId = `${process.env.REACT_APP_INFURA_PROJECT_ID}`;
   const projectSecret = `${process.env.REACT_APP_INFURA_PROJECT_SECRET}`;
 
@@ -266,32 +267,70 @@ const ContractPage = () => {
       setShowError(true);
     }
   }
-  //approve concert
+  //approve concert toggles
   const [mintLoading, setMintLoading] = useState(false);
   const [settingClaim, setSettingClaim] = useState(false);
   const [settingRoyalties, setSettingRoyalties] = useState(false);
 
   const checking = () => {
-    console.log("PD: ", concertData?.concertPerformanceDate);
-    const releaseDate = new Date(concertData.concertPerformanceDate);
-    console.log("release date: ", releaseDate);
-    const claimConditions = [
+    var releaseDate = new Date(concertData.concertReleaseDate);
+    var releaseDateTime = releaseDate.getTime();
+    var performanceDate = new Date(concertData.concertPerformanceDate);
+    var performanceDateTime = performanceDate.getTime();
+    console.log("RD: ", releaseDate);
+    console.log("PD: ", performanceDate);
+    var dropData = [
       {
-        startTime: releaseDate,
-        quantityLimitPerTransaction: 5,
-        price: parseFloat(concertData.concertPrice),
+        name: `${concertData.concertName} by ${concertData.concertArtist}`,
+        description: `${concertData.concertDescription}`,
+        image: `${ipfsUrl}`,
+        external_url: "https://nftconcerts.com",
+        attributes: [
+          {
+            trait_type: "Artist",
+            value: `${concertData.concertArtist}`,
+          },
+          {
+            display_type: "date",
+            trait_type: "NFT Concert Release Date",
+            value: `${releaseDateTime}`,
+          },
+          {
+            display_type: "date",
+            trait_type: "Live Performance Date",
+            value: `${performanceDateTime}`,
+          },
+          {
+            trait_type: "Venue",
+            value: `${concertData.concertVenue}`,
+          },
+          {
+            trait_type: "Location",
+            value: `${concertData.concertLocation}`,
+          },
+          {
+            trait_type: "Recording Type",
+            value: `${concertData.concertRecordingType}`,
+          },
+          {
+            display_type: "number",
+            trait_type: "Number of Songs",
+            value: `${concertData.concertNumSongs}`,
+          },
+        ],
       },
     ];
-    console.log("claim conditions: ", claimConditions);
+    console.log("claim conditions: ", dropData);
   };
 
+  //approve concert, mint, and upload to DB.
   const approveConcert = async () => {
     const nowDate = new Date();
     const releaseDate = new Date(concertData.concertReleaseDate);
     console.log("release date: ", releaseDate);
     const claimConditions = [
       {
-        startTime: nowDate,
+        startTime: releaseDate,
         quantityLimitPerTransaction: 5,
         price: parseFloat(concertData.concertPrice),
         waitInSeconds: 500,

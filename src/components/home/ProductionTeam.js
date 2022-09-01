@@ -240,11 +240,10 @@ const ProductionTeam = () => {
   return (
     <Contract>
       <h1 className="welcome__title">
-        The NFT Concerts Beta will open 9/1/2022
+        Join the Production Team to Access
+        <br className="mobile__hide" /> the NFT Concerts Beta
       </h1>
-      <h3 className="welcome__disclaimer ">
-        Beta Access is restricted to Production Team Members.
-      </h3>
+
       {purchased && (
         <div className="purchased__message__div">
           {txError && <>Error with Transaction.</>}
@@ -494,7 +493,7 @@ const ProductionTeam = () => {
                 <a href="/Register">Register</a> or <a href="/Login">Login</a>
               </>
             )}
-            {currentUser && <a href="/">Enter on Sept 1st</a>}
+            {currentUser && <a href="/home">Enter Now</a>}
           </p>
         )}
         {pageMobileMode && !currentUser && (
@@ -721,7 +720,7 @@ const ProductionTeam = () => {
       </div>
       <div className="contract__footer__div">
         <h3 className="welcome__disclaimer">
-          NFT Concerts will be open to the public shortly.
+          NFT Concerts Will Operate in Beta Until 10/1/2022
         </h3>
         <div className="three__button__div">
           <button

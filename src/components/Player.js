@@ -31,7 +31,7 @@ const Player = () => {
 
   //download concert data
   useEffect(() => {
-    var concertDataRef = dRef(db, "submittedConcerts/" + concertID + "/");
+    var concertDataRef = dRef(db, "concerts/" + concertID + "/");
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setConcertData(cData);
@@ -59,7 +59,7 @@ const Player = () => {
       }
     } else if (owned > 0) {
       setValidUser(true);
-    } else setValidUser(false);
+    }
   }, [currentUser, userData, owned]);
 
   //check if user owns the proper token
@@ -71,6 +71,7 @@ const Player = () => {
       const balanceNum = parseInt(balance.toString());
 
       setOwned(balanceNum);
+      if (balanceNum > 0) setValidUser(true);
     } catch (err) {
       console.log("Fucked up check.");
     }
@@ -339,21 +340,7 @@ const Player = () => {
                   className="marketplace__icon__div"
                   onClick={() => {
                     window.open(
-                      `https://x2y2.io/eth/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
-                    );
-                  }}
-                >
-                  <img
-                    src="/media/x2y2-logo.png"
-                    className="marketplace__icon"
-                    alt="X2Y2 Logo"
-                  />
-                </div>
-                <div
-                  className="marketplace__icon__div"
-                  onClick={() => {
-                    window.open(
-                      `https://looksrare.org/collections/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
+                      `https://looksrare.org/collections/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
                     );
                   }}
                 >
@@ -367,7 +354,7 @@ const Player = () => {
                   className="marketplace__icon__div"
                   onClick={() => {
                     window.open(
-                      `https://opensea.io/assets/ethereum/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30/${concertID}`
+                      `https://opensea.io/assets/ethereum/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
                     );
                   }}
                 >
@@ -381,7 +368,21 @@ const Player = () => {
                   className="marketplace__icon__div"
                   onClick={() => {
                     window.open(
-                      `https://etherscan.io/token/0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30?a=${concertID}`
+                      `https://x2y2.io/eth/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
+                    );
+                  }}
+                >
+                  <img
+                    src="/media/x2y2-logo.png"
+                    className="marketplace__icon"
+                    alt="X2Y2 Logo"
+                  />
+                </div>
+                <div
+                  className="marketplace__icon__div"
+                  onClick={() => {
+                    window.open(
+                      `https://etherscan.io/token/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a?a=${concertID}`
                     );
                   }}
                 >

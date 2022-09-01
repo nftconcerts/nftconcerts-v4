@@ -33,6 +33,7 @@ import {
 import { ethers } from "ethers";
 import { GetUSDExchangeRate, GetMaticUSDExchangeRate, getGas } from "./api";
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
+import checkProductionTeam from "../scripts/checkProductionTeam";
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const Nav = () => {
@@ -67,11 +68,15 @@ const Nav = () => {
     GetUSDExchangeRate().then((res) => {
       setUsdExRate(parseFloat(res));
     });
-    getGas().then((res) => {
-      if (res) {
-        setGasPrice(res);
-      }
-    });
+    getGas()
+      .then((res) => {
+        if (res) {
+          setGasPrice(res);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     if (typeof window.ethereum !== "undefined") {
       setMetamaskDetected(true);
     }
@@ -189,6 +194,35 @@ const Nav = () => {
     }
   }, [currentUser, userData]);
 
+  //check if user is holding production team NFT
+  const [productionTeam, setProductionTeam] = useState(false);
+
+  const productionCheck = async () => {
+    if (address) {
+      var checkResult = await checkProductionTeam(address);
+      if (checkResult[0] > 0) {
+        setProductionTeam(true);
+      } else if (checkResult[1] > 0) {
+        setProductionTeam(true);
+      } else {
+        setProductionTeam(false);
+      }
+    } else if (!address && userData?.walletID) {
+      var checkResultMobile = await checkProductionTeam(userData.walletID);
+      if (checkResultMobile[0] > 0) {
+        setProductionTeam(true);
+      } else if (checkResultMobile[1] > 0) {
+        setProductionTeam(true);
+      } else {
+        setProductionTeam(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    productionCheck();
+  }, [address, userData]);
+
   return (
     <div className="total_nav">
       {!navMobileMode && (
@@ -261,6 +295,31 @@ const Nav = () => {
                         </div>
                       </div>
                     )}
+                  </div>
+                </div>
+              )}
+              {!address && (
+                <div className="network__mismatch__div">
+                  <div className="network__mismatch__prompt">
+                    Not Connected to Web3.{" "}
+                    <div className="two__buttons__div">
+                      <button
+                        onClick={connectWithMetamask}
+                        className="network__prompt__button "
+                      >
+                        Use MetaMask
+                      </button>
+                      <button
+                        className="network__prompt__button network__prompt__button__right"
+                        onClick={() => {
+                          setMobileMode();
+                          setNavMobileMode(true);
+                          window.location.reload(false);
+                        }}
+                      >
+                        Use in Mobile Mode
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -407,16 +466,18 @@ const Nav = () => {
       )} */}
       {address && currentUser && <div className="user__wallet"></div>}
       <div className={`nav ${show && "nav__black"}`}>
-        <a href="/">
-          <img
-            className="nav__logo"
-            src="https://nftconcerts.com/wp-content/uploads/2021/02/arc-logo-600x190-White-1.png"
-            alt="NFT Concerts Logo"
-          />
-        </a>
-        <div>
-          <p className="prompt"> Connect to MetaMask on Ethereum</p>
-        </div>
+        <img
+          className="nav__logo"
+          src="https://nftconcerts.com/wp-content/uploads/2021/02/arc-logo-600x190-White-1.png"
+          alt="NFT Concerts Logo"
+          onClick={() => {
+            if (productionTeam) {
+              navigate("/home");
+            } else {
+              navigate("/");
+            }
+          }}
+        />
 
         <img
           className="nav__avatar"
@@ -447,10 +508,10 @@ const Nav = () => {
           {currentUser && !artistUser && !adminUser && (
             <>
               {" "}
-              <a href="#" className="menu__item" onClick={menuPop}>
+              <a href="/my-account" className="menu__item" onClick={menuPop}>
                 My Account
               </a>
-              <a href="/" className="menu__item" onClick={menuPop}>
+              <a href="/home" className="menu__item" onClick={menuPop}>
                 Discover
               </a>
               <a href="#" className="menu__item" onClick={menuLogout}>

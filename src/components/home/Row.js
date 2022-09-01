@@ -7,6 +7,7 @@ import ReactPlayer from "react-player";
 import { useActiveClaimCondition, useEditionDrop } from "@thirdweb-dev/react";
 import editionDrop from "../../scripts/getContract.mjs";
 import dateformat from "dateformat";
+import { ethers } from "ethers";
 
 function Row({ title, isLargeRow, concertData, concerts }) {
   const [trailerUrl, setTrailerUrl] = useState("");
@@ -41,10 +42,10 @@ function Row({ title, isLargeRow, concertData, concerts }) {
   }, [singleConcert, usdExRate]);
 
   //get claim conditions for single concert
-
+  let bigId = ethers.BigNumber.from(0);
   const { data: activeClaimCondition } = useActiveClaimCondition(
     editionDrop,
-    singleConcert
+    bigId
   );
 
   //claim nft with the claim method
@@ -308,19 +309,21 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                   </div>
                 </div>
                 <div className="buttons__box preview__buttons__box">
-                  <button
-                    className="my__button preview__button"
-                    onClick={() => navigate(`/concert?id=${singleConcert}`)}
-                  >
-                    Learn More
-                  </button>
-                  <button
-                    className="buy__now my__button preview__button"
-                    onClick={claimButton}
-                    disabled={claiming}
-                  >
-                    Mint
-                  </button>
+                  <div className="preview__buttons__div">
+                    <button
+                      className="my__button preview__button"
+                      onClick={() => navigate(`/concert?id=${singleConcert}`)}
+                    >
+                      Learn More
+                    </button>
+                    <button
+                      className="buy__now my__button preview__button"
+                      onClick={claimButton}
+                      disabled={claiming || !activeClaimCondition}
+                    >
+                      Mint
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

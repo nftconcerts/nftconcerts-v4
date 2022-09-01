@@ -105,6 +105,7 @@ function Register() {
         })
           .then(() => {
             alert(`Welcome ${displayName} to NFT Concerts`);
+
             navigate("/");
           })
           .catch((error) => {
@@ -134,12 +135,10 @@ function Register() {
     try {
       const RPC_URLS = {
         1: "https://mainnet.infura.io/v3/55d040fb60064deaa7acc8e320d99bd4",
-        4: "https://rinkeby.infura.io/v3/55d040fb60064deaa7acc8e320d99bd4",
       };
       const provider = new WalletConnectProvider({
         rpc: {
           1: RPC_URLS[1],
-          4: RPC_URLS[4],
         },
         qrcode: true,
         pollingInterval: 15000,

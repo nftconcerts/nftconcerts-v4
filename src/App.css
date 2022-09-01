@@ -24,8 +24,7 @@
   border-radius: 5px;
   padding-left: 2rem;
   padding-right: 2rem;
-  margin-right: 3rem;
-  margin-left: 3rem;
+
   margin-top: 30px;
   padding-top: 0.5rem;
   background-color: rgb(51, 51, 51);
@@ -33,7 +32,7 @@
   font-size: 26px;
   font-family: "BenchNine";
   text-transform: uppercase;
-  width: 180px;
+  width: 200px;
   transition: all 0.5s;
 }
 .row1 {
@@ -104,7 +103,7 @@ input {
   background-color: #f00000;
 }
 .buy__now:disabled {
-  background-color: #888 !important;
+  background-color: #555 !important;
   pointer-events: none;
 }
 .buy__button__box {

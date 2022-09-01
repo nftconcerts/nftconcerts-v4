@@ -1,9 +1,10 @@
 .welcome__title {
   font-family: "Saira";
   font-weight: bold;
-  font-size: 30px;
-  padding-bottom: 20px;
-  padding-top: 20px;
+  font-size: 36px;
+  padding-bottom: 0px;
+  padding-top: 10px;
+  line-height: 50px;
 }
 .welcome__disclaimer {
   font-size: 22px;
@@ -160,6 +161,7 @@ a:hover {
   margin-right: 10px;
   padding: 10px;
   background: #333;
+  width: 180px;
 }
 .transaction-page {
   z-index: 129;
@@ -262,7 +264,8 @@ a:hover {
     font-size: 20px;
   }
   .welcome__title {
-    font-size: 25px;
+    font-size: 22px;
+    line-height: 33px;
   }
   .mobile__hide__two {
     display: none;
@@ -316,4 +319,7 @@ a:hover {
   min-width: 55px;
 
   height: 10px;
+}
+.open__time {
+  padding-bottom: 20px;
 }

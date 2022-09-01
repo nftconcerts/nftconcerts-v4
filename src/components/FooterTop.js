@@ -15,25 +15,25 @@ function FooterTop() {
             alt="NFT Concerts Logo"
           />
           <div className="center__prompt__center">
-            <h2 className="prompt__text">Ready To Get Started?</h2>
+            <h2 className="prompt__text">Thank You for the Support</h2>
 
             <div className="buttons__box">
               <button
                 className="my__button"
                 onClick={() => {
-                  navigate("/login");
+                  window.open("https://nftconcerts.com/about");
                 }}
               >
-                Log In
+                Learn More
               </button>
 
               <button
                 className="buy__now my__button"
                 onClick={() => {
-                  navigate("/register");
+                  window.open("https://nftconcerts.com/blog");
                 }}
               >
-                Register
+                Read the Blog
               </button>
             </div>
           </div>

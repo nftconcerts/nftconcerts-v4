@@ -1,0 +1,46 @@
+.coming__soon__title {
+  padding-bottom: 20px;
+}
+.coming__soon__bottom {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.share__buttons__div {
+  width: 300px;
+  display: flex;
+  justify-content: space-evenly;
+  align-self: center;
+  padding-top: 30px;
+}
+.share__button {
+  height: 40px;
+  width: 60px;
+  font-size: 22px;
+  border-radius: 5px;
+  background-color: #fff;
+  cursor: pointer;
+}
+.share__button:hover {
+  transition: all 0.5s;
+  background: #ccc;
+  font-size: 24px;
+}
+.copied {
+  padding-top: 10px;
+}
+.red__emph {
+  color: #f00000;
+  font-weight: bold;
+}
+.buttons__box {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.final__row {
+  margin-bottom: 150px;
+}

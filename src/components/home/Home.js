@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Banner from "../Banner";
 import Row from "./Row";
+import ComingSoonRow from "./ComingSoonRow";
 import FooterTop from "../FooterTop";
 import { ref as dRef, onValue } from "firebase/database";
 import { db, getMobileMode, fetchCurrentUser } from "./../../firebase";
@@ -14,7 +15,7 @@ const Home = () => {
   let navigate = useNavigate();
   const networkMismatch = useNetworkMismatch();
   const [concertData, setConcertData] = useState();
-  const firstReleaseConcerts = [1];
+  const firstReleaseConcerts = [0];
   const trendingConcerts = [8, 2, 4, 6, 10];
   const concerts = [5, 4, 7, 2, 1];
   const [currentUser, setCurrentUser] = useState(null);
@@ -112,36 +113,41 @@ const Home = () => {
             concertData={concertData}
             concerts={firstReleaseConcerts}
           />
-          <Row
+          <ComingSoonRow
             title="Trending Now"
             concertData={concertData}
             concerts={trendingConcerts}
           />
-          <Row
+          <ComingSoonRow
             title="Recommended"
             concertData={concertData}
             concerts={concerts}
           />
-          <Row
+          <ComingSoonRow
             title="Resale Marketplace"
             concertData={concertData}
             concerts={concerts}
           />
-          <Row title="1/1" concertData={concertData} concerts={concerts} />
-          <Row
+          <ComingSoonRow
+            title="1/1"
+            concertData={concertData}
+            concerts={concerts}
+          />
+          <ComingSoonRow
             title="Latest Release"
             concertData={concertData}
             concerts={concerts}
           />
-          <Row
+          <ComingSoonRow
             title="Classic Shows"
             concertData={concertData}
             concerts={concerts}
           />
-          <Row
+          <ComingSoonRow
             title="Audio Only"
             concertData={concertData}
             concerts={concerts}
+            isFinalRow
           />
           <FooterTop />
         </div>

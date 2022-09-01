@@ -42,6 +42,7 @@
   width: 100%;
   z-index: 10;
   margin-bottom: 10px;
+  z-index: 10;
 }
 .preview__title {
   padding-top: 20px;
@@ -113,6 +114,16 @@
   font-size: 20px;
   padding-bottom: 30px;
 }
+.preview__buttons__box {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 10px;
+}
+.preview__buttons__div {
+  width: 700px;
+  display: flex;
+  justify-content: space-evenly;
+}
 @media only screen and (max-width: 700px) {
   .thirds {
     min-width: 0px;
@@ -144,6 +155,12 @@
   .preview__buttons__box {
     display: flex;
     justify-content: space-evenly;
+    padding-top: 10px;
+  }
+  .preview__buttons__div {
+    max-width: 400px;
+    width: 90%;
+    justify-content: space-between;
     padding-top: 10px;
   }
   .two__col {
