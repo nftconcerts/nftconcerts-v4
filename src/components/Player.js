@@ -249,7 +249,9 @@ const Player = () => {
                   }}
                 />
               </div>
-              <h1 className="c__name">{concertData?.concertName}</h1>
+              <h1 className="c__name">
+                {concertData?.concertName} by {concertData?.concertArtist}
+              </h1>
               {owned > 1 && (
                 <h3 className="owned__info">
                   {owned}x Copies Owned of {concertData?.concertSupply}

@@ -66,6 +66,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
       setShowPurchased(true);
     } catch (error) {
       console.log("Failed to claim. Error: ", error);
+      setClaiming(false);
     }
   };
 
@@ -190,12 +191,30 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                   <div className="no__media__player__row">
                     {" "}
                     {/* <h3 className="promo__h3">No Promo Clip.</h3> */}
-                    <img
-                      onClick={() => navigate(`/concert?id=${singleConcert}`)}
-                      className="no__promo__clip__token"
-                      src={concertData[singleConcert]?.concertTokenImage}
-                      alt={"Babs.0 NFT Concert"}
-                    />
+                    {(claiming && (
+                      <div className="img__replacement">
+                        <h3>Minting NFT</h3>
+                        <div className="row__center">
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                          <div className="wave"></div>
+                        </div>
+                      </div>
+                    )) || (
+                      <img
+                        onClick={() => navigate(`/concert?id=${singleConcert}`)}
+                        className="no__promo__clip__token"
+                        src={concertData[singleConcert]?.concertTokenImage}
+                        alt={"Babs.0 NFT Concert"}
+                      />
+                    )}
                     <p>Mint to Unlock the Show </p>
                   </div>
                 </>

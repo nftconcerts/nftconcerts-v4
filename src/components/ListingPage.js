@@ -263,11 +263,29 @@ const ListingPage = () => {
               )) || <div className="mobile__spacer mobile__show grey" />}
               <div className="no__clip__div">
                 <div className="no__clip">
-                  <img
-                    src={concertData?.concertTokenImage}
-                    className="no__clip__token__image"
-                    alt="NFT Concert Token Preview"
-                  />
+                  {(claiming && (
+                    <div className="img__replacement">
+                      <h3>Minting NFT</h3>
+                      <div className="row__center">
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                        <div className="wave"></div>
+                      </div>
+                    </div>
+                  )) || (
+                    <img
+                      src={concertData?.concertTokenImage}
+                      className="no__clip__token__image"
+                      alt="NFT Concert Token Preview"
+                    />
+                  )}
 
                   <h3 className="promo__h3">Mint to Unlock the Show</h3>
 
@@ -388,7 +406,9 @@ const ListingPage = () => {
                 </div>
               )) || <></>}
 
-              <h1 className="c__name">{concertData?.concertName}</h1>
+              <h1 className="c__name">
+                {concertData?.concertName} by {concertData?.concertArtist}
+              </h1>
               {owned > 1 && (
                 <h3 className="owned__info">
                   {owned}x Copies Owned of {concertData?.concertSupply}
