@@ -215,6 +215,9 @@ video {
 }
 @media screen and (max-width: 725px) {
   .player__page {
-    padding-top: 110px;
+    padding-top: 50px;
+  }
+  .media__player__div {
+    padding-top: 60px;
   }
 }

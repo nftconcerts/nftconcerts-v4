@@ -43,6 +43,9 @@
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), #333);
   pointer-events: none;
 }
+.no__wrap__button {
+  white-space: nowrap;
+}
 @media screen and (max-width: 725px) {
   .buttons__box {
     flex-direction: column;

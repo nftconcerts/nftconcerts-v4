@@ -367,31 +367,7 @@ const Nav = () => {
               </div>
             </div>
           )}
-          {currentUser && !address && metamaskDetected && (
-            <div className="network__mismatch__div">
-              <div className="network__mismatch__prompt">
-                Not Connected to Web3.{" "}
-                <div className="two__buttons__div">
-                  <button
-                    onClick={connectWithMetamask}
-                    className="network__prompt__button "
-                  >
-                    Use MetaMask
-                  </button>
-                  <button
-                    className="network__prompt__button network__prompt__button__right"
-                    onClick={() => {
-                      setMobileMode();
-                      setNavMobileMode(true);
-                      window.location.reload(false);
-                    }}
-                  >
-                    Use in Mobile Mode
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+
           {!currentUser && (
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt wallet__balance__prompt">
@@ -490,12 +466,24 @@ const Nav = () => {
         <div className="menu__pop">
           {currentUser == null && (
             <>
-              <a href="/register" className="menu__item" onClick={menuPop}>
+              <div
+                className="menu__item"
+                onClick={() => {
+                  menuPop();
+                  navigate("/register");
+                }}
+              >
                 Register Now
-              </a>
-              <a href="/login" className="menu__item" onClick={menuPop}>
+              </div>
+              <div
+                className="menu__item"
+                onClick={() => {
+                  menuPop();
+                  navigate("/login");
+                }}
+              >
                 Login
-              </a>{" "}
+              </div>{" "}
               <a
                 href="https://nftconcerts.com/about"
                 className="menu__item"
@@ -508,29 +496,54 @@ const Nav = () => {
           {currentUser && !artistUser && !adminUser && (
             <>
               {" "}
-              <a href="/my-account" className="menu__item" onClick={menuPop}>
+              <div
+                className="menu__item"
+                onClick={() => {
+                  menuPop();
+                  navigate("/my-account");
+                }}
+              >
                 My Account
-              </a>
-              <a href="/home" className="menu__item" onClick={menuPop}>
+              </div>
+              <div
+                className="menu__item"
+                onClick={() => {
+                  menuPop();
+                  navigate("/home");
+                }}
+              >
                 Discover
-              </a>
-              <a href="#" className="menu__item" onClick={menuLogout}>
+              </div>
+              <div className="menu__item" onClick={menuLogout}>
                 Logout
-              </a>
+              </div>
             </>
           )}
           {currentUser && artistUser && (
             <>
               {" "}
-              <a href="/my-account" className="menu__item" onClick={menuPop}>
+              <div
+                href="/my-account"
+                className="menu__item"
+                onClick={() => {
+                  menuPop();
+                  navigate("/my-account");
+                }}
+              >
                 My Account
-              </a>
-              <a href="/upload" className="menu__item" onClick={menuPop}>
+              </div>
+              <div
+                className="menu__item"
+                onClick={() => {
+                  menuPop();
+                  navigate("/upload");
+                }}
+              >
                 Upload
-              </a>
-              <a href="#" className="menu__item" onClick={menuLogout}>
+              </div>
+              <div className="menu__item" onClick={menuLogout}>
                 Logout
-              </a>
+              </div>
             </>
           )}
           {currentUser && adminUser && (

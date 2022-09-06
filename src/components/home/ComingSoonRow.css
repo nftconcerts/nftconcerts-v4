@@ -1,5 +1,7 @@
 .coming__soon__title {
   padding-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .coming__soon__bottom {
   min-height: 100px;
@@ -7,6 +9,8 @@
   align-items: center;
   text-align: center;
   justify-content: center;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .share__buttons__div {
@@ -23,6 +27,8 @@
   border-radius: 5px;
   background-color: #fff;
   cursor: pointer;
+  color: #000;
+  border: none;
 }
 .share__button:hover {
   transition: all 0.5s;

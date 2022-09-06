@@ -5,7 +5,8 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 500px;
+  height: 600px;
+  background: #8f0000;
 }
 
 .banner__contents {
@@ -52,7 +53,7 @@
 }
 
 .banner__fadeBottom {
-  height: 220px;
+  height: 320px;
   background-image: linear-gradient(180deg, transparent, rgb(37, 37, 37), #333);
 }
 .prompt {

@@ -1,6 +1,7 @@
 import React from "react";
 import Contract from "../form/Contract";
 import "./TermsOfService.css";
+import { truncateAddress } from "../../firebase";
 
 const TermsOfService = () => {
   return (
@@ -36,7 +37,7 @@ const TermsOfService = () => {
           </p>
           <p>
             By uploading a performance recording to the NFT Concerts platform,
-            you are transferring exclusive rights to NFT Concerts for that
+            you are transferring exclusive use rights to NFT Concerts for that
             performance recording. Uploading that same piece of content to an
             alternative site would be in violation of these terms and result in
             removal of your account from the site.
@@ -69,6 +70,57 @@ const TermsOfService = () => {
           <p className="italics">
             NFT Concerts maintains that we will only stream concert recordings
             to token holders, the original uploader, and for internal review.{" "}
+          </p>
+          <h3 className="terms__h3 terms__break">
+            Mint Fees, Secondary Sale Fees, and Artist Payouts
+          </h3>
+          <p>
+            NFT Concerts operates on a simple revenue split. NFT Concerts takes
+            a 20% fee on minted NFTs. Artist recieve the remaining 80%. In
+            addition, NFT Concerts sets a 5% secondary sale fee on all NFTs in
+            the collection. Artists have the option to attach an additional 5%
+            secondary sale fee. Please be aware that royalties on NFT sales are
+            not enforceable through some secondary marketplaces.
+          </p>
+          <p>
+            At this current momemnt artists payouts are processed manually. All
+            NFT Concerts are part of the same collection and due to our current
+            contract{" "}
+            <a
+              href="https://etherscan.io/address/0x878d3f87c163951ef2923d09859aff45dc34a45a"
+              target="_blank"
+            >
+              ({truncateAddress("0x878d3f87c163951ef2923d09859aff45dc34a45a")})
+            </a>{" "}
+            , all artist payouts are sent to the same artist pool.{" "}
+            <a
+              href="https://etherscan.io/address/0x90ed6f1dFF7FBa69053e1A09a47f88A20feBE80e"
+              target="_blank"
+            >
+              ({truncateAddress("0x90ed6f1dFF7FBa69053e1A09a47f88A20feBE80e")})
+            </a>{" "}
+            This account is distrubted fully every Friday.
+          </p>
+          <p className="italics">
+            {" "}
+            We intend to replace manual payouts with a smart contract but this
+            is how it works currently.
+          </p>
+          <p>
+            NFT Concerts will cover all gas fees for artists. From minting to
+            recieving payouts, artists will enjoy a completely gas free
+            experience.{" "}
+          </p>
+          <p>
+            Users/Fans will never run into any surprise fees. All NFT Concerts
+            fees will come out of the stated mint price. While users will have
+            to pay gas fees to mint NFTs, NFT Concerts has zero control over gas
+            prices. All gas fees are paid directly to Ethereum miners and do not
+            pass through NFT Concerts accounts.{" "}
+          </p>
+          <p>
+            If you have any questions about these terms, please get in touch for
+            clarification.{" "}
           </p>
         </div>
         <p className="terms__disclaimer terms__break">

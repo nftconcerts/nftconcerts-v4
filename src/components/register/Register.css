@@ -127,5 +127,15 @@ label {
   padding-top: 10px;
 }
 .register__prompt__header {
-  padding-bottom: 10px;
+  padding-bottom: 5px;
+  line-height: 20px;
+}
+.disconnect__button {
+  margin-bottom: -10px;
+  color: #777;
+  cursor: pointer;
+}
+.disconnect__button:hover {
+  transition: all 0.5s;
+  color: #333;
 }

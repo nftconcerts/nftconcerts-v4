@@ -19,6 +19,7 @@
   transition: transform 450ms;
   margin-right: 20px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .row__poster:hover {
@@ -42,7 +43,6 @@
   width: 100%;
   z-index: 10;
   margin-bottom: 10px;
-  z-index: 10;
 }
 .preview__title {
   padding-top: 20px;
@@ -67,7 +67,7 @@
 }
 
 .row1 {
-  margin-top: -200px;
+  margin-top: -300px;
 }
 .description {
   text-align: left;
@@ -137,11 +137,12 @@
     min-width: 0px;
     border-right: 2px solid #fff;
     border-bottom: 2px solid #fff;
-
+    border-top: 2px solid #fff;
     padding: 10px 10px 10px 10px;
   }
   .price {
     border-right: none;
+    padding-bottom: 10px;
   }
   .venue {
     border-right: none;
@@ -158,13 +159,67 @@
     padding-top: 10px;
   }
   .preview__buttons__div {
-    max-width: 400px;
     width: 90%;
     justify-content: space-between;
     padding-top: 10px;
   }
   .two__col {
     padding-top: 0px;
+  }
+  .split__col {
+    flex-direction: column;
+  }
+  .concert__info__div {
+    align-items: center;
+  }
+  .token__div__container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }
+  .listing__buttons__div {
+    display: flex;
+    width: 300px;
+    justify-content: space-evenly;
+  }
+  .listing__buttons__div button {
+    width: 60px;
+    height: 40px;
+    font-size: 20px;
+  }
+  .remaining {
+    flex-direction: column;
+    padding-bottom: 10px;
+  }
+  .preview__title {
+    font-size: 24px;
+  }
+  .emph {
+    font-size: 16px;
+  }
+  .blow__up {
+    font-size: 20px;
+  }
+  .halfs {
+    width: 50%;
+  }
+  .three__col {
+    justify-content: space-between;
+    border-bottom: 2px solid #fff;
+  }
+  .quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    padding-bottom: 10px;
+  }
+  .remaining {
+    width: 25%;
+  }
+  .price {
+    width: 50%;
   }
 }
 .row__media__player {
@@ -182,7 +237,13 @@
   max-height: 40vh;
 }
 .no__media__player__row {
-  background-color: #131313;
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(#bbb, #333);
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 /* new stuff */
@@ -270,31 +331,6 @@
   padding-bottom: 20px;
 }
 @media screen and (max-width: 800px) {
-  .split__col {
-    flex-direction: column;
-  }
-  .concert__info__div {
-    align-items: center;
-  }
-  .token__div__container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    align-items: center;
-  }
-  .listing__buttons__div {
-    display: flex;
-    width: 300px;
-    justify-content: space-evenly;
-  }
-  .listing__buttons__div button {
-    width: 60px;
-    height: 40px;
-    font-size: 20px;
-  }
-  .remaining {
-    flex-direction: column;
-  }
 }
 .token__div__container {
   z-index: 5;
@@ -346,6 +382,15 @@
   animation-delay: 1s;
 }
 
+.no__promo__clip__token {
+  max-width: 200px;
+  padding-bottom: 20px;
+  cursor: pointer;
+}
+.no__promo__clip__token:hover {
+  transition: all 0.5s;
+  transform: scale(1.05);
+}
 @keyframes dotFlashing {
   0% {
     background-color: #b90000;

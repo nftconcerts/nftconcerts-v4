@@ -5,7 +5,7 @@ import { GetUSDExchangeRate } from "../api";
 import { truncateAddress } from "./../../firebase";
 import ReactPlayer from "react-player";
 import { useActiveClaimCondition, useEditionDrop } from "@thirdweb-dev/react";
-import editionDrop from "../../scripts/getContract.mjs";
+import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
 import dateformat from "dateformat";
 import { ethers } from "ethers";
 
@@ -50,9 +50,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
 
   //claim nft with the claim method
   // State to track when a user is claiming an NFT
-  const editionDropped = useEditionDrop(
-    "0x1A36D3eC36e258E85E6aC9c01872C9fF730Fc2E4"
-  );
+  const editionDropped = useEditionDrop(editionDropAddress);
   const [claiming, setClaiming] = useState(false);
   const [tx, setTx] = useState();
   const [purchased, setPurchased] = useState(false);
@@ -60,7 +58,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
   const claimButton = async () => {
     setClaiming(true);
     try {
-      var result = await editionDropped?.claim(singleConcert, 1);
+      var result = await editionDropped.claim(singleConcert, 1);
       setTx(result);
       console.log("claimed", result);
       setClaiming(false);
@@ -139,47 +137,6 @@ function Row({ title, isLargeRow, concertData, concerts }) {
 
         {concertData && (
           <div className="row__posters">
-            {/* {concerts.map((concertID) => (
-          // <div className="token__box">
-          //   <div className="token__header">
-          //     <div className="first__third">
-          //       <p>
-          //         {dateFormat(
-          //           concertData[concertID]?.concertPerformanceDate,
-          //           "m/d/yyyy"
-          //         )}
-          //       </p>
-          //     </div>
-          //     <div className="col__thirds">
-          //       <div className="missing__tab" />
-          //     </div>
-          //     <div className="last__third">
-          //       <p>TOTAL QTY: {concertData[concertID]?.concertSupply}</p>
-          //     </div>
-          //   </div>
-          //   <div className="token__thumbnail__box">
-          //     <img
-          //       src={
-          //         concertData[concertID]?.concertThumbnailImage + "?not-cache"
-          //       }
-          //       height="300px"
-          //     />
-          //   </div>
-          //   <div className="token__footer">
-          //     <div className="token__concert__name">
-          //       {concertData[concertID]?.concertName}
-          //     </div>
-          //     <div className="token__concert__name token__artist__name">
-          //       {concertData[concertID]?.concertArtist}
-          //     </div>
-          //     <img
-          //       src="/media/nftc-logo.png"
-          //       className="center__logo token__logo"
-          //       alt="NFT Concerts Logo"
-          //     />
-          //   </div>
-          // </div>
-        ))} */}
             {concerts.map((concert) => (
               <img
                 key={concert}
@@ -230,12 +187,16 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                 </div>
               )) || (
                 <>
-                  <div className="row__media__player no__media__player__row">
+                  <div className="no__media__player__row">
                     {" "}
-                    <h3 className="promo__h3">No Promo Clip.</h3>
-                    <p>
-                      Only token owners will have access to the show recording.
-                    </p>
+                    {/* <h3 className="promo__h3">No Promo Clip.</h3> */}
+                    <img
+                      onClick={() => navigate(`/concert?id=${singleConcert}`)}
+                      className="no__promo__clip__token"
+                      src={concertData[singleConcert]?.concertTokenImage}
+                      alt={"Babs.0 NFT Concert"}
+                    />
+                    <p>Mint to Unlock the Show </p>
                   </div>
                 </>
               )}
@@ -277,7 +238,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                   <div className="thirds remaining">
                     <div>
                       <p>
-                        Remaining: <br className="desktop__hide" />{" "}
+                        Available: <br className="desktop__hide" />{" "}
                         <b className="blow__up">
                           {activeClaimCondition?.availableSupply}
                         </b>

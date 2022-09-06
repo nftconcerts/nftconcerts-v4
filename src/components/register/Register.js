@@ -49,7 +49,7 @@ function Register() {
   const [metamaskDetected, setMetamaskDetected] = useState(false);
   const [wcAddress, setWcAddress] = useState();
   const [cbAddress, setCbAddress] = useState();
-  const [savedUserAddress, setSavedUserAddress] = useState();
+  const [savedUserAddress, setSavedUserAddress] = useState("");
   const [rcType, setRcType] = useState();
 
   useEffect(() => {
@@ -124,6 +124,18 @@ function Register() {
     window.location.reload();
   };
 
+  const connectMetamask = async () => {
+    try {
+      let mm = await connectWithMetamask();
+      const account = mm.data.account;
+      console.log("MM", mm);
+      updateWalletID(account, "metamask");
+      setShowWC(false);
+    } catch (ex) {
+      console.log("Error: ", ex);
+    }
+  };
+
   //wallet connenct variables
   const [web3Library, setWeb3Library] = React.useState();
   const [web3Account, setWeb3Account] = React.useState();
@@ -152,6 +164,8 @@ function Register() {
       setWeb3Library(library);
       setWeb3Account(account);
       setWcAddress(account);
+      setShowWC(false);
+      updateWalletID(account, "walletconnect");
     } catch (ex) {
       console.log(ex);
     }
@@ -191,6 +205,8 @@ function Register() {
       setWeb3Library(library);
       setWeb3Account(account);
       setCbAddress(account);
+      setShowWC(false);
+      updateWalletID(account, "coinbase");
     } catch (ex) {
       console.log(ex);
     }
@@ -235,6 +251,11 @@ function Register() {
       {currentUser == null && !showWC && (
         <div className="register__form connect__wallet__div">
           <h3 className="register__prompt__header">
+            {rcType !== "managedWallet" && (
+              <>
+                Welcome {truncateAddress(savedUserAddress)} <br />
+              </>
+            )}
             Plese Complete Your Registration
           </h3>
           <label>Email</label>
@@ -291,53 +312,6 @@ function Register() {
               Terms of Service
             </a>
           </h3>
-          {/* {metamaskDetected && (
-            <>
-              {address ? (
-                <>
-                  {loading ? (
-                    <input
-                      type="button"
-                      value="Loading..."
-                      className="register__button"
-                      onClick={checkThenRegister}
-                      disabled={true}
-                    />
-                  ) : (
-                    <>
-                      {networkMismatch && (
-                        <button
-                          onClick={() => switchNetwork(ChainId.Mumbai)}
-                          className="register__button"
-                        >
-                          Switch to Ethereum
-                        </button>
-                      )}
-                      {!networkMismatch && (
-                        <input
-                          type="button"
-                          value="Register"
-                          className="register__button"
-                          onClick={checkThenRegister}
-                          disabled={false}
-                        />
-                      )}
-                    </>
-                  )}
-                  <div className="connected__info">
-                    Connected as {truncateAddress(address)}
-                  </div>
-                </>
-              ) : (
-                <input
-                  type="button"
-                  value="Connect to MetaMask"
-                  className="register__button"
-                  onClick={connectWithMetamask}
-                />
-              )}
-            </>
-          )} */}
           <input
             type="button"
             value="Register"
@@ -345,6 +319,50 @@ function Register() {
             onClick={checkThenRegister}
             disabled={false}
           />
+          <div className="disconnect__button">
+            {" "}
+            {rcType === "metamask" && (
+              <div
+                onClick={() => {
+                  setShowWC(true);
+                  disconnect();
+                }}
+              >
+                Wrong Account? Disconnect
+              </div>
+            )}
+            {rcType === "walletconnect" && (
+              <div
+                onClick={() => {
+                  disconnectWalletConnect();
+                  setWcAddress("");
+                  setShowWC(true);
+                }}
+              >
+                Wrong Account? Disconnect
+              </div>
+            )}
+            {rcType === "coinbase" && (
+              <div
+                onClick={() => {
+                  disconnectCoinbase();
+                  setCbAddress("");
+                  setShowWC(true);
+                }}
+              >
+                Wrong Account? Disconnect
+              </div>
+            )}
+            {rcType === "managedWallet" && (
+              <div
+                onClick={() => {
+                  setShowWC(true);
+                }}
+              >
+                Have a Wallet? Connect
+              </div>
+            )}
+          </div>
         </div>
       )}
       {showWC && !currentUser && (
@@ -367,7 +385,9 @@ function Register() {
                       type="button"
                       value="Connect to MetaMask"
                       className="register__button"
-                      onClick={connectWithMetamask}
+                      onClick={() => {
+                        connectMetamask();
+                      }}
                       disabled={wcAddress || cbAddress}
                     />
                   )}
@@ -427,61 +447,18 @@ function Register() {
               />
             )}
           </div>
-          {!address && !wcAddress && !cbAddress && (
-            <div className="managed__wallet__div">
-              <p>Or let us handle the tricky stuff.</p>
-              <input
-                type="button"
-                value="Manage my Wallet"
-                className="register__button"
-                onClick={() => {
-                  updateWalletID("comingSoon", "managedWallet");
-                }}
-              />
-            </div>
-          )}
 
-          {address && (
-            <div className="connected__info__div">
-              Connected as {address && <> {truncateAddress(address)}</>}
-              {wcAddress && <>{truncateAddress(wcAddress)}</>}
-              <input
-                type="button"
-                value="Register"
-                className="register__button"
-                onClick={() => {
-                  updateWalletID(address, "metamask");
-                }}
-              />
-            </div>
-          )}
-          {wcAddress && (
-            <div className="connected__info__div">
-              Connected as {wcAddress && <>{truncateAddress(wcAddress)}</>}
-              <input
-                type="button"
-                value="Register"
-                className="register__button"
-                onClick={() => {
-                  updateWalletID(wcAddress, "walletconnect");
-                }}
-              />
-            </div>
-          )}
-          {cbAddress && (
-            <div className="connected__info__div">
-              Coinbase Connected [
-              {cbAddress && <>{truncateAddress(cbAddress)}</>}]
-              <input
-                type="button"
-                value="Register"
-                className="register__button"
-                onClick={() => {
-                  updateWalletID(cbAddress, "coinbase");
-                }}
-              />
-            </div>
-          )}
+          <div className="managed__wallet__div">
+            <p>Or let us handle the tricky stuff.</p>
+            <input
+              type="button"
+              value="Manage my Wallet"
+              className="register__button"
+              onClick={() => {
+                updateWalletID("comingSoon", "managedWallet");
+              }}
+            />
+          </div>
         </div>
       )}
     </FormBox>

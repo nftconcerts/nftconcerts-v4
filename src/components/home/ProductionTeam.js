@@ -464,7 +464,7 @@ const ProductionTeam = () => {
           <button
             className="verify__button"
             onClick={() => {
-              if (!address) {
+              if (!address && metamaskDetected) {
                 connectWithMetamask();
               }
               if (networkMismatch) {
@@ -511,7 +511,7 @@ const ProductionTeam = () => {
           <p className="none__detected">
             Mobile Mode Enabled. {!plBalance && <>Production Team Detected.</>}
             {plBalance > 0 && <>Production Lead Detected.</>}{" "}
-            <a href="/">Enter on September 1st</a>
+            <a href="/home">Enter Now</a>
           </p>
         )}
       </div>

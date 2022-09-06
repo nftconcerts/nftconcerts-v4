@@ -28,7 +28,7 @@ function FooterTop() {
               </button>
 
               <button
-                className="buy__now my__button"
+                className="buy__now my__button no__wrap__button"
                 onClick={() => {
                   window.open("https://nftconcerts.com/blog");
                 }}

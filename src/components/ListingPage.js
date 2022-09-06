@@ -4,7 +4,12 @@ import "./Player.css";
 import "./ListingPage.css";
 import "./upload/Confirmation.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { db, fetchCurrentUser, truncateAddress } from "../firebase";
+import {
+  db,
+  fetchCurrentUser,
+  truncateAddress,
+  getMobileMode,
+} from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
 import { GetUSDExchangeRate } from "./api";
@@ -29,14 +34,7 @@ const ListingPage = () => {
     bigId
   );
   let address = useAddress();
-
-  useEffect(() => {
-    console.log("ACC: ", activeClaimCondition);
-  }, [activeClaimCondition]);
-
-  useEffect(() => {
-    console.log("ACC: ", activeClaimCondition);
-  }, [activeClaimCondition]);
+  let pageMobileMode = getMobileMode();
 
   //format concert eth price
   useEffect(() => {
@@ -259,69 +257,91 @@ const ListingPage = () => {
               </div>
             </>
           )) || (
-            <div className="media__player__div">
-              <div className="no__clip">
-                <h3 className="promo__h3">No Promo Clip.</h3>
-                <p>Only token owners will have access to the show recording.</p>
-                <div className="buy__button__box">
-                  <button
-                    className="buy__now my__button preview__button buy__now__button"
-                    onClick={claimButton}
-                    disabled={claiming || !activeClaimCondition}
-                  >
-                    <div className="inside__button__div">
-                      <div>Mint</div>{" "}
-                      <div className="button__price">
-                        <img
-                          src="/media/eth-logo.png"
-                          height={25}
-                          className="c__eth__logo white__eth__logo"
-                          alt="eth logo"
-                        />
-                        {formatPrice}{" "}
-                        <span className="c__price__in__usd button__usd__price">
-                          (${priceInUSD})
-                        </span>
+            <>
+              {(pageMobileMode && (
+                <div className="mobile__spacer mobile__show" />
+              )) || <div className="mobile__spacer mobile__show grey" />}
+              <div className="no__clip__div">
+                <div className="no__clip">
+                  <img
+                    src={concertData?.concertTokenImage}
+                    className="no__clip__token__image"
+                    alt="NFT Concert Token Preview"
+                  />
+
+                  <h3 className="promo__h3">Mint to Unlock the Show</h3>
+
+                  <div className="buy__button__box">
+                    <button
+                      className="buy__now my__button preview__button buy__now__button"
+                      onClick={claimButton}
+                      disabled={claiming || !activeClaimCondition}
+                    >
+                      <div className="inside__button__div">
+                        <div>Mint</div>{" "}
+                        <div className="button__price">
+                          <img
+                            src="/media/eth-logo.png"
+                            height={25}
+                            className="c__eth__logo white__eth__logo"
+                            alt="eth logo"
+                          />
+                          {formatPrice}{" "}
+                          <span className="c__price__in__usd button__usd__price">
+                            (${priceInUSD})
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </button>
-                  {purchased && (
-                    <div className="transaction__result">
-                      Purchase Completed - TX:{" "}
-                      <a
-                        href={transactionLink}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {truncateAddress(tx?.receipt.transactionHash)}
-                      </a>
-                    </div>
-                  )}
+                    </button>
+                    {purchased && (
+                      <div className="transaction__result">
+                        Purchase Completed - TX:{" "}
+                        <a
+                          href={transactionLink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {truncateAddress(tx?.receipt.transactionHash)}
+                        </a>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           )}
 
           <div className="c__token__info__div">
             <div className="c__token__info__box">
               <div className="c__token__remaining">
-                Available:
-                <br className="mobile__show" />{" "}
-                {activeClaimCondition?.availableSupply || 50}
+                <p>
+                  Total Qty:
+                  <br className="mobile__show" />{" "}
+                  <span className="blow__up__text">
+                    {concertData?.concertSupply}
+                  </span>
+                </p>
               </div>
               <div className="c__token__supply">
-                Total Supply:
-                <br className="mobile__show" /> {concertData?.concertSupply}
+                <p>
+                  Available:
+                  <br className="mobile__show" />{" "}
+                  <span className="blow__up__text">
+                    {activeClaimCondition?.availableSupply || 50}
+                  </span>
+                </p>
               </div>
               <div className="c__token__price">
                 Price: <br className="mobile__show" />
-                <img
-                  src="/media/eth-logo.png"
-                  height={20}
-                  className="c__eth__logo white__eth__logo"
-                  alt="eth logo"
-                />
-                {formatPrice}{" "}
+                <span className="blow__up__text">
+                  <img
+                    src="/media/eth-logo.png"
+                    height={20}
+                    className="c__eth__logo white__eth__logo"
+                    alt="eth logo"
+                  />
+                  {formatPrice}{" "}
+                </span>
                 <span className="c__price__in__usd mobile__hide">
                   (${priceInUSD})
                 </span>
@@ -379,7 +399,7 @@ const ListingPage = () => {
                   {owned} Copy Owned of {concertData?.concertSupply}
                 </h3>
               )}
-              {owned === 0 && (
+              {owned === 0 && concertData.concertPromoClip !== "" && (
                 <h3 className="owned__info">Mint to access the show.</h3>
               )}
               <div className="underplayer__buttons__div listing__buttons__div">
