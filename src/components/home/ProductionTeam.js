@@ -726,7 +726,7 @@ const ProductionTeam = () => {
           <button
             className="buy__now my__button production__footer__button"
             onClick={() => {
-              window.location.href = "https://nftconcerts.com/about";
+              navigate("/about");
             }}
           >
             Learn More

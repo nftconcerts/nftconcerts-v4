@@ -27,6 +27,7 @@ import dateFormat from "dateformat";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/ethereum-provider";
 import WalletLink from "walletlink";
+import emailjs from "@emailjs/browser";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const dbRef = dRef(db);
@@ -36,7 +37,6 @@ function Register() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [termsOfService, setTermsOfService] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const connectWithMetamask = useMetamask();
@@ -51,7 +51,9 @@ function Register() {
   const [cbAddress, setCbAddress] = useState();
   const [savedUserAddress, setSavedUserAddress] = useState("");
   const [rcType, setRcType] = useState();
+  const [showWC, setShowWC] = useState(true);
 
+  //check if metamask is installed
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
       setMetamaskDetected(true);
@@ -64,8 +66,6 @@ function Register() {
   }, []);
 
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
-  const [showWC, setShowWC] = useState(true);
 
   //download User Data
   useEffect(() => {
@@ -105,6 +105,7 @@ function Register() {
         })
           .then(() => {
             alert(`Welcome ${displayName} to NFT Concerts`);
+            sendEmail();
 
             navigate("/");
           })
@@ -118,12 +119,44 @@ function Register() {
     }
   };
 
+  //send email to admin
+
+  const sendEmail = () => {
+    var registrationDate = new Date();
+    var dateString = dateFormat(registrationDate, "m/d/yyyy, h:MM TT Z ");
+    var template_params = {
+      notification: "New User Registered",
+      name: displayName,
+      email: email,
+      walletID: savedUserAddress,
+      connectionType: rcType,
+      rdDate: dateString,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_newuser",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  //logout user
   const inlineLogout = async () => {
     await logout();
     setCurrentUser(null);
     window.location.reload();
   };
 
+  //connect with metamask and update walletID
   const connectMetamask = async () => {
     try {
       let mm = await connectWithMetamask();

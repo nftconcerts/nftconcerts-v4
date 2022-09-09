@@ -115,10 +115,7 @@ function Footer() {
       <div className="under__footer__mobile">
         <div className="foot__thirds">
           <div className="footer__menu__right" dir="ltr">
-            <a
-              href="https://nftconcerts.com/about"
-              className="my__button footer__menu__item"
-            >
+            <a href="/about" className="my__button footer__menu__item">
               About
             </a>
 
@@ -188,10 +185,7 @@ function Footer() {
       <div className="under__footer">
         <div className="foot__thirds">
           <div className="footer__menu__right" dir="ltr">
-            <a
-              href="https://nftconcerts.com/about"
-              className="my__button footer__menu__item"
-            >
+            <a href="/about" className="my__button footer__menu__item">
               About
             </a>
 

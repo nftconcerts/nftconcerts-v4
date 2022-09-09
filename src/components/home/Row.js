@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import "./Row.css";
 import { useNavigate } from "react-router-dom";
 import { GetUSDExchangeRate } from "../api";
-import { truncateAddress } from "./../../firebase";
+import { fetchCurrentUser, truncateAddress } from "./../../firebase";
 import ReactPlayer from "react-player";
-import { useActiveClaimCondition, useEditionDrop } from "@thirdweb-dev/react";
+import {
+  useActiveClaimCondition,
+  useContractData,
+  useEditionDrop,
+} from "@thirdweb-dev/react";
 import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
 import dateformat from "dateformat";
 import { ethers } from "ethers";
+import emailjs from "@emailjs/browser";
 
 function Row({ title, isLargeRow, concertData, concerts }) {
   const [trailerUrl, setTrailerUrl] = useState("");
@@ -64,10 +69,42 @@ function Row({ title, isLargeRow, concertData, concerts }) {
       setClaiming(false);
       setPurchased(true);
       setShowPurchased(true);
+      window.scrollTo(0, 0);
+      sendArtistEmail();
     } catch (error) {
       console.log("Failed to claim. Error: ", error);
       setClaiming(false);
     }
+  };
+
+  //send purchase confirmation email to user
+  const sendArtistEmail = () => {
+    var template_params = {
+      email: concertData[singleConcert].uploaderEmail,
+      subject: `Congratulations, your NFT Concert Sold`,
+      message: `Hello ${concertData[singleConcert].concertArtist},%0a ${
+        concertData[singleConcert].concertName
+      } just sold for ${
+        concertData[singleConcert].supply
+      } ETH. You will recieve 80% (${
+        parseFloat(concertData[singleConcert].supply) * 0.8
+      } ETH) this Friday. Thank you for choosing NFT Concerts for your concert recording and we hope to see another performance from you soon.%0aSincerely, %0a The NFT Concerts Team`,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_blank",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
   };
 
   var transactionLink =

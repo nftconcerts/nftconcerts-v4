@@ -17,6 +17,13 @@ import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
+import TagManager from "react-gtm-module";
+
+const tagManagerArgs = {
+  gtmId: "GTM-000000",
+};
+
+TagManager.initialize(tagManagerArgs);
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -38,6 +45,7 @@ function App() {
   const Player = lazy(() => import("./components/Player"));
   const ContractPage = lazy(() => import("./components/ContractPage"));
   const ListingPage = lazy(() => import("./components/ListingPage"));
+  const About = lazy(() => import("./components/about/About"));
 
   const Upload = lazy(() => import("./components/upload/Upload"));
   const TermsOfService = lazy(() =>
@@ -45,10 +53,25 @@ function App() {
   );
   const FAQs = lazy(() => import("./components/paperwork/FAQs"));
   const Contact = lazy(() => import("./components/paperwork/Contact"));
-  const connectors = {
-    injected: {},
-    walletconnect: {},
-  };
+  const connectors = [
+    "walletConnect",
+    { name: "injected", options: { shimDisconnect: false } },
+    {
+      name: "walletLink",
+      options: {
+        appName: "NFT Concerts",
+      },
+    },
+    {
+      name: "magic",
+      options: {
+        apiKey: process.env.REACT_APP_MAGIC_API_KEY,
+        rpcUrls: {
+          [ChainId.Mainnet]: "https://mainnet.infura.io/v3",
+        },
+      },
+    },
+  ];
 
   const getLibrary = (provider) => {
     const library = new Web3Provider(provider, "any");
@@ -59,7 +82,10 @@ function App() {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 
   return (
-    <ThirdwebProvider connectors={connectors} desiredChainId={ChainId.Mainnet}>
+    <ThirdwebProvider
+      walletConnectors={connectors}
+      desiredChainId={ChainId.Mainnet}
+    >
       <Web3ReactProvider getLibrary={getLibrary}>
         <Router>
           <ScrollToTop />
@@ -75,6 +101,7 @@ function App() {
                 <Route path="/player" element={<Player />} />
                 <Route path="/contract" element={<ContractPage />} />
                 <Route path="/concert" element={<ListingPage />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/apply" element={<ArtistApp />} />
                 <Route path="/home" element={<Home />} />
