@@ -34,7 +34,6 @@ const UploadRecording = ({
     setFile(file);
     handleFormData("concertRecording");
     uploadFile(file, "ConcertRecordings");
-    nextStep();
   };
 
   return (

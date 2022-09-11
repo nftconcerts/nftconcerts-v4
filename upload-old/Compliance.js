@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FormBox from "../form/FormBox";
 import "./Compliance.css";
 
@@ -10,7 +10,6 @@ const Compliance = ({
 
   uploadProgress,
   uploadProgress1,
-  uploadProgress2,
   whileUploading,
   infoBox,
 }) => {
@@ -35,84 +34,83 @@ const Compliance = ({
       return (
         <>
           Missing Concert Name. <br />
-          Please go back and input.
+          Please go back 5 steps and input.
         </>
       );
     } else if (values.concertArtist === "") {
       return (
         <>
           Missing Artist Name.
-          <br /> Please go back and input.
+          <br /> Please go back 5 steps and input.
         </>
       );
     } else if (values.concertPerformanceDate === "") {
       return (
         <>
           Missing Performance Date.
-          <br /> Please go back and input.
+          <br /> Please go back 5 steps and input.
         </>
       );
     } else if (values.concertRecordingType === "") {
       return (
         <>
           Missing Recording Type.
-          <br /> Please go back and select.
+          <br /> Please go back 4 steps and select.
         </>
       );
     } else if (values.concertNumSongs === "") {
       return (
         <>
           Setlist is required.
-          <br /> Please go back and input.
+          <br /> Please go back 3 steps and input.
         </>
       );
     } else if (values.concertSetList === []) {
       return (
         <>
           Setlist is Required.
-          <br /> Please go back and input.
+          <br /> Please go back 3 steps and input.
         </>
       );
     } else if (values.concertThumbnailImage === "") {
       return (
         <>
           Thumbnail Image is Required.
-          <br /> Please go back and upload.
+          <br /> Please go back 2 steps and upload.
         </>
       );
     } else if (values.concertSupply === "") {
       return (
         <>
           Missing NFT Quantity.
-          <br /> Please go back and input.
+          <br /> Please go back 1 step and input.
         </>
       );
     } else if (values.concertPrice === "") {
-      return (
-        <>
-          Missing NFT Price. <br />
-          Please go back and input.
-        </>
-      );
+      return;
+      <>
+        Missing NFT Price. <br />
+        Please go back 1 step and input.
+      </>;
     } else if (values.concertResaleFee === "") {
       return (
         <>
           Missing Resale Fee.
-          <br /> Please go back and select.
+          <br /> Please go back 1 step and select.
         </>
       );
     } else if (values.concertReleaseDate === "") {
       return (
         <>
           Missing Release Date. <br />
-          Please go back and input.
+          Please go back 1 step and input.
         </>
       );
-    } else if (values.concertDescription === "") {
+    } else if (values.concertListingPrivacy === "") {
       return (
         <>
-          Description is required. <br />
-          Please go back and select.
+          Listing Privacy is required. <br />
+          Please go back 1 step and select.
         </>
       );
     } else if (!document.getElementById("originalContent").checked) {
@@ -149,38 +147,6 @@ const Compliance = ({
       setShowCompliance(false);
     } else setShowCompliance(true);
   };
-
-  const [uploaded, setUplaoded] = useState(false);
-
-  const checkIfUploaded = () => {
-    console.log(
-      "checking if uploaded",
-      uploadProgress,
-      uploadProgress1,
-      uploadProgress2
-    );
-    if (uploadProgress === 100) {
-      if (uploadProgress1 === 0) {
-        if (uploadProgress2 === 100) {
-          setUplaoded(true);
-        } else if (uploadProgress2 === 0) {
-          setUplaoded(true);
-        }
-      }
-
-      if (uploadProgress1 === 100) {
-        if (uploadProgress2 === 100) {
-          setUplaoded(true);
-        } else if (uploadProgress2 === 0) {
-          setUplaoded(true);
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    checkIfUploaded();
-  }, [uploadProgress, uploadProgress1]);
 
   return (
     <FormBox>
@@ -249,22 +215,12 @@ const Compliance = ({
             id="termsOfService"
           />{" "}
         </div>
-        {(whileUploading && !uploaded && (
-          <input
-            type="submit"
-            className="login__button rules__button compliance__button"
-            value="Uploading..."
-            onClick={switchCompliance}
-            disabled={whileUploading}
-          />
-        )) || (
-          <input
-            type="submit"
-            className="login__button rules__button compliance__button"
-            value="Review &#38; Confirm"
-            onClick={switchCompliance}
-          />
-        )}
+        <input
+          type="submit"
+          className="login__button rules__button compliance__button"
+          value="Review &#38; Confirm"
+          onClick={switchCompliance}
+        />
       </div>
       <div className="progress__bar compliance__bar">
         <div className="progress__step step__7 "></div>

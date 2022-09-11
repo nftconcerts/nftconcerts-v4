@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import Rules from "./Rules";
 import UploadRecording from "./UploadRecording";
+import ConcertInformation from "./ConcertInformation";
+import ConcertDescription from "./ConcertDescription";
+import Setlist from "./Setlist";
+import PromotionalContent from "./PromotionalContent";
+import TokenInfo from "./TokenInfo";
 import Compliance from "./Compliance";
 import Confirmation from "./Confirmation";
 import "./Upload.css";
@@ -11,15 +16,14 @@ import {
 } from "firebase/storage";
 import { storage, fetchCurrentUser } from "./../../firebase";
 import makeid from "./../../scripts/makeid";
-import ConcertInfo from "./ConcertInfo";
-import ListingInfo from "./ListingInfo";
-import "react-datepicker/dist/react-datepicker.css";
 
 function Upload() {
   //State for Steps
   const [formNum, setFormNum] = useState(1);
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
   const [currentUser, setCurrentUser] = useState(fetchCurrentUser());
+
+  const artistName = currentUser.user.displayName;
 
   // State for form data
   const [formData, setFormData] = useState({
@@ -40,11 +44,11 @@ function Upload() {
     concertPromoContent: "",
     concertSupply: "",
     concertPrice: "",
-    concertResaleFee: "0",
+    concertResaleFee: "",
     concertReleaseDate: "",
-    concertListingPrivacy: "public",
+
+    concertListingPrivacy: "",
     concertCompliance: "",
-    productionTeamAccess: "true",
   });
   // file upload data
   const [concertRecordingFile, setConcertRecordingFile] = useState(
@@ -63,13 +67,6 @@ function Upload() {
     setFormData((prevState) => ({
       ...prevState,
       [dateName]: date,
-    }));
-  };
-
-  const setPtAccess = (access) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      productionTeamAccess: access,
     }));
   };
   //go to next step
@@ -223,9 +220,9 @@ function Upload() {
     }
   };
 
-  const infoBox = (version) => {
+  const infoBox = () => {
     return (
-      <div className={`upload__info__div ${version}`}>
+      <div className="upload__info__div">
         <div className="upload__info__box">
           {uploadInfo("Concert Recording", uploadProgress)}
           {uploadInfo("Thumbnail Image", uploadProgress1)}
@@ -274,15 +271,12 @@ function Upload() {
     case 3:
       return (
         <>
-          <ConcertInfo
+          <ConcertInformation
             prevStep={prevStep}
             nextStep={nextStep}
             handleFormData={handleInputData}
-            thumbnailFile={thumbnailFile}
-            setThumbnailFile={setThumbnailFile}
             values={formData}
             setFormDate={setFormDate}
-            uploadFile1={uploadFile1}
             whileUploading={whileUploading}
             infoBox={infoBox}
           />
@@ -291,22 +285,63 @@ function Upload() {
     case 4:
       return (
         <>
-          <ListingInfo
+          <ConcertDescription
             prevStep={prevStep}
             nextStep={nextStep}
             handleFormData={handleInputData}
             values={formData}
             whileUploading={whileUploading}
             infoBox={infoBox}
-            setFormDate={setFormDate}
-            uploadFile2={uploadFile2}
-            promoClipFile={promoClipFile}
-            setPromoClipFile={setPromoClipFile}
-            setPtAccess={setPtAccess}
           />
         </>
       );
     case 5:
+      return (
+        <>
+          <Setlist
+            prevStep={prevStep}
+            nextStep={nextStep}
+            handleFormData={handleInputData}
+            values={formData}
+            whileUploading={whileUploading}
+            infoBox={infoBox}
+          />
+        </>
+      );
+    case 6:
+      return (
+        <>
+          <PromotionalContent
+            prevStep={prevStep}
+            nextStep={nextStep}
+            handleFormData={handleInputData}
+            values={formData}
+            uploadFile1={uploadFile1}
+            uploadFile2={uploadFile2}
+            thumbnailFile={thumbnailFile}
+            setThumbnailFile={setThumbnailFile}
+            promoClipFile={promoClipFile}
+            setPromoClipFile={setPromoClipFile}
+            whileUploading={whileUploading}
+            infoBox={infoBox}
+          />
+        </>
+      );
+    case 7:
+      return (
+        <>
+          <TokenInfo
+            prevStep={prevStep}
+            nextStep={nextStep}
+            handleFormData={handleInputData}
+            values={formData}
+            setFormDate={setFormDate}
+            whileUploading={whileUploading}
+            infoBox={infoBox}
+          />
+        </>
+      );
+    case 8:
       return (
         <>
           {whileUploading && infoBox()}
@@ -317,13 +352,10 @@ function Upload() {
             values={formData}
             whileUploading={whileUploading}
             infoBox={infoBox}
-            uploadProgress={uploadProgress}
-            uploadProgress1={uploadProgress1}
-            uploadProgress2={uploadProgress2}
           />
         </>
       );
-    case 6:
+    case 9:
       return (
         <>
           <Confirmation
@@ -338,7 +370,6 @@ function Upload() {
           />
         </>
       );
-
     default:
   }
 }

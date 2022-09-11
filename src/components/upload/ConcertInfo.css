@@ -1,0 +1,353 @@
+.right__col {
+  width: 50%;
+}
+.left__col {
+  width: 50%;
+  padding-right: 15px;
+  box-sizing: border-box;
+}
+.two__col__div {
+  display: flex;
+}
+.token__preview__div {
+  background: #aaa;
+  border: solid 3px #000;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+.inline__title {
+  padding-bottom: 10px;
+}
+.token__pricing__div {
+  margin-top: 10px;
+  background: #222;
+  color: #fff;
+  border: solid 2px #000;
+  min-height: 50px;
+  border-radius: 20px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.token__thirds {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.three__col__div {
+  display: flex;
+  width: 100%;
+}
+.tiny__input {
+  width: 180px;
+}
+.tiny__select {
+  width: 180px;
+}
+.margin__bump {
+  margin-top: 3px;
+}
+.token__price__eth__logo {
+  position: relative;
+  margin-top: -42px;
+  margin-left: -150px;
+}
+.token__eth__to__usd {
+  margin-top: 20px;
+  color: #777;
+}
+.third__heading {
+  padding-bottom: 5px;
+}
+.fee__div {
+  background: #ddd;
+  color: #000;
+  padding: 10px;
+  border-radius: 20px;
+  width: 90%;
+  align-self: center;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.payout__table {
+  margin-top: 10px;
+  width: 420px;
+  border: solid 2px #000;
+  background: #fff;
+}
+.payout__row {
+  display: flex;
+  border-bottom: 2px solid #000;
+}
+.payout__description {
+  width: 40%;
+  text-align: center;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.payout__price {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 30%;
+  text-align: center;
+}
+.payout__price__usd {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 30%;
+  text-align: center;
+  padding-right: 0px;
+  color: #777;
+}
+.last__row {
+  border-bottom: none;
+}
+.contract__full__width {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.contract__buttons__div {
+  max-width: 310px;
+  padding-top: 10px;
+}
+.cthumbnail__star {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+.cname__star {
+  margin-top: 144px;
+  margin-left: 5px;
+}
+.cartist__star {
+  margin-top: 196px;
+  margin-left: 5px;
+}
+.cperf__date__star {
+  margin-top: 258px;
+  margin-left: 5px;
+  z-index: 6;
+}
+.cvenue__star {
+  margin-top: 315px;
+  margin-left: 5px;
+}
+.clocation__star {
+  margin-top: 372px;
+  margin-left: 5px;
+}
+.crecording__type__star {
+  margin-top: 429px;
+  margin-left: 5px;
+  z-index: 6;
+}
+.cpricing__star {
+  margin-top: 535px;
+  margin-left: 16px;
+}
+.my__text__area {
+  text-align: center;
+  font-family: "Oxygen";
+  font-size: 16px;
+  width: 100%;
+  border: solid 1px #000;
+  border-radius: 5px;
+  margin-bottom: 7px;
+  margin-top: 01px;
+  padding-top: 05px;
+  box-sizing: border-box;
+  resize: none;
+}
+.cd__input {
+  margin-bottom: 07px;
+}
+.placeholder__option {
+  color: #888;
+}
+.valid__option {
+  color: #000;
+}
+.cd__button {
+  margin-top: 7px;
+}
+.recording__type__star {
+  margin-left: 10px;
+  margin-top: 35px;
+  z-index: 10;
+}
+
+.ci__button {
+  margin-top: 09px;
+}
+.place__input {
+  margin-top: 6px;
+}
+.first__input {
+  margin-top: 0px;
+}
+.concert__name__star {
+  margin-top: 32px;
+  margin-left: 10px;
+}
+.artist__star {
+  margin-left: 10px;
+  margin-top: 88px;
+}
+
+.perf__date__star {
+  margin-left: 10px;
+  margin-top: 146px;
+  z-index: 10;
+}
+.venue__star {
+  margin-left: 10px;
+  margin-top: 204px;
+}
+.location__star {
+  margin-left: 10px;
+  margin-top: 260px;
+}
+.half__input {
+  width: 150px;
+}
+.two__inputs {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.ti__button {
+  margin-top: 14px;
+}
+
+.price__eth__logo {
+  position: absolute;
+  margin-top: -42px;
+  padding-bottom: 0px;
+  margin-left: -135px;
+  pointer-events: none;
+}
+.eth__to__usd {
+  width: 150px;
+  pointer-events: none;
+  position: absolute;
+  margin-top: -38px;
+  margin-left: 150px;
+  color: #888;
+  text-align: right;
+}
+.thumbnail__float__title {
+  z-index: 5;
+  position: relative;
+  top: 0px;
+  max-width: 300px;
+  margin-left: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 24px;
+  font-size: 18px;
+}
+.thumbnail__center__title {
+  margin-top: 60px;
+  margin-bottom: -85px;
+  z-index: 20;
+  position: relative;
+  pointer-events: none;
+}
+.thumbnail__uploader__box {
+  width: 100%;
+  height: 112px;
+}
+.thumbnail__upload__box__bottom {
+  margin-top: 80px;
+  font-size: 12px;
+}
+.subtitle__float__title {
+  font-size: 14px;
+  font-weight: 500;
+}
+.thumbnail__upload__box__top {
+  font-size: 14px;
+  padding-top: 05px;
+}
+.top__upload__box {
+  margin-top: -15px;
+}
+.pc__button {
+  margin-top: 11px;
+}
+.thumbnail__star {
+  margin-top: 33px;
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 720px) {
+  .three__col__div {
+    flex-direction: column;
+  }
+  .token__thirds {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .two__col__div {
+    flex-direction: column;
+  }
+  .left__col {
+    width: 100%;
+    padding: 0px;
+  }
+  .left__col input {
+    width: 100%;
+  }
+  .right__col {
+    width: 100%;
+  }
+  .token__preview__div {
+    margin-top: 20px;
+  }
+  .tiny__input {
+    width: 90%;
+  }
+  .tiny__select {
+    width: 90%;
+  }
+  .concert__info__mobile__hide {
+    display: none;
+  }
+  .payout__table {
+    width: 90%;
+  }
+  .payout__description {
+    width: 60%;
+    text-align: left;
+    padding-left: 10px;
+  }
+  .payout__price {
+    width: 40%;
+    text-align: right;
+    padding-right: 10px;
+  }
+  .cpricing__star {
+    margin-top: 1055px;
+    margin-left: 16px;
+  }
+}
+@media screen and (min-width: 721px) {
+  .contract__upload__alert {
+    min-width: 675px;
+  }
+}

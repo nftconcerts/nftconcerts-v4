@@ -1,0 +1,123 @@
+.setlist__div {
+  height: 450px;
+  max-height: 450px;
+  box-sizing: border-box;
+  padding: 5px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.setlist__div input {
+  width: 290px;
+}
+.react-datepicker__input-container {
+  display: flex !important;
+  justify-content: center;
+}
+.pad__top {
+  padding-top: 10px;
+}
+.date__picker__div {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+}
+.release__date__div input {
+  width: 90%;
+  border-radius: 100px;
+}
+.release__date__div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.production__access {
+  flex-direction: row;
+  justify-content: space-evenly;
+  border-radius: 100px;
+  box-sizing: border-box;
+  width: 90%;
+}
+.production__access__checkbox {
+  width: 40px;
+}
+.csetlist__star {
+  margin-right: 270px;
+  margin-top: 33px;
+}
+.crelease__date__star {
+  margin-left: 16px;
+  margin-top: 445px;
+}
+.setlist__box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 355px;
+}
+.song__input {
+  margin-top: 0px;
+  margin-bottom: 05px;
+  min-height: 30px;
+}
+.songs__input__div {
+  display: flexbox;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 242px;
+  padding-bottom: 0px;
+  justify-content: center;
+}
+.no__songs__error {
+  padding-top: 110px;
+}
+.sl__button {
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+.num__songs__input {
+  min-height: 30px;
+}
+.num__songs__star {
+  margin-left: 10px;
+  margin-top: 38px;
+}
+.indiv__song__star {
+  color: #b90000;
+  font-size: 20px;
+  font-family: "Saira";
+  font-weight: bold;
+  position: relative;
+  pointer-events: none;
+  margin-top: -50px;
+  margin-bottom: 30px;
+  margin-left: -265px;
+}
+.react-datepicker-popper {
+  z-index: 10 !important;
+}
+@media screen and (max-width: 720px) {
+  .crelease__date__star {
+    margin-top: 910px;
+  }
+  .release__date__div {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .production__access {
+    margin-top: 20px;
+    width: 90%;
+  }
+  .release__date__div input {
+    margin-top: 20px;
+    width: 90%;
+    min-width: 250px;
+  }
+  .right__col {
+    padding-bottom: 10px;
+  }
+}

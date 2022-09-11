@@ -79,9 +79,10 @@
   padding-top: 10px;
 }
 .about__featured__div {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
+
   font-family: "Saira";
   color: #fff;
   display: flex;
@@ -99,12 +100,15 @@
   width: 75%;
 }
 .one__fourth {
+  display: flex;
   width: 25%;
   min-width: 400px;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 .video__stand__in {
-  width: 384px;
-  height: 216px;
+  width: 400px;
+  height: 270px;
 }
 .about__section__heading {
   font-size: 26px;
@@ -208,6 +212,9 @@
   .video__stand__in {
     width: 100%;
   }
+  .one__fourth {
+    min-width: 100px;
+  }
 }
 .text__center {
   text-align: center;
@@ -274,6 +281,16 @@
   text-decoration: line-through;
   text-decoration-thickness: 1px;
 }
+.youtube__video {
+  display: flex;
+  max-width: 100%;
+  width: 400px;
+  max-height: 300px;
+}
+.flex__down {
+  flex-direction: column;
+}
+
 @media screen and (max-width: 1100px) {
   .start__col {
     min-width: 100%;
@@ -292,5 +309,22 @@
   }
   .roadmap__objective {
     font-size: 18px;
+  }
+  .about__featured__div {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .about__title {
+    font-size: 35px;
+  }
+  .about__header {
+    height: 450px;
+  }
+  .about__team__div {
+    padding-top: 60px;
+    padding-bottom: 70px;
+  }
+  .roadmap__div {
+    padding-top: 60px;
   }
 }

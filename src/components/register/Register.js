@@ -28,6 +28,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/ethereum-provider";
 import WalletLink from "walletlink";
 import emailjs from "@emailjs/browser";
+import checkEns from "../../scripts/checkEns";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const dbRef = dRef(db);
@@ -249,10 +250,12 @@ function Register() {
     setWalletlinkProvider(null);
   };
 
-  const updateWalletID = (wallet, connectionType) => {
+  const updateWalletID = async (wallet, connectionType) => {
     setSavedUserAddress(wallet);
     setRcType(connectionType);
     setShowWC(false);
+    var name = await checkEns(wallet);
+    setDisplayName(name);
   };
 
   useEffect(() => {
@@ -306,6 +309,7 @@ function Register() {
             placeholder="Name"
             onChange={(e) => setDisplayName(e.target.value)}
             required={true}
+            defaultValue={displayName}
           />
           <label>Password</label>
           <input
@@ -359,6 +363,7 @@ function Register() {
                 onClick={() => {
                   setShowWC(true);
                   disconnect();
+                  setDisplayName();
                 }}
               >
                 Wrong Account? Disconnect
@@ -370,6 +375,7 @@ function Register() {
                   disconnectWalletConnect();
                   setWcAddress("");
                   setShowWC(true);
+                  setDisplayName();
                 }}
               >
                 Wrong Account? Disconnect
@@ -381,6 +387,7 @@ function Register() {
                   disconnectCoinbase();
                   setCbAddress("");
                   setShowWC(true);
+                  setDisplayName();
                 }}
               >
                 Wrong Account? Disconnect

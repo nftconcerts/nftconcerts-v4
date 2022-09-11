@@ -338,6 +338,16 @@
 .wave:nth-child(10) {
   animation-delay: 0.9s;
 }
+.listing__status__div {
+  width: 100%;
+  background-color: #aaa;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 20px;
+  color: #000;
+  font-family: "Saira";
+  margin-top: 10px;
+}
 @keyframes wave {
   0% {
     transform: scale(0);
@@ -349,17 +359,6 @@
     transform: scale(0);
   }
 }
-.listing__status__div {
-  width: 100%;
-  background-color: #aaa;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: 20px;
-  color: #000;
-  font-family: "Saira";
-  margin-top: 10px;
-}
-
 .minting__alert {
   width: 650px;
   position: absolute;

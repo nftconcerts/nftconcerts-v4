@@ -114,7 +114,6 @@ const Confirmation = ({ prevStep, values }) => {
       uploaderUID: currentUser.user.uid,
       uploaderEmail: currentUser.user.email,
       uploadTime: uploadDateString,
-      productionTeamAccess: values.productionTeamAccess,
     })
       .then(() => {
         set(
@@ -294,9 +293,12 @@ const Confirmation = ({ prevStep, values }) => {
                   )}
                 </span>
               </p>
+
               <p>
-                Production Team Early Access: <br />
-                <span className="with__emp">{values.productionTeamAccess}</span>
+                Listing Privacy: <br />
+                <span className="with__emp">
+                  {values.concertListingPrivacy}
+                </span>
               </p>
             </div>
           </div>

@@ -119,8 +119,8 @@ const ProductionTeam = () => {
   const [plBalance, setPlBalance] = useState(0);
 
   const productionCheck = async () => {
-    if (address) {
-      var checkResult = await checkProductionTeam(address);
+    if (userData?.walletID) {
+      var checkResult = await checkProductionTeam(userData?.walletID);
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
       if (checkResult[0] > 0) {
@@ -130,8 +130,8 @@ const ProductionTeam = () => {
       } else {
         setProductionTeam(false);
       }
-    } else if (!address && pageMobileMode && userData?.walletID) {
-      var checkResult = await checkProductionTeam(userData.walletID);
+    } else if (address) {
+      var checkResult = await checkProductionTeam(address);
 
       setPtBalance(checkResult[0]);
       setPlBalance(checkResult[1]);
@@ -451,9 +451,6 @@ const ProductionTeam = () => {
           onClick={() => {
             if (!address) {
               connectWithMetamask();
-            }
-            if (networkMismatch) {
-              switchNetwork(ChainId.Mainnet);
             } else {
               productionCheck();
               slowResultReveal();
@@ -470,6 +467,7 @@ const ProductionTeam = () => {
               if (networkMismatch) {
                 switchNetwork(ChainId.Mainnet);
               } else {
+                console.log("checking pr");
                 productionCheck();
               }
             }}

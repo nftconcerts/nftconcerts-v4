@@ -4,8 +4,7 @@ import YouTube from "react-youtube";
 
 const About = () => {
   const opts = {
-    width: "384",
-    height: "288",
+    height: "300",
     playerVars: {
       color: "white",
       modestbranding: 1,
@@ -37,7 +36,13 @@ const About = () => {
             </p>
           </div>
           <div className="one__fourth">
-            <YouTube videoId="BFxzPgO86Rc" opts={opts} />
+            <div className="youtube__video">
+              <YouTube
+                videoId="BFxzPgO86Rc"
+                opts={opts}
+                className="youtube__video"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -58,7 +63,11 @@ const About = () => {
             </p>
           </div>
           <div className="one__fourth">
-            <YouTube videoId="M2C2Ej2jmGU" opts={opts} />
+            <YouTube
+              videoId="M2C2Ej2jmGU"
+              opts={opts}
+              className="youtube__video"
+            />
           </div>
         </div>
       </div>
@@ -78,7 +87,7 @@ const About = () => {
               simple process of creating a NFT Concert.
             </p>
           </div>
-          <div className="one__fourth">
+          <div className="one__fourth flex__down">
             <img
               src="https://i.imgur.com/1Eu2Q4K.jpg"
               className="video__stand__in"
@@ -99,7 +108,7 @@ const About = () => {
               future NFT Concerts. Watch the video for more information.
             </p>
           </div>
-          <div className="one__fourth">
+          <div className="one__fourth flex__down">
             <img
               src="https://imgur.com/zi1XNyx.jpg"
               className="video__stand__in"
@@ -182,14 +191,21 @@ const About = () => {
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">2/23/21 </div>
                 <div className="roadmap__objective">
-                  NFT Concerts Domain Purhcased & Socials Registered
+                  NFT Concerts Domain Purchased & Socials Registered
                 </div>
               </div>
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">3/31/21</div>
                 <div className="roadmap__objective">
                   {" "}
-                  Launched Initial Wordpress Website with Blog
+                  Launched Initial Wordpress Website with{" "}
+                  <a
+                    href="https://nftconcerts.com/blog"
+                    target="_blank"
+                    rel="noreffer"
+                  >
+                    Blog
+                  </a>
                 </div>
               </div>
               <div className="roadmap__single__date">
@@ -201,13 +217,28 @@ const About = () => {
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">6/1/21</div>
                 <div className="roadmap__objective">
-                  Completed NFT Concerts Prototype in Adobe XD
+                  Completed{" "}
+                  <a
+                    href="https://xd.adobe.com/view/857f637b-8813-458e-ae1f-e471f463ef56-d02c/"
+                    target="_blank"
+                    rel="noreffer"
+                  >
+                    NFT Concerts Prototype
+                  </a>{" "}
+                  in Adobe XD
                 </div>
               </div>
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">9/3/21</div>
                 <div className="roadmap__objective">
-                  Sold the First NFT Concert Hat{" "}
+                  Sold the First{" "}
+                  <a
+                    href="https://nftconcerts.com/product/nft-concerts-snapback-hat-black/"
+                    target="_blank"
+                    rel="noreffer"
+                  >
+                    NFT Concert Hat
+                  </a>{" "}
                 </div>
               </div>
               <div className="roadmap__single__date">
@@ -225,7 +256,15 @@ const About = () => {
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">3/12/22</div>
                 <div className="roadmap__objective">
-                  First Podcast Interview Featuring NFT Concerts on Witlingo
+                  First{" "}
+                  <a
+                    href="https://witlingo.com/lingofest-nft-dendrinos/"
+                    target="_blank"
+                    rel="noreffer"
+                  >
+                    Podcast Interview
+                  </a>{" "}
+                  Featuring NFT Concerts on Witlingo
                 </div>
               </div>
             </div>
@@ -233,14 +272,22 @@ const About = () => {
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">3/15/22</div>
                 <div className="roadmap__objective">
-                  Featured Article published in Shoutout SoCal
+                  <a
+                    href="https://shoutoutsocal.com/meet-jimmy-dendrinos-founder-of-nft-concerts/"
+                    target="_blank"
+                    rel="noreffer"
+                  >
+                    {" "}
+                    Featured Article{" "}
+                  </a>{" "}
+                  published in Shoutout SoCal
                 </div>
               </div>
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">8/4/22</div>
                 <div className="roadmap__objective">
-                  Released the NFT Concerts Production Team and sold the first
-                  NFT
+                  Released the <a href="/">NFT Concerts Production Team</a> and
+                  sold the first NFT
                 </div>
               </div>
               <div className="roadmap__single__date">

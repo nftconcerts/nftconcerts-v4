@@ -294,17 +294,17 @@ select::-ms-expand {
   width: 0px;
 }
 .step__1 {
-  width: 25%;
+  width: 15%;
 }
 .step__2 {
-  width: 50%;
+  width: 30%;
 }
 
 .step__3 {
-  width: 75%;
+  width: 45%;
 }
 .step__4 {
-  width: 100%;
+  width: 60%;
 }
 
 .step__5 {
