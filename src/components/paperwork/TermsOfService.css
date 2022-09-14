@@ -74,3 +74,13 @@
 .extra__questions__div {
   margin-top: 10px;
 }
+.bold__text {
+  font-weight: bold;
+}
+.underline {
+  text-decoration: underline;
+}
+.info__heading {
+  font-size: 16px;
+  font-family: "Arial";
+}

@@ -24,7 +24,9 @@ const About = () => {
       <div className="about__featured__div">
         <div className="about__featured__contained">
           <div className="three__fourths">
-            <h3 className="about__section__heading">The Pitch </h3>
+            <h3 className="about__section__heading">
+              Transforming Concert Recordings into Digital Collectibles{" "}
+            </h3>
             <p>
               NFT Concerts has an extremely narrow focus - transform concert
               recordings into digital collectibles using non-fungible tokens.
@@ -88,11 +90,11 @@ const About = () => {
             </p>
           </div>
           <div className="one__fourth flex__down">
-            <img
-              src="https://i.imgur.com/1Eu2Q4K.jpg"
-              className="video__stand__in"
+            <YouTube
+              videoId="jgJlXKgjWWo"
+              opts={opts}
+              className="youtube__video"
             />
-            <p className="text__center">Video Coming Soon</p>
           </div>
         </div>
       </div>
@@ -202,7 +204,7 @@ const About = () => {
                   <a
                     href="https://nftconcerts.com/blog"
                     target="_blank"
-                    rel="noreffer"
+                    rel="noreferrer"
                   >
                     Blog
                   </a>
@@ -221,7 +223,7 @@ const About = () => {
                   <a
                     href="https://xd.adobe.com/view/857f637b-8813-458e-ae1f-e471f463ef56-d02c/"
                     target="_blank"
-                    rel="noreffer"
+                    rel="noreferrer"
                   >
                     NFT Concerts Prototype
                   </a>{" "}
@@ -235,7 +237,7 @@ const About = () => {
                   <a
                     href="https://nftconcerts.com/product/nft-concerts-snapback-hat-black/"
                     target="_blank"
-                    rel="noreffer"
+                    rel="noreferrer"
                   >
                     NFT Concert Hat
                   </a>{" "}
@@ -260,7 +262,7 @@ const About = () => {
                   <a
                     href="https://witlingo.com/lingofest-nft-dendrinos/"
                     target="_blank"
-                    rel="noreffer"
+                    rel="noreferrer"
                   >
                     Podcast Interview
                   </a>{" "}
@@ -275,7 +277,7 @@ const About = () => {
                   <a
                     href="https://shoutoutsocal.com/meet-jimmy-dendrinos-founder-of-nft-concerts/"
                     target="_blank"
-                    rel="noreffer"
+                    rel="noreferrer"
                   >
                     {" "}
                     Featured Article{" "}

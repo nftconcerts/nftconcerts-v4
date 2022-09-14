@@ -17,21 +17,23 @@ const Compliance = ({
   const [showCompliance, setShowCompliance] = useState(false);
 
   const ComplianceCheck = () => {
-    if (values.concertRecording === "") {
-      return (
-        <>
-          Missing Concert Recording
-          <br /> Please go back to the beginning and upload.
-        </>
-      );
-    } else if (uploadProgress < 100) {
-      return (
-        <>
-          Still Uploading. <br />
-          Please wait until upload completes.
-        </>
-      );
-    } else if (values.concertName === "") {
+    // if (values.concertRecording === "") {
+    //   return (
+    //     <>
+    //       Missing Concert Recording
+    //       <br /> Please go back to the beginning and upload.
+    //     </>
+    //   );
+    // } else
+    // if (uploadProgress < 100) {
+    //   return (
+    //     <>
+    //       Still Uploading. <br />
+    //       Please wait until upload completes.
+    //     </>
+    //   );
+    // } else
+    if (values.concertName === "") {
       return (
         <>
           Missing Concert Name. <br />
@@ -180,7 +182,7 @@ const Compliance = ({
 
   useEffect(() => {
     checkIfUploaded();
-  }, [uploadProgress, uploadProgress1]);
+  }, [uploadProgress, uploadProgress1, uploadProgress2]);
 
   return (
     <FormBox>
@@ -249,7 +251,7 @@ const Compliance = ({
             id="termsOfService"
           />{" "}
         </div>
-        {(whileUploading && !uploaded && (
+        {/* {(whileUploading && !uploaded && (
           <input
             type="submit"
             className="login__button rules__button compliance__button"
@@ -257,14 +259,14 @@ const Compliance = ({
             onClick={switchCompliance}
             disabled={whileUploading}
           />
-        )) || (
-          <input
-            type="submit"
-            className="login__button rules__button compliance__button"
-            value="Review &#38; Confirm"
-            onClick={switchCompliance}
-          />
-        )}
+        )) || ( */}
+        <input
+          type="submit"
+          className="login__button rules__button compliance__button"
+          value="Review &#38; Confirm"
+          onClick={switchCompliance}
+        />
+        {/* )} */}
       </div>
       <div className="progress__bar compliance__bar">
         <div className="progress__step step__7 "></div>

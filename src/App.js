@@ -18,6 +18,7 @@ import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import TagManager from "react-gtm-module";
+import PrivacyPolicy from "./components/paperwork/PrivacyPolicy";
 
 const tagManagerArgs = {
   gtmId: "GTM-000000",
@@ -106,6 +107,7 @@ function App() {
                 <Route path="/apply" element={<ArtistApp />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/faqs" element={<FAQs />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route exact path="/" element={<ProductionTeam />} />
