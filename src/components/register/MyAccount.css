@@ -58,10 +58,10 @@
   padding-left: 10px;
 }
 .concert__perf__date {
-  width: 150px;
+  width: 190px;
 }
 .concert__listing__approval {
-  width: 150px;
+  width: 170px;
 }
 .concert__expand__button {
   min-width: 30px;
@@ -160,6 +160,9 @@
   }
   .admin__button {
     width: 330px;
+  }
+  .concert__name {
+    width: 200px;
   }
 }
 .account__page__concert__thumbnail {

@@ -358,6 +358,8 @@
   color: #000;
   font-family: "Saira";
   margin-top: 10px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .minting__alert {
@@ -401,4 +403,58 @@
   background-color: #444 !important;
   color: #aaa !important;
   border: none;
+}
+@media screen and (max-width: 720px) {
+  .review__content__div {
+    flex-direction: column;
+    align-items: center;
+  }
+  .my__columns {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .col1 {
+    width: 100%;
+  }
+  .col2 {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .contract__overall {
+    height: auto;
+    width: 350px;
+  }
+  .contract__box {
+    width: 330px;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+  }
+  .text__info__div {
+    width: 100%;
+  }
+  .token__div {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .confirmation__button__div {
+    margin-top: 5px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .c__confirm__button {
+    margin-top: 10px;
+  }
+  .text__info__scroll__area {
+    max-height: min-content;
+    overflow-y: hidden;
+  }
+  .text__info__div {
+    max-height: min-content;
+  }
+  .admin__button {
+    max-width: 90%;
+    min-width: 300px;
+  }
 }

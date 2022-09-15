@@ -660,6 +660,11 @@ const ContractPage = () => {
               type="button"
               value="Request Edits"
               className="login__button c__confirm__button"
+              onClick={() => {
+                navigate(
+                  "/contact?sbj=%5BEdit%20Request%5D%20L-ID%20%23" + concertID
+                );
+              }}
             />
           </div>
           {adminUser && (

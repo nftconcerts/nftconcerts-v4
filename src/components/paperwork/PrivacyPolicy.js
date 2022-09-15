@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import Contract from "../form/Contract";
 import "./TermsOfService.css";
 

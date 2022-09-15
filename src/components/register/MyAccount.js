@@ -87,7 +87,7 @@ const MyAccount = () => {
         rows.push(
           <>
             <div className="concert__row">
-              <div className="concert__id">#{tempConcert?.concertId}</div>
+              <div className="concert__id">L-{tempConcert?.concertId}</div>
               <div className="concert__thumbnail">
                 <img
                   src={tempConcert?.concertThumbnailImage}
@@ -111,7 +111,7 @@ const MyAccount = () => {
                   }}
                 />
               </div>
-              <div className="concert__play__button">
+              {/* <div className="concert__play__button">
                 <button
                   type="sumbit"
                   name={contractStr}
@@ -130,7 +130,7 @@ const MyAccount = () => {
                   }}
                   className="fa-solid fa-file-invoice-dollar icon__button"
                 />
-              </div>
+              </div> */}
             </div>
           </>
         );
@@ -292,7 +292,7 @@ const MyAccount = () => {
                   <h3>Submitted Concerts</h3>
                   <div className="submitted__concerts__table">
                     <div className="concert__table__headers">
-                      <div className="concert__id">ID </div>
+                      <div className="concert__id">L-ID </div>
                       <div className="concert__thumbnail">IMG</div>
                       <div className="concert__name">Name</div>
                       <div className="concert__perf__date">
@@ -304,12 +304,12 @@ const MyAccount = () => {
                       <div className="header__expand__button">
                         <i className="fa-solid fa-file-signature" />
                       </div>
-                      <div className="header__play__button">
+                      {/* <div className="header__play__button">
                         <i className="fa-solid fa-play" />
                       </div>
                       <div className="header__token__button">
                         <i className="fa-solid fa-file-invoice-dollar"></i>
-                      </div>
+                      </div> */}
                     </div>
                     {userData && concertData && submittedConcertTable(userData)}
                     <div className="submitted__concert__row">

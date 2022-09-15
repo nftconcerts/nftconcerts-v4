@@ -334,6 +334,7 @@ function Upload() {
             whileUploading={whileUploading}
             uploadProgress={uploadProgress}
             uploadProgress1={uploadProgress1}
+            uploadProgress2={uploadProgress2}
             thumbnailFile={thumbnailFile}
           />
         </>

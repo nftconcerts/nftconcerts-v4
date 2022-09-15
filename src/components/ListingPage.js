@@ -258,9 +258,9 @@ const ListingPage = () => {
             </>
           )) || (
             <>
-              {(pageMobileMode && (
+              {/* {(pageMobileMode && (
                 <div className="mobile__spacer mobile__show" />
-              )) || <div className="mobile__spacer mobile__show grey" />}
+              )) || <div className="mobile__spacer mobile__show grey" />} */}
               <div className="no__clip__div">
                 <div className="no__clip">
                   {(claiming && (
@@ -479,7 +479,7 @@ const ListingPage = () => {
               <p className="c__description">
                 {concertData?.concertDescription}
               </p>
-              <div className="setlist__div">
+              <div className="player__setlist__div">
                 <h3 className="c__detail player__setlist__title">
                   Setlist - {concertData?.concertNumSongs} Songs
                 </h3>

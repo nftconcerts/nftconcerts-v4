@@ -34,6 +34,7 @@ import { ethers } from "ethers";
 import { GetUSDExchangeRate, GetMaticUSDExchangeRate, getGas } from "./api";
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
 import checkProductionTeam from "../scripts/checkProductionTeam";
+import checkEthBalance from "../scripts/checkEthBalance";
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const Nav = () => {
@@ -164,26 +165,11 @@ const Nav = () => {
     if (typeof window.ethereum !== "undefined") {
       setMetamaskDetected(true);
     }
-    const onLoad = async () => {
-      let walletAddress;
-      if (address) {
-        walletAddress = address;
-      } else if (userData?.walletID) {
-        walletAddress = userData?.walletID;
-      }
 
-      setWalletAddress(walletAddress);
-
-      let provider = new ethers.providers.Web3Provider(window.ethereum);
-      let signer = provider.getSigner();
-
-      let eth;
-      eth = await signer.getBalance();
-      eth = ethers.utils.formatEther(eth, 18);
-      setEthBalance(eth);
-    };
     if (address) {
-      onLoad();
+      setEthBalance(checkEthBalance(address));
+    } else if (userData?.walletID) {
+      setEthBalance(checkEthBalance(userData?.walletID));
     }
   }, [address, userData, networkMismatch]);
 
@@ -219,12 +205,66 @@ const Nav = () => {
     }
   };
 
+  //check user eth balance and update
+  const ethBalanceCheck = async () => {
+    if (address) {
+      var currentBalance = await checkEthBalance(address);
+      setEthBalance(currentBalance);
+    } else if (userData?.walletID) {
+      var mobileBalance = await checkEthBalance(userData?.walletID);
+      setEthBalance(mobileBalance);
+    }
+  };
+
   useEffect(() => {
     productionCheck();
+    ethBalanceCheck();
   }, [address, userData]);
 
   return (
     <div className="total_nav">
+      {navMobileMode && userData && (
+        <div className="network__mismatch__div">
+          <div className="network__mismatch__prompt wallet__balance__prompt">
+            <div className="wallet__prompt__top">
+              <div className="icon__spacer__div"> </div>
+              <div>
+                Welcome {userData?.name}{" "}
+                {!userData && address && <>{truncateAddress(address)}</>}
+              </div>
+              <div
+                className="wallet__info__icon"
+                onClick={() => {
+                  setShowWalletInfo(!showWalletInfo);
+                }}
+              >
+                <i className="fa-solid fa-wallet" />
+              </div>
+            </div>
+            {showWalletInfo && (
+              <div className="two__buttons__div">
+                <button
+                  className="network__prompt__button buy__matic__button full__width__button"
+                  onClick={() => {
+                    window.open(
+                      `https://pay.sendwyre.com/purchase?&destCurrency=ETH&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
+                    );
+                  }}
+                >
+                  {ethBalance && (
+                    <span>ETH: {ethBalance.substring(0, 6) || "0.00"} </span>
+                  )}
+                  <span className="wallet__usd__bal">(${balanceInUSD})</span>
+                </button>
+                <div className="gas__div">
+                  <i className="fa-solid fa-gas-pump" />
+                  {gasPrice}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       {!navMobileMode && (
         <>
           {userConnectionType === "metamask" && (
@@ -284,7 +324,11 @@ const Nav = () => {
                             );
                           }}
                         >
-                          <span>ETH: {ethBalance.substring(0, 6)} </span>
+                          {ethBalance && (
+                            <span>
+                              ETH: {ethBalance.substring(0, 6) || "0.00"}{" "}
+                            </span>
+                          )}
                           <span className="wallet__usd__bal">
                             (${balanceInUSD})
                           </span>
