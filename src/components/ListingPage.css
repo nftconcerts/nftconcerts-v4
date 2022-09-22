@@ -40,6 +40,8 @@
   display: flex;
 }
 .c__token__supply {
+  display: flex;
+  justify-content: center;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-top: 10px;
@@ -235,6 +237,7 @@
     border-left: 2px #fff solid;
     border-right: 2px #fff solid;
     font-size: 16px;
+    flex-direction: column;
   }
   .c__token__remaining {
     font-size: 16px;
@@ -244,6 +247,10 @@
   }
   .blow__up__text {
     font-size: 20px;
+  }
+  .mobile__dots__center {
+    display: flex;
+    justify-content: center;
   }
 }
 

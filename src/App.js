@@ -17,14 +17,7 @@ import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
-import TagManager from "react-gtm-module";
-import PrivacyPolicy from "./components/paperwork/PrivacyPolicy";
-
-const tagManagerArgs = {
-  gtmId: "GTM-000000",
-};
-
-TagManager.initialize(tagManagerArgs);
+import NftProfilePhoto from "./components/blog/posts/NftProfilePhoto";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -54,25 +47,71 @@ function App() {
   );
   const FAQs = lazy(() => import("./components/paperwork/FAQs"));
   const Contact = lazy(() => import("./components/paperwork/Contact"));
-  const connectors = [
-    "walletConnect",
-    { name: "injected", options: { shimDisconnect: false } },
-    {
-      name: "walletLink",
-      options: {
-        appName: "NFT Concerts",
-      },
-    },
-    {
-      name: "magic",
-      options: {
-        apiKey: process.env.REACT_APP_MAGIC_API_KEY,
-        rpcUrls: {
-          [ChainId.Mainnet]: "https://mainnet.infura.io/v3",
-        },
-      },
-    },
-  ];
+  const connectors = {
+    injected: {},
+    walletconnect: {},
+  };
+
+  const Blog = lazy(() => import("./components/blog/Blog"));
+  const Blog2 = lazy(() => import("./components/blog/Blog2"));
+
+  const NftTicketingForConcerts = lazy(() =>
+    import("./components/blog/posts/NftTicketingForConcerts")
+  );
+  const CanWeb3End2FA = lazy(() =>
+    import("./components/blog/posts/CanWeb3End2FA")
+  );
+  const NftsAreHereToStay = lazy(() =>
+    import("./components/blog/posts/NftsAreHereToStay")
+  );
+  const TenReasons = lazy(() => import("./components/blog/posts/TenReasons"));
+  const MusicFestivalsAndNfts = lazy(() =>
+    import("./components/blog/posts/MusicFestivalsAndNfts")
+  );
+  const NftsAreComing = lazy(() =>
+    import("./components/blog/posts/NftsAreComing")
+  );
+  const CoachellaNfts = lazy(() =>
+    import("./components/blog/posts/CoachellaNfts")
+  );
+  const NotJustPictures = lazy(() =>
+    import("./components/blog/posts/NotJustPictures")
+  );
+  const MusicNftCompnaies = lazy(() =>
+    import("./components/blog/posts/MusicNftCompanies")
+  );
+  const GetStarted = lazy(() => import("./components/blog/posts/GetStarted"));
+  const NftTicketVsMusic = lazy(() =>
+    import("./components/blog/posts/NftTicketVsMusic")
+  );
+  const NftPricingCalc = lazy(() =>
+    import("./components/blog/posts/NftPricingCalc")
+  );
+  const TopNineMusicNfts = lazy(() =>
+    import("./components/blog/posts/TopNineMusicNfts")
+  );
+  const ConcertNft = lazy(() => import("./components/blog/posts/ConcertNft"));
+  const NftScam = lazy(() => import("./components/blog/posts/NftScam"));
+  const MakeMoneyNfts = lazy(() =>
+    import("./components/blog/posts/MakeMoneyNfts")
+  );
+  const MakeMusicNfts = lazy(() =>
+    import("./components/blog/posts/MakeMusicNfts")
+  );
+  const NftsExplode = lazy(() => import("./components/blog/posts/NftsExplode"));
+  const LiveMusicIsBack = lazy(() =>
+    import("./components/blog/posts/LiveMusicIsBack")
+  );
+  const UnlockableNfts = lazy(() =>
+    import("./components/blog/posts/UnlockableNfts")
+  );
+  const CollectibleNftArt = lazy(() =>
+    import("./components/blog/posts/CollectibleNftArt")
+  );
+  const ConcertBootlegs = lazy(() =>
+    import("./components/blog/posts/ConcertBootlegs")
+  );
+  const DonDiablo = lazy(() => import("./components/blog/posts/DonDiablo"));
 
   const getLibrary = (provider) => {
     const library = new Web3Provider(provider, "any");
@@ -83,10 +122,7 @@ function App() {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 
   return (
-    <ThirdwebProvider
-      walletConnectors={connectors}
-      desiredChainId={ChainId.Mainnet}
-    >
+    <ThirdwebProvider connectors={connectors} desiredChainId={ChainId.Mumbai}>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Router>
           <ScrollToTop />
@@ -107,9 +143,100 @@ function App() {
                 <Route path="/apply" element={<ArtistApp />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
-                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/faqs" element={<FAQs />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/page/2" element={<Blog2 />} />
+                <Route
+                  path="/nft-ticketing-for-concerts-events"
+                  element={<NftTicketingForConcerts />}
+                />
+                <Route
+                  path="/can-web3-end-two-factor-authentication"
+                  element={<CanWeb3End2FA />}
+                />
+                <Route
+                  path="/nfts-are-here-to-stay"
+                  element={<NftsAreHereToStay />}
+                />
+                <Route
+                  path="/10-reasons-to-turn-your-next-performance-into-a-nft-concert"
+                  element={<TenReasons />}
+                />
+                <Route
+                  path="/music-festivals-nfts-in-2022"
+                  element={<MusicFestivalsAndNfts />}
+                />
+                <Route
+                  path="/nfts-are-coming-to-a-live-event-near-you"
+                  element={<NftsAreComing />}
+                />
+                <Route
+                  path="/what-coachella-nfts-say-about-the-future-of-music"
+                  element={<CoachellaNfts />}
+                />
+                <Route
+                  path="/nfts-are-not-just-pictures"
+                  element={<NotJustPictures />}
+                />
+                <Route
+                  path="/5-music-nft-companies-set-to-explode-in-2022"
+                  element={<MusicNftCompnaies />}
+                />
+                <Route
+                  path="/10-days-with-a-nft-profile-picture"
+                  element={<NftProfilePhoto />}
+                />
+                <Route
+                  path="/how-to-get-started-with-nfts"
+                  element={<GetStarted />}
+                />
+                <Route
+                  path="/nft-tickets-vs-nft-music-music-entertainment-nfts"
+                  element={<NftTicketVsMusic />}
+                />
+                <Route
+                  path="/how-should-i-price-my-nft-release"
+                  element={<NftPricingCalc />}
+                />
+                <Route
+                  path="/top-9-music-nfts-of-2021"
+                  element={<TopNineMusicNfts />}
+                />
+                <Route
+                  path="/5-ways-musicians-can-make-money-with-nfts"
+                  element={<MakeMoneyNfts />}
+                />
+                <Route
+                  path="/can-i-make-my-music-into-nfts"
+                  element={<MakeMusicNfts />}
+                />
+                <Route
+                  path="/nfts-explode-while-concerts-and-music-festivals-make-a-comeback"
+                  element={<NftsExplode />}
+                />
+                <Route
+                  path="/live-music-is-back-is-this-the-end-of-streaming-shows"
+                  element={<LiveMusicIsBack />}
+                />
+                <Route path="/concert-nft" element={<ConcertNft />} />
+                <Route path="/nft-scam" element={<NftScam />} />
+                <Route
+                  path="/nfts-and-music-a-revolution-in-distribution"
+                  element={<UnlockableNfts />}
+                />
+                <Route
+                  path="/collectible-nft-art"
+                  element={<CollectibleNftArt />}
+                />
+                <Route
+                  path="/the-past-present-and-future-of-concert-bootlegs"
+                  element={<ConcertBootlegs />}
+                />
+                <Route
+                  path="/don-diablos-600eth-1-2m-nft-concert"
+                  element={<DonDiablo />}
+                />
                 <Route exact path="/" element={<ProductionTeam />} />
               </Routes>
               <Footer />

@@ -126,10 +126,7 @@ function Footer() {
         </div>
         <div className="foot__thirds">
           <div className="footer__menu__right" dir="ltr">
-            <a
-              href="https://nftconcerts.com/blog"
-              className="my__button footer__menu__item"
-            >
+            <a href="/blog" className="my__button footer__menu__item">
               Blog
             </a>
 
@@ -190,10 +187,7 @@ function Footer() {
               Register
             </a>
 
-            <a
-              href="https://nftconcerts.com/blog"
-              className="my__button footer__menu__item"
-            >
+            <a href="/blog" className="my__button footer__menu__item">
               Blog
             </a>
 

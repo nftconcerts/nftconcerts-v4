@@ -345,9 +345,16 @@ const ListingPage = () => {
                   Available:
                   <br className="mobile__show" />{" "}
                   <span className="blow__up__text">
-                    {activeClaimCondition?.availableSupply || 50}
+                    {activeClaimCondition?.availableSupply}
                   </span>
                 </p>
+                <div className="mobile__dots__center">
+                  {!activeClaimCondition?.availableSupply && (
+                    <div className="dots__div">
+                      <div class="dot-flashing"></div>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="c__token__price">
                 Price: <br className="mobile__show" />

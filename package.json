@@ -26,6 +26,7 @@
     "ipfs-http-client": "^57.0.3",
     "os": "npm:os-browserify",
     "react": "^18.2.0",
+    "react-date-countdown-timer": "^1.1.0",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.7",

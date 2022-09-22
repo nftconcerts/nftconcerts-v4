@@ -13,16 +13,17 @@ import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
 import dateformat from "dateformat";
 import { ethers } from "ethers";
 import emailjs from "@emailjs/browser";
+import DateCountdown from "react-date-countdown-timer";
 
 function Row({ title, isLargeRow, concertData, concerts }) {
   const [trailerUrl, setTrailerUrl] = useState("");
-  const [singleConcert, setSingleConcert] = useState([]);
+  const [singleConcert, setSingleConcert] = useState(0);
   let navigate = useNavigate();
 
   const handleClick = (concert) => {
     if (trailerUrl) {
       setTrailerUrl("");
-      setSingleConcert([]);
+      setSingleConcert(0);
     } else {
       setTrailerUrl("full");
       setSingleConcert(concert);
@@ -47,7 +48,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
   }, [singleConcert, usdExRate]);
 
   //get claim conditions for single concert
-  let bigId = ethers.BigNumber.from(0);
+  let bigId = ethers.BigNumber.from(singleConcert);
   const { data: activeClaimCondition } = useActiveClaimCondition(
     editionDrop,
     bigId
@@ -109,6 +110,9 @@ function Row({ title, isLargeRow, concertData, concerts }) {
 
   var transactionLink =
     "https://etherscan.io/tx/" + tx?.receipt.transactionHash;
+
+  let nowDate = new Date();
+  let releaseDate = new Date(concertData[singleConcert].concertReleaseDate);
   return (
     <>
       {concertData && showPurchased && (
@@ -342,6 +346,13 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                     </button>
                   </div>
                 </div>
+                {releaseDate > nowDate && (
+                  <div className="release__date__div">
+                    This NFT Concert will be Available to Mint{" "}
+                    {releaseDate.toLocaleTimeString()},{" "}
+                    {releaseDate.toLocaleDateString()}
+                  </div>
+                )}
               </div>
             </div>
           </div>

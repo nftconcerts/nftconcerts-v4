@@ -1,0 +1,240 @@
+.post__page__container {
+  margin-bottom: -15px;
+}
+.post__page {
+  width: 100%;
+  display: flex;
+  margin-top: -400px;
+  padding-bottom: 150px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.post__overall {
+  border-radius: 20px;
+  box-shadow: 0px 0px 20px #ccc;
+  border: solid #000 4px;
+  background: #fff;
+  overflow: hidden;
+  height: auto;
+  padding-bottom: 20px;
+  z-index: 1;
+  max-width: 90%;
+}
+.post__header {
+  display: flex;
+  background: #000;
+  justify-content: center;
+
+  -webkit-appearance: none;
+  color: #fff;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.post__box {
+  max-width: 1300px;
+  justify-content: center;
+  text-align: center;
+  -webkit-appearance: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+  font-family: "Saira";
+  color: #000;
+  font-size: 20px;
+  text-align: left;
+  line-height: 30px;
+  align-items: center;
+}
+.post__box p {
+  padding-bottom: 20px;
+}
+.post__box a {
+  text-decoration: none;
+  color: #f00000;
+  transition: all 0.5s;
+}
+.post__box a:hover {
+  color: #b90000;
+}
+.post__title {
+  font-family: "Saira";
+  font-size: 40px;
+  font-weight: bold;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.post__author__div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  font-family: "Courier";
+  font-size: 24px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+.post__image__div {
+  background: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.post__image {
+  width: 100%;
+}
+.post__image__subtext {
+  padding-top: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+.post__call__to__action {
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+}
+.post__buttons__div {
+  padding-top: 100px;
+  z-index: 3;
+  width: 90%;
+  max-width: 1340px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "BenchNine";
+}
+.post__button {
+  width: 200px;
+  height: 60px;
+  color: #000;
+  background: #fff;
+  border-radius: 10px;
+  font-family: "BenchNine";
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.post__button:hover {
+  background: #ccc;
+  color: #000;
+}
+.post__youtube__div {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  contain: style;
+  height: 56%;
+  box-sizing: border-box;
+}
+.post__youtube {
+  max-width: 100%;
+}
+
+ol {
+  padding: 20px;
+  list-style-type: decimal;
+  padding-left: 30px;
+}
+li {
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+.post__photo__two {
+  width: 80%;
+  border: solid 3px #000;
+  align-self: center;
+}
+
+.post__photo__div {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.post__photo__div a {
+  display: flex;
+  justify-content: center;
+}
+
+.post__video__player__div {
+  max-width: 600px;
+}
+.post__tweet__div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ccc;
+  border: solid 2px #000;
+  padding: 10px;
+}
+.company__logo__div {
+  display: flex;
+  justify-content: center;
+}
+.company__logo {
+  max-width: 400px;
+  padding-top: 40px;
+}
+.company__name {
+  padding-bottom: 20px;
+  font-size: 26px;
+}
+.nft__pricing__calc__div {
+  background: #333;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.calc__input {
+  width: 90%;
+
+  margin-bottom: 30px;
+}
+.calc__input__label {
+  width: 90%;
+  text-align: left;
+}
+.calc__submit__button {
+  width: 90%;
+  height: 60px;
+  background: #000;
+  color: #fff;
+  font-family: "BenchNine";
+  font-size: 30px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width: 725px) {
+  .post__author__div {
+    flex-direction: column;
+    font-size: 18px;
+  }
+  .post__title {
+    font-size: 26px;
+  }
+  .post__box {
+    font-size: 18px;
+  }
+  .post__photo__two {
+    width: 100%;
+  }
+  .mobile___hide {
+    display: none;
+  }
+}

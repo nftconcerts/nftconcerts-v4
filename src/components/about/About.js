@@ -33,7 +33,7 @@ const About = () => {
             </p>
             <p>
               Mint a NFT Concert to unlock and stream a full performance
-              recording. Each performance is token gated, available exclusivley
+              recording. Each performance is token gated, available exclusively
               to the NFT Concert owners.{" "}
             </p>
           </div>
@@ -60,8 +60,7 @@ const About = () => {
               for users to mint, unlock, and stream NFT Concerts.
             </p>
             <p>
-              This video turtorial showcases the minting and playback
-              experience.
+              This video tutorial showcases the minting and playback experience.
             </p>
           </div>
           <div className="one__fourth">
@@ -106,7 +105,7 @@ const About = () => {
             </h3>
             <p>Want early access to NFT Concerts? Join the Production Team.</p>
             <p>
-              Explore the closed Beta and recieve early access to mint all
+              Explore the closed Beta and receive early access to mint all
               future NFT Concerts. Watch the video for more information.
             </p>
           </div>

@@ -732,7 +732,7 @@ const ProductionTeam = () => {
           <button
             className="buy__now my__button production__footer__button"
             onClick={() => {
-              window.location.href = "https://nftconcerts.com/blog";
+              window.location.href = "/blog";
             }}
           >
             Read the Blog

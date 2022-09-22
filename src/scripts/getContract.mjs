@@ -1,5 +1,11 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
+// import { ethers } from "ethers";
+
+// const signer = new ethers.providers.Web3Provider(window.ethereum).getSigner();
+// // instantiate the SDK based on your private key, with the desired chain to connect to
+// const sdk = ThirdwebSDK.fromSigner(signer, "mainnet");
+
 // load your private key in a secure way (env variable, never commited to git)
 const privateKey = process.env.REACT_APP_NFTCONCERTS_ETH_PK;
 // instantiate the SDK based on your private key, with the desired chain to connect to
