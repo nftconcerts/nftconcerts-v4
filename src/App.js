@@ -45,6 +45,9 @@ function App() {
   const TermsOfService = lazy(() =>
     import("./components/paperwork/TermsOfService")
   );
+  const PrivacyPolicy = lazy(() =>
+    import("./components/paperwork/PrivacyPolicy")
+  );
   const FAQs = lazy(() => import("./components/paperwork/FAQs"));
   const Contact = lazy(() => import("./components/paperwork/Contact"));
   const connectors = {
@@ -122,7 +125,7 @@ function App() {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 
   return (
-    <ThirdwebProvider connectors={connectors} desiredChainId={ChainId.Mumbai}>
+    <ThirdwebProvider connectors={connectors} desiredChainId={ChainId.Mainnet}>
       <Web3ReactProvider getLibrary={getLibrary}>
         <Router>
           <ScrollToTop />
@@ -143,6 +146,7 @@ function App() {
                 <Route path="/apply" element={<ArtistApp />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/faqs" element={<FAQs />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/blog" element={<Blog />} />
@@ -237,6 +241,7 @@ function App() {
                   path="/don-diablos-600eth-1-2m-nft-concert"
                   element={<DonDiablo />}
                 />
+                <Route path="/production-team" element={<ProductionTeam />} />
                 <Route exact path="/" element={<ProductionTeam />} />
               </Routes>
               <Footer />

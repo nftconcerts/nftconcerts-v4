@@ -35,7 +35,7 @@ const NftTicketingForConcerts = () => {
       </p>
       <div className="post__image__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2022/08/Screen-Shot-2022-08-06-at-10.43.12-PM.png"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2022/08/Screen-Shot-2022-08-06-at-10.43.12-PM.png"
           className="post__image"
         />
         <p className="post__image__subtext">

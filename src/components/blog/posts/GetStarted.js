@@ -32,14 +32,14 @@ const GetStarted = () => {
           rel="noreferrer"
         >
           <img
-            src="https://nftconcerts.com/wp-content/uploads/2021/12/metamask-plugin-v2.jpg"
+            src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/metamask-plugin-v2.jpg"
             className="post__photo__two"
           />
         </a>
       </div> */}
       <div className="post__image__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2021/12/metamask-plugin-v2.jpg"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/metamask-plugin-v2.jpg"
           className="post__image"
         />
         <p className="post__image__subtext">
@@ -62,7 +62,7 @@ const GetStarted = () => {
       </p>
       <div className="post__image__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2021/12/metamask-new-wallet.jpg"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/metamask-new-wallet.jpg"
           className="post__image"
         />
         <p className="post__image__subtext">Setup a New Wallet</p>
@@ -78,7 +78,7 @@ const GetStarted = () => {
       </p>
       <div className="post__image__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2021/12/metamask-interface.jpg"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/metamask-interface.jpg"
           className="post__image"
         />
         <p className="post__image__subtext">

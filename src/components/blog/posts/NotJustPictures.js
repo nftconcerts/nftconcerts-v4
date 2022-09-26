@@ -55,7 +55,7 @@ const NotJustPictures = () => {
       <div className="post__photo__div">
         <a href="https://nft.coachella.com/" target="_blank" rel="noreferrer">
           <img
-            src="https://nftconcerts.com/wp-content/uploads/2022/01/screenshot-a-nft.jpg"
+            src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/screenshot-a-nft.jpg"
             className="post__photo__two"
           />
         </a>

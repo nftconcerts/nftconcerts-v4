@@ -21,7 +21,7 @@ const ConcertNft = () => {
         While there have been a couple of NFT projects announced dealing with
         concert tickets, and even{" "}
         <a
-          href="https://nftconcerts.com/don-diablos-600eth-1-2m-nft-concert/"
+          href="https://merch.nftconcerts.com/don-diablos-600eth-1-2m-nft-concert/"
           target="_blank"
           rel="noreferrer"
         >

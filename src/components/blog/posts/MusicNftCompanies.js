@@ -21,7 +21,7 @@ const MusicNftCompanies = () => {
       </p>
       <div className="company__logo__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2022/01/Rocki-logo-600x188.jpeg"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/Rocki-logo-600x188.jpeg"
           className="company__logo"
         ></img>
       </div>
@@ -47,7 +47,7 @@ const MusicNftCompanies = () => {
       </p>
       <div className="company__logo__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2022/01/one-of.png"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/one-of.png"
           className="company__logo"
         ></img>
       </div>
@@ -72,7 +72,7 @@ const MusicNftCompanies = () => {
       </p>
       <div className="company__logo__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2022/01/5583d4d8-5225-4e9f-974b-61c8afea00af-1633114297592-600x330.png"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/5583d4d8-5225-4e9f-974b-61c8afea00af-1633114297592-600x330.png"
           className="company__logo"
         ></img>
       </div>
@@ -99,7 +99,7 @@ const MusicNftCompanies = () => {
       </p>
       <div className="company__logo__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2022/01/a64b1af5-2be8-44c4-a55e-5fa769bb2c4c-1625844850652.png"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/a64b1af5-2be8-44c4-a55e-5fa769bb2c4c-1625844850652.png"
           className="company__logo"
         ></img>
       </div>
@@ -124,7 +124,7 @@ const MusicNftCompanies = () => {
       </p>
       <div className="company__logo__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2021/02/arc-logo-600x190-1.png"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2021/02/arc-logo-600x190-1.png"
           className="company__logo"
         ></img>
       </div>

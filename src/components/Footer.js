@@ -131,7 +131,7 @@ function Footer() {
             </a>
 
             <a
-              href="https://www.nftconcerts.com/merch"
+              href="https://merch.nftconcerts.com/merch"
               className="my__button footer__menu__item"
               target="_blank"
               rel="noopener noreferrer"
@@ -192,7 +192,7 @@ function Footer() {
             </a>
 
             <a
-              href="https://www.nftconcerts.com/merch"
+              href="https://merch.nftconcerts.com/merch"
               className="my__button footer__menu__item"
               target="_blank"
               rel="noopener noreferrer"

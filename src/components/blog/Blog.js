@@ -31,7 +31,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/08/NFT-Ticketing-for-Concerts-and-Events-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/08/NFT-Ticketing-for-Concerts-and-Events-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -70,7 +70,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/07/New-Factor-Authentication-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/07/New-Factor-Authentication-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -109,7 +109,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/07/NFTs-Are-Here-to-Stay-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/07/NFTs-Are-Here-to-Stay-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -149,7 +149,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/03/10-Reasons-to-Turn-Your-Next-Performance-into-a-NFT-Concert-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/03/10-Reasons-to-Turn-Your-Next-Performance-into-a-NFT-Concert-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -189,7 +189,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/02/Music-Festivals-and-NFTs-in-2022-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/02/Music-Festivals-and-NFTs-in-2022-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -227,7 +227,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/02/NFTs-are-coming-to-a-live-event-near-you-v2-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/02/NFTs-are-coming-to-a-live-event-near-you-v2-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -266,7 +266,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/02/coachella-NFTs-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/02/coachella-NFTs-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -307,7 +307,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/01/NFTs-Are-Not-Just-Profile-Pictures-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/NFTs-Are-Not-Just-Profile-Pictures-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -344,7 +344,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/01/Top-5-Music-NFT-Companies-web-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/Top-5-Music-NFT-Companies-web-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -382,7 +382,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2022/01/10-days-nft-pfp-thumbnail-image-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/10-days-nft-pfp-thumbnail-image-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -420,7 +420,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/12/How-to-Get-Started-with-NFTs-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/How-to-Get-Started-with-NFTs-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -458,7 +458,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/11/NFT-Tickets-vs-NFT-Music-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/11/NFT-Tickets-vs-NFT-Music-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>

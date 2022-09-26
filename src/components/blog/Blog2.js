@@ -31,7 +31,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/10/How-to-price-a-music-nft-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/10/How-to-price-a-music-nft-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -70,7 +70,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/09/Top-9-Music-NFTs-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/09/Top-9-Music-NFTs-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -108,7 +108,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/09/NFTC-Post-Thumbnail-Template-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/09/NFTC-Post-Thumbnail-Template-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -145,7 +145,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/09/Are-NFTs-a-Scam-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/09/Are-NFTs-a-Scam-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -183,7 +183,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/08/5-Ways-Musicians-Can-Make-Money-with-NFTs-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/08/5-Ways-Musicians-Can-Make-Money-with-NFTs-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -221,7 +221,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/08/Can-I-Make-My-Music-Into-NFTs-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/08/Can-I-Make-My-Music-Into-NFTs-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -262,7 +262,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/08/NFTs-Explode-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/08/NFTs-Explode-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -304,7 +304,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/05/Live-Music-is-Back-Thumbnail-600x600.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/05/Live-Music-is-Back-Thumbnail-600x600.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -344,7 +344,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/05/Unlockable-NFTs-768x768.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/05/Unlockable-NFTs-768x768.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -382,7 +382,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/05/NFT-Concerts-Collectibles-web-768x768.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/05/NFT-Concerts-Collectibles-web-768x768.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -420,7 +420,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/04/concert-bootlegs-768x768.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/04/concert-bootlegs-768x768.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -457,7 +457,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://nftconcerts.com/wp-content/uploads/2021/04/DD-3-768x768.jpg"
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/04/DD-3-768x768.jpg"
                 className="blog__card__thumbnail__image"
               />
             </div>

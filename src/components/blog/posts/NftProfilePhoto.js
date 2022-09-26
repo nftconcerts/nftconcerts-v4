@@ -43,7 +43,7 @@ const NftProfilePhoto = () => {
       </p>
       <div className="post__photo__div">
         <img
-          src="https://nftconcerts.com/wp-content/uploads/2022/01/4483-1536x1536.png"
+          src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/4483-1536x1536.png"
           className="post__photo__two"
         />
       </div>

@@ -10,7 +10,7 @@ function FooterTop() {
       <div className="top__footer">
         <div className="center__prompt">
           <img
-            src="https://nftconcerts.com/wp-content/uploads/2021/02/arc-logo-600x190-White-1.png"
+            src="https://merch.nftconcerts.com/wp-content/uploads/2021/02/arc-logo-600x190-White-1.png"
             className="center__logo"
             alt="NFT Concerts Logo"
           />

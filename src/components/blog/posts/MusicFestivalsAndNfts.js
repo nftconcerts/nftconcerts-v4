@@ -22,7 +22,7 @@ const MusicFestivalsAndNfts = () => {
         You may have heard the news about the Coachella NFT drop. Be sure to
         check out our article on the{" "}
         <a
-          href="https://nftconcerts.com/what-coachella-nfts-say-about-the-future-of-music/"
+          href="https://merch.nftconcerts.com/what-coachella-nfts-say-about-the-future-of-music/"
           target="_blank"
           rel="noreferrer"
         >
@@ -35,7 +35,7 @@ const MusicFestivalsAndNfts = () => {
       <div className="post__photo__div">
         <a href="https://nft.coachella.com/" target="_blank" rel="noreferrer">
           <img
-            src="https://nftconcerts.com/wp-content/uploads/2022/02/Screen-Shot-2022-02-27-at-11.37.40-AM-1536x761.png"
+            src="https://merch.nftconcerts.com/wp-content/uploads/2022/02/Screen-Shot-2022-02-27-at-11.37.40-AM-1536x761.png"
             className="post__photo__two"
           />
         </a>

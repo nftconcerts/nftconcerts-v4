@@ -234,7 +234,7 @@ const About = () => {
                 <div className="roadmap__objective">
                   Sold the First{" "}
                   <a
-                    href="https://nftconcerts.com/product/nft-concerts-snapback-hat-black/"
+                    href="https://merch.nftconcerts.com/product/nft-concerts-snapback-hat-black/"
                     target="_blank"
                     rel="noreferrer"
                   >

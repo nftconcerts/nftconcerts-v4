@@ -48,7 +48,7 @@ function Login() {
       var userDataRef = dRef(db, "users/" + tempUser.user.uid);
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
-       setUserData(data);
+        setUserData(data);
       });
     } else if (currentUser) {
       var userDataRef = dRef(db, "users/" + currentUser.user.uid);
@@ -138,7 +138,6 @@ function Login() {
 
       const library = new Web3Provider(provider, "any");
 
-
       setWeb3Library(library);
       setWeb3Account(account);
       setCbAddress(account);
@@ -206,23 +205,14 @@ function Login() {
                 {" "}
                 {address && address === userData?.walletID && (
                   <>
-                    {networkMismatch && (
-                      <button
-                        onClick={() => switchNetwork(ChainId.Mainnet)}
-                        className="register__button"
-                      >
-                        Switch to Ethereum
-                      </button>
-                    )}
-                    {!networkMismatch && (
-                      <input
-                        type="button"
-                        value="Address Confirmed - Login"
-                        className="register__button"
-                        onClick={confirmUser}
-                        disabled={false}
-                      />
-                    )}
+                    <input
+                      type="button"
+                      value="Address Confirmed - Login"
+                      className="register__button"
+                      onClick={confirmUser}
+                      disabled={false}
+                    />
+
                     <div className="connected__info">
                       Connected as {truncateAddress(address)}
                     </div>
