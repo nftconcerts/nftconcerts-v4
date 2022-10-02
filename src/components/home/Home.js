@@ -6,7 +6,7 @@ import FooterTop from "../FooterTop";
 import { ref as dRef, onValue } from "firebase/database";
 import { db, getMobileMode, fetchCurrentUser } from "./../../firebase";
 import "./Home.css";
-import checkProductionTeam from "../../scripts/checkProductionTeam";
+
 import FormBox from "../form/FormBox";
 import { useAddress, useNetworkMismatch } from "@thirdweb-dev/react";
 import { useNavigate } from "react-router-dom";
@@ -49,71 +49,18 @@ const Home = () => {
     });
   }, []);
 
-  //check if user is holding production team NFT
-  const [productionTeam, setProductionTeam] = useState(false);
-  const address = useAddress();
-
-  const productionCheck = async () => {
-    if (address) {
-      var checkResult = await checkProductionTeam(address);
-      if (checkResult[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    } else if (!address && pageMobileMode && userData?.walletID) {
-      var checkResult = await checkProductionTeam(userData.walletID);
-      if (checkResult[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    productionCheck();
-  }, [address, userData]);
-
   return (
     <>
-      {!productionTeam && (
-        <FormBox>
-          <div className="not__production__div">
-            {" "}
-            <h3>
-              {" "}
-              You must be a member of the production team to view this site.
-            </h3>
-            <img
-              src="/media/production-team.jpg"
-              className="production__team__image__two"
-            />
-            <button
-              onClick={() => {
-                navigate("/");
-              }}
-              className="login__button"
-            >
-              Join Now
-            </button>
-          </div>
-        </FormBox>
-      )}
-      {concertData && productionTeam && (
+      {concertData && (
         <div className="home__page">
           <Banner />
           <Row
-            title="First Release"
+            title="Minting Now"
             isLargeRow
             concertData={concertData}
             concerts={firstReleaseConcerts}
           />
-          <ComingSoonRow
+          {/* <ComingSoonRow
             title="Trending Now"
             concertData={concertData}
             concerts={trendingConcerts}
@@ -127,14 +74,14 @@ const Home = () => {
             title="Resale Marketplace"
             concertData={concertData}
             concerts={concerts}
-          />
+          /> */}
           <ComingSoonRow
             title="1/1"
             concertData={concertData}
             concerts={concerts}
           />
           <ComingSoonRow
-            title="Latest Release"
+            title="Trending Now"
             concertData={concertData}
             concerts={concerts}
           />

@@ -14,10 +14,16 @@ import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
 import { GetUSDExchangeRate } from "./api";
 import FormBox from "./form/FormBox";
-import { useActiveClaimCondition, useEditionDrop } from "@thirdweb-dev/react";
+import {
+  useActiveClaimCondition,
+  useContractData,
+  useEditionDrop,
+} from "@thirdweb-dev/react";
 import editionDrop, { editionDropAddress } from "../scripts/getContract.mjs";
 import { useAddress } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
+import emailjs from "@emailjs/browser";
+import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
 const ListingPage = () => {
   let navigate = useNavigate();
@@ -35,6 +41,7 @@ const ListingPage = () => {
   );
   let address = useAddress();
   let pageMobileMode = getMobileMode();
+  const [userData, setUserData] = useState();
 
   //format concert eth price
   useEffect(() => {
@@ -80,6 +87,17 @@ const ListingPage = () => {
       setConcertData(cData);
     });
   }, [currentUser, concertID]);
+
+  //download User Data
+  useEffect(() => {
+    if (currentUser) {
+      var userDataRef = dRef(db, "users/" + currentUser.user.uid);
+      onValue(userDataRef, (snapshot) => {
+        var data = snapshot.val();
+        setUserData(data);
+      });
+    }
+  }, [currentUser]);
 
   //check if listing is valid
 
@@ -138,20 +156,113 @@ const ListingPage = () => {
     "https://etherscan.io/tx/" + tx?.receipt.transactionHash;
 
   // Claim our NFT with the claim method - (token id, quantity)
+  const [mintQty, setMintQty] = useState(1);
   const claimButton = async () => {
     setClaiming(true);
     try {
-      var result = await editionDropped?.claim(concertID, 1);
+      var result = await editionDropped?.claim(concertID, mintQty);
       setTx(result);
       console.log("claimed", result);
       setClaiming(false);
       setPurchased(true);
       setShowPurchased(true);
       setOwned(owned + 1);
+      sendEmails();
     } catch (error) {
       console.log("Failed to claim. Error: ", error);
       setClaiming(false);
     }
+  };
+
+  //Send emails to artist, user, and admin after successful mint
+  const sendEmails = () => {
+    sendAdminEmail();
+    sendArtistEmail();
+    sendUserEmail();
+  };
+
+  const sendArtistEmail = () => {
+    var mintPrice = mintQty * parseFloat(concertData.concertPrice);
+    var template_params = {
+      artistemail: concertData.uploaderEmail,
+      artist: concertData.artist,
+      concertName: concertData.concertName,
+      buyerName: userData.name,
+      mintQty: mintQty,
+      mintPrice: mintPrice,
+      remaining: activeClaimCondition?.availableSupply,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_admin_contact",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  const sendUserEmail = () => {
+    var mintPrice = mintQty * parseFloat(concertData.concertPrice);
+    var template_params = {
+      artistemail: concertData.uploaderEmail,
+      artist: concertData.artist,
+      concertName: concertData.concertName,
+      buyerName: userData.name,
+      mintQty: mintQty,
+      mintPrice: mintPrice,
+      remaining: activeClaimCondition?.availableSupply,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_admin_contact",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  const sendAdminEmail = () => {
+    var mintPrice = mintQty * parseFloat(concertData.concertPrice);
+    var template_params = {
+      artistemail: concertData.uploaderEmail,
+      artist: concertData.artist,
+      concertName: concertData.concertName,
+      buyerName: userData.name,
+      mintQty: mintQty,
+      mintPrice: mintPrice,
+      remaining: activeClaimCondition?.availableSupply,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_admin_contact",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
   };
 
   // Check if user owns the current NFT Concert
@@ -311,6 +422,7 @@ const ListingPage = () => {
                         </div>
                       </div>
                     </button>
+
                     {purchased && (
                       <div className="transaction__result">
                         Purchase Completed - TX:{" "}
@@ -398,6 +510,7 @@ const ListingPage = () => {
                       </div>
                     </div>
                   </button>
+
                   {purchased && (
                     <div className="transaction__result">
                       Purchase Completed - TX:{" "}
@@ -482,6 +595,13 @@ const ListingPage = () => {
               <h3 className="c__detail">
                 <i class="fa-solid fa-video c__icons" title="Recording Type" />
                 {concertData?.concertRecordingType}
+              </h3>
+              <h3 className="c__detail">
+                <i
+                  class="fa-solid fa-clock-rotate-left c__icons"
+                  title="Duration"
+                />
+                {concertData?.concertDuration}
               </h3>
               <p className="c__description">
                 {concertData?.concertDescription}

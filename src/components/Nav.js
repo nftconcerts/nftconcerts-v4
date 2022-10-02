@@ -33,7 +33,6 @@ import {
 import { ethers } from "ethers";
 import { GetUSDExchangeRate, GetMaticUSDExchangeRate, getGas } from "./api";
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
-import checkProductionTeam from "../scripts/checkProductionTeam";
 import checkEthBalance from "../scripts/checkEthBalance";
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -180,31 +179,6 @@ const Nav = () => {
     }
   }, [currentUser, userData]);
 
-  //check if user is holding production team NFT
-  const [productionTeam, setProductionTeam] = useState(false);
-
-  const productionCheck = async () => {
-    if (address) {
-      var checkResult = await checkProductionTeam(address);
-      if (checkResult[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    } else if (!address && userData?.walletID) {
-      var checkResultMobile = await checkProductionTeam(userData.walletID);
-      if (checkResultMobile[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResultMobile[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    }
-  };
-
   //check user eth balance and update
   const ethBalanceCheck = async () => {
     if (address) {
@@ -217,7 +191,6 @@ const Nav = () => {
   };
 
   useEffect(() => {
-    productionCheck();
     ethBalanceCheck();
     addressCheck();
   }, [address, userData]);
@@ -504,11 +477,7 @@ const Nav = () => {
           src="https://merch.nftconcerts.com/wp-content/uploads/2021/02/arc-logo-600x190-White-1.png"
           alt="NFT Concerts Logo"
           onClick={() => {
-            if (productionTeam) {
-              navigate("/home");
-            } else {
-              navigate("/");
-            }
+            navigate("/");
           }}
         />
 
@@ -566,7 +535,7 @@ const Nav = () => {
                 className="menu__item"
                 onClick={() => {
                   menuPop();
-                  navigate("/home");
+                  navigate("/");
                 }}
               >
                 Discover

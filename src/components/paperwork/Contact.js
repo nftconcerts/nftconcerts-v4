@@ -37,6 +37,11 @@ const Contact = () => {
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
+        setFormItems((prevState) => ({
+          ...prevState,
+          name: data.name,
+          email: data.email,
+        }));
       });
     }
   }, [currentUser]);
@@ -64,7 +69,32 @@ const Contact = () => {
     emailjs
       .send(
         process.env.REACT_APP_EMAIL_SERVICE_ID,
-        "template_vfnk00j",
+        "template_admin_contact",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          sendUserEmail();
+          console.log(result.text);
+          setMessageSent(true);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+  const sendUserEmail = () => {
+    var template_params = {
+      email: formItems.email,
+      name: formItems.name,
+      subject: formItems.subject,
+      message: formItems.message,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_user_contact",
         template_params,
         process.env.REACT_APP_EMAIL_USER_ID
       )

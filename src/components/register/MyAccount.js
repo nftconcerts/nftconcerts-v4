@@ -219,58 +219,34 @@ const MyAccount = () => {
 
   return (
     <>
-      {!productionTeam && (
-        <FormBox>
-          <div className="not__production__div">
-            {" "}
-            <h3>
-              {" "}
-              You must be a member of the production team to view this site.
-            </h3>
-            <img
-              src="/media/production-team.jpg"
-              className="production__team__image__two"
-            />
-            <button
-              onClick={() => {
-                navigate("/");
-              }}
-              className="login__button"
-            >
-              Join Now
-            </button>
-          </div>
-        </FormBox>
-      )}
-      {productionTeam && (
-        <>
-          {currentUser === null && (
-            <FormBox>
-              <div className="no__user">
-                <h3>No Current User. </h3>
-                <p>Please Register or Login </p>
-                <button
-                  className="login__button"
-                  onClick={() => {
-                    navigate("/login");
-                  }}
-                >
-                  Go To Login Page
-                </button>
-                <button
-                  className="login__button"
-                  onClick={() => {
-                    navigate("/register");
-                  }}
-                >
-                  New User? Sign Up
-                </button>
-              </div>
-            </FormBox>
-          )}
-          {currentUser && (
-            <Contract>
-              {/* <div className="account__name">
+      <>
+        {currentUser === null && (
+          <FormBox>
+            <div className="no__user">
+              <h3>No Current User. </h3>
+              <p>Please Register or Login </p>
+              <button
+                className="login__button"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Go To Login Page
+              </button>
+              <button
+                className="login__button"
+                onClick={() => {
+                  navigate("/register");
+                }}
+              >
+                New User? Sign Up
+              </button>
+            </div>
+          </FormBox>
+        )}
+        {currentUser && (
+          <Contract>
+            {/* <div className="account__name">
             <p className="user__name">{currentUser.user.name}</p>
           </div>
           <div className="account__info">
@@ -279,100 +255,97 @@ const MyAccount = () => {
               {truncateAddress(currentUser.user.photoURL)}
             </p>
           </div> */}
-              {ownedNFTs && ownedNFTs.length > 0 && (
-                <>
-                  <h3>Owned Concerts</h3>
-                  <div className="concert__library">
-                    {concertData && showConcerts()}
-                  </div>
-                </>
-              )}
-              {userData?.submittedConcerts && (
-                <>
-                  <h3>Submitted Concerts</h3>
-                  <div className="submitted__concerts__table">
-                    <div className="concert__table__headers">
-                      <div className="concert__id">L-ID </div>
-                      <div className="concert__thumbnail">IMG</div>
-                      <div className="concert__name">Name</div>
-                      <div className="concert__perf__date">
-                        Performance Date
-                      </div>
-                      <div className="concert__listing__approval">
-                        Listing Approval
-                      </div>
-                      <div className="header__expand__button">
-                        <i className="fa-solid fa-file-signature" />
-                      </div>
-                      {/* <div className="header__play__button">
+            {ownedNFTs && ownedNFTs.length > 0 && (
+              <>
+                <h3>Owned Concerts</h3>
+                <div className="concert__library">
+                  {concertData && showConcerts()}
+                </div>
+              </>
+            )}
+            {userData?.submittedConcerts && (
+              <>
+                <h3>Submitted Concerts</h3>
+                <div className="submitted__concerts__table">
+                  <div className="concert__table__headers">
+                    <div className="concert__id">L-ID </div>
+                    <div className="concert__thumbnail">IMG</div>
+                    <div className="concert__name">Name</div>
+                    <div className="concert__perf__date">Performance Date</div>
+                    <div className="concert__listing__approval">
+                      Listing Approval
+                    </div>
+                    <div className="header__expand__button">
+                      <i className="fa-solid fa-file-signature" />
+                    </div>
+                    {/* <div className="header__play__button">
                         <i className="fa-solid fa-play" />
                       </div>
                       <div className="header__token__button">
                         <i className="fa-solid fa-file-invoice-dollar"></i>
                       </div> */}
-                    </div>
-                    {userData && concertData && submittedConcertTable(userData)}
-                    <div className="submitted__concert__row">
-                      <div className="submitted__concert__name"></div>
-                    </div>
                   </div>
-                </>
-              )}
-              <div className="account__buttons__div"></div>
+                  {userData && concertData && submittedConcertTable(userData)}
+                  <div className="submitted__concert__row">
+                    <div className="submitted__concert__name"></div>
+                  </div>
+                </div>
+              </>
+            )}
+            <div className="account__buttons__div"></div>
 
-              <div className="admin__button__div">
-                {!address && (
+            <div className="admin__button__div">
+              {!address && (
+                <button
+                  className="login__button admin__button"
+                  onClick={() => {
+                    resetMobileMode();
+                    connectWithMetamask();
+                  }}
+                >
+                  Connect to Metamask
+                </button>
+              )}
+              {admin && (
+                <>
+                  {" "}
                   <button
                     className="login__button admin__button"
                     onClick={() => {
-                      resetMobileMode();
-                      connectWithMetamask();
+                      navigate("/admin");
                     }}
                   >
-                    Connect to Metamask
+                    Admin View
                   </button>
-                )}
-                {admin && (
-                  <>
-                    {" "}
-                    <button
-                      className="login__button admin__button"
-                      onClick={() => {
-                        navigate("/admin");
-                      }}
-                    >
-                      Admin View
-                    </button>
-                    <button
-                      className="login__button admin__button"
-                      onClick={() => {
-                        inlineLogout();
-                      }}
-                    >
-                      Logout
-                    </button>
-                  </>
-                )}
-              </div>
+                  <button
+                    className="login__button admin__button"
+                    onClick={() => {
+                      inlineLogout();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
+            </div>
 
-              <div className="user__info__div">
-                <div className="name__div">
-                  <span className="bold__text">User</span>
-                  <br />
-                  {userData?.name}
-                </div>
-                {userData && (
-                  <div className="wallet__div">
-                    <span className="bold__text">Wallet</span>
-                    <br />
-                    {truncateAddress(userData?.walletID)}
-                  </div>
-                )}
+            <div className="user__info__div">
+              <div className="name__div">
+                <span className="bold__text">User</span>
+                <br />
+                {userData?.name}
               </div>
-            </Contract>
-          )}
-        </>
-      )}
+              {userData && (
+                <div className="wallet__div">
+                  <span className="bold__text">Wallet</span>
+                  <br />
+                  {truncateAddress(userData?.walletID)}
+                </div>
+              )}
+            </div>
+          </Contract>
+        )}
+      </>
     </>
   );
 };

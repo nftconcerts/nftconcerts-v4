@@ -267,6 +267,19 @@ select::-ms-expand {
   align-items: center;
   background: none !important;
 }
+
+.no__user {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 320px;
+  margin-top: 25px;
+  font-family: "Saira";
+  font-size: 20px;
+}
+.no__user h3 {
+  font-size: 24px;
+}
 .wave {
   width: 5px;
   height: 20px;

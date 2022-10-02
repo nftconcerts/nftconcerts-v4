@@ -35,6 +35,10 @@ const ArtistApp = () => {
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
+        setFormItems((prevState) => ({
+          ...prevState,
+          email: data.email,
+        }));
       });
     }
   }, [currentUser]);
@@ -66,18 +70,35 @@ const ArtistApp = () => {
     emailjs
       .send(
         process.env.REACT_APP_EMAIL_SERVICE_ID,
-        "template_paq2qeo",
+        "template_admin_artistapp",
         template_params,
         process.env.REACT_APP_EMAIL_USER_ID
       )
       .then(
         (result) => {
-          console.log(result.text);
+          sendUserEmail();
           setMessageSent(true);
         },
-        (error) => {
-          console.log(error.text);
-        }
+        (error) => {}
+      );
+  };
+
+  const sendUserEmail = () => {
+    var template_params = {
+      email: formItems.email,
+      stagename: formItems.stageName,
+      firstname: formItems.firstName,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_user_apply",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {},
+        (error) => {}
       );
   };
 

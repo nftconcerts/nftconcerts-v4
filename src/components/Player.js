@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import "./Player.css";
-
+import "./ListingPage.css";
 import "./upload/Confirmation.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { db, fetchCurrentUser } from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
 import { useAddress } from "@thirdweb-dev/react";
-import checkProductionTeam from "../scripts/checkProductionTeam";
 import FormBox from "./form/FormBox";
 import { useEditionDrop } from "@thirdweb-dev/react";
 import { editionDropAddress } from "./../scripts/getContract.mjs";
@@ -24,6 +23,7 @@ const Player = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [owned, setOwned] = useState(0);
   const address = useAddress();
+  const [validListing, setValidListing] = useState(false);
 
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
@@ -133,268 +133,264 @@ const Player = () => {
     concertID +
     "%0A%0A%23nftconcerts%20%23livemusic%20%23nfts%20";
 
-  //check if user is holding production team NFT
-  const [productionTeam, setProductionTeam] = useState(false);
-
-  const productionCheck = async () => {
-    if (address) {
-      var checkResult = await checkProductionTeam(address);
-      if (checkResult[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    } else if (!address && userData?.walletID) {
-      var checkResultMobile = await checkProductionTeam(userData.walletID);
-      if (checkResultMobile[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResultMobile[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    }
-  };
+  //check if listing is valid
 
   useEffect(() => {
-    productionCheck();
-  }, [address, userData]);
+    if (concertData?.listingApproval === "Approved") {
+      setValidListing(true);
+    }
+  }, [concertData]);
 
   return (
     <>
-      {!productionTeam && (
-        <FormBox>
-          <div className="not__production__div">
-            {" "}
-            <h3>
-              {" "}
-              You must be a member of the production team to view this site.
-            </h3>
-            <img
-              src="/media/production-team.jpg"
-              className="production__team__image__two"
-              alt="NFT Concerts Production Team NFT"
-            />
-            <button
-              onClick={() => {
-                navigate("/");
-              }}
-              className="login__button"
-            >
-              Join Now
-            </button>
-          </div>
-        </FormBox>
-      )}
-      {productionTeam && (
-        <div className="player__page">
-          <div className="media__player__div">
-            {(validUser && (
-              <ReactPlayer
-                config={{
-                  file: {
-                    attributes: {
-                      onContextMenu: (e) => e.preventDefault(),
-                      controlsList: "nodownload",
-                    },
-                  },
-                }}
-                width="100%"
-                height="100%"
-                playing={false}
-                controls={true}
-                url={concertData?.concertRecording}
-              />
-            )) || (
-              <div className="not__valid__watcher">
-                <h3 className="not__valid__watcher__text">
-                  You must own the token to watch the content.
-                </h3>
-                <input
-                  type="button"
-                  value="Go To Marketplace"
-                  className="buy__now my__button preview__button buy__now__button"
-                  onClick={() => {
-                    navigate("/concert?id=" + concertID);
-                  }}
-                />
-              </div>
-            )}
-          </div>
-          <div className="split__col">
-            <div className="concert__info__div">
-              <div className="underplayer__buttons__div">
-                {!darkMode && (
-                  <button
-                    className="fa-solid fa-lightbulb player__icon__button"
-                    onClick={turnOffLights}
-                  />
-                )}
-                {darkMode && (
-                  <button
-                    className="fa-solid fa-lightbulb player__icon__button"
-                    onClick={turnOnLights}
-                  />
-                )}
-
-                <a href={twitterLink} target="_blank" rel="noreferrer">
-                  <button className="fa-brands fa-twitter player__icon__button" />
-                </a>
+      {validListing && (
+        <>
+          {(currentUser === null && (
+            <FormBox>
+              <div className="no__user">
+                <h3>No Current User. </h3>
+                <p>
+                  Please Register or Login
+                  <br /> to Watch the Show{" "}
+                </p>
                 <button
-                  className="fa-solid fa-dollar-sign player__icon__button"
+                  className="login__button"
                   onClick={() => {
-                    navigate("/concert?id=" + concertID);
-                  }}
-                />
-              </div>
-              <h1 className="c__name">
-                {concertData?.concertName} by {concertData?.concertArtist}
-              </h1>
-              {owned > 1 && (
-                <h3 className="owned__info">
-                  {owned}x Copies Owned of {concertData?.concertSupply}
-                </h3>
-              )}
-              {owned === 1 && (
-                <h3 className="owned__info">
-                  {owned} Copy Owned of {concertData?.concertSupply}
-                </h3>
-              )}
-              {owned === 0 && (
-                <h3 className="owned__info">Mint to access the show.</h3>
-              )}
-              <h3 className="c__detail">
-                <i class="fa-solid fa-user c__icons" title="Artist" />
-                {concertData?.concertArtist}
-              </h3>
-              <h3 className="c__detail">
-                <i
-                  class="fa-solid fa-calendar c__icons"
-                  title="Performance Date"
-                />
-                {dateFormat(
-                  concertData.concertPerformanceDate,
-                  "m/d/yyyy, h:MM TT"
-                )}
-              </h3>
-
-              <h3 className="c__detail">
-                <i class="fa-solid fa-warehouse c__icons" title="Venue" />
-                {concertData?.concertVenue}
-              </h3>
-              <h3 className="c__detail">
-                <i
-                  class="fa-solid fa-location-crosshairs c__icons"
-                  title="Location"
-                />
-                {concertData?.concertLocation}
-              </h3>
-              {concertData?.concertTourName && (
-                <h3 className="c__detail">
-                  <i class="fa-solid fa-van-shuttle c__icons" title="Tour" />
-                  {concertData?.concertTourName}
-                </h3>
-              )}
-              {concertData?.concertLiveAttendance && (
-                <h3 className="c__detail">
-                  <i class="fa-solid fa-users-line c__icons" title="Tour" />
-                  {concertData?.concertLiveAttendance}
-                </h3>
-              )}
-              <h3 className="c__detail">
-                <i class="fa-solid fa-video c__icons" title="Recording Type" />
-                {concertData?.concertRecordingType}
-              </h3>
-              <p className="c__description">
-                {concertData?.concertDescription}
-              </p>
-              <div className="player__setlist__div">
-                <h3 className="c__detail player__setlist__title">
-                  Setlist - {concertData?.concertNumSongs} Songs
-                </h3>
-                {displaySongs()}
-              </div>
-            </div>
-            <div className="token__div player__token__div">
-              <h3 className="token__heading">Non-Fungible Token (NFT)</h3>
-              <img
-                src={concertData?.concertTokenImage}
-                className="token__image__image"
-                alt="NFT Concert Token Preview"
-              />
-
-              <div className="final__buy__button__div">
-                <button
-                  className="buy__now my__button preview__button buy__now__button"
-                  onClick={() => {
-                    navigate(`/concert?id=${concertID}`);
+                    navigate("/login");
                   }}
                 >
-                  <div className="inside__button__div">
-                    <div>Go To Marketplace</div>{" "}
-                  </div>
+                  Go To Login Page
+                </button>
+                <button
+                  className="login__button"
+                  onClick={() => {
+                    navigate("/register");
+                  }}
+                >
+                  New User? Sign Up
                 </button>
               </div>
-              <div className="marketplace__icons__div token__div__icons">
-                <div
-                  className="marketplace__icon__div"
-                  onClick={() => {
-                    window.open(
-                      `https://looksrare.org/collections/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
-                    );
-                  }}
-                >
-                  <img
-                    src="/media/looksrare-logo.png"
-                    className="marketplace__icon invert__icon"
-                    alt="LooksRare Logo"
+            </FormBox>
+          )) || (
+            <div className="player__page">
+              <div className="media__player__div">
+                {(validUser && (
+                  <ReactPlayer
+                    config={{
+                      file: {
+                        attributes: {
+                          onContextMenu: (e) => e.preventDefault(),
+                          controlsList: "nodownload",
+                        },
+                      },
+                    }}
+                    width="100%"
+                    height="100%"
+                    playing={false}
+                    controls={true}
+                    url={concertData?.concertRecording}
                   />
+                )) || (
+                  <div className="not__valid__watcher">
+                    <h3 className="not__valid__watcher__text">
+                      You must own the token to watch the content.
+                    </h3>
+                    <input
+                      type="button"
+                      value="Go To Marketplace"
+                      className="buy__now my__button preview__button buy__now__button"
+                      onClick={() => {
+                        navigate("/concert?id=" + concertID);
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="split__col">
+                <div className="concert__info__div">
+                  <div className="underplayer__buttons__div">
+                    {!darkMode && (
+                      <button
+                        className="fa-solid fa-lightbulb player__icon__button"
+                        onClick={turnOffLights}
+                      />
+                    )}
+                    {darkMode && (
+                      <button
+                        className="fa-solid fa-lightbulb player__icon__button"
+                        onClick={turnOnLights}
+                      />
+                    )}
+
+                    <a href={twitterLink} target="_blank" rel="noreferrer">
+                      <button className="fa-brands fa-twitter player__icon__button" />
+                    </a>
+                    <button
+                      className="fa-solid fa-dollar-sign player__icon__button"
+                      onClick={() => {
+                        navigate("/concert?id=" + concertID);
+                      }}
+                    />
+                  </div>
+                  <h1 className="c__name">
+                    {concertData?.concertName} by {concertData?.concertArtist}
+                  </h1>
+                  {owned > 1 && (
+                    <h3 className="owned__info">
+                      {owned}x Copies Owned of {concertData?.concertSupply}
+                    </h3>
+                  )}
+                  {owned === 1 && (
+                    <h3 className="owned__info">
+                      {owned} Copy Owned of {concertData?.concertSupply}
+                    </h3>
+                  )}
+                  {owned === 0 && (
+                    <h3 className="owned__info">Mint to access the show.</h3>
+                  )}
+                  <h3 className="c__detail">
+                    <i class="fa-solid fa-user c__icons" title="Artist" />
+                    {concertData?.concertArtist}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-calendar c__icons"
+                      title="Performance Date"
+                    />
+                    {dateFormat(
+                      concertData?.concertPerformanceDate,
+                      "m/d/yyyy, h:MM TT"
+                    )}
+                  </h3>
+
+                  <h3 className="c__detail">
+                    <i class="fa-solid fa-warehouse c__icons" title="Venue" />
+                    {concertData?.concertVenue}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-location-crosshairs c__icons"
+                      title="Location"
+                    />
+                    {concertData?.concertLocation}
+                  </h3>
+                  {concertData?.concertTourName && (
+                    <h3 className="c__detail">
+                      <i
+                        class="fa-solid fa-van-shuttle c__icons"
+                        title="Tour"
+                      />
+                      {concertData?.concertTourName}
+                    </h3>
+                  )}
+                  {concertData?.concertLiveAttendance && (
+                    <h3 className="c__detail">
+                      <i class="fa-solid fa-users-line c__icons" title="Tour" />
+                      {concertData?.concertLiveAttendance}
+                    </h3>
+                  )}
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-video c__icons"
+                      title="Recording Type"
+                    />
+                    {concertData?.concertRecordingType}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-clock-rotate-left c__icons"
+                      title="Duration"
+                    />
+                    {concertData?.concertDuration}
+                  </h3>
+                  <p className="c__description">
+                    {concertData?.concertDescription}
+                  </p>
+                  <div className="player__setlist__div">
+                    <h3 className="c__detail player__setlist__title">
+                      Setlist - {concertData?.concertNumSongs} Songs
+                    </h3>
+                    {displaySongs()}
+                  </div>
                 </div>
-                <div
-                  className="marketplace__icon__div"
-                  onClick={() => {
-                    window.open(
-                      `https://opensea.io/assets/ethereum/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
-                    );
-                  }}
-                >
+                <div className="token__div player__token__div">
+                  <h3 className="token__heading">Non-Fungible Token (NFT)</h3>
                   <img
-                    src="/media/opensea-logo.png"
-                    className="marketplace__icon"
-                    alt="OpenSea Logo"
+                    src={concertData?.concertTokenImage}
+                    className="token__image__image"
+                    alt="NFT Concert Token Preview"
                   />
-                </div>
-                <div
-                  className="marketplace__icon__div"
-                  onClick={() => {
-                    window.open(
-                      `https://x2y2.io/eth/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
-                    );
-                  }}
-                >
-                  <img
-                    src="/media/x2y2-logo.png"
-                    className="marketplace__icon"
-                    alt="X2Y2 Logo"
-                  />
-                </div>
-                <div
-                  className="marketplace__icon__div"
-                  onClick={() => {
-                    window.open(
-                      `https://etherscan.io/token/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a?a=${concertID}`
-                    );
-                  }}
-                >
-                  <img
-                    src="/media/etherscan-logo.png"
-                    className="marketplace__icon"
-                    alt="Etherscan Logo"
-                  />
-                </div>
-                {/* {metamaskDetected && (
+
+                  <div className="final__buy__button__div">
+                    <button
+                      className="buy__now my__button preview__button buy__now__button"
+                      onClick={() => {
+                        navigate(`/concert?id=${concertID}`);
+                      }}
+                    >
+                      <div className="inside__button__div">
+                        <div>Go To Marketplace</div>{" "}
+                      </div>
+                    </button>
+                  </div>
+                  <div className="marketplace__icons__div token__div__icons">
+                    <div
+                      className="marketplace__icon__div"
+                      onClick={() => {
+                        window.open(
+                          `https://looksrare.org/collections/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
+                        );
+                      }}
+                    >
+                      <img
+                        src="/media/looksrare-logo.png"
+                        className="marketplace__icon invert__icon"
+                        alt="LooksRare Logo"
+                      />
+                    </div>
+                    <div
+                      className="marketplace__icon__div"
+                      onClick={() => {
+                        window.open(
+                          `https://opensea.io/assets/ethereum/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
+                        );
+                      }}
+                    >
+                      <img
+                        src="/media/opensea-logo.png"
+                        className="marketplace__icon"
+                        alt="OpenSea Logo"
+                      />
+                    </div>
+                    <div
+                      className="marketplace__icon__div"
+                      onClick={() => {
+                        window.open(
+                          `https://x2y2.io/eth/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
+                        );
+                      }}
+                    >
+                      <img
+                        src="/media/x2y2-logo.png"
+                        className="marketplace__icon"
+                        alt="X2Y2 Logo"
+                      />
+                    </div>
+                    <div
+                      className="marketplace__icon__div"
+                      onClick={() => {
+                        window.open(
+                          `https://etherscan.io/token/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a?a=${concertID}`
+                        );
+                      }}
+                    >
+                      <img
+                        src="/media/etherscan-logo.png"
+                        className="marketplace__icon"
+                        alt="Etherscan Logo"
+                      />
+                    </div>
+                    {/* {metamaskDetected && (
                   <PaperCheckout
                     checkoutId="73baf406-11e0-4b74-8b3e-300908c7b0ee"
                     display="DRAWER"
@@ -416,10 +412,29 @@ const Player = () => {
                     </div>
                   </PaperCheckout>
                 )} */}
+                  </div>
+                </div>
               </div>
             </div>
+          )}
+        </>
+      )}
+
+      {!validListing && (
+        <FormBox>
+          <div className="not__valid__listing__div">
+            <h3>This is not a valid listing.</h3>
+            <button onClick={() => navigate("/")} className="login__button">
+              Go Home
+            </button>
+            <button
+              onClick={() => navigate("/my-account")}
+              className="login__button"
+            >
+              My Account
+            </button>
           </div>
-        </div>
+        </FormBox>
       )}
     </>
   );

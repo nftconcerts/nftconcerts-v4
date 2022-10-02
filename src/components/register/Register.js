@@ -29,6 +29,7 @@ import WalletConnectProvider from "@walletconnect/ethereum-provider";
 import WalletLink from "walletlink";
 import emailjs from "@emailjs/browser";
 import checkEns from "../../scripts/checkEns";
+import { CreateWallet } from "@paperxyz/react-client-sdk";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const dbRef = dRef(db);
@@ -53,6 +54,15 @@ function Register() {
   const [savedUserAddress, setSavedUserAddress] = useState("");
   const [rcType, setRcType] = useState();
   const [showWC, setShowWC] = useState(true);
+
+  //check if there is a connected address
+  useEffect(() => {
+    if (address) {
+      setSavedUserAddress(address);
+      setShowWC(false);
+      setRcType("metamask");
+    }
+  }, [address]);
 
   //check if metamask is installed
   useEffect(() => {
@@ -107,7 +117,7 @@ function Register() {
           .then(() => {
             alert(`Welcome ${displayName} to NFT Concerts`);
             sendEmail();
-
+            sendWelcomeEmail();
             navigate("/");
           })
           .catch((error) => {
@@ -136,7 +146,30 @@ function Register() {
     emailjs
       .send(
         process.env.REACT_APP_EMAIL_SERVICE_ID,
-        "template_newuser",
+        "template_admin_newuser",
+        template_params,
+        process.env.REACT_APP_EMAIL_USER_ID
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
+  //send email to user
+  const sendWelcomeEmail = () => {
+    var template_params = {
+      name: displayName,
+      email: email,
+    };
+    emailjs
+      .send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID,
+        "template_user_welcome",
         template_params,
         process.env.REACT_APP_EMAIL_USER_ID
       )
@@ -258,11 +291,14 @@ function Register() {
     setDisplayName(name);
   };
 
+  //
   useEffect(() => {
     if (userData?.walletID != null) {
       setSavedUserAddress(userData?.walletID);
     }
   }, [userData]);
+
+  const [showEmailCheck, setShowEmailCheck] = useState(false);
 
   return (
     <FormBox>
@@ -284,7 +320,7 @@ function Register() {
           </div>
         </div>
       )}
-      {currentUser == null && !showWC && (
+      {currentUser == null && !showWC && !showEmailCheck && (
         <div className="register__form connect__wallet__div">
           <h3 className="register__prompt__header">
             {rcType !== "managedWallet" && (
@@ -349,13 +385,39 @@ function Register() {
               Terms of Service
             </a>
           </h3>
-          <input
-            type="button"
-            value="Register"
-            className="register__button"
-            onClick={checkThenRegister}
-            disabled={false}
-          />
+          {(rcType === "managedWallet" && (
+            <CreateWallet
+              emailAddress={email}
+              onSuccess={(user) => {
+                console.log("user", user);
+                checkThenRegister();
+              }}
+              onEmailVerificationInitiated={() => {
+                console.log("Email: ", email);
+                setShowEmailCheck(true);
+              }}
+              onError={(error) => {
+                setShowEmailCheck(false);
+                console.log("error", error);
+              }}
+            >
+              {" "}
+              <input
+                type="button"
+                value="Register MW"
+                className="register__button"
+                disabled={false}
+              />
+            </CreateWallet>
+          )) || (
+            <input
+              type="button"
+              value="Register"
+              className="register__button"
+              onClick={checkThenRegister}
+              disabled={false}
+            />
+          )}
           <div className="disconnect__button">
             {" "}
             {rcType === "metamask" && (
@@ -405,6 +467,7 @@ function Register() {
           </div>
         </div>
       )}
+
       {showWC && !currentUser && (
         <div className="connect__wallet__div">
           <h3 className="connect__wallet__heading">Connect Your Web3 Wallet</h3>
@@ -500,6 +563,11 @@ function Register() {
             />
           </div>
         </div>
+      )}
+      {showEmailCheck && (
+        <>
+          <h3>Please confirm your email address.</h3>
+        </>
       )}
     </FormBox>
   );

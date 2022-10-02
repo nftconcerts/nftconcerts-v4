@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@3rdweb/hooks": "^1.9.2",
+    "@crossmint/client-sdk-react-ui": "^0.2.0",
     "@emailjs/browser": "^3.6.2",
     "@ethersproject/providers": "^5.7.0",
     "@paperxyz/react-client-sdk": "^0.5.12",

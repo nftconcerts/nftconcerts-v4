@@ -14,6 +14,7 @@ import dateformat from "dateformat";
 import { ethers } from "ethers";
 import emailjs from "@emailjs/browser";
 import DateCountdown from "react-date-countdown-timer";
+import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
 function Row({ title, isLargeRow, concertData, concerts }) {
   const [trailerUrl, setTrailerUrl] = useState("");
@@ -198,7 +199,8 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                 {concertData[singleConcert]?.concertArtist}
               </h1>
               <p className="performance__info">
-                {concertData[singleConcert]?.concertRecordingType}
+                {concertData[singleConcert]?.concertRecordingType} -{" "}
+                {concertData[singleConcert]?.concertDuration}
               </p>
 
               {(concertData[singleConcert]?.concertPromoClip && (
@@ -344,6 +346,14 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                     >
                       Mint
                     </button>
+                    {/* <CrossmintPayButton
+                      clientId="809852d5-ebfa-407d-99f0-88aae131245e"
+                      mintConfig={{
+                        type: "thirdweb-drop",
+                        totalPrice: "<SELECTED_PRICE_IN_ETHER>",
+                        quantity: "<NUMBER_OF_NFTS>",
+                      }}
+                    /> */}
                   </div>
                 </div>
                 {releaseDate > nowDate && (

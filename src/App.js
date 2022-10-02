@@ -242,7 +242,7 @@ function App() {
                   element={<DonDiablo />}
                 />
                 <Route path="/production-team" element={<ProductionTeam />} />
-                <Route exact path="/" element={<ProductionTeam />} />
+                <Route exact path="/" element={<Home />} />
               </Routes>
               <Footer />
             </div>
