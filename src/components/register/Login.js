@@ -157,30 +157,30 @@ function Login() {
           <div className="email__login">
             <h3 className="login__heading">Please Log In to Your Account</h3>
             <label>Email</label>
-            <input
-              placeholder="Email"
-              name="email"
-              className="login__input"
-              autoComplete="email"
-              onChange={(e) => setEmail(e.target.value)}
-              onSubmit={(e) => setEmail(e.target.value)}
-            />{" "}
-            <label>Password</label>
-            <input
-              placeholder="Password"
-              name="password"
-              type="password"
-              className="login__input"
-              autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
-              onSubmit={(e) => setPassword(e.target.value)}
-            />{" "}
-            <input
-              type="submit"
-              value="Log In"
-              className="login__button"
-              onClick={inlineLogin}
-            />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                inlineLogin();
+              }}
+            >
+              <input
+                placeholder="Email"
+                name="email"
+                className="login__input"
+                autoComplete="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />{" "}
+              <label>Password</label>
+              <input
+                placeholder="Password"
+                name="password"
+                type="password"
+                className="login__input"
+                autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
+              />{" "}
+              <input type="submit" value="Log In" className="login__button" />
+            </form>
             <div className="reset__password">
               <a href="/reset-password">Forgot Password?</a>
             </div>

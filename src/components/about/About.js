@@ -298,7 +298,7 @@ const About = () => {
                 </div>
               </div>
               <div className="roadmap__single__date">
-                <div className="roadmap__date">10/1/22</div>
+                <div className="roadmap__date done__date">10/1/22</div>
                 <div className="roadmap__objective">
                   NFT Concerts Opens to the Public
                 </div>
