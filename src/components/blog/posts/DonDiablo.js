@@ -1,14 +1,23 @@
 import React from "react";
 import BlogPost from "./BlogPost";
-
+import { Helmet } from "react-helmet";
 const DonDiablo = () => {
   return (
     <BlogPost
       postTitle="Serious Issues with Don Diablo’s 600 ETH ($1.2 M) NFT Concert"
       postDate="April 12, 2021"
-      prevPost="/"
+      prevPost="/blog"
       nextPost="/the-past-present-and-future-of-concert-bootlegs"
     >
+      <Helmet>
+        <title>
+          Serious Issues With Don Diablo's 600 ETH ($1.2 M) NFT Concert
+        </title>
+        <meta
+          name="description"
+          content="Famed DJ and musician Don Diablo just shook up the NFT world by releasing the first full length NFT concert. However, there are some issues!"
+        />
+      </Helmet>
       <p>
         Famed DJ and musician Don Diablo just shook up the NFT world by
         releasing the first full length NFT concert. Mixing music, visuals, and

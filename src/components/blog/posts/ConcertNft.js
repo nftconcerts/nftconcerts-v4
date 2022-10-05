@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const ConcertNft = () => {
   return (
@@ -9,6 +10,13 @@ const ConcertNft = () => {
       prevPost="/nft-scam"
       nextPost="/top-9-music-nfts-of-2021"
     >
+      <Helmet>
+        <title>What is a Concert NFT?</title>
+        <meta
+          name="description"
+          content="Concert NFTs, or NFT Concerts, is a new standard of releasing concert recordings as digital collectibles."
+        />
+      </Helmet>
       <p>
         NFTs and music are quickly getting into bed together. The power of
         non-fungible tokens to monetize digital content is rapidly creating a

@@ -19,7 +19,7 @@ import {
   getMobileMode,
 } from "../../firebase";
 import { PaperCheckout } from "@paperxyz/react-client-sdk";
-
+import { Helmet } from "react-helmet";
 import { ref as dRef, onValue, set } from "firebase/database";
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -239,6 +239,13 @@ const ProductionTeam = () => {
 
   return (
     <Contract>
+      <Helmet>
+        <title>NFT Concerts Production Team</title>
+        <meta
+          name="description"
+          content="Join the NFT Concerts Production Team to unlock early access to future NFT Concerts"
+        />
+      </Helmet>
       <h1 className="welcome__title">
         Join the Production Team to Access
         <br className="mobile__hide" /> the NFT Concerts Beta

@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const CollectibleNftArt = () => {
   return (
@@ -9,6 +10,13 @@ const CollectibleNftArt = () => {
       prevPost="/the-past-present-and-future-of-concert-bootlegs"
       nextPost="/nfts-and-music-a-revolution-in-distribution"
     >
+      <Helmet>
+        <title>The Past, Present, and Future of Concert Bootlegs</title>
+        <meta
+          name="description"
+          content="Concert bootlegs, or unofficial live music recordings have a long and storied history in the music world - but what does the future hold?"
+        />
+      </Helmet>
       <p>
         NFT’s are currently exploding in popularity. Artists from around the
         world are quickly recognizing the potential of non-fungible tokens to

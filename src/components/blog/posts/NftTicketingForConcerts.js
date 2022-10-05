@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const NftTicketingForConcerts = () => {
   return (
@@ -8,6 +9,13 @@ const NftTicketingForConcerts = () => {
       postDate="August 6, 2022"
       prevPost="/can-web3-end-two-factor-authentication"
     >
+      <Helmet>
+        <title>NFT Ticketing for Concerts & Events</title>
+        <meta
+          name="description"
+          content="NFT Ticket for concerts and events could soon be a dominate player in the NFT market. Are NFT tickets too useful to deny?"
+        />
+      </Helmet>
       <p>
         Have you heard the news? NFT ticketing is about to go mainstream. There
         have been several developments in the NFT ticketing space over the past

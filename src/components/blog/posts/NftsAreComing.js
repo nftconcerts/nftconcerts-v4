@@ -1,6 +1,7 @@
 import React from "react";
 import BlogPost from "./BlogPost";
 import ReactPlayer from "react-player";
+import { Helmet } from "react-helmet";
 
 const NftsAreComing = () => {
   return (
@@ -10,6 +11,14 @@ const NftsAreComing = () => {
       prevPost="/what-coachella-nfts-say-about-the-future-of-music"
       nextPost="/10-reasons-to-turn-your-next-performance-into-a-nft-concert"
     >
+      <Helmet>
+        <title>NFTs are Coming to a Live Event Near You</title>
+        <meta
+          name="description"
+          content="With the massive amount of excitement surrounding the metaverse, it can
+          be easy to overlook the real-world events exploring NFTs."
+        />
+      </Helmet>
       <p>
         With the massive amount of excitement surrounding the metaverse, it can
         be easy to overlook the real-world live events currently implementing

@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const MusicFestivalsAndNfts = () => {
   return (
@@ -9,6 +10,13 @@ const MusicFestivalsAndNfts = () => {
       nextPost="/10-reasons-to-turn-your-next-performance-into-a-nft-concert"
       prevPost="/nfts-are-coming-to-a-live-event-near-you"
     >
+      <Helmet>
+        <title>Music Festivals & NFTs in 2022</title>
+        <meta
+          name="description"
+          content="As the NFT market continues to evolve, live-event offerings continue to intrigue and surprise passionate fans. "
+        />
+      </Helmet>
       <p>
         Over the past year we have seen an explosion in NFTs. While we have yet
         to see mass public adoption, the overall market trend is astronomical.

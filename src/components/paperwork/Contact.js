@@ -12,6 +12,7 @@ import "./Contact.css";
 import { useSearchParams } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 
+import { Helmet } from "react-helmet";
 const Contact = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   let subject = searchParams.get("sbj");
@@ -76,7 +77,7 @@ const Contact = () => {
       .then(
         (result) => {
           sendUserEmail();
-          console.log(result.text);
+
           setMessageSent(true);
         },
         (error) => {
@@ -100,7 +101,6 @@ const Contact = () => {
       )
       .then(
         (result) => {
-          console.log(result.text);
           setMessageSent(true);
         },
         (error) => {
@@ -123,6 +123,13 @@ const Contact = () => {
 
   return (
     <Contract className="artist__app">
+      <Helmet>
+        <title>Contact NFT Concerts</title>
+        <meta
+          name="description"
+          content="Looking for a collaboration, information, or support? Contact the NFT Concerts team and we will be in touch shortly."
+        />
+      </Helmet>
       <div className="artist__app__header__div">
         <h3 className="contact__app__heading">
           Email NFT Concerts (

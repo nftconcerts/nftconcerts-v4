@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const CoachellaNfts = () => {
   return (
@@ -9,6 +10,13 @@ const CoachellaNfts = () => {
       nextPost="/nfts-are-coming-to-a-live-event-near-you"
       prevPost="/nfts-are-not-just-pictures"
     >
+      <Helmet>
+        <title>What Coachella NFTs Say About the Future of Music</title>
+        <meta
+          name="description"
+          content=" NFTs have officially gone mainstream in the music industry. With the announcement of official Coachella NFTs, it's a good day to be in the NFT Concert business."
+        />
+      </Helmet>
       <p>
         NFTs have officially gone mainstream in the music industry. While we
         have yet to see mass adoption when it comes to music distribution;

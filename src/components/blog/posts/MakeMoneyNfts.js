@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const MakeMoneyNfts = () => {
   return (
@@ -9,6 +10,13 @@ const MakeMoneyNfts = () => {
       prevPost="/can-i-make-my-music-into-nfts"
       nextPost="/nft-scam"
     >
+      <Helmet>
+        <title>5 Ways Musicians Can Make Money with NFTs</title>
+        <meta
+          name="description"
+          content="There are so many options when it comes to music NFTs and almost all of them are good! Learn 5 ways to monetize your music. "
+        />
+      </Helmet>
       <p>
         Musicians and bands are entering the NFT market at a rapid pace. While
         many musicians are entering the NFT space, there have been several

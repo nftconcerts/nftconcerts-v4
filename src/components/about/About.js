@@ -1,6 +1,7 @@
 import React from "react";
 import "./About.css";
 import YouTube from "react-youtube";
+import { Helmet } from "react-helmet";
 
 const About = () => {
   const opts = {
@@ -13,6 +14,13 @@ const About = () => {
 
   return (
     <div className="about__page">
+      <Helmet>
+        <title>About - NFT Concerts</title>
+        <meta
+          name="description"
+          content="Transforming Concert Recordings and Studio Sessions into Digital Collectibles using NFTs"
+        />
+      </Helmet>
       <div className="about__header">
         <div className="about__header__contents">
           <h1 className="about__title">NFT Concerts</h1>

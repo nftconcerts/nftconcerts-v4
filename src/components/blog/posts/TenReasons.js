@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const TenReasons = () => {
   return (
@@ -9,6 +10,15 @@ const TenReasons = () => {
       prevPost="/music-festivals-nfts-in-2022"
       nextPost="/nfts-are-here-to-stay"
     >
+      <Helmet>
+        <title>
+          10 Reasons to Turn Your Next Performance into a NFT Concert
+        </title>
+        <meta
+          name="description"
+          content="Why would you create a NFT Concert? There are countless reasons, but here is 10."
+        />
+      </Helmet>
       <p>
         At <a href="/">NFT Concerts</a>, our goal is simple – transform live
         performances into digital collectibles using NFTs. Our platform will

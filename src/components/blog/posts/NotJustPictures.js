@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const NotJustPictures = () => {
   return (
@@ -9,6 +10,13 @@ const NotJustPictures = () => {
       prevPost="/5-music-nft-companies-set-to-explode-in-2022"
       nextPost="/what-coachella-nfts-say-about-the-future-of-music"
     >
+      <Helmet>
+        <title>NFTs Are Not Just Pictures</title>
+        <meta
+          name="description"
+          content="There seems to be some confusion among the general public about NFTs. No, they are not just pictures - but they can be?"
+        />
+      </Helmet>
       <p>
         Over the past year, NFT profile pictures have exploded in popularity.
         From famous musicians, athletes, movie stars, and even your next-door

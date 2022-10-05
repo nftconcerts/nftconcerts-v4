@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const ConcertBootlegs = () => {
   return (
@@ -9,6 +10,13 @@ const ConcertBootlegs = () => {
       prevPost="/don-diablos-600eth-1-2m-nft-concert"
       nextPost="/collectible-nft-art"
     >
+      <Helmet>
+        <title>The Past, Present, and Future of Concert Bootlegs</title>
+        <meta
+          name="description"
+          content=" Concert bootlegs, or unofficial live music recordings have a long and storied history in the music world - but what does the future hold?"
+        />
+      </Helmet>
       <p>
         Concert bootlegs, or unofficial live music recordings have a long and
         storied history in the music world. For as long as there has been the

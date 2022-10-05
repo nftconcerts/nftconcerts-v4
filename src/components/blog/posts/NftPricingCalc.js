@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BlogPost from "./BlogPost";
 import emailjs from "@emailjs/browser";
 import { Navigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const NftPricingCalc = () => {
   const [igFollowers, setIgFollowers] = useState(0);
@@ -76,11 +77,21 @@ const NftPricingCalc = () => {
 
   return (
     <BlogPost
-      postTitle="NFTs Are Not Just Pictures"
+      postTitle="How Should I Price My NFT Release?"
       postDate="January 30, 2022"
       prevPost="/top-9-music-nfts-of-2021/"
-      nextPost="/what-coachella-nfts-say-about-the-future-of-music"
+      nextPost="/nft-tickets-vs-nft-music-music-entertainment-nfts"
     >
+      <Helmet>
+        <title>
+          How Should I Price My NFT Release? - NFT Pricing Calculator for
+          Musicians
+        </title>
+        <meta
+          name="description"
+          content="Stop guesssing on how to price your NFT release. Using data from our market research, we have built a NFT pricing calculator for musicians."
+        />
+      </Helmet>
       <p>
         While it is awesome to see so many musicians and artists continue to
         enter the NFT space, there has been minimal analysis on what is actually

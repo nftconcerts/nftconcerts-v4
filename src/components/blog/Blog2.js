@@ -2,10 +2,19 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Blog.css";
 
+import { Helmet } from "react-helmet";
+
 const Blog = () => {
   let navigate = useNavigate();
   return (
     <div className="blog__page">
+      <Helmet>
+        <title>NFT Concerts Blog</title>
+        <meta
+          name="description"
+          content="NFT Concerts news, company updates, and general music NFT news and information."
+        />
+      </Helmet>
       <div className="blog__header">
         <div className="blog__header__contents">
           <div className="blog__text__background">

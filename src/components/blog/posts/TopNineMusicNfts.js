@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const TopNineMusicNfts = () => {
   return (
@@ -9,6 +10,13 @@ const TopNineMusicNfts = () => {
       prevPost="/concert-nft"
       nextPost="/how-should-i-price-my-nft-release/"
     >
+      <Helmet>
+        <title>NFT Scorecard – Ranking the Top 9 Music NFTs of 2021</title>
+        <meta
+          name="description"
+          content="There have been plenty of music NFT drops over the past year, but which one was the most effective? Who is the king of NFTs?"
+        />
+      </Helmet>
       <p>
         NFTs continue to make headlines in the music industry as more and more
         artists are discovering the economic potential of non-fungible tokens.

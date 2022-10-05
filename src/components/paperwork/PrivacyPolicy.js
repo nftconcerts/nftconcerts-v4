@@ -2,10 +2,18 @@ import React from "react";
 import { useEffect } from "react";
 import Contract from "../form/Contract";
 import "./TermsOfService.css";
+import { Helmet } from "react-helmet";
 
 const PrivacyPolicy = () => {
   return (
     <Contract>
+      <Helmet>
+        <title>NFT Concerts Privacy Policy</title>
+        <meta
+          name="description"
+          content="Read the NFT Concerts Privacy Policy if you're into that sort of thing..."
+        />
+      </Helmet>
       <div className="terms__div">
         <h1 className="terms__heading__text">Privacy Policy</h1>
         <div className="terms__contract__div">

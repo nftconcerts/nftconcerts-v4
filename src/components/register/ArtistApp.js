@@ -9,6 +9,7 @@ import {
 } from "./../../firebase";
 import { ref as dRef, set, get, onValue } from "firebase/database";
 import emailjs from "@emailjs/browser";
+import { Helmet } from "react-helmet";
 const ArtistApp = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
@@ -114,6 +115,13 @@ const ArtistApp = () => {
 
   return (
     <Contract className="artist__app">
+      <Helmet>
+        <title>NFT Concerts Artist Application</title>
+        <meta
+          name="description"
+          content="Are you a musician or content owner? Apply for artist privledges to start creating NFT Concerts."
+        />
+      </Helmet>
       <div className="artist__app__header__div">
         <h1 className="artist__app__title">Artist Application</h1>
         <h3 className="artist__app__subtext">

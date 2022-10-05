@@ -1,14 +1,23 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const LiveMusicIsBack = () => {
   return (
     <BlogPost
-      postTitle="Live Music is Back! Is This the End of Streaming Shows…?"
+      postTitle="Live Music is Back! Is This the End of Streaming Shows?"
       postDate="May 31, 2021"
       prevPost="/nfts-and-music-a-revolution-in-distribution"
       nextPost="/nfts-explode-while-concerts-and-music-festivals-make-a-comeback"
     >
+      {" "}
+      <Helmet>
+        <title>Live Music is Back! Is This the End of Streaming Shows?</title>
+        <meta
+          name="description"
+          content="With the return to live events, should artists still focus on a digital experience? Is there a way to combine the two?"
+        />
+      </Helmet>
       <p>
         Music is back! As live in-person events return across the nation, music
         fans and party goers are quickly running back to the dance floor. While

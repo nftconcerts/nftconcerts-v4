@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const NftsExplode = () => {
   return (
@@ -9,6 +10,15 @@ const NftsExplode = () => {
       prevPost="/live-music-is-back-is-this-the-end-of-streaming-shows"
       nextPost="/can-i-make-my-music-into-nfts"
     >
+      <Helmet>
+        <title>
+          NFTs Explode While Concerts and Music Festivals Make a Comeback
+        </title>
+        <meta
+          name="description"
+          content="NFT sales are rapidly exploding while in-person concerts and festivals return across the nation. When will live events and NFTs mix?"
+        />
+      </Helmet>
       <p>
         Music is back! As live in-person events return across the nation, music
         fans and party goers are quickly running back to the dance floor. While

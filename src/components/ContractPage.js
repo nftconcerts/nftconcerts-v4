@@ -89,7 +89,6 @@ const ContractPage = () => {
   useEffect(() => {
     if (concertData?.listingApproval === "Approved") {
       setApprovedListing(true);
-      console.log("#", concertID, " is approved");
     }
   }, [concertData, concertID]);
 

@@ -2,10 +2,18 @@ import React from "react";
 import Contract from "../form/Contract";
 import "./TermsOfService.css";
 import { truncateAddress } from "../../firebase";
+import { Helmet } from "react-helmet";
 
 const TermsOfService = () => {
   return (
     <Contract>
+      <Helmet>
+        <title>NFT Concerts Terms of Service</title>
+        <meta
+          name="description"
+          content="The NFT Concerts Terms of Service lay out exactly what is expected of the Artist and the fan. Be sure to follow the rules!"
+        />
+      </Helmet>
       <div className="terms__div">
         <h1 className="terms__heading__text">Terms of Use</h1>
 

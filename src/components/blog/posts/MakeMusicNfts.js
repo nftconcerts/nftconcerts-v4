@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const MakeMusicNfts = () => {
   return (
@@ -9,6 +10,13 @@ const MakeMusicNfts = () => {
       prevPost="/nfts-explode-while-concerts-and-music-festivals-make-a-comeback"
       nextPost="/5-ways-musicians-can-make-money-with-nfts/"
     >
+      <Helmet>
+        <title>Can I Make My Music Into NFTs?</title>
+        <meta
+          name="description"
+          content="Many musicians may find themselves wondering, How can I turn my music into an NFT? Good news, you can! Learn how in this article."
+        />
+      </Helmet>
       <p>
         If you’re looking to turn your music into an NFT, you’ve come to the
         right spot. Due to the recent gold rush of non-fungible token (NFT) art

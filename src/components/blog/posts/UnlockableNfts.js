@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const UnlockableNfts = () => {
   return (
@@ -9,6 +10,14 @@ const UnlockableNfts = () => {
       prevPost="/collectible-nft-art"
       nextPost="/live-music-is-back-is-this-the-end-of-streaming-shows"
     >
+      {" "}
+      <Helmet>
+        <title>Unlockable NFTs and Music – A Revolution in Distribution</title>
+        <meta
+          name="description"
+          content="NFT Concerts is proud to be one of the leaders in unlockable NFTs. Every NFT Concert unlocks a full performance available on demand."
+        />
+      </Helmet>
       <p>
         As non-fungible tokens continue to gain traction in the digital art
         world, musicians and bands are currently exploring how best to utilize

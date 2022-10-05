@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const NftTicketVsMusic = () => {
   return (
@@ -9,6 +10,14 @@ const NftTicketVsMusic = () => {
       nextPost="/how-to-get-started-with-nfts"
       prevPost="/how-should-i-price-my-nft-release"
     >
+      {" "}
+      <Helmet>
+        <title>NFT Tickets vs. NFT Music – Music, Entertainment, & NFTs</title>
+        <meta
+          name="description"
+          content="NFT Tickets and NFT Music are both growing in popularity, but what is the difference? Which one should you bet on?"
+        />
+      </Helmet>
       <p>
         The music community is quickly engaging non-fungible tokens in new and
         creative ways. While certain artists are using NFTs as a lottery system

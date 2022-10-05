@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const NftsAreHereToStay = () => {
   return (
@@ -9,6 +10,13 @@ const NftsAreHereToStay = () => {
       nextPost="/can-web3-end-two-factor-authentication"
       prevPost="/10-reasons-to-turn-your-next-performance-into-a-nft-concert"
     >
+      <Helmet>
+        <title>NFTs Are Here to Stay</title>
+        <meta
+          name="description"
+          content="While there has been a cooldown in the NFT market, there is no putting the cat back in the bag. NFTs are here to stay."
+        />
+      </Helmet>
       <p>
         It may just be me, but I’m seeing an unfortunate amount of talk during
         this crypto cooldown about the “death of NFTs.” It appears there is a

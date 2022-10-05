@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Contract from "../form/Contract";
 import "./TermsOfService.css";
+import { Helmet } from "react-helmet";
 
 const FAQs = () => {
   const [sf1, setSf1] = useState(false);
@@ -18,6 +19,13 @@ const FAQs = () => {
 
   return (
     <Contract>
+      <Helmet>
+        <title>NFT Concerts FAQs and Information</title>
+        <meta
+          name="description"
+          content="Have questions about the NFT Concerts platform? Check out our FAQs to find the answers."
+        />
+      </Helmet>
       <div className="faq__page__div">
         <h1 className="terms__heading__text">FAQs</h1>
         <p className="terms__disclaimer">Answers to Some of Your Questions</p>

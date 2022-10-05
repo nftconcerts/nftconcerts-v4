@@ -1,6 +1,7 @@
 import React from "react";
 import BlogPost from "./BlogPost";
 import YouTube from "react-youtube";
+import { Helmet } from "react-helmet";
 
 const CanWeb3End2FA = () => {
   const opts = {
@@ -16,6 +17,14 @@ const CanWeb3End2FA = () => {
       prevPost="/nfts-are-here-to-stay"
       nextPost="/nft-ticketing-for-concerts-events"
     >
+      <Helmet>
+        <title>Can Web3 End Two-Factor Authentication?</title>
+        <meta
+          name="description"
+          content="You don’t have to be
+          a web expert to be aware of the push for two-factor authentication. Is there a better option with web3?"
+        />
+      </Helmet>
       <p>
         While this week’s blog post is aimed at developers, if you’ve ever
         logged into a website, you may find it interesting. You don’t have to be

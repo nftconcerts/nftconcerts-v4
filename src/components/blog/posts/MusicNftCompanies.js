@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const MusicNftCompanies = () => {
   return (
@@ -9,6 +10,13 @@ const MusicNftCompanies = () => {
       nextPost="/nfts-are-not-just-pictures"
       prevPost="/10-days-with-a-nft-profile-picture"
     >
+      <Helmet>
+        <title>5 Music NFT Companies Set to Explode in 2022</title>
+        <meta
+          name="description"
+          content="With all the hype around NFTs, smart money may look to invest in NFT companies. Check out 5 music nft companies ready to pop."
+        />
+      </Helmet>
       <p>
         With the crypto market crashing and exceptional volatility in both coins
         and NFTs, investors may be considering safer options. While there is no
@@ -76,7 +84,9 @@ const MusicNftCompanies = () => {
           className="company__logo"
         ></img>
       </div>
-      <h3 className="company__name">3. Mint Songs</h3>
+      <h3 className="company__name">
+        3. Mint Songs [UPDATE - This one did explode into bankruptcy]
+      </h3>
       <p>
         A fantastic platform allowing artist to tokenize their music with NFTs.
         Sporting a fresh redesign and fully launched to the public, Mint Songs

@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const NftScam = () => {
   return (
@@ -9,6 +10,13 @@ const NftScam = () => {
       prevPost="/5-ways-musicians-can-make-money-with-nfts"
       nextPost="/concert-nft"
     >
+      <Helmet>
+        <title>Are NFTs a Scam?</title>
+        <meta
+          name="description"
+          content="While there are scam NFT projects and people committing scams with NFTs, NFTs are a technology not a scam. "
+        />
+      </Helmet>
       <p>
         We recently released the{" "}
         <a

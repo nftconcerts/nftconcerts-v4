@@ -1,5 +1,6 @@
 import React from "react";
 import BlogPost from "./BlogPost";
+import { Helmet } from "react-helmet";
 
 const GetStarted = () => {
   return (
@@ -9,6 +10,13 @@ const GetStarted = () => {
       nextPost="/10-days-with-a-nft-profile-picture"
       prevPost="/nft-tickets-vs-nft-music-music-entertainment-nfts"
     >
+      <Helmet>
+        <title>How to Get Started with NFTs</title>
+        <meta
+          name="description"
+          content="NFTs can be a little complicated. Check out this tutorial if you would like to learn how to setup a MetaMask wallet and start collecting NFTs"
+        />
+      </Helmet>
       <p>
         In this week’s blog post, we are going to back to the basics. In an
         effort to help newcomers familiarize themselves with NFTs, we have

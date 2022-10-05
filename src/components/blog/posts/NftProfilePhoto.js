@@ -1,6 +1,7 @@
 import React from "react";
 import BlogPost from "./BlogPost";
 import ReactPlayer from "react-player";
+import { Helmet } from "react-helmet";
 
 const NftProfilePhoto = () => {
   return (
@@ -10,6 +11,13 @@ const NftProfilePhoto = () => {
       nextPost="/5-music-nft-companies-set-to-explode-in-2022"
       prevPost="/how-to-get-started-with-nfts"
     >
+      <Helmet>
+        <title>10 Days With a NFT Profile Picture</title>
+        <meta
+          name="description"
+          content="What is all the hype behind NFT profile pictures? To find out, I bought one and tested it out myself."
+        />
+      </Helmet>
       <p>
         Like many individuals, when I first discovered NFTs I was blown away by
         what was actually being sold. I couldn’t believe that a group of images

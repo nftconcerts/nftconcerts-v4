@@ -19,6 +19,7 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import NftProfilePhoto from "./components/blog/posts/NftProfilePhoto";
 import { PaperSDKProvider } from "@paperxyz/react-client-sdk";
+import { Helmet } from "react-helmet";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -133,6 +134,13 @@ function App() {
           <Suspense fallback={<div className="loading__page">Loading...</div>}>
             <div className="App">
               <Nav />
+              <Helmet>
+                <title>NFT Concerts</title>
+                <meta
+                  name="description"
+                  content="Own the Show - Limited Edition Concert & Studio Recordings Unlocked by NFTs"
+                />
+              </Helmet>
               <Routes>
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
