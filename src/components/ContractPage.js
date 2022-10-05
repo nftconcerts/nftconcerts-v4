@@ -22,7 +22,7 @@ import "./upload/Upload.css";
 import "./upload/UploadRecording.css";
 import { Buffer } from "buffer";
 import { create } from "ipfs-http-client";
-
+import emailjs from "@emailjs/browser";
 import setNFTroyalties from "../scripts/setNftRoyalties";
 
 const fileTypes = ["PNG"];
@@ -363,6 +363,16 @@ const ContractPage = () => {
       db,
       "submittedConcerts/" + concertID + "/listingApproval"
     );
+    var template_params = {
+      artist: concertData.concertArtist,
+      email: concertData.uploaderEmail,
+      concertName: concertData.concertName,
+      id: tokenString,
+      concertReleaseDate: dateFormat(
+        concertData.concertReleaseDate,
+        "m/d/yyyy, h:MM TT Z"
+      ),
+    };
     set(dRef(db, "concerts/" + tokenString), {
       concertId: tokenString,
       submittedConcertId: concertID,
@@ -396,7 +406,18 @@ const ContractPage = () => {
       tokenIpfs: ipfsUrl,
       submittedConcertId: concertID,
     }).then(
-      alert(`NFT Concert #${tokenString} Minted, Approved, and Added to DB.`)
+      emailjs
+        .send(
+          process.env.REACT_APP_EMAIL_SERVICE_ID,
+          "template_artist_approved",
+          template_params,
+          process.env.REACT_APP_EMAIL_USER_ID
+        )
+        .then(
+          alert(
+            `NFT Concert #${tokenString} Minted, Approved, and Added to DB.`
+          )
+        )
     );
 
     set(tokenIdRef, firstTokenId.toString());

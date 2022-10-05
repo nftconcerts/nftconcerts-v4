@@ -149,7 +149,8 @@ const Admin = () => {
     );
 
     var template_params = {
-      email: uploaderEmail,
+      email: concertData[id].uploaderEmail,
+      artits: concertData[id].concertArtist,
       concertId: id,
       concertName: concertData[id].concertName,
       username: userData.name,
@@ -161,7 +162,7 @@ const Admin = () => {
           emailjs
             .send(
               process.env.REACT_APP_EMAIL_SERVICE_ID,
-              "template_rnq0cvl",
+              "template_artist_reject",
               template_params,
               process.env.REACT_APP_EMAIL_USER_ID
             )

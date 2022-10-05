@@ -23,7 +23,8 @@ import editionDrop, { editionDropAddress } from "../scripts/getContract.mjs";
 import { useAddress } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import emailjs from "@emailjs/browser";
-import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
+import { PaperCheckout } from "@paperxyz/react-client-sdk";
+import sendMintEmails from "../scripts/sendMintEmails";
 
 const ListingPage = () => {
   let navigate = useNavigate();
@@ -157,6 +158,7 @@ const ListingPage = () => {
 
   // Claim our NFT with the claim method - (token id, quantity)
   const [mintQty, setMintQty] = useState(1);
+  let mintPrice = mintQty * parseFloat(concertData?.concertPrice);
   const claimButton = async () => {
     setClaiming(true);
     try {
@@ -167,102 +169,23 @@ const ListingPage = () => {
       setPurchased(true);
       setShowPurchased(true);
       setOwned(owned + 1);
-      sendEmails();
+      let currentEmail = userData.email;
+      var template_params = {
+        artistemail: concertData.uploaderEmail,
+        artist: concertData.concertArtist,
+        concertName: concertData.concertName,
+        buyerName: userData.name,
+        buyerEmail: currentEmail,
+        mintQty: orderQty,
+        mintPrice: mintPrice,
+        remaining: activeClaimCondition?.availableSupply,
+        concertSupply: concertData.concertSupply,
+      };
+      sendMintEmails(template_params);
     } catch (error) {
       console.log("Failed to claim. Error: ", error);
       setClaiming(false);
     }
-  };
-
-  //Send emails to artist, user, and admin after successful mint
-  const sendEmails = () => {
-    sendAdminEmail();
-    sendArtistEmail();
-    sendUserEmail();
-  };
-
-  const sendArtistEmail = () => {
-    var mintPrice = mintQty * parseFloat(concertData.concertPrice);
-    var template_params = {
-      artistemail: concertData.uploaderEmail,
-      artist: concertData.artist,
-      concertName: concertData.concertName,
-      buyerName: userData.name,
-      mintQty: mintQty,
-      mintPrice: mintPrice,
-      remaining: activeClaimCondition?.availableSupply,
-    };
-    emailjs
-      .send(
-        process.env.REACT_APP_EMAIL_SERVICE_ID,
-        "template_admin_contact",
-        template_params,
-        process.env.REACT_APP_EMAIL_USER_ID
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-  };
-
-  const sendUserEmail = () => {
-    var mintPrice = mintQty * parseFloat(concertData.concertPrice);
-    var template_params = {
-      artistemail: concertData.uploaderEmail,
-      artist: concertData.artist,
-      concertName: concertData.concertName,
-      buyerName: userData.name,
-      mintQty: mintQty,
-      mintPrice: mintPrice,
-      remaining: activeClaimCondition?.availableSupply,
-    };
-    emailjs
-      .send(
-        process.env.REACT_APP_EMAIL_SERVICE_ID,
-        "template_admin_contact",
-        template_params,
-        process.env.REACT_APP_EMAIL_USER_ID
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-  };
-
-  const sendAdminEmail = () => {
-    var mintPrice = mintQty * parseFloat(concertData.concertPrice);
-    var template_params = {
-      artistemail: concertData.uploaderEmail,
-      artist: concertData.artist,
-      concertName: concertData.concertName,
-      buyerName: userData.name,
-      mintQty: mintQty,
-      mintPrice: mintPrice,
-      remaining: activeClaimCondition?.availableSupply,
-    };
-    emailjs
-      .send(
-        process.env.REACT_APP_EMAIL_SERVICE_ID,
-        "template_admin_contact",
-        template_params,
-        process.env.REACT_APP_EMAIL_USER_ID
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
   };
 
   // Check if user owns the current NFT Concert
@@ -282,6 +205,18 @@ const ListingPage = () => {
       checkIfOwned(address);
     }
   }, [address]);
+
+  const [orderQty, setOrderQty] = useState(1);
+
+  const paperOptions = [
+    {
+      width: 600,
+      height: 800,
+      quantity: orderQty,
+      borderRadius: 6,
+      fontFamily: "Saira",
+    },
+  ];
 
   return (
     <>
@@ -422,6 +357,19 @@ const ListingPage = () => {
                         </div>
                       </div>
                     </button>
+                    {/* 
+                    <PaperCheckout
+                      checkoutId="322fab2e-32ab-4065-8e5f-376eb638bcef"
+                      display="DRAWER"
+                      options={paperOptions}
+                    >
+                      <div className="marketplace__icon__div">
+                        <img
+                          src="/media/cc-logo.png"
+                          className="marketplace__icon"
+                        />
+                      </div>
+                    </PaperCheckout> */}
 
                     {purchased && (
                       <div className="transaction__result">
@@ -510,6 +458,19 @@ const ListingPage = () => {
                       </div>
                     </div>
                   </button>
+
+                  {/* <PaperCheckout
+                    checkoutId="322fab2e-32ab-4065-8e5f-376eb638bcef"
+                    display="DRAWER"
+                    options={paperOptions}
+                  >
+                    <div className="marketplace__icon__div">
+                      <img
+                        src="/media/cc-logo.png"
+                        className="marketplace__icon"
+                      />
+                    </div>
+                  </PaperCheckout> */}
 
                   {purchased && (
                     <div className="transaction__result">

@@ -8,10 +8,12 @@ import dateFormat from "dateformat";
 import { GetUSDExchangeRate } from "./../api";
 import { db, fetchCurrentUser } from "../../firebase";
 import { ref as dRef, set, runTransaction } from "firebase/database";
+import emailjs from "@emailjs/browser";
 
 const Confirmation = ({ prevStep, values }) => {
   let navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
+  const [userData, setUserData] = useState();
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
   }, []);
@@ -134,6 +136,32 @@ const Confirmation = ({ prevStep, values }) => {
             console.log("data uploaded to db");
             alert("Listing Submitted");
             navigate("/my-account");
+            var template_params = {
+              email: currentUser.user.email,
+              artist: values.concertArtist,
+              concertName: values.concertName,
+              concertPerformanceDate: dateFormat(
+                values.concertPerformanceDate,
+                "m/d/yyyy, h:MM TT "
+              ),
+              concertVenue: values.concertVenue,
+              concertLocation: values.concertLocation,
+              concertRecordingType: values.concertRecordingType,
+              concertDescription: values.concertDescription,
+              concertSupply: values.concertSupply,
+              concertPrice: values.concertPrice,
+              concertResaleFee: values.concertResaleFee,
+              concertReleaseDate: dateFormat(
+                values.concertReleaseDate,
+                "m/d/yyyy, h:MM TT Z"
+              ),
+            };
+            emailjs.send(
+              process.env.REACT_APP_EMAIL_SERVICE_ID,
+              "template_artist_submit",
+              template_params,
+              process.env.REACT_APP_EMAIL_USER_ID
+            );
           })
           .catch((error) => {
             console.log(error);
