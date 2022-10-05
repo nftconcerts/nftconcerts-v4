@@ -67,7 +67,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
     try {
       var result = await editionDropped.claim(singleConcert, 1);
       setTx(result);
-      console.log("claimed", result);
+
       setClaiming(false);
       setPurchased(true);
       setShowPurchased(true);
@@ -100,9 +100,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
         process.env.REACT_APP_EMAIL_USER_ID
       )
       .then(
-        (result) => {
-          console.log(result.text);
-        },
+        (result) => {},
         (error) => {
           console.log(error.text);
         }

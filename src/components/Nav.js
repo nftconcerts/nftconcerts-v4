@@ -397,32 +397,6 @@ const Nav = () => {
               </div>
             </div>
           )}
-
-          {!currentUser && (
-            <div className="network__mismatch__div">
-              <div className="network__mismatch__prompt wallet__balance__prompt">
-                Welcome to NFT Concerts
-                <div className="two__buttons__div">
-                  <button
-                    onClick={() => {
-                      navigate("/login");
-                    }}
-                    className="network__prompt__button"
-                  >
-                    Login
-                  </button>
-                  <button
-                    className="network__prompt__button network__prompt__button__right"
-                    onClick={() => {
-                      navigate("/register");
-                    }}
-                  >
-                    Sign Up
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </>
       )}
       {!address && metamaskDetected && navMobileMode && (

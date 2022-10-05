@@ -11,6 +11,8 @@ import FormBox from "../form/FormBox";
 import { useAddress, useNetworkMismatch } from "@thirdweb-dev/react";
 import { useNavigate } from "react-router-dom";
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 const Home = () => {
   let navigate = useNavigate();
   const networkMismatch = useNetworkMismatch();
@@ -30,6 +32,7 @@ const Home = () => {
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
   }, []);
+
   //download User Data
   useEffect(() => {
     if (currentUser) {
@@ -49,8 +52,66 @@ const Home = () => {
     });
   }, []);
 
+  const [showNewUserWelcome, setShowNewUserWelcome] = useState(false);
+
+  useEffect(() => {
+    if (currentUser === null) {
+      revealWelcome();
+    }
+  }, []);
+
+  const revealWelcome = async () => {
+    await delay(3000);
+    if (currentUser === null) {
+      window.scrollTo(0, 0);
+      setShowNewUserWelcome(true);
+    }
+  };
   return (
     <>
+      {concertData && showNewUserWelcome && !currentUser && (
+        <div className="welcome__reveal__div">
+          <div className="home__welcome__pop__up__overlay__div">
+            <div className="home__purchased__pop__up__div">
+              <div className="close__pop__up__div">
+                <i
+                  onClick={() => {
+                    setShowNewUserWelcome(false);
+                  }}
+                  className="fa-solid fa-xmark close__icon__button"
+                />{" "}
+              </div>
+
+              <h1 className="purchased__title welcome__title">
+                Welcome to NFT Concerts
+              </h1>
+
+              <h3 className="welcome__motto">
+                For the best user experience,
+                <br /> please register an account.
+              </h3>
+
+              <button
+                onClick={() => {
+                  navigate("/register");
+                }}
+                className="buy__now my__button preview__button buy__now__button "
+              >
+                <div className="play__now__button__div">Register Now</div>
+              </button>
+              <button
+                onClick={() => {
+                  navigate("/login");
+                }}
+                className="buy__now my__button preview__button buy__now__button welcome__login__button"
+              >
+                <div className="play__now__button__div">Login</div>
+              </button>
+              <p className="motto"> </p>
+            </div>
+          </div>
+        </div>
+      )}
       {concertData && (
         <div className="home__page">
           <Banner />

@@ -386,29 +386,13 @@ function Register() {
             </a>
           </h3>
           {(rcType === "managedWallet" && (
-            <CreateWallet
-              emailAddress={email}
-              onSuccess={(user) => {
-                console.log("user", user);
-                checkThenRegister();
-              }}
-              onEmailVerificationInitiated={() => {
-                console.log("Email: ", email);
-                setShowEmailCheck(true);
-              }}
-              onError={(error) => {
-                setShowEmailCheck(false);
-                console.log("error", error);
-              }}
-            >
-              {" "}
-              <input
-                type="button"
-                value="Register MW"
-                className="register__button"
-                disabled={false}
-              />
-            </CreateWallet>
+            <input
+              type="button"
+              value="Register"
+              className="register__button"
+              disabled={false}
+              onClick={checkThenRegister}
+            />
           )) || (
             <input
               type="button"
@@ -470,8 +454,24 @@ function Register() {
 
       {showWC && !currentUser && (
         <div className="connect__wallet__div">
-          <h3 className="connect__wallet__heading">Connect Your Web3 Wallet</h3>
+          <div className="managed__wallet__div">
+            <h3 className="connect__wallet__heading">New to NFTs?</h3>
+
+            <input
+              type="button"
+              value="Create a  Wallet"
+              className="register__button"
+              onClick={() => {
+                updateWalletID("comingSoon", "managedWallet");
+              }}
+            />
+          </div>
+          <p>Or..</p>
           <div className="connect__wallet__buttons__div">
+            <h3 className="connect__wallet__heading">
+              Connect Your Web3 Wallet
+            </h3>
+
             <>
               {(address && (
                 <input
@@ -549,18 +549,6 @@ function Register() {
                 }}
               />
             )}
-          </div>
-
-          <div className="managed__wallet__div">
-            <p>Or let us handle the tricky stuff.</p>
-            <input
-              type="button"
-              value="Manage my Wallet"
-              className="register__button"
-              onClick={() => {
-                updateWalletID("comingSoon", "managedWallet");
-              }}
-            />
           </div>
         </div>
       )}

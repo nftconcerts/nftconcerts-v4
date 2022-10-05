@@ -22,3 +22,53 @@
   align-self: center;
   border-radius: 20px;
 }
+.home__welcome__pop__up__overlay__div {
+  position: absolute;
+  min-height: 600px;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  display: flex;
+  background: #00000099;
+  z-index: 7;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 140px;
+  padding-bottom: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
+  animation: cssAnimation 1s;
+}
+.welcome__title {
+  font-size: 34px !important;
+}
+.welcome__motto {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+  font-family: "Saira";
+}
+.welcome__login__button {
+  background: #333;
+}
+.welcome__login__button:hover {
+  background: #555;
+}
+/* .welcome__reveal__div {
+  opacity: 0;
+  transition: delay 1s opacity;
+}
+.welcom__reveal__div:hover {
+  opacity: 1;
+} */
+
+@keyframes cssAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

@@ -120,11 +120,11 @@ label {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  height: 180px;
 }
 .connect__wallet__heading {
   font-size: 20px;
   padding-top: 10px;
+  padding-bottom: 10px;
 }
 .register__prompt__header {
   padding-bottom: 5px;

@@ -467,7 +467,6 @@ const ProductionTeam = () => {
               if (networkMismatch) {
                 switchNetwork(ChainId.Mainnet);
               } else {
-                console.log("checking pr");
                 productionCheck();
               }
             }}
