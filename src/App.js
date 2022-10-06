@@ -55,7 +55,24 @@ function App() {
   const connectors = {
     injected: {},
     walletconnect: {},
+    walletLink: {
+      name: "magic",
+      options: {
+        apiKey: process.env.REACT_APP_PUBLIC_MAGIC_LINK_API_KEY,
+      },
+    },
   };
+  const walletConnectors = [
+    "metamask",
+    "walletConnect",
+    "walletLink",
+    {
+      name: "magic",
+      options: {
+        apiKey: process.env.REACT_APP_PUBLIC_MAGIC_LINK_API_KEY,
+      },
+    },
+  ];
 
   const Blog = lazy(() => import("./components/blog/Blog"));
   const Blog2 = lazy(() => import("./components/blog/Blog2"));
@@ -127,7 +144,10 @@ function App() {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 
   return (
-    <ThirdwebProvider connectors={connectors} desiredChainId={ChainId.Mainnet}>
+    <ThirdwebProvider
+      walletConnectors={walletConnectors}
+      desiredChainId={ChainId.Mainnet}
+    >
       <Web3ReactProvider getLibrary={getLibrary}>
         <Router>
           <ScrollToTop />

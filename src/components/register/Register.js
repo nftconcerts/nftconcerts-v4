@@ -30,6 +30,7 @@ import WalletLink from "walletlink";
 import emailjs from "@emailjs/browser";
 import checkEns from "../../scripts/checkEns";
 import { CreateWallet } from "@paperxyz/react-client-sdk";
+import { useMagic } from "@thirdweb-dev/react";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const dbRef = dRef(db);
@@ -42,6 +43,7 @@ function Register() {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const connectWithMetamask = useMetamask();
+  const connectWithMagic = useMagic();
   const disconnect = useDisconnect();
   const address = useAddress();
   const [loading, setLoading] = useState(false);
@@ -208,6 +210,24 @@ function Register() {
   const [web3Account, setWeb3Account] = React.useState();
   const [walletlinkProvider, setWalletlinkProvider] = React.useState();
   const [walletConnectProvider, setWalletConnectProvider] = React.useState();
+
+  //connect with magic.
+
+  const [whileMagic, setWhileMagic] = useState(false);
+  const tryMagic = async () => {
+    setWhileMagic(false);
+    var magicRes = await connectWithMagic({ email });
+    var accountNum = magicRes.data.account;
+    console.log(magicRes);
+    console.log("Account: ", accountNum);
+    setSavedUserAddress(accountNum);
+    setRcType("magic");
+  };
+  useEffect(() => {
+    if (rcType === "magic" && savedUserAddress !== "comingSoon") {
+      checkThenRegister();
+    }
+  }, [rcType, savedUserAddress]);
 
   //vanilla walletconnect
   const connectWalletConnect = async () => {
@@ -390,8 +410,10 @@ function Register() {
               type="button"
               value="Register"
               className="register__button"
-              disabled={false}
-              onClick={checkThenRegister}
+              disabled={whileMagic}
+              onClick={() => {
+                tryMagic();
+              }}
             />
           )) || (
             <input
