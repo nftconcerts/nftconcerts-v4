@@ -15,7 +15,7 @@ import { useAddress, useMetamask, useOwnedNFTs } from "@thirdweb-dev/react";
 import editionDrop from "../../scripts/getContract.mjs";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 
-const MyAccount = () => {
+const ArtistAccount = () => {
   let navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
@@ -54,6 +54,7 @@ const MyAccount = () => {
       var cData = snapshot.val();
       setConcertData(cData);
     });
+    submittedConcertTable();
   }, [currentUser]);
 
   //Check if user is admin or was uploader
@@ -67,6 +68,77 @@ const MyAccount = () => {
       }
     } else setValidUser(false);
   }, [currentUser, userData]);
+
+  //pull users submitted concerts
+  const submittedConcertTable = () => {
+    if (userData?.submittedConcerts) {
+      var concertArray = Object.keys(userData?.submittedConcerts);
+
+      var arrayLength = concertArray.length;
+
+      const rows = [];
+      for (var i = 0; i < arrayLength; i++) {
+        var row = [];
+        var tempConcertId = parseInt(concertArray[i]);
+        var tempConcert = concertData[tempConcertId];
+
+        var contractStr = JSON.stringify(tempConcertId);
+
+        rows.push(
+          <>
+            <div className="concert__row">
+              <div className="concert__id">L-{tempConcert?.concertId}</div>
+              <div className="concert__thumbnail">
+                <img
+                  src={tempConcert?.concertThumbnailImage}
+                  className="account__page__concert__thumbnail"
+                />
+              </div>
+              <div className="concert__name">{tempConcert?.concertName}</div>
+              <div className="concert__perf__date">
+                {tempConcert?.concertPerformanceDate}
+              </div>
+              <div className="concert__listing__approval">
+                {tempConcert?.listingApproval}
+              </div>
+              <div className="concert__expand__button">
+                <button
+                  type="submit"
+                  className="fa-solid fa-file-signature icon__button"
+                  name={contractStr}
+                  onClick={(i) => {
+                    navigate("/contract?id=" + i.target.name);
+                  }}
+                />
+              </div>
+              {/* <div className="concert__play__button">
+                <button
+                  type="sumbit"
+                  name={contractStr}
+                  onClick={(i) => {
+                    navigate("/player?id=" + i.target.name);
+                  }}
+                  className="fa-solid fa-play icon__button"
+                />
+              </div>
+              <div className="concert__token__button">
+                <button
+                  type="sumbit"
+                  name={contractStr}
+                  onClick={(i) => {
+                    navigate("/concert?id=" + i.target.name);
+                  }}
+                  className="fa-solid fa-file-invoice-dollar icon__button"
+                />
+              </div> */}
+            </div>
+          </>
+        );
+      }
+
+      return rows;
+    }
+  };
 
   //check if user is holding production team NFT
   const [productionTeam, setProductionTeam] = useState(false);
@@ -110,7 +182,7 @@ const MyAccount = () => {
     data: ownedNFTs,
     isLoading3,
     error3,
-  } = useOwnedNFTs(editionDrop, userData?.walletID);
+  } = useOwnedNFTs(editionDrop, address);
 
   //show users owned concerts
   const showConcerts = () => {
@@ -183,35 +255,50 @@ const MyAccount = () => {
               {truncateAddress(currentUser.user.photoURL)}
             </p>
           </div> */}
-            <h3>Your Library</h3>
-            {(ownedNFTs && ownedNFTs.length > 0 && (
+
+            {userData?.submittedConcerts && (
               <>
-                <div className="concert__library">
-                  {concertData && showConcerts()}
+                <h3>Submitted Concerts</h3>
+                <div className="submitted__concerts__table">
+                  <div className="concert__table__headers">
+                    <div className="concert__id">L-ID </div>
+                    <div className="concert__thumbnail">IMG</div>
+                    <div className="concert__name">Name</div>
+                    <div className="concert__perf__date">Performance Date</div>
+                    <div className="concert__listing__approval">
+                      Listing Approval
+                    </div>
+                    <div className="header__expand__button">
+                      <i className="fa-solid fa-file-signature" />
+                    </div>
+                    {/* <div className="header__play__button">
+                        <i className="fa-solid fa-play" />
+                      </div>
+                      <div className="header__token__button">
+                        <i className="fa-solid fa-file-invoice-dollar"></i>
+                      </div> */}
+                  </div>
+                  {userData && concertData && submittedConcertTable(userData)}
+                  <div className="submitted__concert__row">
+                    <div className="submitted__concert__name"></div>
+                  </div>
                 </div>
               </>
-            )) || (
-              <div className="no__owned__shows__div">
-                {" "}
-                <p>There are no NFT Concerts in your wallet.</p>
-                <p>
-                  Mint or purchase a NFT Concert to unlock full concert
-                  performances.
-                </p>
-                <button
-                  className="login__button admin__button"
-                  onClick={() => {
-                    navigate("/");
-                  }}
-                >
-                  Shop Now
-                </button>
-              </div>
             )}
-
             <div className="account__buttons__div"></div>
 
             <div className="admin__button__div">
+              {!address && (
+                <button
+                  className="login__button admin__button"
+                  onClick={() => {
+                    resetMobileMode();
+                    connectWithMetamask();
+                  }}
+                >
+                  Connect to Metamask
+                </button>
+              )}
               {admin && (
                 <>
                   {" "}
@@ -268,4 +355,4 @@ const MyAccount = () => {
   );
 };
 
-export default MyAccount;
+export default ArtistAccount;

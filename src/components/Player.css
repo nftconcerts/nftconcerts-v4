@@ -207,6 +207,9 @@ video {
     width: 350px;
     justify-content: space-evenly;
   }
+  .player__page {
+    padding-bottom: 250px;
+  }
 }
 @media screen and (min-width: 801px) and (max-width: 900px) {
   .split__col {

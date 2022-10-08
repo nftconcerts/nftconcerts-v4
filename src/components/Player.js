@@ -78,10 +78,8 @@ const Player = () => {
   };
 
   useEffect(() => {
-    if (address) {
-      checkIfOwned(address);
-    }
-  }, [address]);
+    checkIfOwned(userData?.walletID);
+  }, [userData]);
 
   //display the setlist
   const displaySongs = () => {

@@ -217,7 +217,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                     height="100%"
                     playing={true}
                     controls={true}
-                    muted={true}
+                    muted={false}
                     config={{
                       file: {
                         attributes: {

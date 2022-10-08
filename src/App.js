@@ -10,11 +10,8 @@ import {
 } from "react-router-dom";
 import Home from "./components/home/Home";
 import ProductionTeam from "./components/home/ProductionTeam";
-
 import ResetPassword from "./components/register/ResetPassword";
-
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
-
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import NftProfilePhoto from "./components/blog/posts/NftProfilePhoto";
@@ -35,6 +32,7 @@ function App() {
   const Register = lazy(() => import("./components/register/Register"));
   const Login = lazy(() => import("./components/register/Login"));
   const MyAccount = lazy(() => import("./components/register/MyAccount"));
+  const AccountInfo = lazy(() => import("./components/register/AccountInfo"));
   const Admin = lazy(() => import("./components/register/Admin"));
   const ArtistApp = lazy(() => import("./components/register/ArtistApp"));
 
@@ -158,13 +156,14 @@ function App() {
                 <title>NFT Concerts</title>
                 <meta
                   name="description"
-                  content="Own the Show - Limited Edition Concert & Studio Recordings Unlocked by NFTs"
+                  content="Own the Show - Limited Edition Concert Recordings & Studio Sessions Unlocked by NFTs"
                 />
               </Helmet>
               <Routes>
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/my-account" element={<MyAccount />} />
+                <Route path="/my-account/settings" element={<AccountInfo />} />
                 <Route path="/upload" element={<Upload />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/player" element={<Player />} />
@@ -173,7 +172,6 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/apply" element={<ArtistApp />} />
-                <Route path="/home" element={<Home />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/faqs" element={<FAQs />} />
@@ -272,6 +270,7 @@ function App() {
                 />
                 <Route path="/production-team" element={<ProductionTeam />} />
                 <Route exact path="/" element={<Home />} />
+                <Route path="*" element={<Home />} />
               </Routes>
               <Footer />
             </div>

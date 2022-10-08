@@ -8,7 +8,7 @@ const provider = new ethers.getDefaultProvider(network, {
 const checkEthBalance = async (wallet) => {
   let balance = await provider.getBalance(wallet);
   balance = ethers.utils.formatEther(balance, 18);
-  console.log("ETH Balance", balance);
+
   return balance.toString();
 };
 

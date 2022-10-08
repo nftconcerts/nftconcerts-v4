@@ -1,0 +1,49 @@
+.account__info__title {
+  font-size: 24px;
+  font-family: "Saira";
+  padding-bottom: 20px;
+  padding-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.account__info__welcome {
+  font-size: 20px;
+  padding-bottom: 25px;
+}
+.info__row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-top: solid 2px #888;
+  padding: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+.last__info__row {
+  border-bottom: solid 2px #888;
+}
+.info__row__header {
+  font-size: 16px;
+}
+.info__return__button {
+  width: 100%;
+  margin-top: 20px;
+}
+.info__row__content {
+  cursor: pointer;
+  transition: all 0.5s;
+  font-weight: bold;
+}
+.info__row__content:hover {
+  color: #f00000;
+}
+.info__back__button {
+  background: #aaa;
+  color: #000;
+}
+.info__break {
+  padding-bottom: 20px;
+}

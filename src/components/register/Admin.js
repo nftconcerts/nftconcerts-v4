@@ -141,11 +141,11 @@ const Admin = () => {
     var rejectionReason = prompt("Reason for Rejection?");
     var concertApprovalDataRef = dRef(
       db,
-      "concerts/" + id + "/listingApproval"
+      "submittedConcerts/" + id + "/listingApproval"
     );
     var concertApprovalMsgDataRef = dRef(
       db,
-      "concerts/" + id + "/approvalMessage"
+      "submittedConcerts/" + id + "/approvalMessage"
     );
 
     var template_params = {
