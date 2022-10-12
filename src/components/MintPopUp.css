@@ -1,0 +1,132 @@
+.mint__pop__img {
+  max-height: 150px;
+  padding-bottom: 10px;
+}
+.mint__pop__header {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 250px;
+}
+.mint__pop__content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 250px;
+  justify-content: space-evenly;
+  padding-top: 20px;
+  margin-bottom: -20px;
+}
+.mint__pop__title {
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+.minting__title {
+  margin-top: -20px;
+  font-size: 40px;
+}
+.mint__pop__register__div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 520px;
+}
+.mint__pop__button {
+  background: #333;
+  margin-bottom: 10px !important;
+}
+.mint__pop__button:hover {
+  background: #555;
+}
+.text__only__button {
+  cursor: pointer;
+  color: #555;
+  transition: all 0.5s;
+}
+.text__only__button:hover {
+  color: #000;
+}
+.te .register__title {
+  font-size: 32px;
+}
+
+.mint__pop__subtitle {
+  font-family: "Saira";
+  font-weight: bold;
+  font-size: 24px;
+  padding-bottom: 10px;
+  padding-top: 20px;
+}
+.mint__pop__logo {
+  width: 80%;
+  margin-top: -20px;
+  align-self: center;
+  padding-bottom: 20px;
+  filter: invert(1);
+}
+.or__div {
+  padding-bottom: 20px;
+  padding-top: 10px;
+}
+.metamask__pop__button:hover {
+  background: #f6851b;
+  color: #000;
+}
+.walletconnect__pop__button:hover {
+  background: #3369ff;
+  color: #000;
+}
+.coinbase__pop__button:hover {
+  background: #1652f0;
+  color: #000;
+}
+.register__subtitle {
+  padding-top: 0px;
+}
+.pop__disconnect__button {
+  margin-top: 5px;
+  padding: 5px;
+  margin-bottom: -10px;
+}
+.quantity__pop__div {
+  display: flex;
+  width: 310px;
+  justify-content: space-between;
+  align-items: center;
+  border: solid #333;
+
+  box-sizing: border-box;
+  font-size: 20px;
+  max-width: 100%;
+}
+.quantity__pop__button {
+  background: #ccc;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.quantity__pop__button:hover {
+  background: #999;
+}
+.price__pop__div {
+  font-size: 30px;
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.mint__pop__usd__price {
+  font-size: 16px;
+  color: #777;
+}
+.pop__img__replacement {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 160px;
+  padding-bottom: 20px;
+  background: none;
+}
+.pop__img__replacement .wave {
+  background: #000;
+}

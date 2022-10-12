@@ -25,6 +25,7 @@ import { ethers } from "ethers";
 import emailjs from "@emailjs/browser";
 import { PaperCheckout } from "@paperxyz/react-client-sdk";
 import sendMintEmails from "../scripts/sendMintEmails";
+import MintPopUp from "./MintPopUp";
 
 const ListingPage = () => {
   let navigate = useNavigate();
@@ -164,7 +165,6 @@ const ListingPage = () => {
     try {
       var result = await editionDropped?.claim(concertID, mintQty);
       setTx(result);
-      console.log("claimed", result);
       setClaiming(false);
       setPurchased(true);
       setShowPurchased(true);
@@ -176,7 +176,7 @@ const ListingPage = () => {
         concertName: concertData.concertName,
         buyerName: userData.name,
         buyerEmail: currentEmail,
-        mintQty: orderQty,
+        mintQty: mintQty,
         mintPrice: mintPrice,
         remaining: activeClaimCondition?.availableSupply,
         concertSupply: concertData.concertSupply,
@@ -184,6 +184,7 @@ const ListingPage = () => {
       sendMintEmails(template_params);
     } catch (error) {
       console.log("Failed to claim. Error: ", error);
+      console.log(error.message);
       setClaiming(false);
     }
   };
@@ -206,20 +207,20 @@ const ListingPage = () => {
     }
   }, [address]);
 
-  const [orderQty, setOrderQty] = useState(1);
-
-  const paperOptions = [
-    {
-      width: 600,
-      height: 800,
-      quantity: orderQty,
-      borderRadius: 6,
-      fontFamily: "Saira",
-    },
-  ];
+  const [showMintPopUp, setShowMintPopUp] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   return (
     <>
+      {showMintPopUp && (
+        <MintPopUp
+          currentUser={currentUser}
+          concertData={concertData}
+          concertID={concertID}
+          setShowMintPopUp={setShowMintPopUp}
+          setCurrentUser={setCurrentUser}
+        />
+      )}
       {concertData && showPurchased && (
         <div className="purchased__pop__up__overlay__div">
           <div className="purchased__pop__up__div">
@@ -436,30 +437,35 @@ const ListingPage = () => {
           <div className="split__col">
             <div className="concert__info__div">
               {(concertData?.concertPromoClip && (
-                <div className="buy__button__box__left">
-                  <button
-                    className="buy__now my__button preview__button buy__now__button"
-                    onClick={claimButton}
-                    disabled={claiming || !activeClaimCondition}
-                  >
-                    <div className="inside__button__div">
-                      <div>Mint</div>{" "}
-                      <div className="button__price">
-                        <img
-                          src="/media/eth-logo.png"
-                          height={25}
-                          className="c__eth__logo white__eth__logo"
-                          alt="eth logo"
-                        />
-                        {formatPrice}{" "}
-                        <span className="c__price__in__usd button__usd__price">
-                          (${priceInUSD})
-                        </span>
-                      </div>
-                    </div>
-                  </button>
+                <>
+                  {" "}
+                  <div className="mint__div">
+                    <div className="buy__button__box__left">
+                      <button
+                        className="buy__now my__button preview__button buy__now__button"
+                        onClick={() => {
+                          setShowMintPopUp(true);
+                        }}
+                        disabled={claiming || !activeClaimCondition}
+                      >
+                        <div className="inside__button__div">
+                          <div>Mint</div>{" "}
+                          <div className="button__price">
+                            <img
+                              src="/media/eth-logo.png"
+                              height={25}
+                              className="c__eth__logo white__eth__logo"
+                              alt="eth logo"
+                            />
+                            {(formatPrice * mintQty).toFixed(3)}{" "}
+                            <span className="c__price__in__usd button__usd__price">
+                              (${(priceInUSD * mintQty).toFixed(2)})
+                            </span>
+                          </div>
+                        </div>
+                      </button>
 
-                  {/* <PaperCheckout
+                      {/* <PaperCheckout
                     checkoutId="322fab2e-32ab-4065-8e5f-376eb638bcef"
                     display="DRAWER"
                     options={paperOptions}
@@ -471,7 +477,21 @@ const ListingPage = () => {
                       />
                     </div>
                   </PaperCheckout> */}
-
+                    </div>
+                  </div>
+                  {/* <div className="quantity__div mint__quantity__div">
+                    Select Quantity
+                    <input
+                      type="number"
+                      min="1"
+                      max="5"
+                      defaultValue="1"
+                      className="qantity__input"
+                      onChange={(x) => {
+                        setMintQty(parseInt(x.target.value));
+                      }}
+                    />
+                  </div>{" "} */}
                   {purchased && (
                     <div className="transaction__result">
                       Purchase Completed - TX:{" "}
@@ -484,7 +504,7 @@ const ListingPage = () => {
                       </a>
                     </div>
                   )}
-                </div>
+                </>
               )) || <></>}
 
               <h1 className="c__name">
@@ -598,9 +618,9 @@ const ListingPage = () => {
                           className="c__eth__logo white__eth__logo"
                           alt="eth logo"
                         />
-                        {formatPrice}{" "}
+                        {(formatPrice * mintQty).toFixed(3)}{" "}
                         <span className="c__price__in__usd button__usd__price">
-                          (${priceInUSD})
+                          (${(priceInUSD * mintQty).toFixed(2)})
                         </span>
                       </div>
                     </div>

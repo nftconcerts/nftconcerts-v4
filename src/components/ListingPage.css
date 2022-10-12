@@ -269,3 +269,9 @@
 .grey {
   background: #333 !important;
 }
+.mint__div {
+  display: flex;
+}
+.mint__quantity__div {
+  padding-top: 20px;
+}

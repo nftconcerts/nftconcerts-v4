@@ -1,6 +1,7 @@
 import React from "react";
 import BlogPost from "./BlogPost";
 import { Helmet } from "react-helmet";
+
 const DonDiablo = () => {
   return (
     <BlogPost

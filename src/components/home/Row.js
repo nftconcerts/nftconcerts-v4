@@ -23,8 +23,12 @@ function Row({ title, isLargeRow, concertData, concerts }) {
 
   const handleClick = (concert) => {
     if (trailerUrl) {
-      setTrailerUrl("");
-      setSingleConcert(0);
+      if (concert !== singleConcert) {
+        setSingleConcert(concert);
+      } else {
+        setTrailerUrl("");
+        setSingleConcert(0);
+      }
     } else {
       setTrailerUrl("full");
       setSingleConcert(concert);

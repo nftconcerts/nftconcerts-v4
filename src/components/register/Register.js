@@ -94,9 +94,9 @@ function Register() {
   //basic security checks before registering user.
   const checkThenRegister = async () => {
     if (email == "") return alert("Missing email address");
-    if (displayName == "") return alert("Missing email address");
-    if (password == "") return alert("Missing password");
-    if (passwordConfirm == "") return alert("Missing password confirmation");
+    if (displayName == "") return alert("Missing Account Name");
+    if (password == "") return alert("Missing Password");
+    if (passwordConfirm == "") return alert("Missing Password Confirmation");
     if (!document.getElementById("acceptTerms").checked)
       return alert("Please accept the terms of service.");
     if (password == passwordConfirm) {
@@ -216,12 +216,16 @@ function Register() {
   const [whileMagic, setWhileMagic] = useState(false);
   const tryMagic = async () => {
     setWhileMagic(false);
-    var magicRes = await connectWithMagic({ email });
-    var accountNum = magicRes.data.account;
-    console.log(magicRes);
-    console.log("Account: ", accountNum);
-    setSavedUserAddress(accountNum);
-    setRcType("magic");
+    try {
+      var magicRes = await connectWithMagic({ email });
+      var accountNum = magicRes.data.account;
+      console.log(magicRes);
+      console.log("Account: ", accountNum);
+      setSavedUserAddress(accountNum);
+      setRcType("magic");
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     if (rcType === "magic" && savedUserAddress !== "comingSoon") {
