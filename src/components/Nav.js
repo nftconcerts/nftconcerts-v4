@@ -232,9 +232,7 @@ const Nav = () => {
                 <button
                   className="network__prompt__button buy__matic__button full__width__button"
                   onClick={() => {
-                    window.open(
-                      `https://pay.sendwyre.com/purchase?&destCurrency=ETH&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
-                    );
+                    navigate("/my-account");
                   }}
                 >
                   {ethBalance && (

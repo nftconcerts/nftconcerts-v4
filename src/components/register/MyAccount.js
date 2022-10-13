@@ -209,32 +209,6 @@ const MyAccount = () => {
               </div>
             )}
 
-            <div className="account__buttons__div"></div>
-
-            <div className="admin__button__div">
-              {admin && (
-                <>
-                  {" "}
-                  <button
-                    className="login__button admin__button"
-                    onClick={() => {
-                      navigate("/admin");
-                    }}
-                  >
-                    Admin View
-                  </button>
-                  <button
-                    className="login__button admin__button"
-                    onClick={() => {
-                      inlineLogout();
-                    }}
-                  >
-                    Logout
-                  </button>
-                </>
-              )}
-            </div>
-
             <div className="user__info__div">
               <div
                 className="name__div account__info__button"

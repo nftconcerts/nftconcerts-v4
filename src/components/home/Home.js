@@ -10,6 +10,7 @@ import "./Home.css";
 import FormBox from "../form/FormBox";
 import { useAddress, useNetworkMismatch } from "@thirdweb-dev/react";
 import { useNavigate } from "react-router-dom";
+import MintPopUp from "../MintPopUp";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -52,74 +53,31 @@ const Home = () => {
     });
   }, []);
 
-  const [showNewUserWelcome, setShowNewUserWelcome] = useState(false);
+  const [showMintPopUp, setShowMintPopUp] = useState(false);
+  const [singleConcert, setSingleConcert] = useState(0);
 
-  useEffect(() => {
-    if (currentUser === null) {
-      revealWelcome();
-    }
-  }, []);
-
-  const revealWelcome = async () => {
-    await delay(3000);
-    if (currentUser === null) {
-      window.scrollTo(0, 0);
-      setShowNewUserWelcome(true);
-    }
-  };
   return (
     <>
-      {concertData && showNewUserWelcome && !currentUser && (
-        <div className="welcome__reveal__div">
-          <div className="home__welcome__pop__up__overlay__div">
-            <div className="home__purchased__pop__up__div">
-              <div className="close__pop__up__div">
-                <i
-                  onClick={() => {
-                    setShowNewUserWelcome(false);
-                  }}
-                  className="fa-solid fa-xmark close__icon__button"
-                />{" "}
-              </div>
-
-              <h1 className="purchased__title welcome__title">
-                Welcome to NFT Concerts
-              </h1>
-
-              <h3 className="welcome__motto">
-                For the best user experience,
-                <br /> please register an account.
-              </h3>
-
-              <button
-                onClick={() => {
-                  navigate("/register");
-                }}
-                className="buy__now my__button preview__button buy__now__button "
-              >
-                <div className="play__now__button__div">Register Now</div>
-              </button>
-              <button
-                onClick={() => {
-                  navigate("/login");
-                }}
-                className="buy__now my__button preview__button buy__now__button welcome__login__button"
-              >
-                <div className="play__now__button__div">Login</div>
-              </button>
-              <p className="motto"> </p>
-            </div>
-          </div>
-        </div>
-      )}
       {concertData && (
         <div className="home__page">
+          {showMintPopUp && (
+            <MintPopUp
+              currentUser={currentUser}
+              concertData={concertData[singleConcert]}
+              concertID={singleConcert}
+              setShowMintPopUp={setShowMintPopUp}
+              setCurrentUser={setCurrentUser}
+            />
+          )}
           <Banner />
           <Row
             title="Minting Now"
             isLargeRow
             concertData={concertData}
             concerts={firstReleaseConcerts}
+            singleConcert={singleConcert}
+            setSingleConcert={setSingleConcert}
+            setShowMintPopUp={setShowMintPopUp}
           />
           {/* <ComingSoonRow
             title="Trending Now"

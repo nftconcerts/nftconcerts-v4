@@ -300,6 +300,7 @@ const ListingPage = () => {
                   height="100%"
                   playing={false}
                   controls={true}
+                  playsinline={true}
                 />
               </div>
             </>
@@ -339,7 +340,9 @@ const ListingPage = () => {
                   <div className="buy__button__box">
                     <button
                       className="buy__now my__button preview__button buy__now__button"
-                      onClick={claimButton}
+                      onClick={() => {
+                        setShowMintPopUp(true);
+                      }}
                       disabled={claiming || !activeClaimCondition}
                     >
                       <div className="inside__button__div">
@@ -606,7 +609,9 @@ const ListingPage = () => {
                 <div className="final__buy__button__div">
                   <button
                     className="buy__now my__button preview__button buy__now__button"
-                    onClick={claimButton}
+                    onClick={() => {
+                      setShowMintPopUp(true);
+                    }}
                     disabled={claiming || !activeClaimCondition}
                   >
                     <div className="inside__button__div">

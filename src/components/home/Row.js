@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Row.css";
 import { useNavigate } from "react-router-dom";
 import { GetUSDExchangeRate } from "../api";
@@ -16,9 +16,16 @@ import emailjs from "@emailjs/browser";
 import DateCountdown from "react-date-countdown-timer";
 import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
-function Row({ title, isLargeRow, concertData, concerts }) {
+function Row({
+  title,
+  isLargeRow,
+  concertData,
+  concerts,
+  singleConcert,
+  setSingleConcert,
+  setShowMintPopUp,
+}) {
   const [trailerUrl, setTrailerUrl] = useState("");
-  const [singleConcert, setSingleConcert] = useState(0);
   let navigate = useNavigate();
 
   const handleClick = (concert) => {
@@ -28,9 +35,19 @@ function Row({ title, isLargeRow, concertData, concerts }) {
       } else {
         setTrailerUrl("");
         setSingleConcert(0);
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
       }
     } else {
       setTrailerUrl("full");
+      window.scrollTo({
+        top: 600,
+        left: 0,
+        behavior: "smooth",
+      });
       setSingleConcert(concert);
     }
   };
@@ -222,6 +239,7 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                     playing={true}
                     controls={true}
                     muted={false}
+                    playsinline={true}
                     config={{
                       file: {
                         attributes: {
@@ -343,7 +361,9 @@ function Row({ title, isLargeRow, concertData, concerts }) {
                     </button>
                     <button
                       className="buy__now my__button preview__button"
-                      onClick={claimButton}
+                      onClick={() => {
+                        setShowMintPopUp(true);
+                      }}
                       disabled={claiming || !activeClaimCondition}
                     >
                       Mint

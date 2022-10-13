@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: space-between;
   height: 250px;
 }
 .mint__pop__content {
@@ -129,4 +130,7 @@
 }
 .pop__img__replacement .wave {
   background: #000;
+}
+.max__limit {
+  font-size: 14px;
 }
