@@ -378,7 +378,7 @@ function Login() {
                 )}
               </>
             )}
-            {userData?.connectionType === "managedWallet" && (
+            {userData?.connectionType === "magic" && (
               <>
                 <>
                   <input

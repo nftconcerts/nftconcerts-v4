@@ -326,3 +326,10 @@ select::-ms-expand {
     transform: scale(0);
   }
 }
+
+.play__now__button {
+  background: rgb(27, 172, 14);
+}
+.play__now__button:hover {
+  background: rgb(26, 222, 8);
+}

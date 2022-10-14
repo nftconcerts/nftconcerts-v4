@@ -157,12 +157,7 @@
 .play__now__icon {
   padding-left: 20px;
 }
-.play__now__button {
-  background: rgb(27, 172, 14);
-}
-.play__now__button:hover {
-  background: rgb(26, 222, 8);
-}
+
 .purchased__pop__up__heading {
   font-size: 16px;
   font-family: "Saira";

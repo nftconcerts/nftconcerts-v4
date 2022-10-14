@@ -10,9 +10,16 @@ import {
 import { ref as dRef, set, get, onValue } from "firebase/database";
 import emailjs from "@emailjs/browser";
 import { Helmet } from "react-helmet";
+import { useSearchParams } from "react-router-dom";
+
 const ArtistApp = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
+  const [showReferral, setShowReferral] = useState(false);
+  const [hideReferral, setHideReferral] = useState(false);
+  let [searchParams, setSearchParams] = useSearchParams();
+
+  let referralID = searchParams.get("r");
   const [formItems, setFormItems] = useState({
     stageName: "",
     firstName: "",
@@ -22,11 +29,23 @@ const ArtistApp = () => {
     twitter: "",
     instagram: "",
     numberOfShows: "1-5 Live Shows Per Year",
+    referral: "",
   });
 
   //set current user
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
+  }, []);
+
+  //capture referral ID
+  useEffect(() => {
+    if (referralID) {
+      setFormItems((prevState) => ({
+        ...prevState,
+        referral: referralID,
+      }));
+      setHideReferral(true);
+    }
   }, []);
 
   //get user data
@@ -67,6 +86,7 @@ const ArtistApp = () => {
       twitter: formItems.twitter,
       instagram: formItems.instagram,
       numberofshows: formItems.numberOfShows,
+      referral: formItems.referral,
     };
     emailjs
       .send(
@@ -198,6 +218,28 @@ const ArtistApp = () => {
             </option>
           </select>
         </div>
+
+        {(showReferral && (
+          <input
+            type="text"
+            placeholder="Referral Code"
+            className="artist__app__input"
+            onChange={handleInputData("instagram")}
+          />
+        )) || (
+          <>
+            {!hideReferral && (
+              <div
+                onClick={() => {
+                  setShowReferral(true);
+                }}
+                className="referral__reveal__div"
+              >
+                Did you recieve a referral code? Enter Code
+              </div>
+            )}
+          </>
+        )}
         {!messageSent && (
           <button
             className="login__button artist__app__button disabled__grey"

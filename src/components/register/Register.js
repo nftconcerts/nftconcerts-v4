@@ -415,9 +415,7 @@ function Register() {
               value="Register"
               className="register__button"
               disabled={whileMagic}
-              onClick={() => {
-                tryMagic();
-              }}
+              onClick={tryMagic}
             />
           )) || (
             <input

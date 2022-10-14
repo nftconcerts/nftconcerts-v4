@@ -33,6 +33,9 @@ function App() {
   const Login = lazy(() => import("./components/register/Login"));
   const MyAccount = lazy(() => import("./components/register/MyAccount"));
   const AccountInfo = lazy(() => import("./components/register/AccountInfo"));
+  const ArtistAccount = lazy(() =>
+    import("./components/register/ArtistAccount")
+  );
   const Admin = lazy(() => import("./components/register/Admin"));
   const ArtistApp = lazy(() => import("./components/register/ArtistApp"));
 
@@ -164,6 +167,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/my-account/settings" element={<AccountInfo />} />
+                <Route path="/my-account/artist" element={<ArtistAccount />} />
                 <Route path="/upload" element={<Upload />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/player" element={<Player />} />

@@ -64,7 +64,14 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
-
+.referral__reveal__div {
+  cursor: pointer;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.referral__reveal__div:hover {
+  text-decoration: underline;
+}
 @media screen and (max-width: 725px) {
   .artist__app__title {
     font-size: 30px;

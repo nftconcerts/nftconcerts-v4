@@ -208,6 +208,7 @@ function Row({
                 alt={"Babs.0 NFT Concert"}
               />
             ))}
+            <div className="row__end__spacer" />
           </div>
         )}
         {concertData && trailerUrl && (

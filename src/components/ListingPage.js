@@ -202,10 +202,10 @@ const ListingPage = () => {
         console.log("Fucked up check.");
       }
     };
-    if (address) {
-      checkIfOwned(address);
+    if (userData?.walletID) {
+      checkIfOwned(userData?.walletID);
     }
-  }, [address]);
+  }, [userData]);
 
   const [showMintPopUp, setShowMintPopUp] = useState(false);
   const [showRegister, setShowRegister] = useState(false);

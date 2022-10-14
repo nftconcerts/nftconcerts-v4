@@ -20,8 +20,6 @@ const MyAccount = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const [concertData, setConcertData] = useState();
-  const [validUser, setValidUser] = useState(false);
-  const [admin, setAdmin] = useState(false);
   const address = useAddress();
   const connectWithMetamask = useMetamask();
 
@@ -49,24 +47,12 @@ const MyAccount = () => {
 
   //download concert data
   useEffect(() => {
-    var concertDataRef = dRef(db, "submittedConcerts/");
+    var concertDataRef = dRef(db, "concerts/");
     onValue(concertDataRef, (snapshot) => {
       var cData = snapshot.val();
       setConcertData(cData);
     });
   }, [currentUser]);
-
-  //Check if user is admin or was uploader
-  useEffect(() => {
-    if (userData?.userType === "admin") {
-      setValidUser(true);
-      setAdmin(true);
-    } else if (userData?.userType === "fan") {
-      if (userData?.walletID === concertData?.uploaderWalletID) {
-        setValidUser(true);
-      }
-    } else setValidUser(false);
-  }, [currentUser, userData]);
 
   //check if user is holding production team NFT
   const [productionTeam, setProductionTeam] = useState(false);
@@ -118,26 +104,51 @@ const MyAccount = () => {
 
     const nfts = [];
     for (var i = 0; i < arrayLength; i++) {
+      let ownedID = ownedNFTs[i].metadata.id.toString();
       nfts.push(
         <div className="single__concert__container">
           <div
             className="single__concert__div"
-            name={ownedNFTs[i].metadata.id.toString()}
+            name={ownedID}
             onClick={(i) => {
               console.log(i);
               navigate("/player?id=" + i.target.name);
             }}
           >
             <img
-              src={ownedNFTs[i].metadata.image}
+              src={concertData[ownedID].concertTokenImage}
               className="single__concert__image"
-              name={ownedNFTs[i].metadata.id.toString()}
+              name={ownedID}
             />
             <i className="fa-solid fa-play hidden__play__icon" />
           </div>
           <div className="single__concert__qty">
             You Own {ownedNFTs[i].quantityOwned.toString()} of{" "}
-            {ownedNFTs[i].supply.toString()} Copies
+            {concertData[ownedID].concertSupply} Copies
+          </div>
+          <div className="library__buttons__div">
+            <button
+              className="library__button"
+              onClick={() => {
+                navigate("/concert?id=" + ownedID);
+              }}
+            >
+              <div className="library__button__inner">
+                <span className="mobile__hide"> View in Marketplace </span>
+                <i className="fa-solid fa-dollar-sign play__now__icon library__play__now__icon" />
+              </div>
+            </button>
+            <button
+              className="library__button library__play__button play__now__button"
+              onClick={() => {
+                navigate("/player?id=" + ownedID);
+              }}
+            >
+              <div className="library__button__inner">
+                <span className="mobile__hide"> Play Now </span>
+                <i className="fa-solid fa-play play__now__icon library__play__now__icon" />
+              </div>
+            </button>
           </div>
         </div>
       );
@@ -172,7 +183,7 @@ const MyAccount = () => {
             </div>
           </FormBox>
         )}
-        {currentUser && (
+        {currentUser && userData && (
           <Contract>
             {/* <div className="account__name">
             <p className="user__name">{currentUser.user.name}</p>
@@ -183,7 +194,22 @@ const MyAccount = () => {
               {truncateAddress(currentUser.user.photoURL)}
             </p>
           </div> */}
-            <h3>Your Library</h3>
+            {userData?.userType === "artist" && (
+              <div className="artist__buttons__div">
+                <button
+                  className="artist__account__button"
+                  onClick={() => {
+                    navigate("/my-account/artist");
+                  }}
+                >
+                  <div className="inner__button">
+                    Switch to Artist View{" "}
+                    <i className="fa-solid fa-circle-arrow-right artist__button__arrow" />
+                  </div>
+                </button>
+              </div>
+            )}
+            <h3 className="library__heading">Your Library</h3>
             {(ownedNFTs && ownedNFTs.length > 0 && (
               <>
                 <div className="concert__library">

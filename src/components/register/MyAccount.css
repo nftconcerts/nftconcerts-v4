@@ -176,7 +176,7 @@
   align-items: center;
   border: solid 1px #000;
   padding-top: 10px;
-  padding-bottom: 20px;
+  padding-bottom: 0px;
   margin-bottom: 20px;
 }
 .single__concert__div {
@@ -233,6 +233,72 @@
   align-items: center;
   padding-bottom: 100px;
 }
+.artist__buttons__div {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  height: 20px;
+}
+.artist__account__button {
+  border: none;
+  font-size: 16px;
+  background: none;
+  height: 30px;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  font-family: "Oxygen";
+  color: #000;
+}
+.artist__account__button:hover {
+  text-decoration: underline;
+}
+.artist__account__button:hover .artist__button__arrow {
+  color: #000;
+}
+.artist__button__arrow {
+  color: #555;
+  transition: all 0.5s;
+}
+.library__heading {
+  font-size: 24px;
+}
+.library__buttons__div {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+}
+.library__button {
+  display: flex;
+  min-width: 40%;
+  width: 49%;
+  font-family: "BenchNine";
+  font-size: 26px;
+  font-weight: bold;
+  justify-content: center;
+  border: none;
+  color: #fff;
+  background: rgb(51, 51, 51);
+  border-radius: 5px;
+  padding: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.library__button:hover {
+  background-color: rgba(51, 51, 51, 0.8);
+}
+.library__play__button {
+  background: #1bac0e;
+}
+.library__play__button:hover {
+  background: rgb(26, 222, 8);
+}
 @media screen and (max-width: 720px) {
   .single__concert__container {
     width: 100%;
@@ -243,5 +309,18 @@
   }
   .hidden__play__icon {
     top: -180px;
+  }
+  .artist__buttons__div {
+    margin-bottom: 10px;
+  }
+  .mobile__hide {
+    display: none;
+  }
+  .library__button {
+    max-width: 100px;
+    justify-content: center;
+  }
+  .library__play__now__icon {
+    padding-left: 0px !important;
   }
 }

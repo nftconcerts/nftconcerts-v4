@@ -653,9 +653,7 @@ const MintPopUp = ({
                     </h3>
                     {(rcType === "managedWallet" && (
                       <button
-                        onClick={() => {
-                          tryMagic();
-                        }}
+                        onClick={tryMagic}
                         className="buy__now my__button preview__button buy__now__button welcome__login__button"
                       >
                         <div className="play__now__button__div ">Register</div>
@@ -876,6 +874,16 @@ const MintPopUp = ({
                                 Login
                               </div>
                             </button>
+                            <p>
+                              On Mobile?{" "}
+                              <a
+                                href="https://metamask.app.link/dapp/nftconcerts.com"
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                Open in MetaMask
+                              </a>
+                            </p>
                           </>
                         )}
                       </>
@@ -947,8 +955,22 @@ const MintPopUp = ({
                         </button>
                         {claimError && (
                           <>
-                            Error with Mint. Please ensure sufficient ETH
-                            balance.
+                            <p>
+                              Error with Mint. Please ensure sufficient ETH
+                              balance.
+                            </p>
+                            {userData?.connectionType === "metamask" && (
+                              <p>
+                                To Mint on Mobile,{" "}
+                                <a
+                                  href="https://metamask.app.link/dapp/nftconcerts.com"
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  Open in MetaMask
+                                </a>
+                              </p>
+                            )}
                           </>
                         )}
                       </>

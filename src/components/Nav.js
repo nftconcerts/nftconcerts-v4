@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./Nav.css";
 import {
-  auth,
   logout,
   fetchCurrentUser,
   setMobileMode,
   getMobileMode,
-  resetMobileMode,
   truncateAddress,
 } from "./../firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import {
-  ref as dRef,
-  set,
-  get,
-  onValue,
-  onDisconnect,
-} from "firebase/database";
+import { ref as dRef, onValue } from "firebase/database";
 import { db } from "./../firebase";
 import {
   useAddress,
@@ -25,14 +16,10 @@ import {
   useNetworkMismatch,
   ChainId,
   useMetamask,
-  useTokenBalance,
-  ThirdwebProvider,
   useWalletConnect,
   useDisconnect,
 } from "@thirdweb-dev/react";
-import { ethers } from "ethers";
-import { GetUSDExchangeRate, GetMaticUSDExchangeRate, getGas } from "./api";
-import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
+import { GetUSDExchangeRate, getGas } from "./api";
 import checkEthBalance from "../scripts/checkEthBalance";
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -152,9 +139,9 @@ const Nav = () => {
 
   //logout user from menu
   const menuLogout = async () => {
+    disconnect();
     await logout();
     menuPop();
-    disconnect();
     navigate("/");
     window.location.reload();
   };
@@ -206,6 +193,10 @@ const Nav = () => {
       }
     }
   };
+
+  //click outside menu to close
+
+  const concernedElement = document.getElementById("popped__menu");
 
   return (
     <div className="total_nav">
@@ -303,9 +294,7 @@ const Nav = () => {
                         <button
                           className="network__prompt__button buy__matic__button full__width__button"
                           onClick={() => {
-                            window.open(
-                              `https://pay.sendwyre.com/purchase?&destCurrency=ETH&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
-                            );
+                            navigate("/my-account");
                           }}
                         >
                           {ethBalance && (
@@ -461,103 +450,105 @@ const Nav = () => {
         />
       </div>
       {menuPopup && (
-        <div className="menu__pop">
-          {currentUser == null && (
-            <>
-              <div
-                className="menu__item"
-                onClick={() => {
-                  menuPop();
-                  navigate("/register");
-                }}
-              >
-                Register Now
-              </div>
-              <div
-                className="menu__item"
-                onClick={() => {
-                  menuPop();
-                  navigate("/login");
-                }}
-              >
-                Login
-              </div>{" "}
-              <a
-                href="https://nftconcerts.com/about"
-                className="menu__item"
-                onClick={menuPop}
-              >
-                Learn More..
-              </a>
-            </>
-          )}
-          {currentUser && !artistUser && !adminUser && (
-            <>
-              {" "}
-              <div
-                className="menu__item"
-                onClick={() => {
-                  menuPop();
-                  navigate("/my-account");
-                }}
-              >
-                My Account
-              </div>
-              <div
-                className="menu__item"
-                onClick={() => {
-                  menuPop();
-                  navigate("/");
-                }}
-              >
-                Discover
-              </div>
-              <div className="menu__item" onClick={menuLogout}>
-                Logout
-              </div>
-            </>
-          )}
-          {currentUser && artistUser && (
-            <>
-              {" "}
-              <div
-                href="/my-account"
-                className="menu__item"
-                onClick={() => {
-                  menuPop();
-                  navigate("/my-account");
-                }}
-              >
-                My Account
-              </div>
-              <div
-                className="menu__item"
-                onClick={() => {
-                  menuPop();
-                  navigate("/upload");
-                }}
-              >
-                Upload
-              </div>
-              <div className="menu__item" onClick={menuLogout}>
-                Logout
-              </div>
-            </>
-          )}
-          {currentUser && adminUser && (
-            <>
-              {" "}
-              <a href="/my-account" className="menu__item" onClick={menuPop}>
-                My Account
-              </a>
-              <a href="/admin" className="menu__item" onClick={menuPop}>
-                Admin Panel
-              </a>
-              <a href="/upload" className="menu__item" onClick={menuPop}>
-                Upload
-              </a>
-            </>
-          )}
+        <div className="menu__bkg" onClick={menuPop}>
+          <div className="menu__pop" id="popped__menu">
+            {currentUser == null && (
+              <>
+                <div
+                  className="menu__item"
+                  onClick={() => {
+                    menuPop();
+                    navigate("/register");
+                  }}
+                >
+                  Register Now
+                </div>
+                <div
+                  className="menu__item"
+                  onClick={() => {
+                    menuPop();
+                    navigate("/login");
+                  }}
+                >
+                  Login
+                </div>{" "}
+                <a
+                  href="https://nftconcerts.com/about"
+                  className="menu__item"
+                  onClick={menuPop}
+                >
+                  Learn More..
+                </a>
+              </>
+            )}
+            {currentUser && !artistUser && !adminUser && (
+              <>
+                {" "}
+                <div
+                  className="menu__item"
+                  onClick={() => {
+                    menuPop();
+                    navigate("/my-account");
+                  }}
+                >
+                  My Account
+                </div>
+                <div
+                  className="menu__item"
+                  onClick={() => {
+                    menuPop();
+                    navigate("/");
+                  }}
+                >
+                  Discover
+                </div>
+                <div className="menu__item" onClick={menuLogout}>
+                  Logout
+                </div>
+              </>
+            )}
+            {currentUser && artistUser && (
+              <>
+                {" "}
+                <div
+                  href="/my-account"
+                  className="menu__item"
+                  onClick={() => {
+                    menuPop();
+                    navigate("/my-account");
+                  }}
+                >
+                  My Account
+                </div>
+                <div
+                  className="menu__item"
+                  onClick={() => {
+                    menuPop();
+                    navigate("/upload");
+                  }}
+                >
+                  Upload
+                </div>
+                <div className="menu__item" onClick={menuLogout}>
+                  Logout
+                </div>
+              </>
+            )}
+            {currentUser && adminUser && (
+              <>
+                {" "}
+                <a href="/my-account" className="menu__item" onClick={menuPop}>
+                  My Account
+                </a>
+                <a href="/admin" className="menu__item" onClick={menuPop}>
+                  Admin Panel
+                </a>
+                <a href="/upload" className="menu__item" onClick={menuPop}>
+                  Upload
+                </a>
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>

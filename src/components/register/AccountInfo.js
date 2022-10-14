@@ -129,8 +129,8 @@ const AccountInfo = () => {
 
   //logout user
   const infoLogout = async () => {
-    await logout();
     disconnect();
+    await logout();
     navigate("/");
     window.location.reload();
   };

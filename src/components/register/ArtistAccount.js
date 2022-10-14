@@ -255,10 +255,22 @@ const ArtistAccount = () => {
               {truncateAddress(currentUser.user.photoURL)}
             </p>
           </div> */}
-
+            <div className="artist__buttons__div">
+              <button
+                className="artist__account__button"
+                onClick={() => {
+                  navigate("/my-account");
+                }}
+              >
+                <div className="inner__button">
+                  Back to My Account{" "}
+                  <i className="fa-solid fa-circle-arrow-right artist__button__arrow" />
+                </div>
+              </button>
+            </div>
             {userData?.submittedConcerts && (
               <>
-                <h3>Submitted Concerts</h3>
+                <h3 className="library__heading">Submitted Concerts</h3>
                 <div className="submitted__concerts__table">
                   <div className="concert__table__headers">
                     <div className="concert__id">L-ID </div>
@@ -286,41 +298,6 @@ const ArtistAccount = () => {
               </>
             )}
             <div className="account__buttons__div"></div>
-
-            <div className="admin__button__div">
-              {!address && (
-                <button
-                  className="login__button admin__button"
-                  onClick={() => {
-                    resetMobileMode();
-                    connectWithMetamask();
-                  }}
-                >
-                  Connect to Metamask
-                </button>
-              )}
-              {admin && (
-                <>
-                  {" "}
-                  <button
-                    className="login__button admin__button"
-                    onClick={() => {
-                      navigate("/admin");
-                    }}
-                  >
-                    Admin View
-                  </button>
-                  <button
-                    className="login__button admin__button"
-                    onClick={() => {
-                      inlineLogout();
-                    }}
-                  >
-                    Logout
-                  </button>
-                </>
-              )}
-            </div>
 
             <div className="user__info__div">
               <div

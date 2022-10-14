@@ -124,6 +124,7 @@
   display: flex;
   justify-content: space-evenly;
 }
+
 @media only screen and (max-width: 700px) {
   .thirds {
     min-width: 0px;
@@ -220,6 +221,9 @@
   }
   .price {
     width: 50%;
+  }
+  .row__end__spacer {
+    min-width: 10px;
   }
 }
 .row__media__player {
