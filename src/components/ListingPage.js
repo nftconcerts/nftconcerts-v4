@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 import "./Player.css";
 import "./ListingPage.css";
 import "./upload/Confirmation.css";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import {
   db,
   fetchCurrentUser,
@@ -29,14 +29,17 @@ import MintPopUp from "./MintPopUp";
 
 const ListingPage = () => {
   let navigate = useNavigate();
+  let { id } = useParams();
   let [searchParams, setSearchParams] = useSearchParams();
-  let concertID = parseInt(searchParams.get("id"));
+  let oldID = parseInt(searchParams.get("id"));
+  let concertID = id;
   const [concertData, setConcertData] = useState();
   const [currentUser, setCurrentUser] = useState(null);
   const [formatPrice, setFormatPrice] = useState("");
   const [validListing, setValidListing] = useState(false);
   const [metamaskDetected, setMetamaskDetected] = useState(false);
-  let bigId = ethers.BigNumber.from(concertID);
+
+  let bigId = ethers.BigNumber.from(concertID || 0);
   const { data: activeClaimCondition } = useActiveClaimCondition(
     editionDrop,
     bigId
@@ -44,6 +47,12 @@ const ListingPage = () => {
   let address = useAddress();
   let pageMobileMode = getMobileMode();
   const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    if (oldID) {
+      navigate("/concert/" + oldID);
+    }
+  });
 
   //format concert eth price
   useEffect(() => {
@@ -83,11 +92,13 @@ const ListingPage = () => {
 
   //pull individual concert data
   useEffect(() => {
-    var concertDataRef = dRef(db, "concerts/" + concertID + "/");
-    onValue(concertDataRef, (snapshot) => {
-      var cData = snapshot.val();
-      setConcertData(cData);
-    });
+    if (concertID) {
+      var concertDataRef = dRef(db, "concerts/" + concertID + "/");
+      onValue(concertDataRef, (snapshot) => {
+        var cData = snapshot.val();
+        setConcertData(cData);
+      });
+    }
   }, [currentUser, concertID]);
 
   //download User Data
@@ -252,7 +263,7 @@ const ListingPage = () => {
             <button
               className="buy__now my__button preview__button buy__now__button play__now__button"
               onClick={() => {
-                navigate("/player?id=" + concertID);
+                navigate("/player/" + concertID);
               }}
               disabled={!owned}
             >
@@ -533,7 +544,7 @@ const ListingPage = () => {
                 <button
                   className="fa-solid fa-play player__icon__button"
                   onClick={() => {
-                    navigate("/player?id=" + concertID);
+                    navigate("/player/" + concertID);
                   }}
                   disabled={!owned}
                 />

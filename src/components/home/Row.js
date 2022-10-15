@@ -169,7 +169,7 @@ function Row({
             <button
               className="buy__now my__button preview__button buy__now__button play__now__button"
               onClick={() => {
-                navigate("/player?id=" + singleConcert);
+                navigate("/player/" + singleConcert);
               }}
             >
               <div className="play__now__button__div">
@@ -273,7 +273,7 @@ function Row({
                       </div>
                     )) || (
                       <img
-                        onClick={() => navigate(`/concert?id=${singleConcert}`)}
+                        onClick={() => navigate(`/concert/${singleConcert}`)}
                         className="no__promo__clip__token"
                         src={concertData[singleConcert]?.concertTokenImage}
                         alt={"Babs.0 NFT Concert"}
@@ -356,7 +356,7 @@ function Row({
                   <div className="preview__buttons__div">
                     <button
                       className="my__button preview__button"
-                      onClick={() => navigate(`/concert?id=${singleConcert}`)}
+                      onClick={() => navigate(`/concert/${singleConcert}`)}
                     >
                       Learn More
                     </button>

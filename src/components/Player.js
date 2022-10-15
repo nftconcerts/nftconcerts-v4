@@ -3,7 +3,7 @@ import ReactPlayer from "react-player";
 import "./Player.css";
 import "./ListingPage.css";
 import "./upload/Confirmation.css";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useParams } from "react-router-dom";
 import { db, fetchCurrentUser } from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
@@ -14,8 +14,10 @@ import { editionDropAddress } from "./../scripts/getContract.mjs";
 
 const Player = () => {
   let navigate = useNavigate();
+  let { id } = useParams();
   let [searchParams, setSearchParams] = useSearchParams();
-  let concertID = parseInt(searchParams.get("id"));
+  let oldID = parseInt(searchParams.get("id"));
+  let concertID = id;
   const [concertData, setConcertData] = useState();
   const [currentUser, setCurrentUser] = useState(null);
   const [validUser, setValidUser] = useState(false);
@@ -198,7 +200,7 @@ const Player = () => {
                       value="Go To Marketplace"
                       className="buy__now my__button preview__button buy__now__button"
                       onClick={() => {
-                        navigate("/concert?id=" + concertID);
+                        navigate("/concert/" + concertID);
                       }}
                     />
                   </div>
@@ -226,7 +228,7 @@ const Player = () => {
                     <button
                       className="fa-solid fa-dollar-sign player__icon__button"
                       onClick={() => {
-                        navigate("/concert?id=" + concertID);
+                        navigate("/concert/" + concertID);
                       }}
                     />
                   </div>
@@ -323,7 +325,7 @@ const Player = () => {
                     <button
                       className="buy__now my__button preview__button buy__now__button"
                       onClick={() => {
-                        navigate(`/concert?id=${concertID}`);
+                        navigate(`/concert/${concertID}`);
                       }}
                     >
                       <div className="inside__button__div">

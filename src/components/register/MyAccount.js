@@ -112,7 +112,7 @@ const MyAccount = () => {
             name={ownedID}
             onClick={(i) => {
               console.log(i);
-              navigate("/player?id=" + i.target.name);
+              navigate("/player/" + i.target.name);
             }}
           >
             <img
@@ -130,7 +130,7 @@ const MyAccount = () => {
             <button
               className="library__button"
               onClick={() => {
-                navigate("/concert?id=" + ownedID);
+                navigate("/concert/" + ownedID);
               }}
             >
               <div className="library__button__inner">
@@ -141,7 +141,7 @@ const MyAccount = () => {
             <button
               className="library__button library__play__button play__now__button"
               onClick={() => {
-                navigate("/player?id=" + ownedID);
+                navigate("/player/" + ownedID);
               }}
             >
               <div className="library__button__inner">

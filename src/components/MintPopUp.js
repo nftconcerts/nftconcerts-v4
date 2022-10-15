@@ -485,7 +485,7 @@ const MintPopUp = ({
                 <button
                   className="buy__now my__button preview__button buy__now__button play__now__button"
                   onClick={() => {
-                    navigate("/player?id=" + concertID);
+                    navigate("/player/" + concertID);
                   }}
                   disabled={!owned}
                 >

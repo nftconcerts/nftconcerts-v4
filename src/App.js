@@ -38,6 +38,7 @@ function App() {
   );
   const Admin = lazy(() => import("./components/register/Admin"));
   const ArtistApp = lazy(() => import("./components/register/ArtistApp"));
+  const ArtistPage = lazy(() => import("./components/ArtistPage"));
 
   const Player = lazy(() => import("./components/Player"));
   const ContractPage = lazy(() => import("./components/ContractPage"));
@@ -142,6 +143,8 @@ function App() {
     return library;
   };
 
+  const NotFound = lazy(() => import("./components/paperwork/NotFound"));
+
   window.Buffer = window.Buffer || require("buffer").Buffer;
 
   return (
@@ -170,9 +173,13 @@ function App() {
                 <Route path="/my-account/artist" element={<ArtistAccount />} />
                 <Route path="/upload" element={<Upload />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/player" element={<Player />} />
+                <Route path="/player" element={<Player />}>
+                  <Route path=":id" element={<Player />} />
+                </Route>
                 <Route path="/contract" element={<ContractPage />} />
-                <Route path="/concert" element={<ListingPage />} />
+                <Route path="/concert" element={<ListingPage />}>
+                  <Route path=":id" element={<ListingPage />} />
+                </Route>
                 <Route path="/about" element={<About />} />
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/apply" element={<ArtistApp />} />
@@ -181,6 +188,9 @@ function App() {
                 <Route path="/faqs" element={<FAQs />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/blog" element={<Blog />} />
+                <Route path="/artist" element={<ArtistPage />}>
+                  <Route path=":id" element={<ArtistPage />} />
+                </Route>
                 <Route path="/blog/page/2" element={<Blog2 />} />
                 <Route
                   path="/nft-ticketing-for-concerts-events"
@@ -274,7 +284,7 @@ function App() {
                 />
                 <Route path="/production-team" element={<ProductionTeam />} />
                 <Route exact path="/" element={<Home />} />
-                <Route path="*" element={<Home />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
               <Footer />
             </div>

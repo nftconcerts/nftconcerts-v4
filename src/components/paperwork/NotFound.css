@@ -1,0 +1,7 @@
+.not__found__div {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 20px;
+}

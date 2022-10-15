@@ -98,7 +98,7 @@ const Admin = () => {
                   type="sumbit"
                   name={contractStr}
                   onClick={(i) => {
-                    navigate("/player?id=" + i.target.name);
+                    navigate("/player/" + i.target.name);
                   }}
                   class="fa-solid fa-play icon__button"
                 />

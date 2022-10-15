@@ -116,7 +116,7 @@ const ArtistAccount = () => {
                   type="sumbit"
                   name={contractStr}
                   onClick={(i) => {
-                    navigate("/player?id=" + i.target.name);
+                    navigate("/player/" + i.target.name);
                   }}
                   className="fa-solid fa-play icon__button"
                 />
@@ -126,7 +126,7 @@ const ArtistAccount = () => {
                   type="sumbit"
                   name={contractStr}
                   onClick={(i) => {
-                    navigate("/concert?id=" + i.target.name);
+                    navigate("/concert/" + i.target.name);
                   }}
                   className="fa-solid fa-file-invoice-dollar icon__button"
                 />
@@ -197,7 +197,7 @@ const ArtistAccount = () => {
             name={ownedNFTs[i].metadata.id.toString()}
             onClick={(i) => {
               console.log(i);
-              navigate("/player?id=" + i.target.name);
+              navigate("/player/" + i.target.name);
             }}
           >
             <img
