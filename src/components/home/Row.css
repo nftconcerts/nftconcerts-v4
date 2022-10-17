@@ -413,6 +413,70 @@
   margin-top: 15px;
 }
 .release__date__div {
-  font-size: 18px;
-  padding-bottom: 20px;
+  font-size: 20px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  padding-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.release__date__highlight {
+  background: #555;
+  max-width: 500px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+  border: solid #fff 4px;
+  box-sizing: border-box;
+}
+.row__scroll__div {
+  z-index: 5;
+  min-height: 100px;
+  height: 100px;
+  min-width: 80px;
+  margin-right: 5px;
+  right: 0px;
+
+  border-radius: 25px;
+  color: #00000055;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+.scroll__right__icon {
+  font-size: 50px;
+}
+.row__scroll__div__container {
+  z-index: 5;
+  min-height: 100px;
+  height: 200px;
+  min-width: 120px;
+  position: absolute;
+
+  margin-top: 150px;
+  border-radius: 25px;
+  color: #00000055;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.row__scroll__div__container:hover .row__scroll__div {
+  background: #cccccc74;
+  color: #00000099;
+}
+.right__row__scroll__container {
+  right: 0px;
+}
+.left__row__scroll__container {
+  left: 0px;
+  margin-left: -40px;
+  padding-left: 10px;
+}
+@media screen and (min-width: 1050px) {
+  .row__scroll__div__container {
+    display: none;
+  }
 }

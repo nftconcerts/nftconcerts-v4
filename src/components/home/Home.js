@@ -18,7 +18,7 @@ const Home = () => {
   let navigate = useNavigate();
   const networkMismatch = useNetworkMismatch();
   const [concertData, setConcertData] = useState();
-  const firstReleaseConcerts = [0, 1];
+  const firstReleaseConcerts = [0, 1, 2];
   const trendingConcerts = [8, 2, 4, 6, 10];
   const concerts = [5, 4, 7, 2, 1];
   const [currentUser, setCurrentUser] = useState(null);

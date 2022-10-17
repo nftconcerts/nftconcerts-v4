@@ -134,3 +134,13 @@
 .max__limit {
   font-size: 14px;
 }
+.purchased__token__img {
+  max-width: 150px;
+}
+.mint__pop__purchased__div {
+  height: 500px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}

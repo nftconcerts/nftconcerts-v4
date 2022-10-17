@@ -134,9 +134,7 @@
   border: solid 4px #000;
   box-sizing: border-box;
 }
-.purchased__token__img {
-  max-width: 150px;
-}
+
 .close__pop__up__div {
   display: flex;
   justify-content: flex-end;

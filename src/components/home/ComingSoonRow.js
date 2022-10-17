@@ -43,6 +43,7 @@ function ComingSoonRow({ title, isLargeRow, concerts, isFinalRow }) {
               alt={"More NFT Concerts Coming Soon"}
             />
           ))}
+          <div className="row__end__spacer" />
         </div>
 
         {trailerUrl && (

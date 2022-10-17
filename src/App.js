@@ -15,6 +15,7 @@ import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import NftProfilePhoto from "./components/blog/posts/NftProfilePhoto";
+import { PaperSDKProvider } from "@paperxyz/react-client-sdk";
 
 import { Helmet } from "react-helmet";
 

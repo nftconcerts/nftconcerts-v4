@@ -26,6 +26,7 @@ import emailjs from "@emailjs/browser";
 import { PaperCheckout } from "@paperxyz/react-client-sdk";
 import sendMintEmails from "../scripts/sendMintEmails";
 import MintPopUp from "./MintPopUp";
+import { Helmet } from "react-helmet";
 
 const ListingPage = () => {
   let navigate = useNavigate();
@@ -221,6 +222,8 @@ const ListingPage = () => {
   const [showMintPopUp, setShowMintPopUp] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
+  let titleID = parseInt(concertID) + 1;
+
   return (
     <>
       {showMintPopUp && (
@@ -290,6 +293,16 @@ const ListingPage = () => {
       )}
       {validListing && (
         <div className="player__page">
+          <Helmet>
+            <title>
+              {concertData?.concertName} by {concertData?.concertArtist} - NFT
+              Concert #{`${titleID} `}
+            </title>
+            <meta
+              name="description"
+              content={concertData?.concertDescription}
+            />
+          </Helmet>
           {(concertData?.concertPromoClip && (
             <>
               <div className="promo__clip__disclaimer">

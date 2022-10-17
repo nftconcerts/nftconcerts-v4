@@ -37,7 +37,6 @@ const paperCheckoutLink = async (token, wallet, email, mintQty) => {
     .then((response) => response.json())
     .then((response) => {
       console.log(response);
-      window.open(response);
       return response;
     })
     .catch((err) => console.error(err));

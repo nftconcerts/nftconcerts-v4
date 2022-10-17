@@ -71,10 +71,16 @@ function Row({
 
   //get claim conditions for single concert
   let bigId = ethers.BigNumber.from(singleConcert);
-  const { data: activeClaimCondition } = useActiveClaimCondition(
-    editionDrop,
-    bigId
-  );
+  const {
+    data: activeClaimCondition,
+    isLoading,
+    error,
+  } = useActiveClaimCondition(editionDrop, bigId);
+
+  useEffect(() => {
+    console.log("Loading: ", isLoading);
+    console.log("Error: ", error);
+  }, [error, isLoading]);
 
   //claim nft with the claim method
   // State to track when a user is claiming an NFT
@@ -133,6 +139,40 @@ function Row({
 
   let nowDate = new Date();
   let releaseDate = new Date(concertData[singleConcert].concertReleaseDate);
+
+  useEffect(() => {
+    if (releaseDate) {
+      console.log(releaseDate.toUTCString());
+    }
+  }, []);
+
+  const scrollRight = () => {
+    document
+      .getElementById("content")
+      .scrollBy({ top: 0, left: 322, behavior: "smooth" });
+    setShowLeftScroll(true);
+    if (scrollCount < 2) {
+      setScrollCount(scrollCount + 1);
+    } else if (scrollCount == 2) {
+      setShowRightScroll(false);
+    }
+  };
+  const scrollLeft = () => {
+    if (scrollCount > 1) {
+      setScrollCount(scrollCount - 1);
+      setShowRightScroll(true);
+    } else if (scrollCount === 1) {
+      setShowLeftScroll(false);
+
+      setShowRightScroll(true);
+    }
+    document
+      .getElementById("content")
+      .scrollBy({ top: 0, left: -322, behavior: "smooth" });
+  };
+  const [scrollCount, setScrollCount] = useState(0);
+  const [showLeftScroll, setShowLeftScroll] = useState(false);
+  const [showRightScroll, setShowRightScroll] = useState(true);
   return (
     <>
       {concertData && showPurchased && (
@@ -198,7 +238,17 @@ function Row({
         {/* container -> posters */}
 
         {concertData && (
-          <div className="row__posters">
+          <div className="row__posters" id="content">
+            {showLeftScroll && (
+              <div className="row__scroll__div__container left__row__scroll__container">
+                <div
+                  className="row__scroll__div left__scroll__div"
+                  onClick={scrollLeft}
+                >
+                  <i className="fa-solid fa-caret-left scroll__right__icon" />
+                </div>
+              </div>
+            )}
             {concerts.map((concert) => (
               <img
                 key={concert}
@@ -208,6 +258,13 @@ function Row({
                 alt={"Babs.0 NFT Concert"}
               />
             ))}
+            {showRightScroll && (
+              <div className="row__scroll__div__container right__row__scroll__container">
+                <div className="row__scroll__div" onClick={scrollRight}>
+                  <i className="fa-solid fa-caret-right scroll__right__icon" />
+                </div>
+              </div>
+            )}
             <div className="row__end__spacer" />
           </div>
         )}
@@ -285,6 +342,14 @@ function Row({
               )}
             </div>
             <div className="preview__contents">
+              {releaseDate > nowDate && (
+                <div className="release__date__div">
+                  <div className="release__date__highlight">
+                    Upcoming Drop - {releaseDate.toLocaleTimeString()},{" "}
+                    {releaseDate.toLocaleDateString()}
+                  </div>
+                </div>
+              )}
               <div className="two__col">
                 <div className="halfs performance__date">
                   <p>
@@ -379,13 +444,6 @@ function Row({
                     /> */}
                   </div>
                 </div>
-                {releaseDate > nowDate && (
-                  <div className="release__date__div">
-                    This NFT Concert will be Available to Mint{" "}
-                    {releaseDate.toLocaleTimeString()},{" "}
-                    {releaseDate.toLocaleDateString()}
-                  </div>
-                )}
               </div>
             </div>
           </div>
