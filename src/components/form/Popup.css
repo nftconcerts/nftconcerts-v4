@@ -1,0 +1,59 @@
+.pop__up__overlay__div {
+  position: absolute;
+  min-height: 600px;
+  height: 100vh;
+  max-height: 100vh;
+  width: 100%;
+  display: flex;
+  background: #00000099;
+  z-index: 5;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 140px;
+  padding-bottom: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+.pop__up__div {
+  max-width: 90%;
+  width: 500px;
+  height: 600px;
+  background: #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  border-radius: 20px;
+  border: solid 4px #000;
+  box-sizing: border-box;
+  color: #000;
+  font-family: "Saira";
+}
+
+.close__pop__up__div {
+  display: flex;
+  justify-content: flex-end;
+  position: asolute;
+  width: 100%;
+  align-items: flex-end;
+  color: #999;
+  margin-top: -10px;
+}
+.close__icon__button {
+  padding: 5px;
+  cursor: pointer;
+}
+.close__icon__button:hover {
+  transition: all 0.5s;
+  color: #000;
+}
+.pop__up__title {
+  font-size: 30px;
+}
+.pop__up__subtitle {
+  font-size: 20px;
+}

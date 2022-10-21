@@ -2,6 +2,7 @@ import React from "react";
 import "./About.css";
 import YouTube from "react-youtube";
 import { Helmet } from "react-helmet";
+import Banner from "./../home/Banner";
 
 const About = () => {
   const opts = {
@@ -14,6 +15,7 @@ const About = () => {
 
   return (
     <div className="about__page">
+      <Banner title="NFT Concerts" subtitle="Own the Show" />
       <Helmet>
         <title>About - NFT Concerts</title>
         <meta
@@ -21,15 +23,15 @@ const About = () => {
           content="Transforming Concert Recordings and Studio Sessions into Digital Collectibles using NFTs"
         />
       </Helmet>
-      <div className="about__header">
+      {/* <div className="about__header">
         <div className="about__header__contents">
           <h1 className="about__title">NFT Concerts</h1>
           <h3 className="about__subtitle">Own the Show</h3>
         </div>
         <div className="about__fadeBottom"></div>
-      </div>
+      </div> */}
 
-      <div className="about__featured__div">
+      <div className="about__featured__div feature__div1">
         <div className="about__featured__contained">
           <div className="three__fourths">
             <h3 className="about__section__heading">

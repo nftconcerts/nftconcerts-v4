@@ -32,7 +32,10 @@ import { GetUSDExchangeRate } from "./api";
 import editionDrop, { editionDropAddress } from "../scripts/getContract.mjs";
 import { ethers } from "ethers";
 import sendMintEmails from "../scripts/sendMintEmails";
-import { PaperSDKProvider, CheckoutWithCard } from "@paperxyz/react-client-sdk";
+import {
+  PaperSDKProvider,
+  createCheckoutWithCardElement,
+} from "@paperxyz/react-client-sdk";
 import paperCheckout from "../scripts/paperCheckout";
 import paperCheckoutLink from "../scripts/paperCheckoutLink";
 
@@ -427,6 +430,7 @@ const MintPopUp = ({
   const [paperLink, setPaperLink] = useState();
 
   const launchCredit = async () => {
+    setShowCreditCard(true);
     setPaperSecret(
       await paperCheckout(
         concertID,
@@ -435,7 +439,6 @@ const MintPopUp = ({
         mintQty
       )
     );
-    setShowCreditCard(true);
   };
 
   useEffect(() => {
@@ -986,21 +989,55 @@ const MintPopUp = ({
                         )}
                       </div>
                     )) || (
-                      <div className="mint__pop__content">
-                        <h3>Credit Card Checkout Coming Soon</h3>
-                        {paperSecret && (
-                          <a href={`localhost:3000/?s=${paperSecret}`}>
-                            Proceed to Checkout
-                          </a>
+                      <div className="credit__card__div">
+                        {(paperSecret && (
+                          <>
+                            {" "}
+                            <div className="credit__info__div">
+                              <div className="price__pop__div credit__price">
+                                Price:{" "}
+                                <img
+                                  src="/media/eth-logo.png"
+                                  height={25}
+                                  className="c__eth__logo"
+                                  alt="eth logo"
+                                />
+                                {(
+                                  mintQty *
+                                  parseFloat(concertData?.concertPrice)
+                                ).toFixed(3)}{" "}
+                                <span className="mint__pop__usd__price credit__usd__price">
+                                  (${(priceInUSD * mintQty).toFixed(2)})
+                                </span>{" "}
+                                + Gas Fees{" "}
+                                <span className="mint__pop__usd__price credit__usd__price">
+                                  (TBD)
+                                </span>
+                              </div>
+                            </div>
+                            <iframe
+                              src={
+                                "https://nftconcerts-checkout.web.app/?s=" +
+                                paperSecret
+                              }
+                              className="paper__frame"
+                            />
+                          </>
+                        )) || (
+                          <p className="credit__loading__p">
+                            Checkout Loading...
+                          </p>
                         )}
-                        <button
+
+                        <div
+                          className="text__only__button"
                           onClick={() => {
                             setShowCreditCard(false);
+                            setPaperSecret("");
                           }}
-                          className="buy__now my__button preview__button buy__now__button welcome__login__button"
                         >
-                          <div className="play__now__button__div">Go Back</div>
-                        </button>
+                          Go Back
+                        </div>
                       </div>
                     )}
                   </>

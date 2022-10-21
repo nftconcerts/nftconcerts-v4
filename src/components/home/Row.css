@@ -1,5 +1,6 @@
 .row {
   color: #fff;
+  background: #3333338a;
 }
 .row__posters {
   display: flex;
@@ -67,7 +68,12 @@
 }
 
 .row1 {
-  margin-top: -300px;
+  margin-top: -250px;
+  padding-top: 30px;
+}
+.row1 .row__title {
+  font-size: 20px;
+  font-weight: bold;
 }
 .description {
   text-align: left;

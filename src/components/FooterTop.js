@@ -26,7 +26,9 @@ function FooterTop() {
   let navigate = useNavigate();
   return (
     <div className="footer">
-      <div className="footer__top__fade"> </div>
+      <div className="footer__top__fade">
+        <div className="footer__top__cover" />{" "}
+      </div>
       <div className="top__footer">
         <div className="center__prompt">
           <img

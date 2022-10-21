@@ -1,0 +1,218 @@
+.promo__page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: #333;
+  min-height: 100vh;
+  box-sizing: border-box;
+  margin-bottom: -230px;
+  padding-bottom: 300px;
+  color: #fff;
+}
+.promo__page__content__full {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  background: #33333388;
+  margin-top: -150px;
+  padding-top: 50px;
+}
+.promo__page__content {
+  min-width: 90%;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  align-items: center;
+  z-index: 3;
+}
+.promo__title {
+  font-size: 28px;
+  font-weight: bold;
+  padding-bottom: 40px;
+  padding-top: 10px;
+}
+.percentage__div {
+  display: flex;
+  width: 100%;
+  border: solid 2px #000;
+  min-height: 80px;
+  height: 80px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  background: #000;
+  font-family: "Courier";
+}
+.percentage__title {
+  font-size: 30px;
+  font-family: "Saira";
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+.percentage__title__space {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.percentage__artist__div {
+  display: flex;
+  min-width: 80%;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.percentage__nftconcerts__div {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: #b90000;
+  width: 20%;
+}
+.percentage__nftconcerts__div2 {
+  max-width: 10%;
+  width: 10%;
+  text-overflow: ellipsis;
+}
+.percentage__promoter__div {
+  min-width: 10%;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgb(27, 172, 14);
+  font-weight: bold;
+  color: #fff;
+}
+.promo__statement {
+  background: #fff;
+  padding: 20px;
+  font-style: italic;
+  border-radius: 20px;
+  margin-bottom: 50px;
+  font-size: 22px;
+  text-align: center;
+  width: fit-content;
+  max-width: max-content;
+  align-self: center;
+  color: #000;
+  border: solid #ccc 4px;
+}
+.promo__contract__div {
+  font-family: "Saira";
+}
+.promo__text {
+  font-size: 20px;
+  line-height: 30px;
+  padding-bottom: 60px;
+}
+
+.percentage__spacer {
+  padding-top: 20px;
+}
+.partner__button {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 0px;
+}
+.promo__disclaimer {
+  padding-top: 70px;
+}
+.percentage__info {
+  text-align: right;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -60px;
+}
+.percentage__info__button {
+  background: #444;
+  color: #ccc;
+  text-align: right;
+  width: 25px;
+  height: 25px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.percentage__info__button:hover {
+  background: #000;
+  color: #fff;
+}
+.percentage__pies__div {
+  display: flex;
+  background: #ccc;
+  color: #000;
+  border: dashed 3px #555;
+  box-sizing: border-box;
+}
+.standard__percentage__div {
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  box-sizing: border-box;
+  border-right: dashed 3px #555;
+}
+.partner__percentage__div {
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.pie__image {
+  width: 100%;
+  transition: all 0.5s;
+  -webkit-filter: drop-shadow(0px 5px 5px #555);
+  filter: drop-shadow(0px 5px 5px #555);
+}
+.pie__image:hover {
+  transform: scale(1.05);
+}
+.code__button {
+  width: 310px;
+}
+.referral__code__input {
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+.referral__code__input::placeholder {
+  text-transform: none;
+}
+@media screen and (max-width: 720px) {
+  .promo__mobile__hide {
+    display: none;
+  }
+}
+@media screen and (min-width: 721px) {
+  .promo__mobile__show {
+    display: none;
+  }
+}
+@media screen and (max-width: 900px) {
+  .percentage__pies__div {
+    flex-direction: column;
+  }
+  .standard__percentage__div {
+    max-width: 100%;
+    border-right: none;
+    border-bottom: dashed 3px #555;
+  }
+  .partner__percentage__div {
+    max-width: 100%;
+  }
+}

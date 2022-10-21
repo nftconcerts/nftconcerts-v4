@@ -144,3 +144,29 @@
   flex-direction: column;
   align-items: center;
 }
+.credit__card__div {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
+}
+.paper__frame {
+  min-width: 90%;
+  width: 100%;
+  overflow-x: none;
+  height: 270px;
+}
+.credit__loading__p {
+  padding-bottom: 150px;
+}
+.credit__info__div {
+  padding-top: 10px;
+}
+.credit__price {
+  font-size: 20px;
+}
+.credit__usd__price {
+  font-size: 14px;
+}

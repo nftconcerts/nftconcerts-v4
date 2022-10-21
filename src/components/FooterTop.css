@@ -43,6 +43,11 @@
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), #333);
   pointer-events: none;
 }
+.footer__top__cover {
+  background: #3333338a;
+  height: 150px;
+  width: 100%;
+}
 .no__wrap__button {
   white-space: nowrap;
 }

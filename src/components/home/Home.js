@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Banner from "../Banner";
+import Banner from "./Banner";
 import Row from "./Row";
 import ComingSoonRow from "./ComingSoonRow";
 import FooterTop from "../FooterTop";
@@ -69,7 +69,10 @@ const Home = () => {
               setCurrentUser={setCurrentUser}
             />
           )}
-          <Banner />
+          <Banner
+            title="Own the Show"
+            subtitle="Exclusive Concert Recordings Unlocked by NFTs"
+          />
           <Row
             title="Minting Now"
             isLargeRow

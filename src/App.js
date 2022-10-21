@@ -15,7 +15,6 @@ import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import NftProfilePhoto from "./components/blog/posts/NftProfilePhoto";
-import { PaperSDKProvider } from "@paperxyz/react-client-sdk";
 
 import { Helmet } from "react-helmet";
 
@@ -41,6 +40,8 @@ function App() {
   const ArtistApp = lazy(() => import("./components/register/ArtistApp"));
   const ArtistPage = lazy(() => import("./components/ArtistPage"));
 
+  const PromoPage = lazy(() => import("./components/register/Partner"));
+
   const Player = lazy(() => import("./components/Player"));
   const ContractPage = lazy(() => import("./components/ContractPage"));
   const ListingPage = lazy(() => import("./components/ListingPage"));
@@ -55,16 +56,7 @@ function App() {
   );
   const FAQs = lazy(() => import("./components/paperwork/FAQs"));
   const Contact = lazy(() => import("./components/paperwork/Contact"));
-  const connectors = {
-    injected: {},
-    walletconnect: {},
-    walletLink: {
-      name: "magic",
-      options: {
-        apiKey: process.env.REACT_APP_PUBLIC_MAGIC_LINK_API_KEY,
-      },
-    },
-  };
+
   const walletConnectors = [
     "metamask",
     "walletConnect",
@@ -172,6 +164,8 @@ function App() {
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/my-account/settings" element={<AccountInfo />} />
                 <Route path="/my-account/artist" element={<ArtistAccount />} />
+
+                <Route path="/partner" element={<PromoPage />} />
                 <Route path="/upload" element={<Upload />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/player" element={<Player />}>

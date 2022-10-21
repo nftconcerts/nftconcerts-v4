@@ -69,6 +69,7 @@ function Row({
     setPriceInUSD(roundedPrice);
   }, [singleConcert, usdExRate]);
 
+  const editionDropped = useEditionDrop(editionDropAddress);
   //get claim conditions for single concert
   let bigId = ethers.BigNumber.from(singleConcert);
   const {
@@ -77,34 +78,12 @@ function Row({
     error,
   } = useActiveClaimCondition(editionDrop, bigId);
 
-  useEffect(() => {
-    console.log("Loading: ", isLoading);
-    console.log("Error: ", error);
-  }, [error, isLoading]);
-
   //claim nft with the claim method
   // State to track when a user is claiming an NFT
-  const editionDropped = useEditionDrop(editionDropAddress);
   const [claiming, setClaiming] = useState(false);
   const [tx, setTx] = useState();
   const [purchased, setPurchased] = useState(false);
   const [showPurchased, setShowPurchased] = useState(false);
-  const claimButton = async () => {
-    setClaiming(true);
-    try {
-      var result = await editionDropped.claim(singleConcert, 1);
-      setTx(result);
-
-      setClaiming(false);
-      setPurchased(true);
-      setShowPurchased(true);
-      window.scrollTo(0, 0);
-      sendArtistEmail();
-    } catch (error) {
-      console.log("Failed to claim. Error: ", error);
-      setClaiming(false);
-    }
-  };
 
   //send purchase confirmation email to user
   const sendArtistEmail = () => {
