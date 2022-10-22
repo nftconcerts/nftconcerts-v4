@@ -8,6 +8,8 @@ import {
   useActiveClaimCondition,
   useContractData,
   useEditionDrop,
+  useContract,
+  useNFTs,
 } from "@thirdweb-dev/react";
 import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
 import dateformat from "dateformat";
@@ -69,14 +71,23 @@ function Row({
     setPriceInUSD(roundedPrice);
   }, [singleConcert, usdExRate]);
 
-  const editionDropped = useEditionDrop(editionDropAddress);
+  const { contract } = useContract(editionDropAddress);
+
+  const { data: nfts, isLoading: isReadingNfts } = useNFTs(contract);
+
+  useEffect(() => {
+    console.log("NFTs: ", nfts);
+  }, [nfts]);
+
   //get claim conditions for single concert
-  let bigId = ethers.BigNumber.from(singleConcert);
+  let bigId = ethers.BigNumber.from(singleConcert || 0);
+  console.log("big id: ", bigId);
+
   const {
     data: activeClaimCondition,
     isLoading,
     error,
-  } = useActiveClaimCondition(editionDrop, bigId);
+  } = useActiveClaimCondition(contract, bigId);
 
   //claim nft with the claim method
   // State to track when a user is claiming an NFT

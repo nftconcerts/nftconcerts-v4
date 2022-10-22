@@ -20,7 +20,7 @@ import {
   ChainId,
   useEditionDrop,
   useActiveClaimCondition,
-  useMagic,
+  useContract,
 } from "@thirdweb-dev/react";
 import checkEns from "../scripts/checkEns";
 import { Web3Provider } from "@ethersproject/providers";
@@ -37,7 +37,7 @@ import {
   createCheckoutWithCardElement,
 } from "@paperxyz/react-client-sdk";
 import paperCheckout from "../scripts/paperCheckout";
-import paperCheckoutLink from "../scripts/paperCheckoutLink";
+import { Magic } from "magic-sdk";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -50,7 +50,6 @@ const MintPopUp = ({
 }) => {
   let navigate = useNavigate();
   const connectWithMetamask = useMetamask();
-  const connectWithMagic = useMagic();
   const address = useAddress();
   const disconnect = useDisconnect();
   const networkMistmatch = useNetworkMismatch();
@@ -70,6 +69,7 @@ const MintPopUp = ({
   const [loading, setLoading] = useState(false);
   const [mintQty, setMintQty] = useState(1);
   const [newUser, setNewUser] = useState(false);
+  const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
   //scroll to top to keep in view
   useEffect(() => {
@@ -152,7 +152,7 @@ const MintPopUp = ({
   const tryMagic = async () => {
     setWhileMagic(false);
     try {
-      var magicRes = await connectWithMagic({ email });
+      var magicRes = await magic.auth.loginWithMagicLink({ email: email });
       var accountNum = magicRes.data.account;
       console.log(magicRes);
       console.log("Account: ", accountNum);
@@ -165,6 +165,7 @@ const MintPopUp = ({
   useEffect(() => {
     if (rcType === "magic" && savedUserAddress !== "comingSoon") {
       checkThenRegister();
+      disconnect();
     }
   }, [rcType, savedUserAddress]);
 
@@ -385,9 +386,10 @@ const MintPopUp = ({
     "https://etherscan.io/tx/" + tx?.receipt.transactionHash;
 
   const [claiming, setClaiming] = useState("");
+  const { contract } = useContract(editionDropAddress);
   let bigId = ethers.BigNumber.from(concertID);
   const { data: activeClaimCondition } = useActiveClaimCondition(
-    editionDrop,
+    contract,
     bigId
   );
 
@@ -442,9 +444,11 @@ const MintPopUp = ({
   };
 
   useEffect(() => {
-    console.log("PS: ", paperSecret);
     if (paperSecret) {
       setShowCreditCard(true);
+      window.open(
+        "https://checkout.nftconcerts.com/?s=" + paperSecret + "?i=" + concertID
+      );
     }
   }, [paperSecret]);
 

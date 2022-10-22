@@ -193,6 +193,15 @@
 .referral__code__input::placeholder {
   text-transform: none;
 }
+.top__partner__button {
+  padding-top: 30px;
+}
+.pop__up__code__div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 230px;
+}
 @media screen and (max-width: 720px) {
   .promo__mobile__hide {
     display: none;

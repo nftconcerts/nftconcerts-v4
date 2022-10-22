@@ -333,3 +333,8 @@ select::-ms-expand {
 .play__now__button:hover {
   background: rgb(26, 222, 8);
 }
+.play__now__button:disabled {
+  background: #aaa;
+  color: #ccc;
+  pointer-events: none;
+}

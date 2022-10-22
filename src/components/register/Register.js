@@ -30,7 +30,7 @@ import WalletLink from "walletlink";
 import emailjs from "@emailjs/browser";
 import checkEns from "../../scripts/checkEns";
 import { CreateWallet } from "@paperxyz/react-client-sdk";
-import { useMagic } from "@thirdweb-dev/react";
+import { Magic } from "magic-sdk";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const dbRef = dRef(db);
@@ -43,7 +43,7 @@ function Register() {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const connectWithMetamask = useMetamask();
-  const connectWithMagic = useMagic();
+
   const disconnect = useDisconnect();
   const address = useAddress();
   const [loading, setLoading] = useState(false);
@@ -56,6 +56,7 @@ function Register() {
   const [savedUserAddress, setSavedUserAddress] = useState("");
   const [rcType, setRcType] = useState();
   const [showWC, setShowWC] = useState(true);
+  const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
   //check if there is a connected address
   useEffect(() => {
@@ -217,7 +218,7 @@ function Register() {
   const tryMagic = async () => {
     setWhileMagic(false);
     try {
-      var magicRes = await connectWithMagic({ email });
+      var magicRes = await magic.auth.loginWithMagicLink({ email: email });
       var accountNum = magicRes.data.account;
       console.log(magicRes);
       console.log("Account: ", accountNum);
@@ -230,6 +231,7 @@ function Register() {
   useEffect(() => {
     if (rcType === "magic" && savedUserAddress !== "comingSoon") {
       checkThenRegister();
+      disconnect();
     }
   }, [rcType, savedUserAddress]);
 

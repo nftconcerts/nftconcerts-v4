@@ -18,6 +18,7 @@ import {
   useActiveClaimCondition,
   useContractData,
   useEditionDrop,
+  useContract,
 } from "@thirdweb-dev/react";
 import editionDrop, { editionDropAddress } from "../scripts/getContract.mjs";
 import { useAddress } from "@thirdweb-dev/react";
@@ -41,8 +42,9 @@ const ListingPage = () => {
   const [metamaskDetected, setMetamaskDetected] = useState(false);
 
   let bigId = ethers.BigNumber.from(concertID || 0);
+  const { contract } = useContract(editionDropAddress, "edition-drop");
   const { data: activeClaimCondition } = useActiveClaimCondition(
-    editionDrop,
+    contract,
     bigId
   );
   let address = useAddress();

@@ -11,12 +11,7 @@ import {
 } from "./../../firebase";
 import "./AccountInfo.css";
 import { updateProfile, updateEmail, getAuth } from "firebase/auth";
-import {
-  useMetamask,
-  useMagic,
-  useAddress,
-  useDisconnect,
-} from "@thirdweb-dev/react";
+import { useMetamask, useAddress, useDisconnect } from "@thirdweb-dev/react";
 import WalletConnectProvider from "@walletconnect/ethereum-provider";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletLink from "walletlink";
@@ -28,7 +23,7 @@ const AccountInfo = () => {
   const connectWithMetamask = useMetamask();
   const [rcType, setRcType] = useState();
   const [showWC, setShowWC] = useState(true);
-  const connectWithMagic = useMagic();
+
   const [savedUserAddress, setSavedUserAddress] = useState("");
   const [wcAddress, setWcAddress] = useState();
   const [cbAddress, setCbAddress] = useState();

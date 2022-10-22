@@ -1,7 +1,7 @@
 import React from "react";
 import "./Banner.css";
 
-function Banner({ title, subtitle }) {
+function Banner({ children, title, subtitle }) {
   return (
     <header className="banner">
       <div className="banner__contents">
@@ -10,6 +10,7 @@ function Banner({ title, subtitle }) {
           {/* Exclusive Concerts Unlocked by NFTs */}
           {subtitle}
         </h3>
+        {children}
       </div>
       <div className="banner__fadeBottom"></div>
     </header>

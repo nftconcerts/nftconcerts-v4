@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Partner.css";
 import Contract from "../form/Contract";
 import makeid from "../../scripts/makeid";
@@ -19,30 +19,60 @@ const PromoTeam = () => {
 
   const [showPopup, setShowPopup] = useState(false);
 
+  const [approved, setApproved] = useState(false);
+
+  useEffect(() => {
+    if (tempCode) {
+      if (tempCode.length > 3) {
+        setApproved(true);
+      } else {
+        setApproved(false);
+      }
+    }
+  }, [tempCode]);
+
+  const handleKeyDown = (e) => {
+    if (e.key === " ") {
+      e.preventDefault();
+    }
+  };
+
   return (
     <div className="promo__page">
       {showPopup && (
         <Popup setShowPurchased={setShowPopup}>
           <h3 className="pop__up__title">Let's Make Music History</h3>
-          <div>
-            <p className="pop__up__subtitle">Choose Your Referral Code</p>
+          <div className="pop__up__code__div">
+            <button className="my__button code__button" onClick={generateCode}>
+              Geneate Random Code
+            </button>
+            <p> Or.. </p>
+            <div>
+              <p className="pop__up__subtitle">Choose Your Referral Code</p>
 
-            <input
-              type="text"
-              className="referral__code__input"
-              defaultValue={tempCode}
-              onChange={(e) => {
-                setTempCode(e.target.value);
-              }}
-              onkeypress="return event.key != 32"
-              placeholder="Enter Your Preferred Code"
-              maxLength={6}
-              minLength={4}
-            />
+              <input
+                type="text"
+                className="referral__code__input"
+                value={tempCode}
+                onChange={(e) => {
+                  setTempCode(e.target.value);
+                }}
+                onKeyDown={handleKeyDown}
+                placeholder="Enter Custom Code"
+                maxLength={8}
+                minLength={4}
+              />
+            </div>
           </div>
-          <p> Or.. </p>
-          <button className="my__button code__button" onClick={generateCode}>
-            Geneate Random Code
+          <button
+            className="my__button code__button play__now__button"
+            onClick={() => {
+              setPartnerCode(tempCode);
+              setShowPopup(false);
+            }}
+            disabled={!approved}
+          >
+            Confirm Partnership
           </button>
           <p>
             Questions? <a href="/contact">Get in Touch</a>
@@ -54,7 +84,20 @@ const PromoTeam = () => {
           <Banner
             title="Become a Partner"
             subtitle="Stack ETH by Recruiting Artists to NFT Concerts"
-          />
+          >
+            {" "}
+            <div className="top__partner__button">
+              <button
+                onClick={() => {
+                  setShowPopup(true);
+                }}
+                className="my__button play__now__button partner__button"
+              >
+                Become a Partner
+              </button>
+            </div>
+          </Banner>
+
           <div className="promo__page__content__full">
             <div className="promo__page__content">
               {" "}
