@@ -79,6 +79,15 @@ function Login() {
     window.location.reload();
   };
 
+  useEffect(() => {
+    if (tempUser && address) {
+      console.log(tempUser);
+      if (userData.walletID === address) {
+        confirmUser();
+      }
+    }
+  }, [address, tempUser]);
+
   //wallet connenct variables
   const [web3Library, setWeb3Library] = React.useState();
   const [web3Account, setWeb3Account] = React.useState();

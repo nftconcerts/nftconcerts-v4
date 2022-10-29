@@ -75,13 +75,8 @@ function Row({
 
   const { data: nfts, isLoading: isReadingNfts } = useNFTs(contract);
 
-  useEffect(() => {
-    console.log("NFTs: ", nfts);
-  }, [nfts]);
-
   //get claim conditions for single concert
   let bigId = ethers.BigNumber.from(singleConcert || 0);
-  console.log("big id: ", bigId);
 
   const {
     data: activeClaimCondition,
@@ -129,12 +124,6 @@ function Row({
 
   let nowDate = new Date();
   let releaseDate = new Date(concertData[singleConcert].concertReleaseDate);
-
-  useEffect(() => {
-    if (releaseDate) {
-      console.log(releaseDate.toUTCString());
-    }
-  }, []);
 
   const scrollRight = () => {
     document

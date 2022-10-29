@@ -11,8 +11,13 @@ import Contract from "../form/Contract";
 import { useNavigate } from "react-router-dom";
 import "./MyAccount.css";
 import { ref as dRef, onValue } from "firebase/database";
-import { useAddress, useMetamask, useOwnedNFTs } from "@thirdweb-dev/react";
-import editionDrop from "../../scripts/getContract.mjs";
+import {
+  useAddress,
+  useMetamask,
+  useOwnedNFTs,
+  useContract,
+} from "@thirdweb-dev/react";
+import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 
 const ArtistAccount = () => {
@@ -178,11 +183,12 @@ const ArtistAccount = () => {
   }, [address, userData]);
 
   //get owned NFTs by user
+  const { contract } = useContract(editionDropAddress);
   const {
     data: ownedNFTs,
     isLoading3,
     error3,
-  } = useOwnedNFTs(editionDrop, address);
+  } = useOwnedNFTs(contract, address);
 
   //show users owned concerts
   const showConcerts = () => {

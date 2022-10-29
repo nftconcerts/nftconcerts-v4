@@ -1,3 +1,45 @@
+.home__welcome__pop__up__overlay__div {
+  position: absolute;
+  min-height: 600px;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  background: #00000099;
+  z-index: 7;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 140px;
+  padding-bottom: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
+  animation: cssAnimation 1s;
+}
+.welcome__reveal__div {
+  width: 100%;
+  z-index: 7;
+}
+/* .welcome__reveal__div {
+  opacity: 0;
+  transition: delay 1s opacity;
+}
+.welcom__reveal__div:hover {
+  opacity: 1;
+}
+@keyframes cssAnimation {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+} */
+@media screen and (min-height: 830px) {
+  .welcome__reveal__div {
+    position: fixed;
+  }
+}
 .mint__pop__img {
   max-height: 150px;
   padding-bottom: 10px;
@@ -163,10 +205,30 @@
 }
 .credit__info__div {
   padding-top: 10px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding-bottom: 40px;
 }
 .credit__price {
   font-size: 20px;
 }
 .credit__usd__price {
   font-size: 14px;
+}
+.mint__pop__login__form {
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.mint__pop__login__form__inner {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hidden__submit {
+  display: none;
 }

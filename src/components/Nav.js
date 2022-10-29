@@ -269,7 +269,7 @@ const Nav = () => {
                   </div>
                 </div>
               )}
-              {address && !networkMismatch && (
+              {!networkMismatch && (
                 <div className="network__mismatch__div">
                   <div className="network__mismatch__prompt wallet__balance__prompt">
                     <div className="wallet__prompt__top">
@@ -312,31 +312,6 @@ const Nav = () => {
                         </div>
                       </div>
                     )}
-                  </div>
-                </div>
-              )}
-              {!address && (
-                <div className="network__mismatch__div">
-                  <div className="network__mismatch__prompt">
-                    Not Connected to Web3.{" "}
-                    <div className="two__buttons__div">
-                      <button
-                        onClick={connectWithMetamask}
-                        className="network__prompt__button "
-                      >
-                        Use MetaMask
-                      </button>
-                      <button
-                        className="network__prompt__button network__prompt__button__right"
-                        onClick={() => {
-                          setMobileMode();
-                          setNavMobileMode(true);
-                          window.location.reload(false);
-                        }}
-                      >
-                        Use in Mobile Mode
-                      </button>
-                    </div>
                   </div>
                 </div>
               )}
@@ -386,51 +361,7 @@ const Nav = () => {
           )}
         </>
       )}
-      {!address && metamaskDetected && navMobileMode && (
-        <div className="network__mismatch__div mobile__hide">
-          <div className="network__mismatch__prompt">
-            Mobile Mode Enabled.
-            <div className="two__buttons__div">
-              <button
-                onClick={() => {
-                  connectWithMetamask();
-                }}
-                className="network__prompt__button"
-              >
-                Use Metamask
-              </button>
-              <button
-                className="network__prompt__button network__prompt__button__right"
-                onClick={() => {
-                  connectWithWalletConnect();
-                }}
-              >
-                Use Wallet Connect
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      {/* {navMobileMode && (
-        <div className="network__mismatch__div nav__mobile__hide">
-          <div className="network__mismatch__prompt">
-            Moblie Mode Enabled{" "}
-            <div className="two__buttons__div">
-              <button
-                onClick={() => {
-                  resetMobileMode();
-                  setNavMobileMode(false);
-                  connectWithMetamask();
-                  window.location.reload(false);
-                }}
-                className="network__prompt__button full__width__button"
-              >
-                Connect to Web3
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
+
       {address && currentUser && <div className="user__wallet"></div>}
       <div className={`nav ${show && "nav__black"}`}>
         <img
