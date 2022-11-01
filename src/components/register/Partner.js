@@ -34,7 +34,7 @@ const Partner = () => {
 
   const generateCode = () => {
     let code = makeid(5);
-    setTempCode(code);
+    setTempCode(code.toUpperCase());
   };
   const [showInfo, setShowInfo] = useState(false);
 
@@ -60,27 +60,40 @@ const Partner = () => {
     }
   };
   const [partnerData, setPartnerData] = useState();
+
   const checkPartnerCode = () => {
-    let codeRef = dRef(db, "partners/" + partnerCode);
+    let codeRef = dRef(db, "partners/" + tempCode);
     onValue(codeRef, (snapshot) => {
       var data = snapshot.val();
-      if (data.email) {
-        return 0;
+      if (snapshot.exists()) {
+        console.log("DE: ", data.email);
+        return false;
       } else {
-        return 1;
+        console.log("No code found");
+        return true;
       }
     });
   };
   const pushPartnerCode = () => {
-    let codeRef = dRef(db, "partners/" + partnerCode);
-    let partnerDate = new Date();
+    let codeRef = dRef(db, "partners/" + tempCode);
+    var partnerDate = new Date();
     set(codeRef, {
       startDate: partnerDate,
       email: userData.email,
       walletID: userData.walletID,
     }).then(
-      set(dRef(db, "users/" + currentUser.uid + "/partnerCode"), partnerCode)
+      set(dRef(db, "users/" + currentUser.user.uid + "/partnerCode"), tempCode)
     );
+    setPartnerCode(tempCode);
+  };
+
+  const confirmPartnership = async () => {
+    if (await checkPartnerCode()) {
+      pushPartnerCode();
+      setShowPopup(false);
+    } else {
+      alert("Code Taken. Please Change and Try Again.");
+    }
   };
 
   return (
@@ -127,7 +140,7 @@ const Partner = () => {
                     className="referral__code__input"
                     value={tempCode}
                     onChange={(e) => {
-                      setTempCode(e.target.value);
+                      setTempCode(e.target.value.toUpperCase());
                     }}
                     onKeyDown={handleKeyDown}
                     placeholder="Enter Custom Code"
@@ -138,10 +151,7 @@ const Partner = () => {
               </div>
               <button
                 className="my__button code__button play__now__button"
-                onClick={() => {
-                  setPartnerCode(tempCode.toUpperCase());
-                  setShowPopup(false);
-                }}
+                onClick={confirmPartnership}
                 disabled={!approved}
               >
                 Confirm Partnership

@@ -222,6 +222,15 @@
     width: 25%;
     padding-bottom: 10px;
   }
+  .preview__buttons__box {
+    border-bottom: 2px solid #fff;
+  }
+  .performance__info {
+    border-bottom: 2px solid #fff;
+  }
+  .preview__title {
+    border-top: 2px solid #fff;
+  }
   .remaining {
     width: 25%;
   }

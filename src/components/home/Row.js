@@ -402,7 +402,7 @@ function Row({
                       className="my__button preview__button"
                       onClick={() => navigate(`/concert/${singleConcert}`)}
                     >
-                      Learn More
+                      View Concert
                     </button>
                     <button
                       className="buy__now my__button preview__button"

@@ -38,7 +38,7 @@ const Nav = () => {
   const address = useAddress();
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
-  const [ethBalance, setEthBalance] = useState("0.00");
+  const [ethBalance, setEthBalance] = useState("");
   const [maticBalance, setMaticBalance] = useState("");
   const [walletAddress, setWalletAddress] = useState();
   const [metamaskDetected, setMetamaskDetected] = useState(false);
@@ -297,14 +297,22 @@ const Nav = () => {
                             navigate("/my-account");
                           }}
                         >
-                          {ethBalance && (
-                            <span>
-                              ETH: {ethBalance.substring(0, 6) || "0.00"}{" "}
-                            </span>
+                          {(userConnectionType === "magic" && (
+                            <span>ET</span>
+                          )) || (
+                            <>
+                              {ethBalance && (
+                                <>
+                                  <span>
+                                    ETH: {ethBalance.substring(0, 6) || "0.00"}{" "}
+                                  </span>
+                                  <span className="wallet__usd__bal">
+                                    (${balanceInUSD})
+                                  </span>
+                                </>
+                              )}
+                            </>
                           )}
-                          <span className="wallet__usd__bal">
-                            (${balanceInUSD})
-                          </span>
                         </button>
                         <div className="gas__div">
                           <i className="fa-solid fa-gas-pump" />
@@ -317,7 +325,7 @@ const Nav = () => {
               )}
             </>
           )}
-          {userConnectionType !== "metamask" && walletAddress && currentUser && (
+          {userConnectionType !== "metamask" && userData && currentUser && (
             <div className="network__mismatch__div">
               <div className="network__mismatch__prompt wallet__balance__prompt">
                 <div className="wallet__prompt__top">
@@ -340,15 +348,30 @@ const Nav = () => {
                     <button
                       className="network__prompt__button buy__matic__button full__width__button"
                       onClick={() => {
-                        window.open(
-                          `https://pay.sendwyre.com/purchase?&destCurrency=ETH&utm_medium=widget&paymentMethod=debit-card&autoRedirect=false&dest=matic%3A${address}&utm_source=checkout`
-                        );
+                        navigate("/my-account");
                       }}
                     >
-                      <span>ETH: {ethBalance.substring(0, 6)} </span>
-                      <span className="wallet__usd__bal">
-                        (${balanceInUSD})
-                      </span>
+                      {(userConnectionType === "magic" && (
+                        <>
+                          <span>ETH/USD </span>
+                          <span className="wallet__usd__bal">
+                            (${usdExRate.toFixed(2)})
+                          </span>
+                        </>
+                      )) || (
+                        <>
+                          {ethBalance && (
+                            <>
+                              <span>
+                                ETH: {ethBalance.substring(0, 6) || "0.00"}{" "}
+                              </span>
+                              <span className="wallet__usd__bal">
+                                (${balanceInUSD})
+                              </span>
+                            </>
+                          )}
+                        </>
+                      )}
                     </button>
                     <div className="gas__div">
                       <i className="fa-solid fa-gas-pump" />
@@ -362,7 +385,7 @@ const Nav = () => {
         </>
       )}
 
-      {address && currentUser && <div className="user__wallet"></div>}
+      {/* {address && currentUser && <div className="user__wallet"></div>} */}
       <div className={`nav ${show && "nav__black"}`}>
         <img
           className="nav__logo"

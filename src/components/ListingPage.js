@@ -225,6 +225,338 @@ const ListingPage = () => {
   const [showRegister, setShowRegister] = useState(false);
 
   let titleID = parseInt(concertID) + 1;
+  const [listView, setListview] = useState(false);
+
+  //control the list maximum
+  const [maxList, setMaxList] = useState(8);
+  const [showExpandList, setShowExpandList] = useState(true);
+
+  //show the audience list based on spply and sales data
+  const showAudienceList = () => {
+    var audienceRows = [];
+
+    if (concertData?.concertSupply === "") {
+      return (
+        <div className="no__songs__error">Please set the number of tokens.</div>
+      );
+    } else {
+      for (var i = 1; i <= maxList; i++) {
+        var sale = concertData.sales[i - 1];
+
+        const rowDiv = (n) => {
+          var saledate;
+          var buyerData;
+          if (sale) {
+            saledate = new Date(sale.date);
+            var buyerDataRef = dRef(db, "users/" + sale.buyerUID);
+            onValue(buyerDataRef, (snapshot) => {
+              var data = snapshot.val();
+              buyerData = data;
+            });
+          }
+          return (
+            <div className=" audience__list__div">
+              <p className="list__token__num">{n}:</p>
+              <p className=" list__tx__date">
+                <span className="song__emp">
+                  {" "}
+                  {(sale && (
+                    <>
+                      {saledate.toLocaleTimeString() +
+                        ", " +
+                        saledate.toLocaleDateString()}
+                    </>
+                  )) ||
+                    "Not Minted"}
+                </span>
+              </p>
+              <p className=" list__audience__name">
+                <span className="song__emp">{buyerData?.name}</span>
+              </p>
+              <div className="list__audience__member__image__div">
+                {(sale && (
+                  <img
+                    src={buyerData?.image}
+                    className="audience__member__image list__audience__member__image"
+                  />
+                )) || (
+                  <img
+                    src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fmissing%20m1.jpg?alt=media&token=3d1222d8-711f-4bc4-a074-b7d4f77268a1"
+                    className="audience__member__image list__audience__member__image empty__member"
+                  />
+                )}
+              </div>
+              <div className="marketplace__icon__div list__icon__div">
+                {(sale && (
+                  <a
+                    href={"https://etherscan.io/tx/" + sale.tx}
+                    className="marketplace__icon__div list__icon__div"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img
+                      src="/media/etherscan-logo.png"
+                      className="marketplace__icon"
+                      alt="Etherscan Logo"
+                    />
+                  </a>
+                )) || (
+                  <img
+                    src="/media/etherscan-logo.png"
+                    className="marketplace__icon"
+                    alt="Etherscan Logo"
+                  />
+                )}
+              </div>
+            </div>
+          );
+        };
+        audienceRows.push(rowDiv(i));
+      }
+      return audienceRows;
+    }
+  };
+
+  //show the audience based on the supply and sales data
+
+  const [maxAudience, setMaxAudience] = useState(10);
+  const [showExpandAudience, setShowExpandAudience] = useState(true);
+  const [width, setWidth] = useState();
+
+  useEffect(() => {
+    console.log("w: ", width);
+    if (!showExpandAudience) {
+    } else if (maxAudience > parseInt(concertData?.concertSupply)) {
+      setMaxAudience(concertData.concertSupply);
+      setShowExpandAudience(false);
+    } else if (width > 2016) {
+      setMaxAudience(18);
+    } else if (width > 1686) {
+      setMaxAudience(15);
+    } else if (width > 1356) {
+      setMaxAudience(16);
+    } else if (width > 1026) {
+      setMaxAudience(12);
+    } else if (width > 936) {
+      setMaxAudience(15);
+    } else if (width > 756) {
+      setMaxAudience(16);
+    } else if (width > 576) {
+      setMaxAudience(12);
+    } else {
+      setMaxAudience(10);
+    }
+  }, [width, concertData]);
+
+  useEffect(() => {
+    setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize, false);
+  }, []);
+
+  const handleResize = () => {
+    setWidth(window.innerWidth);
+  };
+  const showAudience = () => {
+    var audienceRows = [];
+    var supply = parseInt(concertData?.concertSupply);
+    for (var i = 0; i < maxAudience; i++) {
+      var sale = concertData.sales[i];
+
+      const audience = (i) => {
+        var saledate;
+        var buyerData;
+        if (sale) {
+          saledate = new Date(sale.date);
+          var buyerDataRef = dRef(db, "users/" + sale.buyerUID);
+          onValue(buyerDataRef, (snapshot) => {
+            var data = snapshot.val();
+            buyerData = data;
+          });
+        }
+        return (
+          <div className="audience__member__div">
+            {(sale && (
+              <div className="sales__div">
+                <div className="sale__hover__div">
+                  <div className="hover__buyer__name">{buyerData?.name}</div>
+                  <div className="hover__buyer__date">
+                    <div className="hover__date__text">
+                      {saledate.toLocaleTimeString() +
+                        ", " +
+                        saledate.toLocaleDateString()}
+                    </div>
+                    <div className="hover__eth__logo__div">
+                      <a
+                        href={"https://etherscan.io/tx/" + sale.tx}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <img
+                          src="/media/etherscan-logo.png"
+                          alt="Etherscan Logo"
+                          className="hover__eth__logo"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <img
+                  src={buyerData?.image}
+                  className="audience__member__image"
+                />
+              </div>
+            )) || (
+              <div className="sales__div">
+                <div className="not__minted__div">
+                  <div class="hover__text">Not Minted</div>
+                  <img
+                    src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fmissing%20m1.jpg?alt=media&token=3d1222d8-711f-4bc4-a074-b7d4f77268a1"
+                    className="audience__member__image empty__member"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      };
+
+      audienceRows.push(audience(i));
+    }
+
+    return (
+      <>
+        <div className="audience__view__div">
+          {(listView && (
+            <button
+              onClick={() => {
+                setListview(false);
+                setMaxList(8);
+                setShowExpandList(true);
+              }}
+              className="audience__view__button"
+            >
+              <i className="fa-solid fa-people-group" />
+            </button>
+          )) || (
+            <button
+              onClick={() => {
+                setListview(true);
+              }}
+              className="audience__view__button"
+            >
+              <i className="fa-solid fa-list" />
+            </button>
+          )}{" "}
+        </div>
+        <div className="audience__header">
+          <h3>Audience</h3>
+        </div>
+        {(listView && (
+          <div className="list__view__div">
+            <div className="list__div">
+              <div className="audience__list__header">
+                <p className="list__token__header">Mint #</p>
+                <p className="list__tx__date__header">Date</p>
+                <p className="list__audience__name__header">Collector</p>
+                <p className="list__tx__header">Tx</p>
+              </div>
+              <div className="audience__list__container__div">
+                {showAudienceList()}
+              </div>
+              {(showExpandList && (
+                <div className="expand__list__container">
+                  <div className="expand__list__div">
+                    <button
+                      onClick={() => {
+                        setMaxList(concertData?.concertSupply);
+                        setShowExpandList(false);
+                      }}
+                      className="expand__list__button"
+                    >
+                      <i className="fa-solid fa-plus" />
+                    </button>
+                  </div>
+                </div>
+              )) || (
+                <div className="close__list__floating__container">
+                  <div className="close__list__floating__div">
+                    {" "}
+                    <button
+                      onClick={() => {
+                        setMaxList(8);
+                        setShowExpandList(true);
+                      }}
+                      className="expand__list__button  collapse__list__button"
+                    >
+                      <i className="fa-solid fa-minus" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )) || (
+          <>
+            {" "}
+            <div className="stadium__view__div">
+              {audienceRows}{" "}
+              {(showExpandAudience && (
+                <div className="expand__audience__container">
+                  <div className="expand__audience__div">
+                    {" "}
+                    <button
+                      onClick={() => {
+                        setMaxAudience(concertData?.concertSupply);
+                        setShowExpandAudience(false);
+                      }}
+                      className="expand__audience__button"
+                    >
+                      Show All{" "}
+                      <i className="fa-solid fa-plus in__button__icon" />
+                    </button>
+                  </div>
+                </div>
+              )) || (
+                <>
+                  <div className="close__list__floating__container">
+                    <div className="close__list__floating__div">
+                      {" "}
+                      <button
+                        onClick={() => {
+                          setMaxAudience(10);
+                          setShowExpandAudience(true);
+                          setWidth(width + 1);
+                        }}
+                        className="expand__list__button  collapse__list__button"
+                      >
+                        <i className="fa-solid fa-minus" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="expand__audience__container collapse__audience__container">
+                    <div className="expand__audience__div">
+                      {" "}
+                      <button
+                        onClick={() => {
+                          setMaxAudience(10);
+                          setShowExpandAudience(true);
+                          setWidth(width + 1);
+                        }}
+                        className="expand__audience__button"
+                      >
+                        Collapse{" "}
+                        <i className="fa-solid fa-minus in__button__icon" />
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </>
+        )}
+      </>
+    );
+  };
 
   return (
     <>
@@ -236,62 +568,6 @@ const ListingPage = () => {
           setShowMintPopUp={setShowMintPopUp}
           setCurrentUser={setCurrentUser}
         />
-      )}
-      {concertData && showPurchased && (
-        <div className="purchased__pop__up__overlay__div">
-          <div className="purchased__pop__up__div">
-            <div className="close__pop__up__div">
-              <i
-                onClick={() => {
-                  setShowPurchased(false);
-                }}
-                className="fa-solid fa-xmark close__icon__button"
-              />{" "}
-            </div>
-            <h3 className="purchased__pop__up__heading">
-              Congratulations, you've successfuly purchased <br />
-            </h3>
-            <h1 className="purchased__title">
-              {concertData.concertName} by {concertData.concertArtist}
-            </h1>
-            <img
-              src={concertData.concertTokenImage}
-              className="purchased__token__img"
-              alt="NFT Concert Token Peview"
-            ></img>
-            <h3 className="motto">You Own the Show</h3>
-            <p className="motto">
-              Out of{" "}
-              <span className="bold__text">{concertData?.concertSupply}</span>{" "}
-              Copies, You Own <span className="bold__text">{owned}</span>
-            </p>
-            <button
-              className="buy__now my__button preview__button buy__now__button play__now__button"
-              onClick={() => {
-                navigate("/player/" + concertID);
-              }}
-              disabled={!owned}
-            >
-              <div className="play__now__button__div">
-                Play Now <i className="fa-solid fa-play play__now__icon" />
-              </div>
-            </button>
-
-            {purchased && (
-              <div>
-                <a
-                  href={transactionLink}
-                  target="_blank"
-                  className="dark__link"
-                  rel="noreferrer"
-                >
-                  View Your Receipt - TX:{" "}
-                  {truncateAddress(tx?.receipt.transactionHash)}
-                </a>
-              </div>
-            )}
-          </div>
-        </div>
       )}
       {validListing && (
         <div className="player__page">
@@ -730,6 +1006,12 @@ const ListingPage = () => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="c__token__info__div audience__info__div">
+            <p>Mint this NFT Concert for a Permanent Spot in the Audience</p>
+          </div>
+          <div className="audience__div">
+            <div className="audience__content">{showAudience()}</div>
           </div>
         </div>
       )}{" "}

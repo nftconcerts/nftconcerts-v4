@@ -128,7 +128,7 @@ input {
 }
 .button__usd__price {
   font-size: 18px;
-  color: #ccc;
+  color: #aaa !important;
   display: flex;
   justify-content: space-evenly;
   flex-direction: row;

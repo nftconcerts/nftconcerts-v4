@@ -18,24 +18,18 @@ import {
   useNetworkMismatch,
   useNetwork,
   ChainId,
-  useEditionDrop,
   useActiveClaimCondition,
   useContract,
 } from "@thirdweb-dev/react";
 import checkEns from "../scripts/checkEns";
-import { Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/ethereum-provider";
 import WalletLink from "walletlink";
 import dateFormat from "dateformat";
 import emailjs from "@emailjs/browser";
 import { GetUSDExchangeRate } from "./api";
-import editionDrop, { editionDropAddress } from "../scripts/getContract.mjs";
+import { editionDropAddress } from "../scripts/getContract.mjs";
 import { ethers } from "ethers";
 import sendMintEmails from "../scripts/sendMintEmails";
-import {
-  PaperSDKProvider,
-  createCheckoutWithCardElement,
-} from "@paperxyz/react-client-sdk";
 import paperCheckout from "../scripts/paperCheckout";
 import { Magic } from "magic-sdk";
 
@@ -56,7 +50,7 @@ const MintPopUp = ({
   const [, switchNetwork] = useNetwork();
   const [showRegister, setShowRegister] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [close, setClose] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -89,8 +83,8 @@ const MintPopUp = ({
         setUserData(data);
       });
     } else if (currentUser) {
-      var userDataRef = dRef(db, "users/" + currentUser.user.uid);
-      onValue(userDataRef, (snapshot) => {
+      var userDataRef2 = dRef(db, "users/" + currentUser.user.uid);
+      onValue(userDataRef2, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
       });
@@ -102,6 +96,7 @@ const MintPopUp = ({
     await login(email, password);
     setTempUser(fetchCurrentUser());
     logout();
+    setLoginProcess(true);
   };
 
   //confirm user
@@ -109,14 +104,16 @@ const MintPopUp = ({
     await login(email, password);
     setCurrentUser(tempUser);
     setNewUser(true);
+    setLoginProcess(false);
   };
 
   //auto-confirm user if saved wallet address matches current address
+  const [loginProcess, setLoginProcess] = useState(false);
   useEffect(() => {
-    if (address && address === userData?.walletID) {
+    if (address && address === userData?.walletID && loginProcess) {
       confirmUser();
     }
-  }, [address, tempUser]);
+  }, [address, tempUser, loginProcess]);
 
   //check if metamask is installed
   useEffect(() => {
@@ -126,7 +123,7 @@ const MintPopUp = ({
         setRcType("metamask");
       }
     }
-  }, [address]);
+  }, [address, rcType]);
 
   //update wallet & connection type for registration form
   const updateWalletID = async (wallet, connectionType) => {
@@ -404,14 +401,13 @@ const MintPopUp = ({
     contract,
     bigId
   );
-
+  let mintPrice = mintQty * parseFloat(concertData?.concertPrice);
   //claim the nft
   const claimButton = async () => {
-    let mintPrice = mintQty * parseFloat(concertData?.concertPrice);
     setClaiming(true);
     setClaimError(false);
     try {
-      var result = await editionDropped?.claim(concertID, mintQty);
+      var result = await contract?.claim(concertID, mintQty);
       setTx(result);
       setClaiming(false);
       setPurchased(true);
@@ -461,6 +457,14 @@ const MintPopUp = ({
       window.open(
         "https://checkout.nftconcerts.com/?s=" +
           paperSecret +
+          "&cname=" +
+          encodeURIComponent(
+            concertData?.concertName + " by " + concertData?.concertArtist
+          ) +
+          "&price=" +
+          mintPrice +
+          "&img=" +
+          encodeURIComponent(concertData?.concertTokenImage) +
           "&id=" +
           concertID +
           "$qty=" +
@@ -791,7 +795,7 @@ const MintPopUp = ({
             )}
           </>
         )}
-        {userData?.connectionType == "coinbase" && (
+        {userData?.connectionType === "coinbase" && (
           <>
             {!address && (
               <button
@@ -820,7 +824,7 @@ const MintPopUp = ({
             )}
           </>
         )}
-        {userData?.connectionType == "walletconnect" && (
+        {userData?.connectionType === "walletconnect" && (
           <>
             {!address && (
               <button
@@ -849,7 +853,7 @@ const MintPopUp = ({
             )}
           </>
         )}
-        {userData?.connectionType == "magic" && (
+        {userData?.connectionType === "magic" && (
           <>
             {!address && (
               <button
@@ -962,7 +966,11 @@ const MintPopUp = ({
 
             {(showRegister && !showPurchased && (
               <div className="mint__pop__register__div">
-                <img src="/media/nftc-logo.png" className="mint__pop__logo" />
+                <img
+                  src="/media/nftc-logo.png"
+                  className="mint__pop__logo"
+                  alt="nftc logo"
+                />
                 {(!address && !savedUserAddress && registerStart()) ||
                   registerInfo()}
               </div>
@@ -994,6 +1002,7 @@ const MintPopUp = ({
                         <img
                           src={concertData?.concertTokenImage}
                           className="mint__pop__img"
+                          alt="NFT Concet Token Image"
                         ></img>
                       )}
                       <h1 className="purchased__title mint__pop__title">
@@ -1049,7 +1058,7 @@ const MintPopUp = ({
                                 (${(priceInUSD * mintQty).toFixed(2)})
                               </span>
                             </div>
-                            {(userData?.connectionType != "magic" && (
+                            {(userData?.connectionType !== "magic" && (
                               <>
                                 {(networkMistmatch && (
                                   <button
@@ -1063,14 +1072,54 @@ const MintPopUp = ({
                                     </div>
                                   </button>
                                 )) || (
-                                  <button
-                                    onClick={claimButton}
-                                    className="buy__now my__button preview__button buy__now__button "
-                                  >
-                                    <div className="play__now__button__div">
-                                      Mint Now
-                                    </div>
-                                  </button>
+                                  <>
+                                    {(address && (
+                                      <button
+                                        onClick={claimButton}
+                                        className="buy__now my__button preview__button buy__now__button "
+                                      >
+                                        <div className="play__now__button__div">
+                                          Mint Now
+                                        </div>
+                                      </button>
+                                    )) || (
+                                      <>
+                                        {userData?.connectionType ===
+                                          "metamask" && (
+                                          <button
+                                            onClick={connectWithMetamask}
+                                            className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"
+                                          >
+                                            <div className="play__now__button__div">
+                                              Connect to Metamask
+                                            </div>
+                                          </button>
+                                        )}
+                                        {userData?.connectionType ===
+                                          "metamask" && (
+                                          <button
+                                            onClick={connectWalletConnect}
+                                            className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"
+                                          >
+                                            <div className="play__now__button__div">
+                                              Connect to Wallet Connect
+                                            </div>
+                                          </button>
+                                        )}
+                                        {userData?.connectionType ===
+                                          "coinbase" && (
+                                          <button
+                                            onClick={connectCoinbase}
+                                            className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"
+                                          >
+                                            <div className="play__now__button__div">
+                                              Connect to Metamask
+                                            </div>
+                                          </button>
+                                        )}
+                                      </>
+                                    )}
+                                  </>
                                 )}
                                 <button
                                   onClick={() => {
@@ -1152,6 +1201,18 @@ const MintPopUp = ({
                                 href={
                                   "https://checkout.nftconcerts.com/?s=" +
                                   paperSecret +
+                                  "&cname=" +
+                                  encodeURIComponent(
+                                    concertData?.concertName +
+                                      " by " +
+                                      concertData?.concertArtist
+                                  ) +
+                                  "&img=" +
+                                  encodeURIComponent(
+                                    concertData?.concertTokenImage
+                                  ) +
+                                  "&price=" +
+                                  mintPrice +
                                   "&id=" +
                                   concertID +
                                   "&qty=" +

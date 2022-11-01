@@ -268,3 +268,421 @@
 .mint__quantity__div {
   padding-top: 20px;
 }
+
+.audience__div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding-bottom: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+.audience__content {
+  z-index: 3;
+  max-width: 2000px;
+  width: 100%;
+}
+.audience__row {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+  box-sizing: border-box;
+  z-index: 5;
+}
+
+.audience__member__image {
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
+  max-width: 300px;
+  box-shadow: 0px 0px 5px #00000092;
+  border: none;
+}
+.audience__member__div {
+  padding: 5px;
+  box-sizing: border-box;
+}
+.audience__header {
+  font-size: 40px;
+  text-align: center;
+  font-family: "Saira";
+  text-transform: uppercase;
+  pointer-events: none;
+  padding-bottom: 40px;
+  padding-top: 30px;
+  color: #fff;
+}
+.audience__view__button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.5s;
+}
+.audience__view__button:hover {
+  color: #fff;
+}
+.audience__view__div {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
+  height: 30px;
+  margin-bottom: -30px;
+}
+
+.list__view__div {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding-bottom: 100px;
+}
+.list__div {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  border: solid 3px #000;
+  flex-direction: column;
+  border-radius: 10px;
+}
+.audience__list__header {
+  display: flex;
+  background: #000;
+  color: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  justify-content: space-between;
+  text-align: center;
+}
+.audience__list__div {
+  display: flex;
+  font-family: "Saira";
+  font-size: 16px;
+  border-bottom: solid #555 1px;
+  align-items: center;
+  background: #fff;
+}
+.list__token__num {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-weight: bold;
+  background: #aaa;
+  height: 100%;
+  min-width: 60px;
+}
+.list__tx__date {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.list__audience__name {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+}
+.list__audience__member__image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+.list__audience__member__image__div {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.list__token__header {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  min-width: 60px;
+}
+.list__tx__date__header {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+.list__audience__name__header {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+.list__audience__image__header {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+.list__tx__header {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+.list__icon__div {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+.expand__list__container {
+  background: linear-gradient(#00000000, #000);
+  height: 80px;
+  margin-top: -80px;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 10px #000 inset;
+  box-sizing: border-box;
+}
+.expand__list__button {
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333;
+  color: #ccc;
+  transition: all 0.5s;
+}
+.expand__list__button:hover {
+  transform: scale(1.1);
+  background: #000;
+  color: #fff;
+}
+.list__disclaimer__div {
+  background: #000;
+  color: #fff;
+  padding: 5px;
+  text-align: center;
+}
+@media screen and (max-width: 725px) {
+  .list__audience__name {
+    display: none;
+  }
+  .list__tx__date {
+    width: 40%;
+    text-align: center;
+  }
+  .list__audience__member__image__div {
+    width: 40%;
+  }
+  .list__tx__date__header {
+    width: 40%;
+  }
+  .list__audience__name__header {
+    width: 40%;
+  }
+}
+
+.close__list__floating__container {
+  position: fixed;
+  top: 110px;
+  right: 10px;
+}
+.collapse__list__button {
+  box-shadow: 0px 0px 5px #ffffff88;
+}
+.stadium__view__div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 8;
+}
+.empty__member {
+  filter: contrast(0.9);
+}
+.hover__text {
+  opacity: 0;
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  background: #000000cd;
+  color: #fff;
+  font-weight: bold;
+  transition: all 0.5s;
+  border-radius: 10px;
+  text-shadow: 0px 0px 5px #000;
+}
+.not__minted__div {
+  font-size: 24px;
+}
+.not__minted__div:hover .hover__text {
+  opacity: 1;
+}
+.audience__list__container__div {
+  display: flex;
+  flex-direction: column;
+}
+.audience__info__div {
+  font-size: 24px;
+
+  min-height: 50px;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.sales__div {
+  height: 320px;
+  width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sale__hover__div {
+  opacity: 0;
+  position: absolute;
+  height: 300px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.5s;
+}
+.sale__hover__div:hover {
+  opacity: 1;
+}
+.hover__buyer__name {
+  width: 100%;
+  background: linear-gradient(#000, #00000000);
+  padding-bottom: 40px;
+  padding-top: 15px;
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0px 0px 3px #000;
+  transition: all 0.5s;
+}
+.hover__buyer__name:hover {
+  transform: scale(1.1);
+}
+.hover__buyer__date {
+  width: 100%;
+  background: linear-gradient(#00000000, #000);
+  padding-top: 40px;
+  padding-bottom: 15px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.hover__date__text {
+  padding-left: 10px;
+}
+.hover__eth__logo__div {
+  height: 30px;
+  width: 30px;
+  padding-right: 10px;
+}
+.hover__eth__logo {
+  height: 30px;
+  width: 30px;
+  transition: all 0.5s;
+}
+.hover__eth__logo:hover {
+  transform: scale(1.1);
+}
+.expand__audience__div {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+
+  height: 50px;
+  margin-top: -160px;
+  z-index: 29;
+}
+.expand__audience__button {
+  width: 400px;
+  border-radius: 5px;
+  height: 50px;
+  background: #000000cc;
+  cursor: pointer;
+  font-size: 26px;
+  font-family: "BenchNine";
+  text-transform: uppercase;
+  color: #fff;
+  transition: all 0.5s;
+  border: none;
+}
+.expand__audience__button:hover {
+  background: #000;
+}
+.expand__audience__container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 9;
+}
+.collapse__audience__container {
+  margin-top: 250px;
+  padding-bottom: 0px;
+  z-index: 39;
+}
+.in__button__icon {
+  padding-left: 20px;
+}
+@media screen and (max-width: 1026px) {
+  .sales__div {
+    height: 170px;
+    width: 170px;
+  }
+  .sale__hover__div {
+    height: 150px;
+    width: 150px;
+  }
+  .audience__member__image {
+    height: 150px;
+    width: 150px;
+  }
+  .hover__text {
+    width: 150px;
+    height: 150px;
+    font-size: 16px;
+  }
+  .hover__date__text {
+    display: none;
+  }
+  .hover__buyer__date {
+    justify-content: flex-end;
+  }
+  .hover__buyer__name {
+    font-size: 16px;
+  }
+  .expand__audience__div {
+    margin-top: -100px;
+  }
+  .collapse__audience__container {
+    margin-top: 150px;
+  }
+}
