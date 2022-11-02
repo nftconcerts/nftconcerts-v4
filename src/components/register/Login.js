@@ -75,7 +75,7 @@ function Login() {
   const confirmUser = async () => {
     await login(email, password);
     setCurrentUser(tempUser);
-    navigate("/");
+    navigate("/my-account");
     window.location.reload();
   };
 

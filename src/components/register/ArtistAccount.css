@@ -1,0 +1,46 @@
+.artist__info__div {
+  flex-direction: column;
+}
+.info__header__div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.artist__dashboard__div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.artist__info__box {
+  width: 45%;
+  background: #eee;
+  border-radius: 10px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-top: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.center__info__box {
+  margin-right: 10px;
+  padding: 5px;
+}
+.artist__info__box__title {
+  font-size: 20px;
+}
+.deposit__date {
+  font-size: 14px;
+}
+
+.artist__info__box__info__res {
+  font-size: 30px;
+}
+.artist__acct__buttons__div {
+  padding-top: 20px;
+}
+.artist__acct__heading {
+  padding-top: 20px;
+}

@@ -29,8 +29,8 @@ video {
 .split__col {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  max-width: 80%;
+  width: 80%;
+  max-width: 2000px;
   padding-top: 20px;
   align-self: center;
   padding-bottom: 50px;
@@ -83,9 +83,13 @@ video {
   margin-top: 20px;
   color: #000;
   background: #000;
-  width: 350px;
-  border: 2px solid #373737;
+  width: 80%;
+  max-width: 600px;
+  min-width: 350px;
+  border: 3px solid #000;
+  border-radius: 10px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .player__setlist__title {
   text-align: center;
@@ -210,9 +214,12 @@ video {
   .player__page {
     padding-bottom: 250px;
   }
+  .player__setlist__div {
+    width: 350px;
+  }
 }
-@media screen and (min-width: 801px) and (max-width: 900px) {
+@media screen and (max-width: 1100px) {
   .split__col {
-    max-width: 95%;
+    width: 90%;
   }
 }

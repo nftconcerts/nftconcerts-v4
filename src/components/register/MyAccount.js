@@ -200,21 +200,37 @@ const MyAccount = () => {
               {truncateAddress(currentUser.user.photoURL)}
             </p>
           </div> */}
-            {userData?.userType === "artist" && (
-              <div className="artist__buttons__div">
-                <button
-                  className="artist__account__button"
+
+            <div className="user__info__div">
+              <div className="name__div">
+                <span className="bold__text welcome__text account__details">
+                  Welcome {userData?.name}
+                </span>
+                <br />
+                <div className="first__letter account__details">
+                  {userData?.userType} Acccount
+                </div>
+                <div className="first__letter account__details">
+                  Wallet - {truncateAddress(userData?.walletID)}
+                </div>
+                <div className="first__letter account__details">
+                  <a href="/my-account/settings">Account Settings -{`>`}</a>
+                </div>
+              </div>
+
+              <div className="account__image">
+                <div
+                  className="account__image__hover"
                   onClick={() => {
-                    navigate("/my-account/artist");
+                    navigate("/my-account/image");
                   }}
                 >
-                  <div className="inner__button">
-                    Switch to Artist View{" "}
-                    <i className="fa-solid fa-circle-arrow-right artist__button__arrow" />
-                  </div>
-                </button>
+                  <i className="fa-solid fa-pen account__image__hover" />
+                </div>
+                <img src={userData?.image} className="account__image" />
               </div>
-            )}
+            </div>
+
             <h3 className="library__heading">Your Library</h3>
             {(ownedNFTs && ownedNFTs.length > 0 && (
               <>
@@ -240,33 +256,21 @@ const MyAccount = () => {
                 </button>
               </div>
             )}
-
-            <div className="user__info__div">
-              <div
-                className="name__div account__info__button"
-                onClick={() => {
-                  navigate("/my-account/settings");
-                }}
-              >
-                <span className="bold__text first__letter">
-                  {userData?.userType}
-                </span>
-                <br />
-                {userData?.name}
-              </div>
-              {userData && (
-                <div
-                  className="wallet__div account__info__button"
+            {userData?.userType === "artist" && (
+              <div className="artist__buttons__div">
+                <button
+                  className="artist__account__button"
                   onClick={() => {
-                    navigate("/my-account/settings");
+                    navigate("/my-account/artist");
                   }}
                 >
-                  <span className="bold__text">Wallet</span>
-                  <br />
-                  {truncateAddress(userData?.walletID)}
-                </div>
-              )}
-            </div>
+                  <div className="inner__button">
+                    Switch to Artist View{" "}
+                    <i className="fa-solid fa-circle-arrow-right artist__button__arrow" />
+                  </div>
+                </button>
+              </div>
+            )}
           </Contract>
         )}
       </>

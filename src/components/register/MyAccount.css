@@ -107,8 +107,15 @@
   font-family: "Courier";
   display: flex;
   justify-content: space-between;
-  padding-top: 20px;
-  margin-bottom: -10px;
+  align-items: center;
+
+  background: #bbb;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.welcome__text {
+  font-size: 24px;
 }
 .name__div {
   text-align: left;
@@ -128,31 +135,7 @@
   white-space: nowrap;
   overflow: hidden;
 }
-@media screen and (max-width: 720px) {
-  .concert__perf__date {
-    display: none;
-  }
-  .concert__listing__approval {
-    display: none;
-  }
-  .admin__concert__name {
-    display: none;
-  }
-  .name__div {
-    width: 50%;
-    border-right: solid 1px #000;
-  }
 
-  .concert__id {
-    min-width: 60px;
-  }
-  .admin__button {
-    width: 330px;
-  }
-  .concert__name {
-    width: 200px;
-  }
-}
 .account__page__concert__thumbnail {
   height: 50px;
   width: 50px;
@@ -299,6 +282,39 @@
 .library__play__button:hover {
   background: rgb(26, 222, 8);
 }
+.account__image {
+  border-radius: 10px;
+  width: 100%;
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+
+  box-shadow: 0px 0px 5px #00000092;
+  border: none;
+}
+.account__details {
+  padding-top: 10px;
+}
+.account__image__hover {
+  opacity: 0;
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: #00000099;
+  border-radius: 10px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+.account__image__hover:hover {
+  opacity: 1;
+  font-size: 30px;
+}
+
 @media screen and (max-width: 720px) {
   .single__concert__container {
     width: 100%;
@@ -322,5 +338,45 @@
   }
   .library__play__now__icon {
     padding-left: 0px !important;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .concert__perf__date {
+    display: none;
+  }
+  .concert__listing__approval {
+    display: none;
+  }
+  .admin__concert__name {
+    display: none;
+  }
+  .name__div {
+    width: 70%;
+  }
+
+  .concert__id {
+    min-width: 60px;
+  }
+  .admin__button {
+    width: 330px;
+  }
+  .concert__name {
+    width: 200px;
+  }
+  .account__image {
+    height: 80px;
+    width: 80px;
+  }
+  .account__details {
+    padding-top: 6px;
+    font-size: 12px;
+  }
+  .welcome__text {
+    font-size: 16px;
+  }
+  .account__image__hover {
+    height: 80px;
+    width: 80px;
   }
 }

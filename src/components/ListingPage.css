@@ -496,7 +496,7 @@
   right: 10px;
 }
 .collapse__list__button {
-  box-shadow: 0px 0px 5px #ffffff88;
+  background: #666;
 }
 .stadium__view__div {
   display: flex;
@@ -619,8 +619,6 @@
   justify-content: center;
 
   height: 50px;
-  margin-top: -160px;
-  z-index: 29;
 }
 .expand__audience__button {
   width: 400px;
@@ -645,12 +643,15 @@
   z-index: 9;
 }
 .collapse__audience__container {
-  margin-top: 250px;
   padding-bottom: 0px;
   z-index: 39;
 }
 .in__button__icon {
   padding-left: 20px;
+}
+
+.resale__fee__token__header {
+  padding-top: 20px;
 }
 @media screen and (max-width: 1026px) {
   .sales__div {
@@ -665,6 +666,10 @@
     height: 150px;
     width: 150px;
   }
+  .list__audience__member__image {
+    height: 100px;
+    width: 100px;
+  }
   .hover__text {
     width: 150px;
     height: 150px;
@@ -678,11 +683,5 @@
   }
   .hover__buyer__name {
     font-size: 16px;
-  }
-  .expand__audience__div {
-    margin-top: -100px;
-  }
-  .collapse__audience__container {
-    margin-top: 150px;
   }
 }

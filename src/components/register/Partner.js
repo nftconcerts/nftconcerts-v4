@@ -325,7 +325,7 @@ const Partner = () => {
                 <div className="partner__info__box">
                   <h5 className="partner__info__box__title">
                     Next Payout{" "}
-                    <span className="deposit__date">(Deposits November 1)</span>
+                    <span className="deposit__date">(Deposits December 1)</span>
                   </h5>
                   <p className="partner__info__box__info">
                     <img

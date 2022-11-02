@@ -234,9 +234,24 @@ const MintPopUp = ({
     walletlinkProvider.close();
     setWalletlinkProvider(null);
   };
-
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
   //basic security checks before registering user.
   const checkThenRegister = async () => {
+    var photoid = getRandomInt(4);
+    var image =
+      "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Ff1.jpg?alt=media&token=91903ed9-82c3-47aa-ab2d-7b015c7a90a8";
+    if (photoid === 1) {
+      image =
+        "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Ff4.jpg?alt=media&token=bedd3ed8-6db9-4fac-9874-245c2ffff456";
+    } else if (photoid == 2) {
+      image =
+        "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm1.jpg?alt=media&token=f536fd31-6fd0-478b-ba6e-34a25c47a917";
+    } else if (photoid == 3) {
+      image =
+        "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm2.jpg?alt=media&token=7e54dc2f-b324-4761-bfea-b4d4ce45110e";
+    }
     if (email == "") return alert("Missing email address");
     if (displayName == "") return alert("Missing Account Name");
     if (password == "") return alert("Missing Password");
@@ -260,6 +275,7 @@ const MintPopUp = ({
           userType: "fan",
           connectionType: rcType,
           emailNotifications: "ON",
+          image: image,
         })
           .then(() => {
             alert(`Welcome ${displayName} to NFT Concerts`);
@@ -1096,7 +1112,7 @@ const MintPopUp = ({
                                           </button>
                                         )}
                                         {userData?.connectionType ===
-                                          "metamask" && (
+                                          "walletconnect" && (
                                           <button
                                             onClick={connectWalletConnect}
                                             className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"

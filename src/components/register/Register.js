@@ -91,9 +91,25 @@ function Register() {
       });
     }
   }, [currentUser]);
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
 
   //basic security checks before registering user.
   const checkThenRegister = async () => {
+    var photoid = getRandomInt(4);
+    var image =
+      "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Ff1.jpg?alt=media&token=91903ed9-82c3-47aa-ab2d-7b015c7a90a8";
+    if (photoid === 1) {
+      image =
+        "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Ff4.jpg?alt=media&token=bedd3ed8-6db9-4fac-9874-245c2ffff456";
+    } else if (photoid == 2) {
+      image =
+        "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm1.jpg?alt=media&token=f536fd31-6fd0-478b-ba6e-34a25c47a917";
+    } else if (photoid == 3) {
+      image =
+        "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm2.jpg?alt=media&token=7e54dc2f-b324-4761-bfea-b4d4ce45110e";
+    }
     if (email == "") return alert("Missing email address");
     if (displayName == "") return alert("Missing Account Name");
     if (password == "") return alert("Missing Password");
@@ -116,6 +132,8 @@ function Register() {
           walletID: savedUserAddress,
           userType: "fan",
           connectionType: rcType,
+          emailNotifications: "ON",
+          image: image,
         })
           .then(() => {
             alert(`Welcome ${displayName} to NFT Concerts`);
@@ -214,16 +232,15 @@ function Register() {
 
   //connect with magic.
 
-  const [whileMagic, setWhileMagic] = useState(false);
+  const [firstMagic, setFirstMagic] = useState(false);
   const tryMagic = async () => {
-    setWhileMagic(false);
     try {
       var magicRes = await magic.auth.loginWithMagicLink({ email: email });
-      var accountNum = magicRes.data.account;
-      console.log(magicRes);
-      console.log("Account: ", accountNum);
-      setSavedUserAddress(accountNum);
+      const { publicAddress } = await magic.user.getMetadata();
+      console.log("Account: ", publicAddress);
+      setSavedUserAddress(publicAddress);
       setRcType("magic");
+      setFirstMagic(true);
     } catch (error) {
       console.log(error);
     }
@@ -231,7 +248,6 @@ function Register() {
   useEffect(() => {
     if (rcType === "magic" && savedUserAddress !== "comingSoon") {
       checkThenRegister();
-      disconnect();
     }
   }, [rcType, savedUserAddress]);
 
@@ -416,7 +432,6 @@ function Register() {
               type="button"
               value="Register"
               className="register__button"
-              disabled={whileMagic}
               onClick={tryMagic}
             />
           )) || (

@@ -136,15 +136,15 @@
     min-width: 0px;
     padding-left: 10px;
     padding-right: 10px;
-    border-right: solid 2px #fff;
+    border-right: solid 2px #333;
     padding-top: 5px;
     margin-top: 0px;
   }
   .halfs {
     min-width: 0px;
-    border-right: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    border-top: 2px solid #fff;
+    border-right: 2px solid #333;
+    border-bottom: 2px solid #333;
+    border-top: 2px solid #333;
     padding: 10px 10px 10px 10px;
   }
   .price {
@@ -213,7 +213,7 @@
   }
   .three__col {
     justify-content: space-between;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #333;
   }
   .quantity {
     display: flex;
@@ -222,15 +222,7 @@
     width: 25%;
     padding-bottom: 10px;
   }
-  .preview__buttons__box {
-    border-bottom: 2px solid #fff;
-  }
-  .performance__info {
-    border-bottom: 2px solid #fff;
-  }
-  .preview__title {
-    border-top: 2px solid #fff;
-  }
+
   .remaining {
     width: 25%;
   }

@@ -227,6 +227,8 @@ const ListingPage = () => {
   let titleID = parseInt(concertID) + 1;
   const [listView, setListview] = useState(false);
 
+  const resaleFee = parseFloat(concertData?.concertResaleFee) + 5;
+
   //control the list maximum
   const [maxList, setMaxList] = useState(8);
   const [showExpandList, setShowExpandList] = useState(true);
@@ -888,6 +890,10 @@ const ListingPage = () => {
                   title="Duration"
                 />
                 {concertData?.concertDuration}
+              </h3>
+              <h3 className="c__detail">
+                <i class="fa-solid fa-chart-pie c__icons" title="Duration" />
+                {resaleFee}% Resale Fee
               </h3>
               <p className="c__description">
                 {concertData?.concertDescription}

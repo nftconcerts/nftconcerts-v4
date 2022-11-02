@@ -33,6 +33,7 @@ function App() {
   const Login = lazy(() => import("./components/register/Login"));
   const MyAccount = lazy(() => import("./components/register/MyAccount"));
   const AccountInfo = lazy(() => import("./components/register/AccountInfo"));
+  const AccountImage = lazy(() => import("./components/register/AccountImage"));
   const ArtistAccount = lazy(() =>
     import("./components/register/ArtistAccount")
   );
@@ -167,6 +168,7 @@ function App() {
                 <Route path="/my-account" element={<MyAccount />} />
                 <Route path="/my-account/settings" element={<AccountInfo />} />
                 <Route path="/my-account/artist" element={<ArtistAccount />} />
+                <Route path="/my-account/image" element={<AccountImage />} />
 
                 <Route path="/partner" element={<PromoPage />} />
                 <Route path="/upload" element={<Upload />} />
