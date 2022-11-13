@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { ref as dRef, onValue, set } from "firebase/database";
+import { ref as dRef, onValue, set, runTransaction } from "firebase/database";
 import {
   db,
   fetchCurrentUser,
@@ -429,6 +429,7 @@ const MintPopUp = ({
       setPurchased(true);
       setShowPurchased(true);
       setOwned(owned + 1);
+      pushAudience(result);
       let currentEmail = userData.email;
       var template_params = {
         artistemail: concertData.uploaderEmail,
@@ -448,6 +449,35 @@ const MintPopUp = ({
       setClaiming(false);
       setClaimError(true);
     }
+  };
+
+  //after transaction, get mint ID then push user to DB based on Mint Qty
+  const pushAudience = (tx) => {
+    console.log("push Aud with tx: ", tx?.receipt.transactionHash);
+    console.log("tx: ", tx);
+    var mintIdRef = dRef(db, "concerts/" + concertID + "/sales/mintID");
+    for (var i = 0; i < mintQty; i++) {
+      runTransaction(mintIdRef, (mintID) => {
+        if (mintID) {
+          pushAudienceMember(mintID, tx?.receipt.transactionHash);
+          mintID++;
+        }
+        return mintID;
+      });
+    }
+  };
+
+  //push audience member
+  const pushAudienceMember = (mintID, tx) => {
+    console.log("push AudM with id: ", mintID, " & tx: ", tx);
+    var audienceRef = dRef(db, "concerts/" + concertID + "/sales/" + mintID);
+    var mintDate = new Date();
+    var mintDateString = dateFormat(mintDate, "mm/dd/yyyy, hh:MM:ss TT Z ");
+    set(audienceRef, {
+      buyerUID: currentUser.user.uid,
+      tx: tx,
+      date: mintDateString,
+    });
   };
 
   //mint with credit card

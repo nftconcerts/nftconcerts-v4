@@ -243,7 +243,7 @@ const ListingPage = () => {
       );
     } else {
       for (var i = 1; i <= maxList; i++) {
-        var sale = concertData.sales[i - 1];
+        var sale = concertData.sales[i];
 
         const rowDiv = (n) => {
           var saledate;
@@ -361,7 +361,7 @@ const ListingPage = () => {
   const showAudience = () => {
     var audienceRows = [];
     var supply = parseInt(concertData?.concertSupply);
-    for (var i = 0; i < maxAudience; i++) {
+    for (var i = 1; i <= maxAudience; i++) {
       var sale = concertData.sales[i];
 
       const audience = (i) => {

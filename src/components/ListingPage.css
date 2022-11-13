@@ -543,6 +543,12 @@
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+@media screen and (max-width: 725px) {
+  .audience__info__div {
+    font-size: 18px;
+  }
+}
 .sales__div {
   height: 320px;
   width: 320px;

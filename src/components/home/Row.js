@@ -16,7 +16,6 @@ import dateformat from "dateformat";
 import { ethers } from "ethers";
 import emailjs from "@emailjs/browser";
 import DateCountdown from "react-date-countdown-timer";
-import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
 function Row({
   title,

@@ -189,7 +189,7 @@ video {
     justify-content: center;
     align-items: center;
     max-width: 95%;
-    padding-bottom: 80px;
+    padding-bottom: 0px;
   }
   .concert__info__div {
     display: flex;
