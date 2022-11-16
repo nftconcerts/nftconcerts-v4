@@ -93,6 +93,17 @@
 .halfs {
   min-width: 300px;
 }
+.smol__halfs {
+  min-width: 250px;
+}
+.price {
+  justify-content: flex-end;
+}
+.price__p {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+}
 .price.p {
   font-size: 26px;
 }
@@ -107,9 +118,11 @@
 .three__col {
   display: flex;
   justify-content: center;
+  padding-top: 20px;
 }
 .emph {
   font-size: 20px;
+  font-weight: bold;
 }
 .two__col {
   padding-top: 20px;
@@ -123,7 +136,6 @@
 .preview__buttons__box {
   display: flex;
   justify-content: space-evenly;
-  padding-top: 10px;
 }
 .preview__buttons__div {
   width: 700px;
@@ -131,108 +143,6 @@
   justify-content: space-evenly;
 }
 
-@media only screen and (max-width: 700px) {
-  .thirds {
-    min-width: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-right: solid 2px #333;
-    padding-top: 5px;
-    margin-top: 0px;
-  }
-  .halfs {
-    min-width: 0px;
-    border-right: 2px solid #333;
-    border-bottom: 2px solid #333;
-    border-top: 2px solid #333;
-    padding: 10px 10px 10px 10px;
-  }
-  .price {
-    border-right: none;
-    padding-bottom: 10px;
-  }
-  .venue {
-    border-right: none;
-  }
-  .preview__button {
-    padding-left: 5px;
-    padding-right: 5px;
-    margin: 5px;
-    border-radius: 5px;
-  }
-  .preview__buttons__box {
-    display: flex;
-    justify-content: space-evenly;
-    padding-top: 10px;
-  }
-  .preview__buttons__div {
-    width: 90%;
-    justify-content: space-between;
-    padding-top: 10px;
-  }
-  .two__col {
-    padding-top: 0px;
-  }
-  .split__col {
-    flex-direction: column;
-  }
-  .concert__info__div {
-    align-items: center;
-  }
-  .token__div__container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    align-items: center;
-  }
-  .listing__buttons__div {
-    display: flex;
-    width: 300px;
-    justify-content: space-evenly;
-  }
-  .listing__buttons__div button {
-    width: 60px;
-    height: 40px;
-    font-size: 20px;
-  }
-  .remaining {
-    flex-direction: column;
-    padding-bottom: 10px;
-  }
-  .preview__title {
-    font-size: 24px;
-  }
-  .emph {
-    font-size: 16px;
-  }
-  .blow__up {
-    font-size: 20px;
-  }
-  .halfs {
-    width: 50%;
-  }
-  .three__col {
-    justify-content: space-between;
-    border-bottom: 2px solid #333;
-  }
-  .quantity {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 25%;
-    padding-bottom: 10px;
-  }
-
-  .remaining {
-    width: 25%;
-  }
-  .price {
-    width: 50%;
-  }
-  .row__end__spacer {
-    min-width: 10px;
-  }
-}
 .row__media__player {
   display: flex;
   flex-direction: column;
@@ -418,6 +328,19 @@
 .dots__div {
   padding-left: 25px;
   margin-top: 15px;
+  padding-right: 25px;
+  margin-left: 10px;
+  padding-bottom: 10px;
+}
+.bump__right {
+  margin-left: 10px;
+}
+.quantity__p {
+  display: flex;
+  align-items: flex-end;
+}
+.quantity__p__result {
+  display: flex;
 }
 .release__date__div {
   font-size: 20px;
@@ -482,8 +405,210 @@
   margin-left: -40px;
   padding-left: 10px;
 }
+
+.mint__progress__bar {
+  width: 100%;
+  padding-top: 20px;
+}
+.mint__progress {
+  width: 500px;
+  min-height: 30px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.mint__progress::-webkit-progress-bar {
+  background: #333;
+  border-radius: 10px;
+  margin-bottom: -10px;
+}
+@keyframes aliveBar {
+  0% {
+    background: linear-gradient(90deg, #b90000, #f00000);
+  }
+
+  100% {
+    background: linear-gradient(90deg, #f00000, #000000);
+  }
+}
+.mint__progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #b90000, #f00000);
+  border-radius: 10px;
+  animation: aliveBar 2s ease-in-out;
+}
+
 @media screen and (min-width: 1050px) {
   .row__scroll__div__container {
     display: none;
+  }
+}
+
+.mint__progress__bar__container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding-top: 20px;
+  align-items: center;
+}
+.mint__progress__bar__div {
+  height: 30px;
+  width: 500px;
+  max-width: 90%;
+  background: #333;
+  border-radius: 10px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+@keyframes aliveBar {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.mint__progress__bar__inner {
+  background: linear-gradient(90deg, #b90000, #f00000);
+  border-radius: 10px;
+  transition: all 1s;
+  animation: aliveBar;
+  animation-duration: 2s;
+  -webkit-animation: aliveBar 2s ease-in-out infinite;
+}
+
+.top__p {
+  display: flex;
+  align-items: baseline;
+}
+.venue__p {
+  justify-content: flex-end;
+}
+.bump__down {
+  padding-left: 5px;
+}
+@media only screen and (max-width: 700px) {
+  .thirds {
+    min-width: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: solid 2px #333;
+    padding-top: 5px;
+    margin-top: 0px;
+  }
+  .top__p {
+    flex-direction: column;
+    align-items: center;
+  }
+  .halfs {
+    min-width: 0px;
+    border-right: 2px solid #333;
+    border-bottom: 2px solid #333;
+    padding: 10px 10px 10px 10px;
+  }
+  .price {
+    border-right: none;
+    padding-bottom: 10px;
+  }
+  .venue {
+    border-right: none;
+  }
+  .preview__button {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 5px;
+    border-radius: 5px;
+  }
+  .preview__buttons__box {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 10px;
+  }
+  .preview__buttons__div {
+    width: 90%;
+    justify-content: space-between;
+    padding-top: 10px;
+  }
+  .two__col {
+    padding-top: 0px;
+  }
+  .split__col {
+    flex-direction: column;
+  }
+  .concert__info__div {
+    align-items: center;
+  }
+  .token__div__container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }
+  .listing__buttons__div {
+    display: flex;
+    width: 300px;
+    justify-content: space-evenly;
+  }
+  .listing__buttons__div button {
+    width: 60px;
+    height: 40px;
+    font-size: 20px;
+  }
+  .remaining {
+    flex-direction: column;
+    padding-bottom: 10px;
+  }
+  .preview__title {
+    font-size: 24px;
+  }
+  .emph {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .blow__up {
+    font-size: 20px;
+  }
+  .halfs {
+    width: 50%;
+  }
+  .three__col {
+    justify-content: space-between;
+  }
+  .quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+  }
+  .three__col {
+    padding-top: 0px;
+  }
+  .remaining {
+    width: 25%;
+  }
+  .price {
+    max-width: 50%;
+  }
+  .row__end__spacer {
+    min-width: 10px;
+  }
+  .quantity__p {
+    flex-direction: column;
+  }
+  .dots__div {
+    margin-top: 05px;
+  }
+  .quantity__p__result {
+    padding-top: 10px;
+  }
+  .bump__down {
+    padding-top: 10px;
+  }
+  .price__p {
+    flex-direction: column;
+    align-items: center;
   }
 }

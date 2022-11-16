@@ -7,6 +7,9 @@ const sdk = ThirdwebSDK.fromPrivateKey(privateKey, "mainnet");
 
 // Set variable for the edition drop contract address which can be found after creating an edition drop in the dashboard
 export const editionDropAddress = "0x9B45C979D1FfE99aAe1aa5A9b27888E6b9C39c30";
+
+export const marketplaceAddress = "0x7B03004643624FE3013D7f9DeAf3958B5Fb7c337";
+
 // Initialize the edition drop module with the contract address
 const editionDrop = sdk.getEditionDrop(editionDropAddress);
 

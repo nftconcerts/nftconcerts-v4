@@ -2,20 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Row.css";
 import { useNavigate } from "react-router-dom";
 import { GetUSDExchangeRate } from "../api";
-import { fetchCurrentUser, truncateAddress } from "./../../firebase";
+import { truncateAddress } from "./../../firebase";
 import ReactPlayer from "react-player";
 import {
   useActiveClaimCondition,
-  useContractData,
-  useEditionDrop,
   useContract,
   useNFTs,
 } from "@thirdweb-dev/react";
-import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
+import { editionDropAddress } from "../../scripts/getContract.mjs";
 import dateformat from "dateformat";
 import { ethers } from "ethers";
 import emailjs from "@emailjs/browser";
-import DateCountdown from "react-date-countdown-timer";
 
 function Row({
   title,
@@ -122,7 +119,7 @@ function Row({
     "https://etherscan.io/tx/" + tx?.receipt.transactionHash;
 
   let nowDate = new Date();
-  let releaseDate = new Date(concertData[singleConcert].concertReleaseDate);
+  let releaseDate = new Date(concertData[singleConcert]?.concertReleaseDate);
 
   const scrollRight = () => {
     document
@@ -330,71 +327,85 @@ function Row({
               )}
               <div className="two__col">
                 <div className="halfs performance__date">
-                  <p>
+                  <p className="top__p">
                     Performance Date:
                     <br className="desktop__hide" />{" "}
-                    <b className="emph">
+                    <div className="emph bump__down">
                       {dateformat(
                         concertData[singleConcert]?.concertPerformanceDate,
                         "m/d/yyyy, h:MM TT"
                       )}
-                    </b>
+                    </div>
                   </p>
                 </div>
                 <div className="halfs venue">
-                  <p>
+                  <p className="top__p venue__p">
                     Venue: <br className="desktop__hide" />{" "}
-                    <b className="emph">
+                    <div className="emph  bump__down">
                       {concertData[singleConcert]?.concertVenue}
-                    </b>
+                    </div>
                   </p>
                 </div>
               </div>
 
               <div className="row_col2">
                 <div className="three__col">
-                  <div className="thirds quantity">
-                    <p>
-                      Total Qty: <br className="desktop__hide" />{" "}
-                      <b className="blow__up">
-                        {concertData[singleConcert]?.concertSupply}
-                      </b>
+                  <div className="halfs quantity smol__halfs">
+                    <p className="quantity__p">
+                      <div>
+                        Available: <br className="desktop__hide" />{" "}
+                      </div>
+                      <div className="quantity__p__result">
+                        {!activeClaimCondition?.availableSupply && (
+                          <div className="dots__div">
+                            <div class="dot-flashing"></div>
+                          </div>
+                        )}
+                        <b className="blow__up bump__right">
+                          {activeClaimCondition?.availableSupply} /{" "}
+                          {concertData[singleConcert]?.concertSupply}
+                        </b>
+                      </div>
                     </p>
                   </div>
-                  <div className="thirds remaining">
-                    <div>
-                      <p>
-                        Available: <br className="desktop__hide" />{" "}
-                        <b className="blow__up">
-                          {activeClaimCondition?.availableSupply}
-                        </b>
-                      </p>
-                    </div>
-                    {!activeClaimCondition?.availableSupply && (
-                      <div className="dots__div">
-                        <div class="dot-flashing"></div>
-                      </div>
-                    )}
-                  </div>
-                  <div className="thirds price">
-                    <p>
+
+                  <div className="halfs price smol__halfs">
+                    <p className="price__p">
                       Price: <br className="desktop__hide" />{" "}
-                      <b className="blow__up">
-                        <img
-                          src="/media/eth-logo.png"
-                          height={25}
-                          className="c__eth__logo"
-                          alt="eth logo"
-                        />
-                        {parseFloat(concertData[singleConcert]?.concertPrice)}
-                      </b>
-                      <span className="converted__currency">
-                        {" "}
-                        (${priceInUSD}){" "}
-                      </span>
+                      <div>
+                        <b className="blow__up">
+                          <img
+                            src="/media/eth-logo.png"
+                            height={25}
+                            className="c__eth__logo"
+                            alt="eth logo"
+                          />
+                          {parseFloat(concertData[singleConcert]?.concertPrice)}
+                        </b>
+                        <span className="converted__currency">
+                          {" "}
+                          (${priceInUSD}){" "}
+                        </span>
+                      </div>
                     </p>
                   </div>
                 </div>
+                <div className="mint__progress__bar__container">
+                  <div className="mint__progress__bar__div">
+                    <div
+                      className="mint__progress__bar__inner"
+                      style={{
+                        width: `${
+                          ((concertData[singleConcert]?.concertSupply -
+                            activeClaimCondition?.availableSupply) *
+                            100) /
+                          concertData[singleConcert]?.concertSupply
+                        }%`,
+                      }}
+                    />
+                  </div>
+                </div>
+
                 <div className="buttons__box preview__buttons__box">
                   <div className="preview__buttons__div">
                     <button

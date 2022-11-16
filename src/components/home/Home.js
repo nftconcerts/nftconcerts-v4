@@ -11,6 +11,8 @@ import FormBox from "../form/FormBox";
 import { useAddress, useNetworkMismatch } from "@thirdweb-dev/react";
 import { useNavigate } from "react-router-dom";
 import MintPopUp from "../MintPopUp";
+import ProductionRow from "./ProductionRow";
+import ProductionPop from "./ProductionPop";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -56,6 +58,9 @@ const Home = () => {
   const [showMintPopUp, setShowMintPopUp] = useState(false);
   const [singleConcert, setSingleConcert] = useState(0);
 
+  const [showProductionPop, setShowProductionPop] = useState(false);
+  const [productionID, setProductionID] = useState(0);
+
   return (
     <>
       {concertData && (
@@ -69,12 +74,21 @@ const Home = () => {
               setCurrentUser={setCurrentUser}
             />
           )}
+          {showProductionPop && (
+            <ProductionPop
+              currentUser={currentUser}
+              productionID={productionID}
+              setProductionID={setProductionID}
+              setShowProductionPop={setShowProductionPop}
+              setCurrentUser={setCurrentUser}
+            />
+          )}
           <Banner
             title="Own the Show"
             subtitle="Exclusive Concert Recordings Unlocked by NFTs"
           />
           <Row
-            title="Minting Now"
+            title="NFT Concerts Minting Now"
             isLargeRow
             concertData={concertData}
             concerts={firstReleaseConcerts}
@@ -95,9 +109,15 @@ const Home = () => {
           <ComingSoonRow
             title="Resale Marketplace"
             concertData={concertData}
-            concerts={concerts}
+            concerts={concerts
+            }
           /> */}
-          <ComingSoonRow
+          <ProductionRow
+            setShowProductionPop={setShowProductionPop}
+            productionID={productionID}
+            setProductionID={setProductionID}
+          />
+          {/* <ComingSoonRow
             title="1/1"
             concertData={concertData}
             concerts={concerts}
@@ -111,9 +131,9 @@ const Home = () => {
             title="Classic Shows"
             concertData={concertData}
             concerts={concerts}
-          />
+          />*/}
           <ComingSoonRow
-            title="Audio Only"
+            title="Upcoming Shows"
             concertData={concertData}
             concerts={concerts}
             isFinalRow

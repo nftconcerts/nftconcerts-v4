@@ -1,0 +1,132 @@
+.production__row__container {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.production__row__div {
+  border-radius: 25px;
+  border: solid 1px #555;
+  width: 90%;
+  max-width: 1100px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background: #555;
+}
+.production__row__title {
+  font-size: 28px;
+  font-family: "Saira";
+  padding-top: 30px;
+  text-transform: uppercase;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.production__row__two__col {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.production__row__first__col {
+  padding: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.production__row__second__col {
+  padding: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.production__row__remain {
+  text-align: right;
+}
+.production__row__sub__button__text {
+  width: 310px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+  font-family: "Courier";
+}
+.full__w {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.production__row__highlights {
+  text-align: right;
+  font-size: 18px;
+  font-family: "Saira";
+  padding-top: 20px;
+}
+.production__row__highlights p {
+  padding-bottom: 20px;
+  text-decoration: underline;
+}
+.show__production__lead {
+  font-size: 20px;
+  font-family: "Saira";
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.lead__icon {
+  background: #fff;
+  color: #333;
+  border-radius: 100%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+@media screen and (min-width: 1200px) {
+  .no__underline {
+    padding-left: 80px;
+  }
+}
+@media screen and (max-width: 870px) {
+  .production__row__two__col {
+    flex-direction: column;
+    align-items: center;
+  }
+  .second__col__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .production__row__highlights {
+    text-align: center;
+  }
+  .full__w {
+    justify-content: center;
+  }
+  .no__clip__button {
+    justify-content: center;
+  }
+  .production__row__first__col {
+    padding-bottom: 0px;
+  }
+  .show__production__lead {
+    font-size: 16px;
+    text-align: right;
+    padding-left: 5px;
+  }
+  .lead__icon {
+    height: 20px;
+    width: 20px;
+    font-size: 14px;
+    margin-right: 5px;
+  }
+}

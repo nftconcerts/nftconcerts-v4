@@ -1,16 +1,18 @@
-import editionDrop from "./getProductionContract";
+import { editionDropAddress } from "./getProductionContract";
 import { useState } from "react";
+import { useContract } from "@thirdweb-dev/react";
 
-export default async function checkProductionTeam(address) {
+const CheckProductionTeam = async (address) => {
+  const { contract } = useContract(editionDropAddress, "edition");
   try {
-    const ptBalance = await editionDrop.balanceOf(address, 0);
-    const plBalance = await editionDrop.balanceOf(address, 1);
+    const ptBalance = await contract.balanceOf(address, 0);
+    const plBalance = await contract.balanceOf(address, 1);
     const ptNumber = parseInt(ptBalance.toString());
     const plNumber = parseInt(plBalance.toString());
     const results = [ptNumber, plNumber];
     return results;
   } catch (err) {
-    console.log("Production Check is Fucked Up", err);
     return;
   }
-}
+};
+export default CheckProductionTeam;
