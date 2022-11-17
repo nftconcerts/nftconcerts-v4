@@ -3,6 +3,8 @@ import "./About.css";
 import YouTube from "react-youtube";
 import { Helmet } from "react-helmet";
 import Banner from "./../home/Banner";
+import ProductionPop from "./../home/ProductionPop";
+import ProductionRow from "./../home/ProductionRow";
 
 const About = () => {
   const opts = {

@@ -30,8 +30,8 @@ import emailjs from "@emailjs/browser";
 import { GetUSDExchangeRate } from "./../api";
 import { marketplaceAddress } from "./../../scripts/getProductionContract";
 import { ethers } from "ethers";
-import sendMintEmails from "./../../scripts/sendMintEmails";
-import paperCheckout from "./../../scripts/paperCheckout";
+import sendProductionMintEmails from "./../../scripts/sendProductionMintEmails";
+import paperCheckoutProduction from "./../../scripts/paperCheckoutProduction";
 import { Magic } from "magic-sdk";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -343,10 +343,11 @@ const ProductionPop = ({
       );
   };
   const [showMaxLimit, setShowMaxLimit] = useState(false);
+  const [maxLimit, setMaxLimit] = useState(25);
   const mintPlus = () => {
-    if (mintQty < 25) {
+    if (mintQty < maxLimit) {
       setMintQty(mintQty + 1);
-    } else if (mintQty === 25) {
+    } else if (mintQty === maxLimit) {
       setShowMaxLimit(true);
     }
   };
@@ -380,15 +381,20 @@ const ProductionPop = ({
   const [claiming, setClaiming] = useState("");
 
   const [mintPrice, setMintPrice] = useState();
-  const [listingID, setListingID] = useState(2);
+  const [listingID, setListingID] = useState(3);
+  const [tokenName, setTokenName] = useState("NFT Concerts Production Team");
 
   useEffect(() => {
     if (productionID === 0) {
       setMintPrice(0.05 * mintQty);
-      setListingID(2);
+      setListingID(1);
+      setTokenName("NFT Concerts Production Team");
+      setMaxLimit(25);
     } else if (productionID === 1) {
       setMintPrice(0.5 * mintQty);
-      setListingID(1);
+      setListingID(2);
+      setTokenName("NFT Concerts Production Lead");
+      setMaxLimit(5);
     }
   }, [productionID, mintQty]);
   //claim the nft
@@ -401,7 +407,6 @@ const ProductionPop = ({
       setClaiming(false);
       setPurchased(true);
       setShowPurchased(true);
-
       let currentEmail = userData.email;
       var template_params = {
         buyerName: userData.name,
@@ -409,8 +414,9 @@ const ProductionPop = ({
         mintQty: mintQty,
         productionType: productionType,
         mintPrice: mintPrice,
+        concertName: tokenName,
       };
-      sendMintEmails(template_params);
+      sendProductionMintEmails(template_params);
     } catch (error) {
       console.log("Failed to claim. Error: ", error);
       console.log(error.message);
@@ -427,8 +433,8 @@ const ProductionPop = ({
   const launchCredit = async () => {
     setShowCreditCard(true);
     setPaperSecret(
-      await paperCheckout(
-        productionID,
+      await paperCheckoutProduction(
+        listingID,
         userData?.walletID,
         userData?.email,
         mintQty
@@ -440,7 +446,7 @@ const ProductionPop = ({
     if (paperSecret) {
       setShowCreditCard(true);
       window.open(
-        "https://testcheckout.nftconcerts.com/?s=" +
+        "https://checkout.nftconcerts.com/?s=" +
           paperSecret +
           "&cname=" +
           encodeURIComponent("Production Team") +
@@ -884,15 +890,42 @@ const ProductionPop = ({
     return (
       <>
         <div className="mint__pop__purchased__div">
-          <h3 className="purchased__pop__up__heading">
-            Congratulations, you've successfuly joined <br />
-          </h3>
-          <h1 className="purchased__title">the Production Team</h1>
-          <img
-            src="/media/production-team.jpg"
-            className="purchased__token__img"
-            alt="NFT Concert Token Peview"
-          ></img>
+          {(productionID === 0 && (
+            <>
+              <h3 className="purchased__pop__up__heading">
+                Congratulations, you've successfuly joined the
+                <br />
+              </h3>
+              <h1 className="purchased__title">NFT Concerts Production Team</h1>
+              <img
+                src="/media/production-team.jpg"
+                className="production__pop__image"
+                alt="NFT Concert Token Image"
+              />
+              <h3 className="motto">You Rock!</h3>
+              <p className="motto">
+                Out of <span className="bold__text">5000</span> Memberships, You
+                Own <span className="bold__text">{mintQty}</span>
+              </p>
+            </>
+          )) || (
+            <>
+              <h3 className="purchased__pop__up__heading">
+                Congratulations, you''re now a <br />
+              </h3>
+              <h1 className="purchased__title">NFT Concerts Production Lead</h1>
+              <img
+                src="/media/production-lead.jpg"
+                className="production__pop__image"
+                alt="NFT Concert Token Image"
+              />
+              <h3 className="motto">You Rock!</h3>
+              <p className="motto">
+                Out of <span className="bold__text">55</span> Spots, You Control{" "}
+                <span className="bold__text">{mintQty}</span>
+              </p>
+            </>
+          )}
           <h3 className="motto">You Rock!</h3>
           <p className="motto">
             Out of <span className="bold__text">5000</span> Copies, You Own{" "}
@@ -1020,7 +1053,9 @@ const ProductionPop = ({
                               <div>
                                 Quantity: {mintQty}{" "}
                                 {showMaxLimit && (
-                                  <span className="max__limit">(Max 25)</span>
+                                  <span className="max__limit">
+                                    (Max {maxLimit})
+                                  </span>
                                 )}
                               </div>
                               <div
@@ -1170,9 +1205,9 @@ const ProductionPop = ({
                                   className="c__eth__logo"
                                   alt="eth logo"
                                 />
-                                {(mintQty * 0.05).toFixed(2)}{" "}
+                                {mintPrice?.toFixed(2)}{" "}
                                 <span className="mint__pop__usd__price credit__usd__price">
-                                  (${(priceInUSD * mintQty).toFixed(2)})
+                                  (${(priceInUSD * mintPrice).toFixed(2)})
                                 </span>{" "}
                                 + Gas Fees{" "}
                                 <span className="mint__pop__usd__price credit__usd__price">
@@ -1181,7 +1216,7 @@ const ProductionPop = ({
                               </div>
                               <a
                                 href={
-                                  "https://testcheckout.nftconcerts.com/?s=" +
+                                  "https://checkout.nftconcerts.com/?s=" +
                                   paperSecret +
                                   "&cname=" +
                                   encodeURIComponent("Production Team") +
