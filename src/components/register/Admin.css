@@ -125,7 +125,41 @@
 .wave:nth-child(10) {
   animation-delay: 0.9s;
 }
-
+.users__table {
+  padding-bottom: 20px;
+}
+.user__name__entry {
+  width: 160px;
+}
+.user__email__entry {
+  width: 200px;
+}
+.user__wallet__entry {
+  width: 160px;
+  cursor: pointer;
+}
+.user__wallet__entry:hover {
+  text-decoration: underline;
+}
+.user__type__entry {
+  width: 80px;
+  text-transform: capitalize;
+}
+.concert__table__container {
+  padding-bottom: 20px;
+}
+.approved__concert__name {
+  width: 160px;
+}
+.approved__concert__price {
+  width: 100px;
+}
+.approved__concert__minted {
+  width: 100px;
+}
+.approved__concert__icon {
+  width: 40px;
+}
 @keyframes wave {
   0% {
     transform: scale(0);
@@ -137,7 +171,9 @@
     transform: scale(0);
   }
 }
-
+.table__hide__mobile {
+  display: inline;
+}
 @media screen and (max-width: 725px) {
   .wrong__network__text {
     font-size: 14px;
@@ -156,5 +192,22 @@
   }
   .white__approve__button {
     min-width: 120px;
+  }
+  .user__name__entry {
+    width: 100px;
+  }
+  .user__wallet__entry {
+    width: 50px;
+  }
+  .user__email__entry {
+    width: 50px;
+  }
+  .table__hide__mobile {
+    display: none;
+  }
+}
+@media screen and (min-width: 726px) {
+  .table__wallet__icon {
+    display: none;
   }
 }
