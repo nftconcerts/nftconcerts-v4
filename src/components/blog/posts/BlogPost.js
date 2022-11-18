@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./BlogPost.css";
 import "./../Blog.css";
 import { useNavigate } from "react-router-dom";
+import ProductionRow from "../../home/ProductionRow";
+import ProductionPop from "../../home/ProductionPop";
+import { fetchCurrentUser } from "../../../firebase";
 
 function BlogPost({ children, postDate, postTitle, prevPost, nextPost }) {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [productionID, setProductionID] = useState(0);
+  const [showProductionPop, setShowProductionPop] = useState();
+
+  //set current user
+  useEffect(() => {
+    setCurrentUser(fetchCurrentUser());
+  }, []);
   let navigate = useNavigate();
   return (
     <div className="blog__page">
+      {showProductionPop && (
+        <ProductionPop
+          currentUser={currentUser}
+          productionID={productionID}
+          setProductionID={setProductionID}
+          setShowProductionPop={setShowProductionPop}
+          setCurrentUser={setCurrentUser}
+        />
+      )}
       <div className="blog__header">
         <div className="blog__header__contents"></div>
         <div className="blog__fadeBottom"></div>
@@ -47,6 +67,20 @@ function BlogPost({ children, postDate, postTitle, prevPost, nextPost }) {
           >
             Next &#187;
           </button>
+        </div>
+      </div>{" "}
+      <div className="blog__footer">
+        <div className="footer__top__fade">
+          <div className="footer__top__cover" />{" "}
+        </div>{" "}
+        <div className="blog__footer__content">
+          {" "}
+          <ProductionRow
+            setShowProductionPop={setShowProductionPop}
+            productionID={productionID}
+            setProductionID={setProductionID}
+            intro="Support the Build"
+          />
         </div>
       </div>
     </div>

@@ -383,6 +383,7 @@ const ProductionPop = ({
   const [mintPrice, setMintPrice] = useState();
   const [listingID, setListingID] = useState(3);
   const [tokenName, setTokenName] = useState("NFT Concerts Production Team");
+  const [tokenSupply, setTokenSupply] = useState(5000);
 
   useEffect(() => {
     if (productionID === 0) {
@@ -390,11 +391,13 @@ const ProductionPop = ({
       setListingID(1);
       setTokenName("NFT Concerts Production Team");
       setMaxLimit(25);
+      setTokenSupply(5000);
     } else if (productionID === 1) {
       setMintPrice(0.5 * mintQty);
       setListingID(2);
       setTokenName("NFT Concerts Production Lead");
       setMaxLimit(5);
+      setTokenSupply(55);
     }
   }, [productionID, mintQty]);
   //claim the nft
@@ -415,6 +418,7 @@ const ProductionPop = ({
         productionType: productionType,
         mintPrice: mintPrice,
         concertName: tokenName,
+        concertSupply: tokenSupply,
       };
       sendProductionMintEmails(template_params);
     } catch (error) {
@@ -907,6 +911,18 @@ const ProductionPop = ({
                 Out of <span className="bold__text">5000</span> Memberships, You
                 Own <span className="bold__text">{mintQty}</span>
               </p>
+              <button
+                className="buy__now my__button preview__button buy__now__button"
+                onClick={() => {
+                  navigate("/my-account");
+                  setShowProductionPop(false);
+                }}
+              >
+                <div className="play__now__button__div">
+                  View Account{" "}
+                  <i className="fa-solid fa-wrench play__now__icon" />
+                </div>
+              </button>
             </>
           )) || (
             <>
@@ -924,18 +940,20 @@ const ProductionPop = ({
                 Out of <span className="bold__text">55</span> Spots, You Control{" "}
                 <span className="bold__text">{mintQty}</span>
               </p>
+              <button
+                className="buy__now my__button preview__button buy__now__button"
+                onClick={() => {
+                  navigate("/my-account");
+                  setShowProductionPop(false);
+                }}
+              >
+                <div className="play__now__button__div">
+                  View Account{" "}
+                  <i className="fa-solid fa-walkie-talkie play__now__icon" />
+                </div>
+              </button>
             </>
           )}
-          <h3 className="motto">You Rock!</h3>
-          <p className="motto">
-            Out of <span className="bold__text">5000</span> Copies, You Own{" "}
-            <span className="bold__text">{mintQty}</span>
-          </p>
-          <button className="buy__now my__button preview__button buy__now__button play__now__button">
-            <div className="play__now__button__div">
-              Play Now <i className="fa-solid fa-play play__now__icon" />
-            </div>
-          </button>
 
           {purchased && (
             <div>

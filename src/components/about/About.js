@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./About.css";
 import YouTube from "react-youtube";
 import { Helmet } from "react-helmet";
 import Banner from "./../home/Banner";
 import ProductionPop from "./../home/ProductionPop";
 import ProductionRow from "./../home/ProductionRow";
+import { fetchCurrentUser } from "../../firebase";
 
 const About = () => {
   const opts = {
@@ -14,7 +15,13 @@ const About = () => {
       modestbranding: 1,
     },
   };
-
+  const [currentUser, setCurrentUser] = useState(null);
+  const [productionID, setProductionID] = useState(0);
+  const [showProductionPop, setShowProductionPop] = useState();
+  //set current user
+  useEffect(() => {
+    setCurrentUser(fetchCurrentUser());
+  }, []);
   return (
     <div className="about__page">
       <Banner title="NFT Concerts" subtitle="Own the Show" />
@@ -32,7 +39,15 @@ const About = () => {
         </div>
         <div className="about__fadeBottom"></div>
       </div> */}
-
+      {showProductionPop && (
+        <ProductionPop
+          currentUser={currentUser}
+          productionID={productionID}
+          setProductionID={setProductionID}
+          setShowProductionPop={setShowProductionPop}
+          setCurrentUser={setCurrentUser}
+        />
+      )}
       <div className="about__featured__div feature__div1">
         <div className="about__featured__contained">
           <div className="three__fourths">
@@ -344,6 +359,16 @@ const About = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="about__production__row">
+        <div className="about__production__content">
+          <ProductionRow
+            setShowProductionPop={setShowProductionPop}
+            productionID={productionID}
+            setProductionID={setProductionID}
+            intro="Support the Build"
+          />
         </div>
       </div>
     </div>

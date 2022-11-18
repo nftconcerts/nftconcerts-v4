@@ -116,6 +116,7 @@ const Home = () => {
             setShowProductionPop={setShowProductionPop}
             productionID={productionID}
             setProductionID={setProductionID}
+            intro="Go Backstage"
           />
           {/* <ComingSoonRow
             title="1/1"

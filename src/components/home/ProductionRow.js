@@ -9,6 +9,7 @@ const ProductionRow = ({
   setShowProductionPop,
   productionID,
   setProductionID,
+  intro,
 }) => {
   const [showProductionLead, setShowProductionLead] = useState(false);
   const [usdExRate, setUsdExRate] = useState();
@@ -38,7 +39,7 @@ const ProductionRow = ({
         {(!productionID && (
           <>
             <h3 className="production__row__title">
-              Go Backstage - Join the Production Team
+              {intro} - Join the Production Team
             </h3>
             <div className="production__row__two__col">
               <div className="production__row__first__col">
@@ -47,6 +48,9 @@ const ProductionRow = ({
                     alt="production team image"
                     src="/media/production-team.jpg"
                     className="production__team__image"
+                    onClick={() => {
+                      setShowProductionPop(true);
+                    }}
                   />
                 </div>
               </div>
@@ -126,6 +130,9 @@ const ProductionRow = ({
                     alt="production team image"
                     src="/media/production-lead.jpg"
                     className="production__team__image"
+                    onClick={() => {
+                      setShowProductionPop(true);
+                    }}
                   />
                 </div>
               </div>
