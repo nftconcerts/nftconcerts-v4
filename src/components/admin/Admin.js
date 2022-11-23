@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  db,
-  fetchCurrentUser,
-  logout,
-  truncateAddress,
-} from "./../../firebase";
+import { db, fetchCurrentUser, logout, truncateAddress } from "../../firebase";
 import FormBox from "../form/FormBox";
 import Contract from "../form/Contract";
 import { useNavigate } from "react-router-dom";
-import "./MyAccount.css";
+import "../register/MyAccount.css";
 import { ref as dRef, set, get, onValue } from "firebase/database";
 import "./Admin.css";
 import emailjs from "@emailjs/browser";
 import createNFT from "../../scripts/createNft.mjs";
 import { useNetworkMismatch, useNetwork, ChainId } from "@thirdweb-dev/react";
+import AdminUsers from "./AdminUsers";
+import Payouts from "./Payouts";
+import checkEthBalance from "../../scripts/checkEthBalance";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -27,6 +25,20 @@ const Admin = () => {
   const networkMismatch = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
   const [allUserData, setAllUserData] = useState();
+  const [adminView, setAdminView] = useState(0);
+  const poolAddress = "0x90ed6f1dFF7FBa69053e1A09a47f88A20feBE80e";
+  const [poolBalance, setPoolBalance] = useState();
+
+  //check artist pool eth balance and update
+  const ethBalanceCheck = async () => {
+    var currentBalance = await checkEthBalance(poolAddress);
+    setPoolBalance(currentBalance);
+    console.log("Pool Balance", currentBalance);
+  };
+
+  useEffect(() => {
+    ethBalanceCheck();
+  }, []);
 
   let navigate = useNavigate();
 
@@ -58,7 +70,7 @@ const Admin = () => {
     }
   }, [currentUser]);
 
-  //get submitted concert data
+  //get submitted and live concert data
   useEffect(() => {
     var submittedConcertDataRef = dRef(db, "submittedConcerts/");
     onValue(submittedConcertDataRef, (snapshot) => {
@@ -70,7 +82,7 @@ const Admin = () => {
       var cData = snapshot.val();
       setConcertData(cData);
     });
-  }, [currentUser]);
+  }, []);
 
   //turn concert list into pretty table
   const submittedConcertTable = () => {
@@ -151,10 +163,8 @@ const Admin = () => {
   const approvedConcertTable = () => {
     const rows = [];
     for (var concert in concertData) {
-      console.log("Concert: ", concert);
-      var row = [];
-
       var tempConcert = concertData[concert];
+      var releaseDate = new Date(concertData[concert].concertReleaseDate);
 
       if (tempConcert.listingApproval === "Approved") {
         rows.push(
@@ -171,19 +181,57 @@ const Admin = () => {
               <div className="approved__concert__name">
                 {tempConcert.concertName}
               </div>
+              <div className="approved__concert__name">
+                {releaseDate.toLocaleTimeString()},{" "}
+                {releaseDate.toLocaleDateString()}
+              </div>
               <div className="approved__concert__price">
-                {tempConcert.concertPrice}
+                <img
+                  src="/media/eth-logo.png"
+                  height={15}
+                  className="c__eth__logo"
+                />
+                {parseFloat(tempConcert.concertPrice)}
               </div>
               <div className="approved__concert__minted">
                 {tempConcert?.sales?.mintID - 1 || "0"}/
                 {tempConcert.concertSupply}
               </div>
-
-              <div className="concert__approve__button">
-                <button type="sumbit" className="approve__button">
-                  {(tempConcert?.sales?.mintID - 1) * tempConcert.concertPrice}
-                </button>
+              <div className="approved__concert__minted">
+                <img
+                  src="/media/eth-logo.png"
+                  height={15}
+                  className="c__eth__logo"
+                />
+                {(tempConcert?.sales?.mintID - 1) * tempConcert.concertPrice}
               </div>
+
+              <div className="approved__concert__minted">
+                <img
+                  src="/media/eth-logo.png"
+                  height={15}
+                  className="c__eth__logo"
+                />
+                {(
+                  (tempConcert?.sales?.mintID - 1) *
+                  tempConcert.concertPrice *
+                  0.8
+                ).toFixed(3)}
+              </div>
+              <div className="approved__concert__minted">
+                <img
+                  src="/media/eth-logo.png"
+                  height={15}
+                  className="c__eth__logo"
+                />
+                {(
+                  (tempConcert?.sales?.mintID - 1) *
+                    tempConcert.concertPrice *
+                    0.2 -
+                  0.007
+                ).toFixed(3)}
+              </div>
+
               <div className="approved__concert__icon">
                 <button
                   type="sumbit"
@@ -265,91 +313,72 @@ const Admin = () => {
     });
   };
 
-  //show the users in a nice table
-  const [userView, setUserView] = useState(true);
-  const showUsers = () => {
-    var usercount = 0;
-    for (var user in allUserData) {
-      usercount++;
-    }
+  //show the concert tables
+  const showConcerts = () => {
     return (
       <>
-        {allUserData && (
-          <>
-            <h3>Users - {usercount} Total</h3>
-            <div className="users__table">
-              <div className="concert__table__headers">
-                <div className="concert__thumbnail">IMG</div>
-                <div className="user__name__entry">Name</div>
-                <div className="user__email__entry">Email</div>
-                <div className="user__wallet__entry">Wallet</div>
-                <div className="user__type__entry">Account</div>
+        <div className="concert__table__container">
+          <h3>NFT Concerts</h3>
+          <div className="submitted__concerts__table">
+            <div className="concert__table__headers concert__row">
+              <div className="concert__id">ID </div>
+              <div className="concert__thumbnail">IMG</div>
+              <div className="approved__concert__name">Name</div>
+              <div className="approved__concert__name">Release Date</div>
+              <div className="approved__concert__price">Price</div>
+              <div className="approved__concert__minted">Minted</div>
+              <div className="approved__concert__minted">Rev.</div>
+              <div className="approved__concert__minted">Artist Payout</div>
+              <div className="approved__concert__minted">Profit</div>
+
+              <div className="approved__concert__icon">
+                <i class="fa-solid fa-play" />
               </div>
-              {UserRow()}
+              <div className="approved__concert__icon">
+                <i class="fa-solid fa-dollar-sign" />
+              </div>
             </div>
-          </>
-        )}
+            {userData && concertData && approvedConcertTable(userData)}
+            <div className="submitted__concert__row">
+              <div className="submitted__concert__name"></div>
+            </div>
+          </div>
+        </div>
+        <div className="concert__table__container">
+          <h3>Awaiting Review</h3>
+          <div className="submitted__concerts__table">
+            <div className="concert__table__headers concert__row">
+              <div className="concert__id">L-ID </div>
+              <div className="concert__thumbnail">IMG</div>
+              <div className="concert__name admin__concert__name">Name</div>
+
+              <div className="concert__perf__date admin__date">Upload Date</div>
+
+              <div className="header__play__button">
+                <i class="fa-solid fa-play" />
+              </div>
+
+              <div className="concert__approve__button">
+                <button type="sumbit" className="white__approve__button">
+                  Review
+                </button>
+              </div>
+              <div className="concert__delete__button">
+                <i class="fa-solid fa-trash " />
+              </div>
+            </div>
+            {userData && concertData && submittedConcertTable(userData)}
+            <div className="submitted__concert__row">
+              <div className="submitted__concert__name"></div>
+            </div>
+          </div>
+        </div>
       </>
     );
   };
 
-  const [totalUsers, setTotalUsers] = useState();
-  //turn user list into pretty table
-  const UserRow = () => {
-    var rows = [];
-    var usercount = 0;
-    for (var user in allUserData) {
-      usercount++;
-      var userStr = JSON.stringify(user);
-      rows.push(
-        <div className="concert__row" key={usercount}>
-          <div className="concert__thumbnail">
-            <img
-              src={allUserData[user].image}
-              height="50px"
-              className="account__page__concert__thumbnail"
-            />
-          </div>
-          <div className="user__name__entry">{allUserData[user].name}</div>
-
-          <div className="user__email__entry table__hide__moble">
-            <a href={"mailto:" + allUserData[user].email}>
-              {allUserData[user].email}
-            </a>
-          </div>
-          <div className="user__email__entry table__wallet__icon">
-            <a
-              href={"mailto:" + allUserData[user].email}
-              className="table__wallet__icon"
-            >
-              <i className="fa-solid fa-envelope user__table__button table__wallet__icon" />
-            </a>
-          </div>
-          <div className="user__wallet__entry">
-            <button
-              name={userStr}
-              onClick={(e) => {
-                exportAddress(e.target.name);
-              }}
-            >
-              <span className="table__hide__mobile">
-                {truncateAddress(allUserData[user].walletID)}
-              </span>
-
-              <i className="fa-solid fa-wallet user__table__button table__wallet__icon" />
-            </button>
-          </div>
-          <div className="user__type__entry">{allUserData[user].userType}</div>
-        </div>
-      );
-    }
-
-    return rows;
-  };
-
-  const exportAddress = (user) => {
-    var tempUser = JSON.parse(user);
-    navigator.clipboard.writeText(allUserData[tempUser].walletID);
+  const showPayouts = () => {
+    return <div className="payouts__header">Payouts</div>;
   };
   return (
     <>
@@ -402,128 +431,81 @@ const Admin = () => {
         </FormBox>
       )}
       {adminUser && concertData && (
-        <Contract>
-          {/* <div className="account__name">
-            <p className="user__name">{currentUser.user.name}</p>
-          </div>
-          <div className="account__info">
-            <p className="user__email">{currentUser.user.email}</p>
-            <p className="logged__in__walletID">
-              {truncateAddress(currentUser.user.photoURL)}
-            </p>
-          </div> */}
-          {networkMismatch && (
-            <>
-              <h3 className="wrong__network__text">
-                Network Mistmatch. Please Switch to Ethereum.
-              </h3>
-            </>
-          )}
-          {(userView && showUsers()) || (
-            <>
-              <div className="concert__table__container">
-                <h3>NFT Concerts</h3>
-                <div className="submitted__concerts__table">
-                  <div className="concert__table__headers">
-                    <div className="concert__id">ID </div>
-                    <div className="concert__thumbnail">IMG</div>
-                    <div className="approved__concert__name">Name</div>
-                    <div className="approved__concert__price">Price</div>
-                    <div className="approved__concert__minted">Minted</div>
-                    <div className="concert__approve__button">
-                      <button type="sumbit" className="white__approve__button">
-                        Profit
-                      </button>
-                    </div>
-                    <div className="approved__concert__icon">
-                      <i class="fa-solid fa-play" />
-                    </div>
-                    <div className="approved__concert__icon">
-                      <i class="fa-solid fa-dollar-sign" />
-                    </div>
-                  </div>
-                  {userData && concertData && approvedConcertTable(userData)}
-                  <div className="submitted__concert__row">
-                    <div className="submitted__concert__name"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="concert__table__container">
-                <h3>Awaiting Review</h3>
-                <div className="submitted__concerts__table">
-                  <div className="concert__table__headers">
-                    <div className="concert__id">ID </div>
-                    <div className="concert__thumbnail">IMG</div>
-                    <div className="concert__name admin__concert__name">
-                      Name
-                    </div>
-                    <div className="concert__perf__date admin__date">
-                      Upload Date
-                    </div>
+        <div className="admin__page">
+          <div className="admin__page__content">
+            <div className="user__info__div">
+              <div className="name__div">
+                <span className="bold__text welcome__text account__details">
+                  Welcome {userData?.name} - Admin Portal
+                </span>
+                <br />
 
-                    <div className="header__play__button">
-                      <i class="fa-solid fa-play" />
-                    </div>
+                <>
+                  <div className="first__letter account__details">
+                    <button
+                      onClick={() => {
+                        navigate("/admin");
+                      }}
+                      className="admin__control__button"
+                      disabled={true}
+                    >
+                      View Users
+                    </button>
 
-                    <div className="concert__approve__button">
-                      <button type="sumbit" className="white__approve__button">
-                        Review
-                      </button>
-                    </div>
-                    <div className="concert__delete__button">
-                      <i class="fa-solid fa-trash " />
-                    </div>
-                  </div>
-                  {userData && concertData && submittedConcertTable(userData)}
-                  <div className="submitted__concert__row">
-                    <div className="submitted__concert__name"></div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
+                    <button
+                      onClick={() => {
+                        navigate("/admin/concerts");
+                      }}
+                      className="admin__control__button"
+                    >
+                      View Concerts
+                    </button>
 
-          <div className="user__info__div">
-            <div className="name__div">
-              <span className="bold__text welcome__text account__details">
-                Welcome {userData?.name}
-              </span>
-              <br />
-              <div className="first__letter account__details">
-                {userData?.userType} Panel
+                    <button
+                      onClick={() => {
+                        navigate("/admin/payouts");
+                      }}
+                      className="admin__control__button"
+                    >
+                      Artist Payouts
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        navigate("/admin/partners");
+                      }}
+                      className="admin__control__button"
+                    >
+                      Partner Payouts
+                    </button>
+                  </div>
+                </>
               </div>
-              <div
-                className="first__letter account__details"
-                onClick={() => {
-                  setUserView(!userView);
-                }}
-              >
-                <button
+
+              <div className="account__image">
+                <div
+                  className="account__image__hover"
                   onClick={() => {
-                    setUserView(!userView);
+                    navigate("/my-account/image");
                   }}
                 >
-                  {(userView && <>View Concerts</>) || <>View Users</>}
-                </button>
-              </div>
-              <div className="first__letter account__details">
-                <a href="/my-account/settings">Account Settings -{`>`}</a>
+                  <i className="fa-solid fa-pen account__image__hover" />
+                </div>
+                <img src={userData?.image} className="account__image" />
               </div>
             </div>
 
-            <div className="account__image">
-              <div
-                className="account__image__hover"
-                onClick={() => {
-                  navigate("/my-account/image");
-                }}
-              >
-                <i className="fa-solid fa-pen account__image__hover" />
-              </div>
-              <img src={userData?.image} className="account__image" />
-            </div>
+            {networkMismatch && (
+              <>
+                <h3 className="wrong__network__text">
+                  Network Mistmatch. Please Switch to Ethereum.
+                </h3>
+              </>
+            )}
+            {adminView === 0 && AdminUsers(allUserData)}
+            {adminView === 1 && showConcerts()}
           </div>
-        </Contract>
+        </div>
       )}
     </>
   );

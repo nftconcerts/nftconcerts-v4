@@ -213,13 +213,9 @@ const About = () => {
           <div className="roadmap__dates__div">
             <div className="start__col">
               <div className="roadmap__single__date">
-                <div className="roadmap__date done__date">2/21/21</div>
-                <div className="roadmap__objective">Jimmy Discovered NFTs</div>
-              </div>
-              <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">2/23/21 </div>
                 <div className="roadmap__objective">
-                  NFT Concerts Domain Purchased & Socials Registered
+                  NFT Concerts Begins - Domain Purchased & Socials Registered
                 </div>
               </div>
               <div className="roadmap__single__date">
@@ -236,12 +232,7 @@ const About = () => {
                   </a>
                 </div>
               </div>
-              <div className="roadmap__single__date">
-                <div className="roadmap__date done__date">4/16/21</div>
-                <div className="roadmap__objective">
-                  First Meeting with Serious Investment Team
-                </div>
-              </div>
+
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">6/1/21</div>
                 <div className="roadmap__objective">
@@ -295,8 +286,6 @@ const About = () => {
                   Featuring NFT Concerts on Witlingo
                 </div>
               </div>
-            </div>
-            <div className="end__col">
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">3/15/22</div>
                 <div className="roadmap__objective">
@@ -311,6 +300,8 @@ const About = () => {
                   published in Shoutout SoCal
                 </div>
               </div>
+            </div>
+            <div className="end__col">
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">8/4/22</div>
                 <div className="roadmap__objective">
@@ -335,17 +326,17 @@ const About = () => {
                 <div className="roadmap__objective">Reach 100 NFT Concerts</div>
               </div>
               <div className="roadmap__single__date">
-                <div className="roadmap__date">3/1/22</div>
+                <div className="roadmap__date">3/1/23</div>
                 <div className="roadmap__objective">Reach 500 NFT Concerts</div>
               </div>
               <div className="roadmap__single__date">
-                <div className="roadmap__date">6/1/22</div>
+                <div className="roadmap__date">6/1/23</div>
                 <div className="roadmap__objective">
                   iPhone & Android Mobile Applications
                 </div>
               </div>
               <div className="roadmap__single__date">
-                <div className="roadmap__date">12/1/22</div>
+                <div className="roadmap__date">12/30/23</div>
                 <div className="roadmap__objective">
                   Reach 1500 NFT Concerts
                 </div>

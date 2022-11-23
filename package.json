@@ -3,6 +3,7 @@
   "version": "0.4",
   "private": true,
   "dependencies": {
+    "@0xsplits/splits-sdk": "^2.3.0",
     "@3rdweb/hooks": "^1.9.2",
     "@crossmint/client-sdk-react-ui": "^0.2.0",
     "@emailjs/browser": "^3.7.0",

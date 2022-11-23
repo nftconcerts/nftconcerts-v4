@@ -20,6 +20,8 @@ import {
   ChainId,
   useActiveClaimCondition,
   useContract,
+  useCoinbaseWallet,
+  useWalletConnect,
 } from "@thirdweb-dev/react";
 import checkEns from "../scripts/checkEns";
 import WalletConnectProvider from "@walletconnect/ethereum-provider";
@@ -50,7 +52,6 @@ const MintPopUp = ({
   const [, switchNetwork] = useNetwork();
   const [showRegister, setShowRegister] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -64,6 +65,8 @@ const MintPopUp = ({
   const [mintQty, setMintQty] = useState(1);
   const [newUser, setNewUser] = useState(false);
   const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
+  const connectWithCoinbaseWallet = useCoinbaseWallet();
+  const connectWithWalletConnect = useWalletConnect();
 
   //scroll to top to keep in view
   useEffect(() => {
@@ -144,6 +147,25 @@ const MintPopUp = ({
     }
   };
 
+  const connectCoinbase2 = async () => {
+    try {
+      let cb = await connectWithCoinbaseWallet();
+      const account = cb.data.account;
+      updateWalletID(account, "coinbase");
+    } catch (ex) {
+      console.log("Error: ", ex);
+    }
+  };
+
+  const connectWalletConnect2 = async () => {
+    try {
+      let wc = await connectWithWalletConnect();
+      const account = wc.data.account;
+      updateWalletID(account, "walletconnect");
+    } catch (ex) {
+      console.log("Error: ", ex);
+    }
+  };
   //connect with magic.
   const [firstMagic, setFirstMagic] = useState(false);
   const tryMagic = async () => {
@@ -230,13 +252,16 @@ const MintPopUp = ({
       console.log(ex);
     }
   };
+
   const disconnectCoinbase = () => {
     walletlinkProvider.close();
     setWalletlinkProvider(null);
   };
+
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
+
   //basic security checks before registering user.
   const checkThenRegister = async () => {
     var photoid = getRandomInt(4);
@@ -455,7 +480,7 @@ const MintPopUp = ({
   const pushAudience = (tx) => {
     console.log("push Aud with tx: ", tx?.receipt.transactionHash);
     console.log("tx: ", tx);
-    var mintIdRef = dRef(db, "concerts/" + concertID + "/sales/mintID");
+    var mintIdRef = dRef(db, "concerts/" + concertID + "/mintID");
     for (var i = 0; i < mintQty; i++) {
       runTransaction(mintIdRef, (mintID) => {
         if (mintID) {
@@ -591,13 +616,13 @@ const MintPopUp = ({
             </button>
           )}
           <button
-            onClick={connectWalletConnect}
+            onClick={connectWalletConnect2}
             className="buy__now my__button preview__button buy__now__button  mint__pop__button walletconnect__pop__button"
           >
             <div className="play__now__button__div">Use Wallet Connect</div>
           </button>
           <button
-            onClick={connectCoinbase}
+            onClick={connectCoinbase2}
             className="buy__now my__button preview__button buy__now__button  mint__pop__button coinbase__pop__button"
           >
             <div className="connect__wallet__button__div">
@@ -845,7 +870,7 @@ const MintPopUp = ({
           <>
             {!address && (
               <button
-                onClick={connectCoinbase}
+                onClick={connectWithCoinbaseWallet}
                 className="buy__now my__button preview__button buy__now__button welcome__login__button coinbase__pop__button"
               >
                 <div className="play__now__button__div ">
@@ -874,7 +899,7 @@ const MintPopUp = ({
           <>
             {!address && (
               <button
-                onClick={connectWalletConnect}
+                onClick={connectWithWalletConnect}
                 className="buy__now my__button preview__button buy__now__button welcome__login__button walletconnect__pop__button"
               >
                 <div className="play__now__button__div ">
@@ -1144,8 +1169,8 @@ const MintPopUp = ({
                                         {userData?.connectionType ===
                                           "walletconnect" && (
                                           <button
-                                            onClick={connectWalletConnect}
-                                            className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"
+                                            onClick={connectWithWalletConnect}
+                                            className="buy__now my__button preview__button buy__now__button mint__pop__button walletconnect__pop__button"
                                           >
                                             <div className="play__now__button__div">
                                               Connect to Wallet Connect
@@ -1155,11 +1180,11 @@ const MintPopUp = ({
                                         {userData?.connectionType ===
                                           "coinbase" && (
                                           <button
-                                            onClick={connectCoinbase}
-                                            className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"
+                                            onClick={connectWithCoinbaseWallet}
+                                            className="buy__now my__button preview__button buy__now__button mint__pop__button coinbase__pop__button"
                                           >
                                             <div className="play__now__button__div">
-                                              Connect to Metamask
+                                              Connect to Coinbase
                                             </div>
                                           </button>
                                         )}

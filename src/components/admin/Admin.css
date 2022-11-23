@@ -1,3 +1,28 @@
+.admin__page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: rgb(55, 55, 55);
+  min-height: 100vh;
+  padding-top: 120px;
+  box-sizing: border-box;
+  margin-bottom: -230px;
+  padding-bottom: 350px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.admin__page__content {
+  z-index: 3;
+}
+.admin__user__table {
+  background: #fff;
+  border: solid 2px #000;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  z-index: 3;
+}
 .approve__button {
   background: #aaa;
   border-radius: 10px;
@@ -12,6 +37,15 @@
   margin-left: 5px;
   margin-right: 5px;
   font-family: "Saira";
+}
+.admin__control__button {
+  width: 200px;
+  margin-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 20px;
+  font-family: "Saira";
+  border-radius: 5px;
 }
 .approve__button:hover {
   transition: all 0.5s;
@@ -128,37 +162,77 @@
 .users__table {
   padding-bottom: 20px;
 }
+.user__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px #ddd solid;
+}
+.concert__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .user__name__entry {
-  width: 160px;
+  width: 220px;
 }
 .user__email__entry {
-  width: 200px;
+  width: 250px;
 }
 .user__wallet__entry {
-  width: 160px;
+  width: 200px;
   cursor: pointer;
 }
 .user__wallet__entry:hover {
   text-decoration: underline;
 }
 .user__type__entry {
-  width: 80px;
+  width: 120px;
   text-transform: capitalize;
 }
+.user__connection__entry {
+  width: 120px;
+  text-transform: capitalize;
+}
+.user__reg__date__entry {
+  width: 200px;
+}
 .concert__table__container {
+  background: #fff;
+  border-radius: 2px solid #000;
   padding-bottom: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  padding-top: 10px;
 }
 .approved__concert__name {
-  width: 160px;
+  width: 250px;
 }
 .approved__concert__price {
   width: 100px;
 }
 .approved__concert__minted {
-  width: 100px;
+  width: 120px;
 }
 .approved__concert__icon {
-  width: 40px;
+  width: 50px;
+}
+
+.tx__review__div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  justify-content: space-between;
+  background: #fff;
+  border: solid #b90000 3px;
+  text-align: center;
+  padding: 20px;
+}
+.payout__concert__thumbnail {
+  min-height: 80px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 @keyframes wave {
   0% {
