@@ -2,38 +2,29 @@ import React, { useState, useEffect } from "react";
 import FormBox from "../form/FormBox";
 import "./Register.css";
 import "./Login.css";
-import WalletConnect from "@walletconnect/client";
-import QRCodeModal from "@walletconnect/qrcode-modal";
-import { Link, useNavigate } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
 import {
-  auth,
   db,
   register,
   fetchCurrentUser,
   truncateAddress,
   logout,
 } from "./../../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { ref as dRef, set, update, onValue } from "firebase/database";
+import { ref as dRef, set, onValue } from "firebase/database";
 import {
   useAddress,
   useMetamask,
   useNetworkMismatch,
   useNetwork,
-  ChainId,
   useDisconnect,
+  useCoinbaseWallet,
+  useWalletConnect,
 } from "@thirdweb-dev/react";
 import dateFormat from "dateformat";
-import { Web3Provider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/ethereum-provider";
-import WalletLink from "walletlink";
 import emailjs from "@emailjs/browser";
 import checkEns from "../../scripts/checkEns";
-import { CreateWallet } from "@paperxyz/react-client-sdk";
 import { Magic } from "magic-sdk";
-
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-const dbRef = dRef(db);
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -43,7 +34,8 @@ function Register() {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const connectWithMetamask = useMetamask();
-
+  const connectWithWalletConnect = useWalletConnect();
+  const connectWithCoinbase = useCoinbaseWallet();
   const disconnect = useDisconnect();
   const address = useAddress();
   const [loading, setLoading] = useState(false);
@@ -103,20 +95,20 @@ function Register() {
     if (photoid === 1) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Ff4.jpg?alt=media&token=bedd3ed8-6db9-4fac-9874-245c2ffff456";
-    } else if (photoid == 2) {
+    } else if (photoid === 2) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm1.jpg?alt=media&token=f536fd31-6fd0-478b-ba6e-34a25c47a917";
-    } else if (photoid == 3) {
+    } else if (photoid === 3) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm2.jpg?alt=media&token=7e54dc2f-b324-4761-bfea-b4d4ce45110e";
     }
-    if (email == "") return alert("Missing email address");
-    if (displayName == "") return alert("Missing Account Name");
-    if (password == "") return alert("Missing Password");
-    if (passwordConfirm == "") return alert("Missing Password Confirmation");
+    if (email === "") return alert("Missing email address");
+    if (displayName === "") return alert("Missing Account Name");
+    if (password === "") return alert("Missing Password");
+    if (passwordConfirm === "") return alert("Missing Password Confirmation");
     if (!document.getElementById("acceptTerms").checked)
       return alert("Please accept the terms of service.");
-    if (password == passwordConfirm) {
+    if (password === passwordConfirm) {
       var registrationDate = new Date();
       var dateString = dateFormat(registrationDate, "m/d/yyyy, h:MM TT Z ");
       setLoading(true);
@@ -224,11 +216,35 @@ function Register() {
     }
   };
 
-  //wallet connenct variables
-  const [web3Library, setWeb3Library] = React.useState();
-  const [web3Account, setWeb3Account] = React.useState();
+  //connect with wc and update walletID
+  const connectWalletConnect2 = async () => {
+    try {
+      let mm = await connectWithWalletConnect();
+      const account = mm.data.account;
+      console.log("MM", mm);
+      updateWalletID(account, "walletconnect");
+      setShowWC(false);
+      setWcAddress(account);
+    } catch (ex) {
+      console.log("Error: ", ex);
+    }
+  };
+
+  //connect with wc and update walletID
+  const connectCoinbase2 = async () => {
+    try {
+      let mm = await connectWithCoinbase();
+      const account = mm.data.account;
+      console.log("MM", mm);
+      updateWalletID(account, "coinbase");
+      setShowWC(false);
+      setCbAddress(account);
+    } catch (ex) {
+      console.log("Error: ", ex);
+    }
+  };
+
   const [walletlinkProvider, setWalletlinkProvider] = React.useState();
-  const [walletConnectProvider, setWalletConnectProvider] = React.useState();
 
   //connect with magic.
 
@@ -251,38 +267,6 @@ function Register() {
     }
   }, [rcType, savedUserAddress]);
 
-  //vanilla walletconnect
-  const connectWalletConnect = async () => {
-    try {
-      const RPC_URLS = {
-        1: "https://mainnet.infura.io/v3/55d040fb60064deaa7acc8e320d99bd4",
-      };
-      const provider = new WalletConnectProvider({
-        rpc: {
-          1: RPC_URLS[1],
-        },
-        qrcode: true,
-        pollingInterval: 15000,
-      });
-      setWalletConnectProvider(provider);
-      const accounts = await provider.enable();
-      const account = accounts[0];
-
-      const library = new Web3Provider(provider, "any");
-
-      setWeb3Library(library);
-      setWeb3Account(account);
-      setWcAddress(account);
-      setShowWC(false);
-      updateWalletID(account, "walletconnect");
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-  const disconnectWalletConnect = () => {
-    walletConnectProvider.disconnect();
-    setWalletConnectProvider(null);
-  };
   const [showCurrentAddress, setShowCurrentAddress] = useState(false);
   useEffect(() => {
     if (address) {
@@ -290,36 +274,6 @@ function Register() {
     }
   }, [address, wcAddress]);
 
-  //vanilla coinbase
-  const connectCoinbase = async () => {
-    try {
-      // Initialize WalletLink
-      const walletLink = new WalletLink({
-        appName: "NFT Concerts",
-        darkMode: true,
-      });
-
-      const provider = walletLink.makeWeb3Provider(
-        "https://rinkeby.infura.io/v3/55d040fb60064deaa7acc8e320d99bd4",
-        4
-      );
-      setWalletlinkProvider(provider);
-      const accounts = await provider.request({
-        method: "eth_requestAccounts",
-      });
-      const account = accounts[0];
-
-      const library = new Web3Provider(provider, "any");
-
-      setWeb3Library(library);
-      setWeb3Account(account);
-      setCbAddress(account);
-      setShowWC(false);
-      updateWalletID(account, "coinbase");
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
   const disconnectCoinbase = () => {
     walletlinkProvider.close();
     setWalletlinkProvider(null);
@@ -370,7 +324,7 @@ function Register() {
                 Welcome {truncateAddress(savedUserAddress)} <br />
               </>
             )}
-            Plese Complete Your Registration
+            Welcome, Register with your Email
           </h3>
           <label>Email</label>
           <input
@@ -459,7 +413,7 @@ function Register() {
             {rcType === "walletconnect" && (
               <div
                 onClick={() => {
-                  disconnectWalletConnect();
+                  disconnect();
                   setWcAddress("");
                   setShowWC(true);
                   setDisplayName();
@@ -557,7 +511,7 @@ function Register() {
                 type="button"
                 value="Use Wallet Connect"
                 className="register__button"
-                onClick={connectWalletConnect}
+                onClick={connectWalletConnect2}
                 disabled={address || cbAddress}
               />
             )) || (
@@ -566,7 +520,7 @@ function Register() {
                 value="Disconnect Wallet Connect"
                 className="register__button disconnect__button"
                 onClick={() => {
-                  disconnectWalletConnect();
+                  disconnect();
                   setWcAddress("");
                 }}
               />
@@ -576,7 +530,7 @@ function Register() {
                 type="button"
                 value="Use Coinbase Wallet"
                 className="register__button"
-                onClick={connectCoinbase}
+                onClick={connectCoinbase2}
                 disabled={address || wcAddress}
               />
             )) || (
@@ -585,7 +539,7 @@ function Register() {
                 value="Disconnect Coinbase"
                 className="register__button disconnect__button"
                 onClick={() => {
-                  disconnectCoinbase();
+                  disconnect();
                   setCbAddress("");
                 }}
               />
