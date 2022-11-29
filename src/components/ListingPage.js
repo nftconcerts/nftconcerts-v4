@@ -402,6 +402,40 @@ const ListingPage = () => {
                     </div>
                   </div>
                 </div>
+                {buyerData?.productionRank == 1 && (
+                  <div
+                    className="audprod__div"
+                    onClick={() => {
+                      navigate("/production-team");
+                    }}
+                  >
+                    <div className="apt__info__hover apt__team__hover">
+                      Production Team
+                    </div>
+                    <div className="audience__production__team__icon__div">
+                      <img
+                        src="/media/production-team-icon.jpg"
+                        className="audience__production__team__icon"
+                      />
+                    </div>
+                  </div>
+                )}
+                {buyerData?.productionRank == 2 && (
+                  <div
+                    className="audprod__div"
+                    onClick={() => {
+                      navigate("/production-team");
+                    }}
+                  >
+                    <div className="apt__info__hover">Production Lead</div>
+                    <div className="audience__production__team__icon__div">
+                      <img
+                        src="/media/production-lead-icon.jpg"
+                        className="audience__production__team__icon"
+                      />
+                    </div>
+                  </div>
+                )}
                 <img
                   src={buyerData?.image}
                   className="audience__member__image"

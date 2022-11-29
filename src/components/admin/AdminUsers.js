@@ -27,7 +27,8 @@ const AdminUsers = (allUserData) => {
                 <div className="user__reg__date__entry">Registration Date</div>
                 <div className="user__connection__entry">Connection</div>
                 <div className="user__wallet__entry">Wallet</div>
-                <div className="user__type__entry">Account</div>
+                <div className="user__type__entry">Account</div>{" "}
+                <div className="user__pt__entry">PT Rank</div>
               </div>
               {UserRow()}
             </div>
@@ -90,7 +91,16 @@ const AdminUsers = (allUserData) => {
               <i className="fa-solid fa-wallet user__table__button table__wallet__icon" />
             </button>
           </div>
+
           <div className="user__type__entry">{allUserData[user].userType}</div>
+          <div className="user__pt__entry">
+            {parseInt(allUserData[user]?.productionRank) === 1 && (
+              <i className="fa-solid fa-wrench admin__pt__icons" />
+            )}
+            {parseInt(allUserData[user]?.productionRank) === 2 && (
+              <i className="fa-solid fa-walkie-talkie admin__pt__icons admin__pl__icon" />
+            )}
+          </div>
         </div>
       );
     }

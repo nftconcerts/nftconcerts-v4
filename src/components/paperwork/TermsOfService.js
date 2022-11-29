@@ -276,9 +276,8 @@ const TermsOfService = () => {
             that secondary sale fees on NFT Concert sales are not enforceable
             through some secondary marketplaces, so artist payouts for secondary
             sales will be made to the extent of actual funds received by
-            COMPANY. Currently, artist payouts are processed manually. All NFT
-            Concerts are part of the same collection and due to our current
-            contract (
+            COMPANY. All NFT Concerts are part of the same collection on a
+            single contract (
             <a
               href="https://etherscan.io/address/0x878d3f87c163951ef2923d09859aff45dc34a45a"
               target="_blank"
@@ -286,15 +285,9 @@ const TermsOfService = () => {
             >
               available HERE
             </a>
-            ) , all artist payouts are sent to the same artist pool. This
-            account is generally distributed every Friday.{" "}
-            <span className="italics">
-              We intend to replace manual payouts with a smart contract in the
-              future.
-            </span>{" "}
-            COMPANY will cover all gas fees for artists. From minting to
-            receiving payouts, artists will enjoy a completely gas free
-            experience. All COMPANY fees will come out of the stated mint price.
+            ). COMPANY will cover all gas fees involved with the creation of NFT
+            Concerts for artists. All COMPANY fees will come out of the stated
+            mint price.
           </p>
           <h3 className="info__heading terms__break">For More Information</h3>
           <p>
@@ -303,7 +296,7 @@ const TermsOfService = () => {
             <a href="mailto:info@nftconcerts.com">info@nftconcerts.com</a> or
             visit our <a href="/contact">contact page</a> on the Site.
           </p>
-          <p>Last updated on September 14, 2022.</p>
+          <p>Last updated on November 29, 2022.</p>
         </div>
       </div>
     </Contract>

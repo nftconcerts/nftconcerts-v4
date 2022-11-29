@@ -9,6 +9,9 @@
 .welcome__disclaimer {
   font-size: 22px;
 }
+.prod__lead__title {
+  font-size: 26px;
+}
 
 .production__team__image {
   width: 310px;
@@ -66,7 +69,7 @@
   font-weight: bold;
   font-size: 20px;
 }
-.no__underline {
+.pt__no__underline {
   text-decoration: none !important;
 }
 .bold {

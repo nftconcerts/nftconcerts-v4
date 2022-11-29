@@ -542,12 +542,33 @@
   padding-right: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
+  transition: all 0.5s;
 }
 
 @media screen and (max-width: 725px) {
   .audience__info__div {
     font-size: 18px;
   }
+}
+.audprod__div {
+  margin-top: -300px;
+  cursor: pointer;
+}
+.audience__production__team__icon__div {
+  height: 70px;
+  width: 70px;
+  position: absolute;
+  border-radius: 100px;
+  margin-top: -10px;
+  margin-left: 250px;
+  border: solid 4px #373737;
+  background: #333;
+  transition: all 0.5s;
+  z-index: 5;
+}
+.audience__production__team__icon {
+  width: 100%;
+  border-radius: 100px;
 }
 .sales__div {
   height: 320px;
@@ -659,6 +680,39 @@
 .resale__fee__token__header {
   padding-top: 20px;
 }
+
+.apt__info__hover {
+  position: absolute;
+  margin-left: 270px;
+  background-image: linear-gradient(#8a0101, #b90000);
+  font-family: "Oxygen";
+  font-weight: bold;
+  font-size: 22px;
+  text-align: center;
+  flex-wrap: nowrap;
+  width: 20px;
+  height: 50px;
+  overflow: hidden;
+  opacity: 1;
+  z-index: 3;
+  border-radius: 100px;
+  margin-top: -5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: all 0.5s;
+  white-space: nowrap;
+  border: 4px solid #373737;
+  color: #ccc;
+}
+.audprod__div:hover .apt__info__hover {
+  width: 300px;
+  margin-left: -15px;
+}
+.apt__team__hover {
+  background-image: linear-gradient(#111, #444);
+}
 @media screen and (max-width: 1026px) {
   .sales__div {
     height: 170px;
@@ -689,5 +743,30 @@
   }
   .hover__buyer__name {
     font-size: 16px;
+  }
+  .apt__info__hover {
+    margin-left: 120px;
+    height: 30px;
+    font-size: 12px;
+    margin-top: 0px;
+  }
+  .audprod__div:hover .apt__info__hover {
+    width: 130px;
+    margin-left: -10px;
+  }
+  .audience__production__team__icon__div {
+    margin-left: 110px;
+    height: 50px;
+    width: 50px;
+  }
+  .audprod__div {
+    margin-top: -170px;
+    transition: all 0.5s;
+  }
+  .sales__div:hover .audprod__div {
+    margin-top: -200px;
+  }
+  .audprod__div:hover {
+    margin-top: -170px !important;
   }
 }

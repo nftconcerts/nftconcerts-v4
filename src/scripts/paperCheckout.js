@@ -2,6 +2,7 @@ import React from "react";
 
 const paperCheckout = async (token, wallet, email, mintQty) => {
   const options = {
+    mode: "cors",
     method: "POST",
     headers: {
       accept: "application/json",

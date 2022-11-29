@@ -217,7 +217,18 @@
 .approved__concert__icon {
   width: 50px;
 }
-
+.admin__pt__icons {
+  background: #000;
+  color: #fff;
+  padding: 5px;
+  border-radius: 100px;
+}
+.admin__pl__icon {
+  background: #b90000;
+}
+.user__pt__entry {
+  width: 80px;
+}
 .tx__review__div {
   display: flex;
   flex-direction: column;

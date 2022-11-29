@@ -8,6 +8,7 @@ import { fetchCurrentUser, db } from "../../firebase";
 import { ref as dRef, onValue, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import { networkInterfaces } from "os";
+import { Helmet } from "react-helmet";
 
 const Partner = () => {
   let navigate = useNavigate();
@@ -88,7 +89,8 @@ const Partner = () => {
   };
 
   const confirmPartnership = async () => {
-    if (await checkPartnerCode()) {
+    var codeExists = checkPartnerCode();
+    if (codeExists) {
       pushPartnerCode();
       setShowPopup(false);
     } else {
@@ -98,6 +100,13 @@ const Partner = () => {
 
   return (
     <div className="promo__page">
+      <Helmet>
+        <title>NFT Concerts Partner Program</title>
+        <meta
+          name="description"
+          content="Stack ETH by Recruiting Artists to NFT Concerts"
+        />
+      </Helmet>
       {showPopup && (
         <Popup setShowPurchased={setShowPopup}>
           {(!currentUser && (
