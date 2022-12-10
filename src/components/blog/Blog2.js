@@ -31,6 +31,7 @@ const Blog = () => {
         <div className="blog__fadeBottom"></div>
       </div>
       <div className="blog__cards__div">
+        
         <div className="blog__card__div">
           <div className="blog__card">
             <div

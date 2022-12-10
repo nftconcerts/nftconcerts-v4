@@ -42,6 +42,7 @@ function App() {
   const AdminConcerts = lazy(() => import("./components/admin/AdminConcerts"));
   const ArtistApp = lazy(() => import("./components/register/ArtistApp"));
   const ArtistPage = lazy(() => import("./components/ArtistPage"));
+  const Collectors = lazy(() => import("./components/collectors/Collectors"));
 
   const PromoPage = lazy(() => import("./components/register/Partner"));
 
@@ -125,6 +126,7 @@ function App() {
   const UnlockableNfts = lazy(() =>
     import("./components/blog/posts/UnlockableNfts")
   );
+
   const CollectibleNftArt = lazy(() =>
     import("./components/blog/posts/CollectibleNftArt")
   );
@@ -132,7 +134,9 @@ function App() {
     import("./components/blog/posts/ConcertBootlegs")
   );
   const DonDiablo = lazy(() => import("./components/blog/posts/DonDiablo"));
-
+  const RecHistory = lazy(() => {
+    import("./components/blog/posts/RecHistory");
+  });
   const getLibrary = (provider) => {
     const library = new Web3Provider(provider, "any");
     library.pollingInterval = 15000;
@@ -186,7 +190,7 @@ function App() {
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/payouts" element={<Payouts />} />
                 <Route path="/admin/concerts" element={<AdminConcerts />} />
-
+                <Route path="/collectors" element={<Collectors />} />
                 <Route path="/apply" element={<ArtistApp />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -236,6 +240,10 @@ function App() {
                 <Route
                   path="/10-days-with-a-nft-profile-picture"
                   element={<NftProfilePhoto />}
+                />
+                <Route
+                  path="/evolution-of-recorded-music"
+                  element={<RecHistory />}
                 />
                 <Route
                   path="/how-to-get-started-with-nfts"

@@ -31,6 +31,81 @@ const Blog = () => {
         <div className="blog__fadeBottom"></div>
       </div>
       <div className="blog__cards__div">
+        {/* <div className="blog__card__div">
+          <div className="blog__card">
+            <div
+              className="blog__card__thumbnail__div"
+              onClick={() => {
+                navigate("/evolution-of-recorded-music");
+              }}
+            >
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fhistory%20of%20recorded%20music.jpg?alt=media&token=a31cca00-43e0-4b5f-abc8-7a5554033cf6"
+                className="blog__card__thumbnail__image"
+              />
+            </div>
+            <div className="blog__card__info__div">
+              <h3 className="blog__card__title">
+                The Evolution of Recorded Music: From Edison's Phonograph to
+                Music NFTs
+              </h3>
+              <p className="blog__card__preview">
+                The history of recorded music started in the late 1800's. Does
+                it end with NFTs?
+              </p>
+              <button
+                className="blog__read__more__button"
+                onClick={() => {
+                  navigate("/nft-ticketing-for-concerts-events");
+                }}
+              >
+                Read More &#187;
+              </button>
+            </div>
+            <div className="blog__card__metadata__div">
+              <p>Jimmy Dendrinos</p>
+              <p>December 12, 2022</p>{" "}
+            </div>
+          </div>
+        </div> */}
+        <div className="blog__card__div">
+          <div className="blog__card">
+            <div
+              className="blog__card__thumbnail__div"
+              onClick={() => {
+                navigate("/nft-tickets-vs-nft-music-music-entertainment-nfts");
+              }}
+            >
+              <img
+                src="https://merch.nftconcerts.com/wp-content/uploads/2021/11/NFT-Tickets-vs-NFT-Music-600x600.jpg"
+                className="blog__card__thumbnail__image"
+              />
+            </div>
+            <div className="blog__card__info__div">
+              <h3 className="blog__card__title">NFT Tickets vs. NFT Music</h3>
+              <p className="blog__card__preview">
+                The music community is quickly engaging non-fungible tokens in
+                new and creative ways. While certain artists are using NFTs as a
+                lottery system to send some of their fans to space, others are
+                taking a more practical approach.
+              </p>
+              <button
+                className="blog__read__more__button"
+                onClick={() => {
+                  navigate(
+                    "/nft-tickets-vs-nft-music-music-entertainment-nfts"
+                  );
+                }}
+              >
+                Read More &#187;
+              </button>
+            </div>
+            <div className="blog__card__metadata__div">
+              <p>Jimmy Dendrinos</p>
+              <p>November 15, 2021</p>{" "}
+            </div>
+          </div>
+        </div>
         <div className="blog__card__div">
           <div className="blog__card">
             <div
@@ -65,7 +140,7 @@ const Blog = () => {
             </div>
             <div className="blog__card__metadata__div">
               <p>Jimmy Dendrinos</p>
-              <p>August 6, 2022</p>{" "}
+              <p>December 9, 2022</p>{" "}
             </div>
           </div>
         </div>
@@ -458,44 +533,7 @@ const Blog = () => {
             </div>
           </div>
         </div>
-        <div className="blog__card__div">
-          <div className="blog__card">
-            <div
-              className="blog__card__thumbnail__div"
-              onClick={() => {
-                navigate("/nft-tickets-vs-nft-music-music-entertainment-nfts");
-              }}
-            >
-              <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/11/NFT-Tickets-vs-NFT-Music-600x600.jpg"
-                className="blog__card__thumbnail__image"
-              />
-            </div>
-            <div className="blog__card__info__div">
-              <h3 className="blog__card__title">NFT Tickets vs. NFT Music</h3>
-              <p className="blog__card__preview">
-                The music community is quickly engaging non-fungible tokens in
-                new and creative ways. While certain artists are using NFTs as a
-                lottery system to send some of their fans to space, others are
-                taking a more practical approach.
-              </p>
-              <button
-                className="blog__read__more__button"
-                onClick={() => {
-                  navigate(
-                    "/nft-tickets-vs-nft-music-music-entertainment-nfts"
-                  );
-                }}
-              >
-                Read More &#187;
-              </button>
-            </div>
-            <div className="blog__card__metadata__div">
-              <p>Jimmy Dendrinos</p>
-              <p>November 15, 2021</p>{" "}
-            </div>
-          </div>
-        </div>
+
         <div className="blog__page__buttons">
           <button className="page__button" disabled={true}>
             &#171; Previous

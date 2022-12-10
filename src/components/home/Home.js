@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import MintPopUp from "../MintPopUp";
 import ProductionRow from "./ProductionRow";
 import ProductionPop from "./ProductionPop";
+import CountdownBanner from "./CountdownBanner";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -83,10 +84,8 @@ const Home = () => {
               setCurrentUser={setCurrentUser}
             />
           )}
-          <Banner
-            title="Own the Show"
-            subtitle="Exclusive Concert Recordings Unlocked by NFTs"
-          />
+          <Banner></Banner>
+          <CountdownBanner />
           <Row
             title="NFT Concerts Minting Now"
             isLargeRow

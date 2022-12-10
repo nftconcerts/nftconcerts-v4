@@ -1,0 +1,36 @@
+.countdown__banner__div {
+  margin-bottom: 250px;
+  padding-bottom: 40px;
+  margin-top: -450px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.countdown__banner__content {
+  background: #f11e1e;
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FFabz-background.jpg?alt=media&token=f239a696-df8b-4eea-bb63-f32ca501ea46");
+  background-position: center;
+  background-size: cover;
+  border-radius: 20px;
+  color: #fff;
+  text-align: center;
+  min-width: 300px;
+  width: 90%;
+  max-width: 1000px;
+  overflow: hidden;
+}
+.countdown__bkg__cover {
+  background: #33333380;
+  padding: 20px;
+}
+.countdown__banner__header {
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+.countdown__banner__title {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.no__grow__poster {
+  pointer-events: none;
+}

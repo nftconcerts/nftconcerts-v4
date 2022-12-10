@@ -161,6 +161,7 @@
 }
 .users__table {
   padding-bottom: 20px;
+  width: 100%;
 }
 .user__row {
   display: flex;

@@ -3,7 +3,7 @@ import Contract from "../form/Contract";
 import { useNavigate } from "react-router-dom";
 import ReactPlayer from "react-player";
 import "./Confirmation.css";
-import "./../form/FormBox.css";
+import "../form/FormBox.css";
 import dateFormat from "dateformat";
 import { GetUSDExchangeRate } from "./../api";
 import { db, fetchCurrentUser } from "../../firebase";
