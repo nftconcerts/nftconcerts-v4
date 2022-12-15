@@ -34,7 +34,7 @@ function Row({
         setTrailerUrl("");
         setSingleConcert(0);
         window.scrollTo({
-          top: 0,
+          top: 600,
           left: 0,
           behavior: "smooth",
         });
@@ -42,7 +42,7 @@ function Row({
     } else {
       setTrailerUrl("full");
       window.scrollTo({
-        top: 600,
+        top: 1200,
         left: 0,
         behavior: "smooth",
       });
@@ -320,7 +320,7 @@ function Row({
               {releaseDate > nowDate && (
                 <div className="release__date__div">
                   <div className="release__date__highlight">
-                    Upcoming Drop - {releaseDate.toLocaleTimeString()},{" "}
+                    Public Sale - {releaseDate.toLocaleTimeString()},{" "}
                     {releaseDate.toLocaleDateString()}
                   </div>
                 </div>

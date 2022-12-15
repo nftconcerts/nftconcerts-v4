@@ -7,9 +7,7 @@
   align-items: center;
 }
 .countdown__banner__content {
-  background: #f11e1e;
-  background-image: url("https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FFabz-background.jpg?alt=media&token=f239a696-df8b-4eea-bb63-f32ca501ea46");
-  background-position: center;
+  background-position: top;
   background-size: cover;
   border-radius: 20px;
   color: #fff;
@@ -21,7 +19,6 @@
 }
 .countdown__bkg__cover {
   background: #33333380;
-  padding: 20px;
 }
 .countdown__banner__header {
   font-size: 20px;
@@ -33,4 +30,18 @@
 }
 .no__grow__poster {
   pointer-events: none;
+}
+.schedule__image {
+  width: 100%;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.schedule__image:hover {
+  transform: scale(1.03);
+}
+@media screen and (max-width: 800px) {
+  .schedule__image {
+    content: url("https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FFabz%20IG%20Poster%20banner%20vert.jpg?alt=media&token=4374472b-72fa-416c-ab61-ab8e0b671a92");
+  }
 }

@@ -389,7 +389,7 @@ const Nav = () => {
       <div className={`nav ${show && "nav__black"}`}>
         <img
           className="nav__logo"
-          src="https://merch.nftconcerts.com/wp-content/uploads/2021/02/arc-logo-600x190-White-1.png"
+          src="/media/nftc-logo.png"
           alt="NFT Concerts Logo"
           onClick={() => {
             navigate("/");
@@ -398,7 +398,7 @@ const Nav = () => {
 
         <img
           className="nav__avatar"
-          src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/NFTC-Icon-2022-512x512-web.png"
+          src="/media/apple-touch-icon.png"
           alt="NFT Concerts Icon"
           onClick={menuPop}
         />

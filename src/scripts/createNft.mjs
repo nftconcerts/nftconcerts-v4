@@ -60,7 +60,7 @@ const createNFT = async (
     ];
 
     console.log(dropData);
-    const mint = await editionDrop.createBatch(dropData);
+    const mint = await (await editionDrop).erc1155.lazyMint(dropData);
     console.log("✅ Successfully created a new NFT! #");
     console.log("mint", mint);
     return mint;

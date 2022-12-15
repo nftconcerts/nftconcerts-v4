@@ -326,8 +326,30 @@ const ContractPage = () => {
   const approveConcert = async () => {
     const nowDate = new Date();
     const releaseDate = new Date(concertData.concertReleaseDate);
+    const presaleDate = new Date(releaseDate);
+    presaleDate.setHours(presaleDate.getHours() - 6);
     console.log("release date: ", releaseDate);
+    console.log("presale date:", presaleDate);
     const claimConditions = [
+      {
+        startTime: presaleDate,
+        quantityLimitPerTransaction: 5,
+        price: parseFloat(concertData.concertPrice),
+        waitInSeconds: 500,
+        maxQuantity: concertData.concertSupply,
+        snapshot: [
+          "0x3EB9319c6939ff07CEDE7Aeb4db50D532F6f5CB5",
+          "0xfD8258BF6b927B90E939D161A9D7E2067F1442eB",
+          "0x91107952d9bf6feb7789EcEa379C3bD6e7078042",
+          "0x076ad6a13E1c95131C3fdAD7FfdDC27689774C0B",
+          "0x476dC921cbd6E9eaB7c3C9F95335F66d2F28135B",
+          "0x06e39726f061aAd48E60206F4a85A52B7b76870D",
+          "0x7022c00E3ba4D881cE3d6A370c7F42E640bFf73f",
+          "0xF4DcbEac38721AaDf0D27e9A174B8A628B7BF2e6",
+          "0x40879E74467DF2b87899bbFb0307FC15a50Bac9d",
+          "0x40879E74467DF2b87899bbFb0307FC15a50Bac9d",
+        ],
+      },
       {
         startTime: releaseDate,
         quantityLimitPerTransaction: 5,
