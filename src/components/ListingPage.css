@@ -713,6 +713,27 @@
 .apt__team__hover {
   background-image: linear-gradient(#111, #444);
 }
+.splits__link {
+  color: #fff;
+  transition: all 0.5s;
+}
+.splits__link:hover {
+  color: #ffffff88;
+}
+.player__percent__num {
+  align-content: center;
+  background: #ccc;
+  font-weight: bold;
+  max-width: 40px;
+}
+.player__split__n {
+  text-align: left;
+  padding-left: 10px;
+}
+.player__split__a {
+  text-align: right;
+  padding-right: 20px;
+}
 @media screen and (max-width: 1026px) {
   .sales__div {
     height: 170px;

@@ -426,9 +426,7 @@ const ContractPage = () => {
       uploadTime: concertData.uploadTime,
       tokenIpfs: ipfsUrl,
       submittedConcertId: concertID,
-      sales: {
-        mintID: 1,
-      },
+      mintID: 1,
     }).then(
       emailjs
         .send(

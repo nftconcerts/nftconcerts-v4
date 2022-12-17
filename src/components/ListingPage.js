@@ -159,6 +159,40 @@ const ListingPage = () => {
     }
   };
 
+  //displays the splits.
+  const displaySplits = () => {
+    var splitRows = [];
+    var rowNums = parseInt(concertData?.splits.members);
+
+    for (var i = 1; i <= rowNums; i++) {
+      const splitDiv = (n) => {
+        const tempSplit = concertData?.splits[n];
+
+        return (
+          <div className=" player__song__div">
+            <p className="player__percent__num">{tempSplit.percent}%</p>
+            <p className=" player__split__n">
+              <span className="song__emp">{tempSplit.name}</span>
+            </p>
+            <p className=" player__split__a">
+              <span className="song__emp">
+                <a
+                  href={"https://etherscan.io/address/" + tempSplit.address}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {truncateAddress(tempSplit.address)}
+                </a>
+              </span>
+            </p>
+          </div>
+        );
+      };
+      splitRows.push(splitDiv(i));
+    }
+
+    return splitRows;
+  };
   //claim button
 
   const editionDropped = useEditionDrop(editionDropAddress);
@@ -938,6 +972,25 @@ const ListingPage = () => {
                 </h3>
                 {displaySongs()}
               </div>
+              {concertData?.splits && (
+                <div className="player__setlist__div">
+                  <h3 className="c__detail player__setlist__title">
+                    Splits Contract -{" "}
+                    <a
+                      href={
+                        "https://app.0xsplits.xyz/accounts/" +
+                        concertData?.splits.contract
+                      }
+                      target="_blank"
+                      rel="noreferrer"
+                      className="splits__link"
+                    >
+                      {truncateAddress(concertData?.splits.contract)}
+                    </a>
+                  </h3>
+                  {displaySplits()}
+                </div>
+              )}
             </div>
             <div className="token__div__container">
               <div className="token__div player__token__div">
