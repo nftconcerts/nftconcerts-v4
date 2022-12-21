@@ -721,7 +721,7 @@
     align-items: center;
   }
 }
-@media screen and (min-width: 910px) and (max-width: 1240px) {
+@media screen and (min-width: 900px) and (max-width: 1240px) {
   .row__poster {
     width: 400px;
     margin: 20px;

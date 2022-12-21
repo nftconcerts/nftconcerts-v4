@@ -675,7 +675,7 @@ const ListingPage = () => {
                   url={concertData?.concertPromoClip}
                   width="100%"
                   height="100%"
-                  playing={false}
+                  playing={true}
                   controls={true}
                   playsinline={true}
                 />
