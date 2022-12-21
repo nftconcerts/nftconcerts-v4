@@ -1101,7 +1101,7 @@ const ProductionPop = ({
                                 {(networkMistmatch && (
                                   <button
                                     onClick={() =>
-                                      switchNetwork(ChainId.Mainnet)
+                                      switchNetwork(ChainId.Mumbai)
                                     }
                                     className="buy__now my__button preview__button buy__now__button "
                                   >

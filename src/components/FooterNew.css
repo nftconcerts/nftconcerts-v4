@@ -1,0 +1,193 @@
+.footnew__container {
+  background-image: url("/public/media/nftcfoot.jpg");
+  background-size: cover;
+  background-position: bottom center;
+  min-height: 600px;
+  display: flex;
+  justify-content: center;
+}
+.footnew__content {
+  padding-top: 70px;
+  width: 95%;
+  display: flex;
+}
+.top__half__newfoot {
+  width: 50%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  display: flex;
+  box-sizing: border-box;
+}
+.bottom__half__newfoot {
+  width: 50%;
+
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 100px;
+  box-sizing: border-box;
+}
+.copyright__container {
+  height: 80px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #0c0c0c;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.icon__column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 33%;
+  align-items: center;
+  min-width: 120px;
+  max-width: 350px;
+}
+.menu__column {
+  width: 33%;
+  min-width: 200px;
+  max-width: 350px;
+}
+.footer__icon__img {
+  border-radius: 10px;
+  width: 80px;
+  height: 80px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+.footer__icon__img:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.footer__menu__list a {
+  color: #fff;
+  font-family: "Montserrat";
+  font-size: 20px;
+  text-decoration: none;
+}
+.footer__menu__list a:hover {
+  color: #aaa;
+}
+.footer__menu__list li {
+  padding-bottom: 40px;
+}
+.socials__column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.footer__arc__logo {
+  max-width: 250px;
+}
+.footer__email__p {
+  color: #fff;
+  font-family: "Montserrat";
+  font-size: 20px;
+  padding-top: 150px;
+}
+.footer__email__btn {
+  color: #fff;
+  font-family: "Montserrat";
+  font-size: 20px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.new__footer__icons {
+  margin-top: 100px;
+}
+.new__footer__icons {
+  display: flex;
+}
+.new__footer__icons a {
+  margin-left: 20px;
+}
+.new__footer__icons .fa {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  font-size: 24px;
+  text-align: center;
+  text-decoration: none;
+  background: none;
+  vertical-align: center;
+  line-height: 30px;
+  color: #fff;
+  border-radius: 5px;
+  margin-right: 10px;
+  transition: all 0.5s;
+}
+.footer__email__btn:hover {
+  color: #aaa;
+}
+@media screen and (max-width: 1500px) and (min-width: 1201px) {
+  .bottom__half__newfoot {
+    width: 40%;
+    max-width: 500px;
+    padding-right: 20px;
+  }
+  .top__half__newfoot {
+    width: 60%;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .footnew__content {
+    flex-direction: column;
+  }
+  .bottom__half__newfoot {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+    border-top: 2px solid #ccc;
+    padding-right: 0px;
+  }
+  .top__half__newfoot {
+    width: 100%;
+  }
+  .socials__column {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+  .footer__email__p {
+    padding-top: 40px;
+  }
+  .new__footer__icons {
+    margin-top: 30px;
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .new__footer__icons .fa {
+    margin: 0px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .footnew__content {
+    padding-top: 40px;
+  }
+  .top__half__newfoot {
+    flex-direction: column;
+  }
+  .icon__column {
+    width: 100%;
+    max-width: none;
+    padding-bottom: 40px;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
+  }
+  .menu__column {
+    width: 100%;
+    max-width: none;
+    min-width: none;
+    text-align: center;
+  }
+}

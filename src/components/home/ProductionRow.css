@@ -2,51 +2,90 @@
   color: #fff;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  background: #000 url("/public/media/teamv2.jpg");
+  background-size: cover;
+  background-position: center center;
+  min-height: 850px;
+  width: 100%;
+}
+.production__row__fade {
+  width: 100%;
+  height: 600px;
+  min-height: 400px;
+  margin-bottom: -400px;
+  background: linear-gradient(180deg, #101010 20%, #10101000 100%);
+}
+.production__row__bottom__fade {
+  width: 100%;
+  height: 200px;
+  min-height: 200px;
+
+  background: linear-gradient(180deg, #10101000 0%, #101010 80%);
 }
 .production__row__div {
-  border-radius: 25px;
-  border: solid 1px #555;
+  padding: 7px;
+  background: url("/public/media/pt-bkg.jpg");
+  background-size: cover;
+  background-position: center bottom;
+  border-radius: 10px;
+  margin-bottom: 110px;
   width: 90%;
-  max-width: 1100px;
-
+  min-width: 350px;
+  max-width: 1200px;
+  min-height: 500px;
+  z-index: 3;
+  border: solid 2px #ccc;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  background: #555;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .production__row__title {
-  font-size: 28px;
-  font-family: "Saira";
+  font-size: 60px;
+  font-family: "Space Grotesk";
   padding-top: 30px;
   text-transform: uppercase;
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
+  color: #fcfcfd;
+}
+.production__row__subtitle {
+  font-family: "Space Grotesk";
+  font-size: 26px;
+  text-transform: uppercase;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  color: #e0d5d5;
 }
 .production__row__two__col {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
 }
 .production__row__first__col {
-  padding: 40px;
+  padding-left: 40px;
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
 .production__row__second__col {
-  padding: 40px;
+  padding-top: 40px;
+  padding-bottom: 40px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
+  box-sizing: border-box;
 }
 .production__row__remain {
-  text-align: right;
+  text-align: left;
 }
 .production__row__sub__button__text {
   width: 310px;
@@ -59,18 +98,16 @@
 .full__w {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  align-items: center;
 }
 .production__row__highlights {
-  text-align: right;
+  text-align: left;
   font-size: 18px;
   font-family: "Saira";
   padding-top: 20px;
 }
-.production__row__highlights p {
-  padding-bottom: 20px;
-  text-decoration: underline;
-}
+
 .show__production__lead {
   font-size: 20px;
   font-family: "Saira";
@@ -89,12 +126,98 @@
   align-items: center;
   margin-left: 10px;
 }
-@media screen and (min-width: 1200px) {
-  .no__underline {
-    padding-left: 80px;
+.inner__pt__title {
+  font-size: 40px;
+  font-weight: 700;
+  white-space: nowrap;
+  max-width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+  box-sizing: border-box;
+}
+.production__button {
+  background: #000;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 100px;
+  border: 1px solid #393939;
+  box-shadow: 0px 43.5308px 31.709px rgba(7, 10, 30, 0.11),
+    0px 9.62029px 7.00767px rgba(7, 10, 30, 0.182445);
+}
+.production__button:hover {
+  background: #131313;
+}
+.pt__eth__logo {
+  padding-right: 5px;
+}
+.pt__stat {
+  color: #ffffff78;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-right: 30px;
+  font-size: 20px;
+}
+.pt__stat__1 {
+  border-right: solid 2px #ffffff58;
+}
+.pt__stat__2 {
+  padding-left: 30px;
+}
+.pt__emph {
+  color: #fff;
+  font-weight: 700;
+  padding-left: 10px;
+  font-family: "Space Grotesk";
+}
+.pt__point {
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.underline {
+  text-decoration: underline;
+}
+.empty__pt__button {
+  background: none;
+  border: solid 2px #fff;
+  border-radius: 100px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: #fff;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 20px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.5s;
+  font-family: "Saira";
+  flex-wrap: nowrap;
+  font-size: 16px;
+}
+.empty__pt__button:hover {
+  background: #ffffff18;
+}
+.empty__icon {
+  padding-left: 10px;
+}
+.pt__market__icon {
+  margin-top: 20px;
+  filter: brightness(0.8);
+  opacity: 0.3;
+}
+.pt__market__icon:hover {
+  filter: brightness(0.8);
+  opacity: 0.5;
+}
+@media screen and (max-width: 550px) {
+  .inner__pt__title {
+    font-size: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
-@media screen and (max-width: 870px) {
+
+@media screen and (max-width: 1050px) {
   .production__row__two__col {
     flex-direction: column;
     align-items: center;
@@ -105,6 +228,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    width: 100%;
   }
   .production__row__highlights {
     text-align: center;
@@ -117,7 +241,10 @@
   }
   .production__row__first__col {
     padding-bottom: 0px;
+    padding-left: 0px;
+    padding-top: 40px;
   }
+
   .show__production__lead {
     font-size: 16px;
     text-align: right;
@@ -128,5 +255,51 @@
     width: 20px;
     font-size: 14px;
     margin-right: 5px;
+  }
+  .production__row__div {
+    background: url("/public/media/pt-bkg-vt.jpg");
+    background-position: center center;
+    background-size: cover;
+    max-width: 700px;
+  }
+}
+@media screen and (max-width: 1150px) {
+  .pt__button__row {
+    flex-direction: column;
+  }
+  .production__row__remain {
+    padding-top: 10px;
+  }
+}
+@media screen and (max-width: 660px) {
+  .full__w {
+    flex-direction: column;
+  }
+  .empty__pt__button {
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+  .pt__stat__1 {
+    border-right: none;
+  }
+  .production__row__bottom__fade {
+    margin-top: -150px;
+  }
+  .production__row__fade {
+    margin-bottom: -500px;
+  }
+  .production__row__title {
+    font-size: 45px;
+
+    padding-left: 15px;
+    padding-right: 5px;
+  }
+  .production__row__subtitle {
+    font-size: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .production__row__fade {
+    background: linear-gradient(180deg, #101010 00%, #10101000 50%);
   }
 }

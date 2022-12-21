@@ -352,16 +352,12 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="about__production__row">
-        <div className="about__production__content">
-          <ProductionRow
-            setShowProductionPop={setShowProductionPop}
-            productionID={productionID}
-            setProductionID={setProductionID}
-            intro="Support the Build"
-          />
-        </div>
-      </div>
+      <ProductionRow
+        setShowProductionPop={setShowProductionPop}
+        productionID={productionID}
+        setProductionID={setProductionID}
+        intro="Support the Build"
+      />
     </div>
   );
 };

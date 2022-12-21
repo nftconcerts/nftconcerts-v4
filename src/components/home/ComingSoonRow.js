@@ -29,20 +29,43 @@ function ComingSoonRow({ title, isLargeRow, concerts, isFinalRow }) {
 
   return (
     <>
-      <div className={`row ${isLargeRow && "row1"}`}>
-        <h2 className="row__title">{title}</h2>
+      <div className={`row ${isLargeRow && "row1"} coming__soon__row`}>
+        <div className="coming__soon__title__div">
+          <h3 className="upcoming__h3">Upcoming</h3>
+          <h3 className="shows__h3"> Shows</h3>
+        </div>
+
         {/* container -> posters */}
 
-        <div className="row__posters">
-          {concerts.map((concert) => (
+        <div className="coming__soon__row__posters">
+          <div className="cs__poster__div posterdiv1">
             <img
-              key={concert}
-              onClick={() => handleClick(concert)}
-              className={`row__poster ${isLargeRow && "row__posterLarge"}`}
+              className="cs__poster poster1"
               src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FComing%20Soon%20Token%20Template.png?alt=media&token=c3c3498a-6db2-48f0-8c49-e48093cb713a"
               alt={"More NFT Concerts Coming Soon"}
             />
-          ))}
+          </div>{" "}
+          <div className="cs__poster__div posterdiv2">
+            <img
+              className="cs__poster poster2"
+              src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FComing%20Soon%20Token%20Template.png?alt=media&token=c3c3498a-6db2-48f0-8c49-e48093cb713a"
+              alt={"More NFT Concerts Coming Soon"}
+            />
+          </div>{" "}
+          <div className="cs__poster__div posterdiv3">
+            <img
+              className="cs__poster poster3"
+              src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FComing%20Soon%20Token%20Template.png?alt=media&token=c3c3498a-6db2-48f0-8c49-e48093cb713a"
+              alt={"More NFT Concerts Coming Soon"}
+            />
+          </div>{" "}
+          <div className="cs__poster__div posterdiv4">
+            <img
+              className="cs__poster  poster4"
+              src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FComing%20Soon%20Token%20Template.png?alt=media&token=c3c3498a-6db2-48f0-8c49-e48093cb713a"
+              alt={"More NFT Concerts Coming Soon"}
+            />
+          </div>
           <div className="row__end__spacer" />
         </div>
 

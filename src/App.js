@@ -1,7 +1,7 @@
 import { Suspense, lazy, useEffect } from "react";
 import "./App.css";
 import Nav from "./components/Nav";
-import Footer from "./components/Footer";
+import Footer from "./components/FooterNew";
 import {
   BrowserRouter as Router,
   Routes,

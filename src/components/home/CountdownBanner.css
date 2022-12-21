@@ -1,13 +1,54 @@
 .countdown__banner__div {
-  margin-bottom: 250px;
-  padding-bottom: 40px;
-  margin-top: -450px;
+  width: 100%;
+  padding-top: 200px;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: #101010;
+  background-image: url("/public/media/banner2023.jpg");
+  background-size: cover;
+  background-position: center center;
+}
+.countdown__banner__inner {
+  display: flex;
+  width: 100%;
+  max-width: 1500px;
+  justify-content: space-evenly;
+  z-index: 6;
+}
+.countdown__banner__col1 {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+.countdown__banner__col2 {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+.welcome__logo {
+  display: flex;
+  max-width: 300px;
+  height: auto;
+  width: 80%;
+  filter: drop-shadow(10px 10px 20px #000);
+  margin-top: -100px;
+}
+.welcome__poster {
+  width: 350px;
+  border-radius: 30px;
+  margin-bottom: -100px;
+}
 .countdown__banner__content {
-  background-position: top;
+  background: #f11e1e;
+  background-image: url("https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FFabz-background.jpg?alt=media&token=f239a696-df8b-4eea-bb63-f32ca501ea46");
+  background-position: center;
   background-size: cover;
   border-radius: 20px;
   color: #fff;
@@ -16,10 +57,9 @@
   width: 90%;
   max-width: 1000px;
   overflow: hidden;
+  display: flex;
 }
-.countdown__bkg__cover {
-  background: #33333380;
-}
+
 .countdown__banner__header {
   font-size: 20px;
   padding-bottom: 20px;
@@ -31,17 +71,221 @@
 .no__grow__poster {
   pointer-events: none;
 }
-.schedule__image {
+.countdown__banner__bottom__fade {
   width: 100%;
-  border-radius: 20px;
+  height: 200px;
+  background: linear-gradient(#10101000 0%, #101010 80%);
+}
+
+.world__calendar__container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: -200px;
+}
+.world__calendar__div {
+  z-index: 5;
+  background-image: url("/public/media/pt-bkg.jpg");
+  background-size: cover;
+  background-position: center center;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  border-radius: 20px 0px 0px 20px;
+  padding-bottom: 50px;
+  padding-left: 50px;
+}
+.drop__date {
+  margin-top: 30px;
+  font-family: "Saira";
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffffff78;
+  margin-bottom: 20px;
   cursor: pointer;
   transition: all 0.5s;
+  line-height: 40px;
 }
-.schedule__image:hover {
-  transform: scale(1.03);
+.drop__date:hover {
+  font-size: 40px;
 }
-@media screen and (max-width: 800px) {
-  .schedule__image {
-    content: url("https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FFabz%20IG%20Poster%20banner%20vert.jpg?alt=media&token=4374472b-72fa-416c-ab61-ab8e0b671a92");
+.drop__info {
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+.zones__div {
+  display: flex;
+  width: 100%;
+}
+.zone__div {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  width: 20%;
+  margin-top: 30px;
+  margin-left: 50px;
+  padding-right: 10px;
+  border-right: solid 1px #ffffff78;
+  font-family: "Space Grotesk";
+  color: #fff;
+  box-sizing: border-box;
+}
+.zone__div1 {
+  margin-left: 0px;
+}
+.zone__title {
+  font-size: 30px;
+  font-weight: bold;
+}
+.zone__info {
+  color: #ffffff78;
+  padding-top: 40px;
+  font-size: 22px;
+  white-space: nowrap;
+}
+.zone__data {
+  color: #fff;
+  font-weight: bold;
+  padding-left: 5px;
+}
+.zone__div1 {
+  padding-bottom: 20px;
+}
+.zone__div2 {
+  padding-bottom: 20px;
+}
+.calendar__buttons {
+  padding-top: 20px;
+}
+
+@media screen and (max-width: 1400px) {
+  .zones__div {
+    flex-wrap: wrap;
+  }
+  .zone__div {
+    margin-left: 0px;
+    width: 50%;
+    max-width: none;
+    box-sizing: border-box;
+  }
+  .zone__div1 {
+    border-bottom: solid 1px #ffffff78;
+  }
+  .zone__div2 {
+    margin-left: 0px;
+    padding-left: 30px;
+    border-right: none;
+    border-bottom: solid 1px #ffffff78;
+  }
+  .zone__div3 {
+    margin-top: 0px;
+    padding-top: 50px;
+  }
+  .zone__div4 {
+    margin-left: 0px;
+    padding-left: 30px;
+    margin-top: 0px;
+    padding-top: 50px;
+    border-right: none;
+  }
+}
+@media screen and (min-width: 701px) and (max-width: 1000px) {
+  .welcome__poster {
+    border-radius: 20px;
+  }
+}
+@media screen and (min-width: 501px) and (max-width: 700px) {
+  .welcome__poster {
+    border-radius: 20px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .welcome__poster {
+    border-radius: 10px;
+  }
+}
+@media screen and (min-width: 651px) and (max-width: 800px) {
+  .drop__date {
+    font-size: 28px;
+  }
+  .drop__date:hover {
+    font-size: 32px;
+  }
+  .pt__stat {
+    font-size: 16px;
+  }
+  .zone__info {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 650px) {
+  .zone__info {
+    font-size: 16px;
+  }
+  .drop__date {
+    font-size: 28px;
+    padding-top: 100px;
+  }
+  .drop__date:hover {
+    font-size: 32px;
+  }
+  .pt__stat {
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .welcome__poster {
+    margin-top: -30px;
+    margin-bottom: -100px;
+  }
+  .big__logo {
+    display: none;
+  }
+  .countdown__banner__col1 {
+    width: 20%;
+  }
+  .countdown__banner__col2 {
+    width: 80%;
+  }
+}
+.countdown__banner__small__logo {
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+@media screen and (min-width: 651px) {
+  .countdown__banner__small__logo {
+    display: none;
+  }
+  .calendar__buttons {
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .world__calendar__div {
+    padding-left: 20px;
+    background-image: url("/public/media/pt-bkg-vt.jpg");
+  }
+  .zone__div {
+    width: 100%;
+
+    border-bottom: solid 1px #ffffff78;
+    border-right: none;
+  }
+  .zone__div1 {
+    border-top: solid 1px #ffffff78;
+    padding-top: 30px;
+  }
+  .zone__div2 {
+    padding-left: 0px;
+    display: none;
+  }
+  .zone__div3 {
+    padding-bottom: 20px;
+    display: none;
+  }
+  .zone__div4 {
+    padding-left: 0px;
+    border-bottom: none;
   }
 }

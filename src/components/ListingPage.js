@@ -396,7 +396,7 @@ const ListingPage = () => {
     var audienceRows = [];
     var supply = parseInt(concertData?.concertSupply);
     for (var i = 1; i <= maxAudience; i++) {
-      var sale = concertData.sales[i];
+      var sale = concertData?.sales[i];
 
       const audience = (i) => {
         var saledate;
@@ -627,6 +627,11 @@ const ListingPage = () => {
       </>
     );
   };
+
+  let nowDate = new Date();
+  let releaseDate = new Date(concertData?.concertReleaseDate);
+  let productionDate = new Date(releaseDate);
+  productionDate.setHours(productionDate.getHours() - 6);
 
   return (
     <>
@@ -881,6 +886,19 @@ const ListingPage = () => {
                   )}
                 </>
               )) || <></>}
+
+              {releaseDate > nowDate && (
+                <div className="drop__date__div">
+                  <div className="drop__date__highlight">
+                    <h3 className="drop__date__header">
+                      Minting {productionDate?.toLocaleDateString()}
+                    </h3>
+                    Production Team - {dateFormat(productionDate, "h:MM TT Z")}
+                    <br />
+                    Public Sale - {dateFormat(releaseDate, "h:MM TT Z")}
+                  </div>
+                </div>
+              )}
 
               <h1 className="c__name">
                 {concertData?.concertName} by {concertData?.concertArtist}

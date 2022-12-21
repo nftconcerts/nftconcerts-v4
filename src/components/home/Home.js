@@ -23,7 +23,7 @@ const Home = () => {
   const [concertData, setConcertData] = useState();
   const firstReleaseConcerts = [3, 0, 1, 2];
   const trendingConcerts = [8, 2, 4, 6, 10];
-  const concerts = [5, 4, 7, 2, 1];
+  const concerts = [5, 4, 7, 2];
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const [pageMobileMode, setPageMobileMode] = useState(false);
@@ -84,7 +84,7 @@ const Home = () => {
               setCurrentUser={setCurrentUser}
             />
           )}
-          <Banner></Banner>
+
           <CountdownBanner />
           <Row
             title="NFT Concerts Minting Now"
@@ -138,6 +138,7 @@ const Home = () => {
             concerts={concerts}
             isFinalRow
           />
+          <div className="row__gradient__blend" />
           <FooterTop />
         </div>
       )}

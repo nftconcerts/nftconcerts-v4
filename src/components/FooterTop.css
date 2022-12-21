@@ -1,36 +1,68 @@
 .top__footer {
-  padding: 20px 30px 20px 30px;
   display: flex;
+  flex-direction: column;
   min-height: 400px;
   text-align: center;
   justify-content: center;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  align-items: center;
+  background: url("/public/media/footerv6.jpg");
+  background-size: cover;
+  background-position: bottom center;
 }
 .center__logo {
-  max-width: 300px;
+  max-width: 250px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 .center__prompt {
   padding: 7px;
-  background: #000;
+  background: url("/public/media/topfoot.jpg");
+  background-size: cover;
+  background-position: top right;
   border-radius: 10px;
-  margin-bottom: 110px;
-  width: 50%;
+  margin-top: 150px;
+  margin-bottom: 310px;
+  width: 90%;
   min-width: 350px;
-  max-width: 600px;
+  max-width: 1200px;
+  height: 500px;
   z-index: 3;
+  border: solid 2px #ccc;
+  box-sizing: border-box;
 }
-.center__prompt__center {
-  background: #fff;
-  color: #000;
+.prompt__col {
+  text-align: left;
+  padding-left: 100px;
+  padding-top: 100px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .prompt__button {
-  margin-top: 50px;
+  border-radius: 100px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: #1e1e1e;
+  border: 0.814642px solid #393939;
+  box-shadow: 0px 40.1903px 29.2757px rgba(7, 10, 30, 0.11),
+    0px 8.88204px 6.46991px rgba(7, 10, 30, 0.182445);
+  white-space: nowrap;
+}
+.prompt__buy__button {
+  background: #b90000;
+}
+.prompt__buttons__box {
+  width: 450px;
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 40px;
 }
 .prompt__text {
   font-size: 40px;
-  padding-top: 20px;
+  padding-top: 40px;
+  font-family: "Space Grotesk";
+  font-weight: 700;
+  color: #fcfcfd;
 }
 .footer__highlights {
   display: flex;
@@ -51,11 +83,41 @@
 .no__wrap__button {
   white-space: nowrap;
 }
+.newfooter__top__fade {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(180deg, #101010 20%, #10101000 100%) !important;
+}
+@media screen and (max-width: 1000px) and (min-width: 726px) {
+  .prompt__col {
+    padding-left: 40px;
+  }
+}
 @media screen and (max-width: 725px) {
   .buttons__box {
     flex-direction: column;
   }
   .prompt__text {
     font-size: 24px;
+  }
+  .prompt__col {
+    padding-left: 20px;
+  }
+  .prompt__buttons__box {
+    width: 90%;
+    flex-direction: column;
+    margin-top: -20px;
+  }
+  .prompt__button {
+    font-size: 20px;
+  }
+  .prompt__buy__button {
+    margin-left: 0px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .center__prompt {
+    margin-top: 0px;
+    margin-bottom: 150px;
   }
 }

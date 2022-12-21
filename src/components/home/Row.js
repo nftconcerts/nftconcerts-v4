@@ -27,6 +27,7 @@ function Row({
   let navigate = useNavigate();
 
   const handleClick = (concert) => {
+    navigate(`/concert/${concert}`);
     if (trailerUrl) {
       if (concert !== singleConcert) {
         setSingleConcert(concert);
@@ -34,7 +35,7 @@ function Row({
         setTrailerUrl("");
         setSingleConcert(0);
         window.scrollTo({
-          top: 600,
+          top: 0,
           left: 0,
           behavior: "smooth",
         });
@@ -42,7 +43,7 @@ function Row({
     } else {
       setTrailerUrl("full");
       window.scrollTo({
-        top: 1200,
+        top: 600,
         left: 0,
         behavior: "smooth",
       });
@@ -149,97 +150,32 @@ function Row({
   const [showLeftScroll, setShowLeftScroll] = useState(false);
   const [showRightScroll, setShowRightScroll] = useState(true);
   return (
-    <>
-      {concertData && showPurchased && (
-        <div className="home__purchased__pop__up__overlay__div">
-          <div className="home__purchased__pop__up__div">
-            <div className="close__pop__up__div">
-              <i
-                onClick={() => {
-                  setShowPurchased(false);
-                }}
-                className="fa-solid fa-xmark close__icon__button"
-              />{" "}
-            </div>
-            <h3 className="purchased__pop__up__heading">
-              Congratulations, you've successfuly purchased <br />
-            </h3>
-            <h1 className="purchased__title">
-              {concertData[singleConcert]?.concertName} by{" "}
-              {concertData[singleConcert]?.concertArtist}
-            </h1>
-            <img
-              src={concertData[singleConcert]?.concertTokenImage}
-              className="home__purchased__token__img"
-              alt="Purchased NFT Concert Token Preview"
-            ></img>
-            <h3 className="motto">You Own the Show</h3>
-            <p className="motto">
-              You Just Minted 1 Out of{" "}
-              <span className="bold__text">
-                {concertData[singleConcert]?.concertSupply}
-              </span>{" "}
-              Copies
-            </p>
-            <button
-              className="buy__now my__button preview__button buy__now__button play__now__button"
-              onClick={() => {
-                navigate("/player/" + singleConcert);
-              }}
-            >
-              <div className="play__now__button__div">
-                Play Now <i className="fa-solid fa-play play__now__icon" />
-              </div>
-            </button>
-
-            {purchased && (
-              <div>
-                <a
-                  href={transactionLink}
-                  target="_blank"
-                  className="dark__link"
-                  rel="noreferrer"
-                >
-                  View Your Receipt - TX:{" "}
-                  {truncateAddress(tx?.receipt.transactionHash)}
-                </a>
-              </div>
-            )}
-          </div>
+    <div className="minting__now__container">
+      <div className="minting__now__title__div">
+        <div className="minting__now__top__fade"> </div>
+        <div className="minting__now__text__div">
+          <h1 className="minting__now__top__title">NFT Concerts</h1>
+          <h3 className="minting__now__bottom__title">
+            <span className="minting__now__title__emp">Minting</span> Now
+          </h3>
         </div>
-      )}
-      <div className={`row ${isLargeRow && "row1"}`}>
-        <h2 className="row__title">{title}</h2>
+        <div className="minting__now__bottom__fade"> </div>
+      </div>
+      <div className={`row`}>
         {/* container -> posters */}
 
         {concertData && (
           <div className="row__posters" id="content">
-            {showLeftScroll && (
-              <div className="row__scroll__div__container left__row__scroll__container">
-                <div
-                  className="row__scroll__div left__scroll__div"
-                  onClick={scrollLeft}
-                >
-                  <i className="fa-solid fa-caret-left scroll__right__icon" />
-                </div>
-              </div>
-            )}
             {concerts.map((concert) => (
               <img
                 key={concert}
                 onClick={() => handleClick(concert)}
-                className={`row__poster ${isLargeRow && "row__posterLarge"}`}
+                className={`row__poster`}
                 src={concertData[concert]?.concertTokenImage}
                 alt={"Babs.0 NFT Concert"}
               />
             ))}
-            {showRightScroll && (
-              <div className="row__scroll__div__container right__row__scroll__container">
-                <div className="row__scroll__div" onClick={scrollRight}>
-                  <i className="fa-solid fa-caret-right scroll__right__icon" />
-                </div>
-              </div>
-            )}
+
             <div className="row__end__spacer" />
           </div>
         )}
@@ -320,7 +256,7 @@ function Row({
               {releaseDate > nowDate && (
                 <div className="release__date__div">
                   <div className="release__date__highlight">
-                    Public Sale - {releaseDate.toLocaleTimeString()},{" "}
+                    Upcoming Drop - {releaseDate.toLocaleTimeString()},{" "}
                     {releaseDate.toLocaleDateString()}
                   </div>
                 </div>
@@ -438,7 +374,7 @@ function Row({
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

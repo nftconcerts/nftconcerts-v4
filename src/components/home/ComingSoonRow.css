@@ -1,3 +1,25 @@
+.coming__soon__row {
+  background: url("/public/media/upcoming.jpg");
+  background-size: cover;
+  background-position: center center;
+  height: 900px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: -200px;
+}
+.coming__soon__row__posters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 1200px;
+  margin-top: 480px;
+  margin-bottom: -100px;
+  z-index: 3;
+}
 .coming__soon__title {
   padding-bottom: 20px;
   padding-left: 10px;
@@ -44,9 +66,133 @@
 }
 .buttons__box {
   width: 100%;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-evenly;
 }
 .final__row {
   margin-bottom: 150px;
+}
+.cs__poster__div {
+  width: 30%;
+  padding: 10px;
+}
+.cs__poster {
+  width: 300px;
+  background: #333;
+  height: auto;
+  border: solid 1px #ccc;
+  border-radius: 20px;
+  box-sizing: border-box;
+  display: block;
+  object-fit: contain;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+.cs__poster:hover {
+  transform: scale(1.05);
+}
+.posterdiv1 {
+  width: 335px;
+}
+.posterdiv2 {
+  width: 315px;
+}
+.posterdiv3 {
+  width: 285px;
+}
+.posterdiv4 {
+  width: 255px;
+}
+.poster1 {
+  width: 335px;
+  height: 100%;
+}
+.poster2 {
+  width: 315px;
+}
+.poster3 {
+  width: 285px;
+}
+.poster4 {
+  width: 255px;
+}
+.coming__soon__title__div {
+  position: absolute;
+  font-size: 59px;
+  margin-top: 280px;
+  margin-left: -500px;
+  font-family: "Space Grotesk";
+  color: #fcfcfd;
+}
+.upcoming__h3 {
+  font-weight: 500;
+}
+.shows__h3 {
+  padding-left: 150px;
+  font-size: 80px;
+}
+
+@media screen and (max-width: 1300px) {
+  .coming__soon__row__posters {
+    margin-top: 550px;
+  }
+  .posterdiv1 {
+    width: 31%;
+  }
+  .posterdiv2 {
+    width: 28%;
+  }
+  .posterdiv3 {
+    width: 22%;
+  }
+  .posterdiv4 {
+    width: 19%;
+  }
+  .cs__poster {
+    width: 100%;
+  }
+  .coming__soon__title__div {
+    margin-left: -300px;
+  }
+}
+@media screen and (min-width: 601px) and (max-width: 900px) {
+  .coming__soon__row {
+    height: 700px;
+  }
+  .coming__soon__row__posters {
+    margin-top: 500px;
+  }
+  .coming__soon__title__div {
+    margin-left: -150px;
+    font-size: 35px;
+  }
+  .shows__h3 {
+    padding-left: 80px;
+    font-size: 50px;
+  }
+  .cs__poster {
+    border-radius: 10px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .coming__soon__row {
+    height: 500px;
+    margin-top: -100px;
+  }
+  .coming__soon__row__posters {
+    margin-top: 400px;
+  }
+  .coming__soon__title__div {
+    text-align: left;
+    margin-left: -50px;
+    font-size: 35px;
+  }
+  .shows__h3 {
+    padding-left: 80px;
+    font-size: 50px;
+  }
+  .cs__poster {
+    border-radius: 5px;
+  }
 }

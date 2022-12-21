@@ -75,3 +75,17 @@
     opacity: 1;
   }
 }
+.row__gradient__blend {
+  height: 200px;
+  background: #f00000;
+  min-height: 200px;
+  background: linear-gradient(
+    180deg,
+    #10101000 0%,
+    #101010 40%,
+    #101010 70%,
+    #10101000 100%
+  );
+  margin-top: -100px;
+  margin-bottom: -100px;
+}

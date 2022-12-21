@@ -192,8 +192,37 @@
   max-height: 200px;
   padding-bottom: 10px;
 }
+.drop__date__div {
+  font-size: 20px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  padding-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+.drop__date__highlight {
+  background: #bbb;
+  max-width: 500px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+  color: #000;
+  box-sizing: border-box;
+  border: solid 4px #000;
+  line-height: 40px;
+}
+.drop__date__header {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
 
 @media screen and (max-width: 800px) {
+  .drop__date__div {
+    justify-content: center;
+  }
   .split__col {
     flex-direction: column;
   }

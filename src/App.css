@@ -11,8 +11,8 @@
   flex-direction: column;
   min-width: 360px;
   background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)),
-    url("/public/media/background5.jpg");
-  background-position: top;
+    url("/public/media/footerv6.jpg");
+  background-position: center center;
   background-size: cover;
 }
 .my__button {
@@ -54,7 +54,7 @@
   }
 }
 .home__page {
-  background: #333;
+  background: #101010;
 }
 input[type="text"],
 input[type="button"],

@@ -1,12 +1,115 @@
+.minting__now__container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  background: #101010;
+}
+.minting__now__title__div {
+  background: url("/public/media/minting-bkg.jpg");
+  background-size: cover;
+  background-position: center right;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  height: 800px;
+  box-sizing: border-box;
+}
+.minting__now__text__div {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.minting__now__top__fade {
+  height: 200px;
+  width: 100%;
+  background: linear-gradient(180deg, #101010 20%, #10101000 100%);
+}
+.minting__now__bottom__fade {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(#10101000 0%, #101010 80%);
+}
+.minting__now__top__title {
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: "Space Grotesk";
+  font-size: 70px;
+  margin-left: -200px;
+  font-weight: 300;
+  box-sizing: border-box;
+}
+.minting__now__bottom__title {
+  width: 100%;
+  font-family: "Space Grotesk";
+  font-size: 100px;
+  font-weight: 300;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+.minting__now__title__emp {
+  font-weight: 700;
+}
+@media screen and (min-width: 801px) and (max-width: 1200px) {
+  .minting__now__top__title {
+    font-size: 50px;
+    margin-left: -150px;
+  }
+  .minting__now__bottom__title {
+    font-size: 70px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .minting__now__top__title {
+    font-size: 40px;
+    margin-left: 0px;
+    padding-left: 10px;
+  }
+  .minting__now__bottom__title {
+    font-size: 55px;
+    margin-left: 0px;
+    padding-left: 30px;
+    padding-right: 10px;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  .minting__now__text__div {
+    text-align: left;
+  }
+}
+@media screen and (max-width: 450px) {
+  .minting__now__top__title {
+    font-size: 26px;
+  }
+  .minting__now__bottom__title {
+    font-size: 36px;
+  }
+}
 .row {
   color: #fff;
-  background: #3333338a;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 40px;
 }
 .row__posters {
   display: flex;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  padding: 40px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  align-items: center;
+
+  flex-wrap: wrap;
 }
 
 .row__posters::-webkit-scrollbar {
@@ -14,13 +117,18 @@
 }
 
 .row__poster {
+  margin-top: 20px;
   object-fit: contain;
-  width: 100%;
-  max-height: 350px;
+  width: 280px;
+  max-width: 45%;
+  margin-right: 10px;
+  margin-left: 10px;
   transition: transform 450ms;
-  margin-right: 20px;
-  border-radius: 10px;
+  border: solid 1px #ccc;
+  background: #333;
+  border-radius: 20px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .row__poster:hover {
@@ -39,9 +147,11 @@
 }
 
 .click__preview {
+  position: fixed;
+  top: 120px;
   text-align: center;
   background: #000;
-  width: 100%;
+  width: 90%;
   z-index: 10;
   margin-bottom: 10px;
 }
@@ -68,7 +178,6 @@
 }
 
 .row1 {
-  margin-top: -250px;
   padding-top: 30px;
 }
 .row1 .row__title {
@@ -610,5 +719,25 @@
   .price__p {
     flex-direction: column;
     align-items: center;
+  }
+}
+@media screen and (min-width: 910px) and (max-width: 1240px) {
+  .row__poster {
+    width: 400px;
+    margin: 20px;
+    border-radius: 30px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .row__poster {
+    width: 40%;
+  }
+}
+@media screen and (max-width: 600px) {
+  .minting__now__title__div {
+    height: auto;
+  }
+  .minting__now__bottom__fade {
+    height: 100px;
   }
 }
