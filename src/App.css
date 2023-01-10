@@ -97,10 +97,10 @@ input {
   background-color: rgba(51, 51, 51, 0.8);
 }
 .buy__now {
-  background-color: #b90000;
+  background: #b90000;
 }
 .buy__now:hover {
-  background-color: #f00000;
+  background: #f00000;
 }
 .buy__now:disabled {
   background-color: #555 !important;
@@ -237,12 +237,13 @@ select::-ms-expand {
   width: 50px;
   padding: 10px;
   height: 40px;
-  filter: brightness(0.3);
+  filter: brightness(1);
+  filter: opacity(0.6);
   cursor: pointer;
 }
 .marketplace__icon__div:hover {
   transition: all 0.5s;
-  filter: brightness(0);
+  filter: brightness(0.8);
 }
 .invert__icon {
   filter: invert(1);

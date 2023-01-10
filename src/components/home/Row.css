@@ -515,80 +515,6 @@
   padding-left: 10px;
 }
 
-.mint__progress__bar {
-  width: 100%;
-  padding-top: 20px;
-}
-.mint__progress {
-  width: 500px;
-  min-height: 30px;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.mint__progress::-webkit-progress-bar {
-  background: #333;
-  border-radius: 10px;
-  margin-bottom: -10px;
-}
-@keyframes aliveBar {
-  0% {
-    background: linear-gradient(90deg, #b90000, #f00000);
-  }
-
-  100% {
-    background: linear-gradient(90deg, #f00000, #000000);
-  }
-}
-.mint__progress::-webkit-progress-value {
-  background: linear-gradient(90deg, #b90000, #f00000);
-  border-radius: 10px;
-  animation: aliveBar 2s ease-in-out;
-}
-
-@media screen and (min-width: 1050px) {
-  .row__scroll__div__container {
-    display: none;
-  }
-}
-
-.mint__progress__bar__container {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding-top: 20px;
-  align-items: center;
-}
-.mint__progress__bar__div {
-  height: 30px;
-  width: 500px;
-  max-width: 90%;
-  background: #333;
-  border-radius: 10px;
-  display: flex;
-  position: relative;
-  overflow: hidden;
-}
-@keyframes aliveBar {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.mint__progress__bar__inner {
-  background: linear-gradient(90deg, #b90000, #f00000);
-  border-radius: 10px;
-  transition: all 1s;
-  animation: aliveBar;
-  animation-duration: 2s;
-  -webkit-animation: aliveBar 2s ease-in-out infinite;
-}
-
 .top__p {
   display: flex;
   align-items: baseline;
@@ -661,11 +587,7 @@
     width: 300px;
     justify-content: space-evenly;
   }
-  .listing__buttons__div button {
-    width: 60px;
-    height: 40px;
-    font-size: 20px;
-  }
+
   .remaining {
     flex-direction: column;
     padding-bottom: 10px;

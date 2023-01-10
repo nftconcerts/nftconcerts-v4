@@ -52,40 +52,42 @@ video {
 .c__name {
   padding-top: 20px;
   padding-bottom: 20px;
-  font-size: 26px;
-  text-transform: uppercase;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: 700;
+  font-family: "Inter";
 }
 .owned__info {
   padding-bottom: 20px;
 }
 .c__detail {
   font-size: 20px;
-  padding-top: 10px;
+  padding-top: 20px;
   font-weight: 500;
   color: #fff;
+  font-family: "Space Grotesk";
 }
 .c__icons {
-  color: #b90000;
+  color: #fff;
   width: 40px;
   text-align: center;
   font-size: 18px;
 }
 .c__description {
-  margin-top: 20px;
+  font-family: "Space Grotesk";
+  margin-top: 50px;
   font-size: 20px;
+  color: #fff;
 }
 .view__token__button {
   align-self: center;
   margin-top: 20px;
 }
 .player__setlist__div {
-  margin-top: 20px;
+  margin-top: 50px;
   color: #000;
   background: #000;
-  width: 80%;
-  max-width: 600px;
-  min-width: 350px;
+  width: 100%;
+
   border: 3px solid #000;
   border-radius: 10px;
   box-sizing: border-box;
@@ -97,8 +99,16 @@ video {
 }
 
 .player__setlist__title {
+  display: flex;
+  justify-content: center;
   height: 25px;
   align-content: center;
+  font-size: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: 500;
+  color: #fff;
+  font-family: "Space Grotesk";
 }
 .player__song__div {
   display: flex;
@@ -107,20 +117,22 @@ video {
   align-content: center;
   background: #fff;
 }
-.player__song__num {
-  align-content: center;
-  background: #ccc;
-  font-weight: bold;
-  max-width: 25px;
-}
-.player__song__name {
-  margin-top: 5px;
-}
 .player__song__div p {
   width: 100%;
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
+  text-align: left;
+}
+.player__song__num {
+  align-content: center;
+  background: #ccc;
+  font-weight: bold;
+  max-width: 25px;
+  text-align: center;
+}
+.player__song__name {
+  margin-top: 5px;
 }
 
 .not__valid__watcher {
@@ -139,17 +151,20 @@ video {
   padding-bottom: 30px;
 }
 .player__icon__button {
-  height: 25px;
+  height: 35px;
   width: 35px;
   border: none;
   margin-right: 5px;
-  border-radius: 5px;
+  border-radius: 55px;
   cursor: pointer;
   color: #222;
+  background: #fff;
+  filter: opacity(0.6);
 }
 .player__icon__button:hover {
   transition: all 0.5s;
-  background: #ccc;
+  background: #fff;
+  filter: opacity(0.8);
   color: #000;
 }
 .player__icon__button:disabled {
@@ -175,7 +190,6 @@ video {
   color: #000 !important;
 }
 .token__image__image {
-  max-width: 308px;
   align-self: center;
 }
 .final__buy__button__div {
@@ -213,9 +227,6 @@ video {
   }
   .player__page {
     padding-bottom: 250px;
-  }
-  .player__setlist__div {
-    width: 350px;
   }
 }
 @media screen and (max-width: 1100px) {

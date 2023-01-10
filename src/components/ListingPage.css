@@ -1,3 +1,16 @@
+.listing__page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: #101010;
+  min-height: 100vh;
+
+  box-sizing: border-box;
+  margin-bottom: -230px;
+  padding-bottom: 180px;
+}
+
 .no__clip {
   color: #fff;
   display: flex;
@@ -5,10 +18,16 @@
   text-align: center;
   align-items: center;
   justify-content: center;
+  max-width: 1200px;
+  width: 100%;
 }
 .promo__h3 {
-  font-size: 22px;
-  padding-bottom: 0px;
+  font-size: 45px;
+  line-height: 55px;
+  padding-bottom: 40px;
+  text-align: left;
+  font-family: "Space Grotesk";
+  text-shadow: 0px 0px 10px #101010;
 }
 .concert__info__div {
   padding-right: 20px;
@@ -18,19 +37,20 @@
   color: #fff;
   text-align: center;
   padding: 10px;
-  background: #111;
+  background: #010101;
   box-sizing: border-box;
+  margin-top: 90px;
+  font-family: "Space Grotesk";
 }
 .c__token__info__div {
   display: flex;
   flex-direction: column;
   font-size: 20px;
-  background: #111;
+  padding-top: 40px;
   color: #fff;
   width: 100%;
   justify-content: center;
-  border-top: 2px solid #fff;
-  border-bottom: 2px solid #fff;
+
   box-sizing: border-box;
   align-items: center;
 }
@@ -41,31 +61,38 @@
 }
 .c__token__supply {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
-  width: 33%;
+  width: 150px;
   text-align: center;
 }
 .c__token__remaining {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
-  width: 33%;
+  width: 150px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 .c__token__price {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   padding-top: 10px;
   padding-bottom: 10px;
-  width: 33%;
+  width: 200px;
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+.under__text {
+  padding-top: 20px;
 }
 
 .listing__buttons__div {
@@ -90,12 +117,16 @@
   justify-content: center;
 }
 .token__image__image {
-  max-width: 308px;
+  width: 80%;
+  max-width: 400px;
+  padding-top: 30px;
   align-self: center;
+  padding-bottom: 10px;
 }
 .token__div__icons {
   max-width: 300px;
   align-self: center;
+  padding-top: 40px;
 }
 .token__div__icons img {
   max-height: 35px;
@@ -152,10 +183,49 @@
   transition: all 0.5s;
   color: #000;
 }
-.play__now__icon {
-  padding-left: 20px;
+.lp__play__now__icon {
+  padding-left: 30px;
+  font-size: 24px;
+  padding-top: 3px;
+}
+.lp__play__now__button {
+  background: rgb(27, 172, 14);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-family: "BenchNine";
+  font-size: 26px;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 310px;
+  border-radius: 100px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 43.5308px 31.709px rgb(7 10 30 / 11%),
+    0 9.62029px 7.00767px rgb(7 10 30 / 18%);
+  cursor: pointer;
+  transition: all 0.5s;
+  max-width: 100%;
 }
 
+.lp__play__now__button:hover {
+  background: rgb(26, 222, 8);
+}
+.unlock__play__button:hover span {
+  display: none;
+}
+.unlock__play__button:hover:before {
+  content: "Mint to Unlock";
+}
+.lp__play__now__button:disabled {
+  background: #33333388;
+  cursor: default;
+  pointer-events: all;
+}
+.lp__play__now__button:disabled:hover {
+  background: #333333cb;
+}
 .purchased__pop__up__heading {
   font-size: 16px;
   font-family: "Saira";
@@ -181,16 +251,103 @@
   font-size: 30px;
   font-weight: bold;
 }
+.banner__bkg {
+  background-position: top center;
+  background-size: cover;
+}
 .no__clip__div {
-  height: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background-image: linear-gradient(#bbb, #333);
+  justify-content: space-between;
+  align-items: center;
+  background-image: linear-gradient(
+    90deg,
+    #101010 10%,
+    #10101000 70%,
+    #101010 100%
+  );
+  background-position: top center;
+  background-size: cover;
 }
 .no__clip__token__image {
   max-height: 200px;
   padding-bottom: 10px;
+}
+.lp__two__col {
+  padding-top: 200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.lp__col1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 50%;
+}
+.lp__col2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 50%;
+}
+.lp__buy__button {
+  max-width: 100%;
+  background: #000;
+  border-radius: 100px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  box-shadow: 0 43.5308px 31.709px rgb(7 10 30 / 11%),
+    0 9.62029px 7.00767px rgb(7 10 30 / 18%);
+}
+.lp__buy__now {
+  background: #b90000;
+}
+
+.lp__banner__bot__fade {
+  background: linear-gradient(#10101000, #101010 80%);
+  height: 200px;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.lp__banner__top__fade {
+  background: linear-gradient(#101010 20%, #10101000 100%);
+  height: 200px;
+  margin-bottom: -100px;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.lp__poster {
+  position: absolute;
+  border-radius: 30px;
+  margin-bottom: -100px;
+  width: 350px;
+
+  background: #333;
+  box-shadow: 0 0 1px 0px white inset, 0 0 1px 0px white;
+  border-radius: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transform: rotate(3deg);
+  max-width: 350px;
+  object-fit: contain;
+  transition: -webkit-transform 0.45s;
+  transition: transform 0.45s;
+  transition: transform 0.45s, -webkit-transform 0.45s;
+  margin-left: 100px;
+  transition: 0.5s all;
+  z-index: 2;
+}
+.lp__poster:hover {
+  transform: rotate(1);
+  transform: scale(1.05);
 }
 .drop__date__div {
   font-size: 20px;
@@ -218,7 +375,177 @@
   font-weight: bold;
   padding-bottom: 10px;
 }
+.lp__info__div {
+  background-image: url("/public/media/pt-bkg.jpg");
+  background-size: cover;
+  background-position: center;
+  border: solid 2px #fff;
+  border-radius: 20px 20px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 1500px;
+  align-self: center;
+  padding-bottom: 50px;
+  padding: 40px;
+  z-index: 2;
+  box-sizing: border-box;
+}
+.lp__info__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  background-image: url("/public/media/lp-bkg2.jpg");
+  background-position: center;
+  background-size: cover;
+  z-index: 2;
+}
+.lp__info__bot__fade {
+  background: linear-gradient(#10101000, #101010 80%);
+  height: 400px;
+  margin-top: -200px;
+  width: 100%;
+}
+.lp__info__top__fade {
+  background: linear-gradient(#101010 35%, #10101000 100%);
+  height: 600px;
+  margin-bottom: -500px;
+  width: 100%;
+}
+.lp__info__col1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  box-sizing: border-box;
+}
+.lp__info__col2 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 60%;
+  padding-left: 40px;
 
+  color: #fff;
+  padding-bottom: 20px;
+  box-sizing: border-box;
+}
+.lp__info__header {
+  font-family: "Space Grotesk";
+  font-size: 60px;
+  color: #fff;
+  padding-bottom: 100px;
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.mint__progress__bar {
+  width: 100%;
+  padding-top: 20px;
+}
+.mint__progress {
+  width: 500px;
+  min-height: 30px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.mint__progress::-webkit-progress-bar {
+  background: #333;
+  border-radius: 10px;
+  margin-bottom: -10px;
+}
+.tablet__info {
+  width: 100%;
+  border-top: 1px solid #aaa;
+  padding-bottom: 20px;
+  margin-top: 20px;
+  display: none;
+}
+
+@keyframes aliveBar {
+  0% {
+    background: linear-gradient(90deg, #222, #555);
+  }
+
+  100% {
+    background: linear-gradient(90deg, #f00000, #000000);
+  }
+}
+.mint__progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #222, #555);
+  border-radius: 10px;
+  animation: aliveBar 2s ease-in-out;
+}
+
+@media screen and (min-width: 1050px) {
+  .row__scroll__div__container {
+    display: none;
+  }
+}
+
+.mint__progress__bar__container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding-top: 10px;
+  align-items: center;
+  padding-bottom: 40px;
+}
+.mint__progress__bar__div {
+  height: 30px;
+  width: 400px;
+  max-width: 80%;
+  background: #55555582;
+  border-radius: 100px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+.copy__noti {
+  padding-top: 25px;
+  margin-bottom: -20px;
+}
+@keyframes aliveBar {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.mint__progress__bar__inner {
+  background: linear-gradient(90deg, #111, #333);
+  border-radius: 10px;
+  transition: all 1s;
+  animation: aliveBar;
+  animation-duration: 2s;
+  -webkit-animation: aliveBar 2s ease-in-out infinite;
+}
+.lp__mint__progress__div {
+  position: absolute;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Space Grotesk";
+  font-size: 20px;
+  color: #fff;
+}
+.lp__share__div {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-top: -20px;
+  margin-left: 20px;
+}
 @media screen and (max-width: 800px) {
   .drop__date__div {
     justify-content: center;
@@ -241,11 +568,7 @@
     width: 300px;
     justify-content: space-evenly;
   }
-  .listing__buttons__div button {
-    width: 60px;
-    height: 40px;
-    font-size: 20px;
-  }
+
   .concert__info__div {
     padding-right: 0px;
   }
@@ -256,15 +579,17 @@
   .c__token__info__box {
   }
   .c__token__supply {
-    border-left: 2px #fff solid;
-    border-right: 2px #fff solid;
+    width: 33%;
+    display: flex;
+    justify-content: flex-start;
     font-size: 16px;
-    flex-direction: column;
   }
   .c__token__remaining {
+    width: 33%;
     font-size: 16px;
   }
   .c__token__price {
+    width: 33%;
     font-size: 16px;
   }
   .blow__up__text {
@@ -339,12 +664,12 @@
   box-sizing: border-box;
 }
 .audience__header {
-  font-size: 40px;
+  font-size: 55px;
   text-align: center;
-  font-family: "Saira";
-  text-transform: uppercase;
+  font-family: "Space Grotesk";
+
   pointer-events: none;
-  padding-bottom: 40px;
+  padding-bottom: 60px;
   padding-top: 30px;
   color: #fff;
 }
@@ -564,14 +889,19 @@
 }
 .audience__info__div {
   font-size: 24px;
-
+  margin-top: -10px;
   min-height: 50px;
   text-align: center;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  width: 90%;
+  padding-top: 15px;
+  padding-bottom: 15px;
   transition: all 0.5s;
+  z-index: 3;
+  background: #000;
+  max-width: 1500px;
+  box-sizing: border-box;
+  border: solid 2px #fff;
+  border-top: none;
 }
 
 @media screen and (max-width: 725px) {
@@ -673,8 +1003,8 @@
   max-width: 500px;
   display: flex;
   justify-content: center;
-
-  height: 50px;
+  padding-top: 50px;
+  padding-bottom: 100px;
 }
 .expand__audience__button {
   width: 400px;
@@ -818,5 +1148,114 @@
   }
   .audprod__div:hover {
     margin-top: -170px !important;
+  }
+}
+
+.lp__info__columns {
+  display: flex;
+  width: 100%;
+}
+@media screen and (max-width: 1050px) {
+  .lp__poster {
+    width: 40%;
+    margin-left: 0px;
+  }
+  .lp__concert__title {
+    font-size: 50px;
+  }
+  .c__name {
+    font-size: 28px;
+  }
+}
+@media screen and (max-width: 700px) {
+  .lp__two__col {
+    padding-top: 250px;
+  }
+  .lp__col1 {
+    width: 66%;
+  }
+  .lp__col2 {
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+  .no__clip__div {
+    background-image: linear-gradient(90deg, #101010 0%, #10101000 200%);
+  }
+  .promo__h3 {
+    font-size: 30px;
+  }
+  .lp__poster {
+    margin-bottom: 200px;
+    margin-top: -250px;
+    margin-left: -60px;
+  }
+  .lp__concert__title {
+    font-size: 40px;
+  }
+  .lp__info__columns {
+    flex-direction: column;
+  }
+  .lp__info__col1 {
+    width: 100%;
+  }
+  .lp__info__col2 {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    border-top: 1px solid #aaa;
+    margin-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+  }
+  .hide__700 {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 701px) and (max-width: 900px) {
+  .tablet__hide {
+    display: none;
+  }
+  .tablet__info {
+    display: inline;
+  }
+}
+@media screen and (max-width: 450px) {
+  .promo__h3 {
+    padding-top: 50px;
+  }
+  .lp__poster {
+    margin-top: -320px;
+    margin-left: -100px;
+  }
+  .lp__col1 {
+    width: 75%;
+  }
+  .lp__info__div {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .lp__info__col2 {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@media screen and (max-width: 300px) {
+  .lp__poster {
+    width: 66%;
+    margin-left: -150px;
+    margin-top: -400px;
+  }
+  .lp__two__col {
+    padding-top: 330px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .c__name {
+    font-size: 24px;
   }
 }

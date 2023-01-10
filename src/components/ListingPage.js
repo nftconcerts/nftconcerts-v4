@@ -29,6 +29,7 @@ import sendMintEmails from "../scripts/sendMintEmails";
 import MintPopUp from "./MintPopUp";
 import { Helmet } from "react-helmet";
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const ListingPage = () => {
   let navigate = useNavigate();
   let { id } = useParams();
@@ -130,6 +131,14 @@ const ListingPage = () => {
     "%20available%20exclusively%20on%20%40nftconcerts%20%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%0A%0APick%20up%20a%20copy%20(if%20you%20can)%20and%20check%20it%20out%20-%3E%20https%3A%2F%2Fnftconcerts.com%2Fconcert%3Fid%3D" +
     concertID +
     "%0A%0A%23nftconcerts%20%23livemusic%20%23nfts%20";
+
+  var mailLink =
+    "mailto:?subject=Check Out this NFT Concert - " +
+    concertData?.concertName +
+    " by " +
+    concertData?.concertArtist +
+    "&body=This performance is amazing - https://nftconcerts.com/concert/" +
+    concertID;
 
   //displays the songs.
   const displaySongs = () => {
@@ -579,7 +588,7 @@ const ListingPage = () => {
                         setMaxAudience(concertData?.concertSupply);
                         setShowExpandAudience(false);
                       }}
-                      className="expand__audience__button"
+                      className="my__button preview__button buy__now__button lp__buy__button"
                     >
                       Show All{" "}
                       <i className="fa-solid fa-plus in__button__icon" />
@@ -612,7 +621,7 @@ const ListingPage = () => {
                           setShowExpandAudience(true);
                           setWidth(width + 1);
                         }}
-                        className="expand__audience__button"
+                        className="my__button preview__button buy__now__button lp__buy__button"
                       >
                         Collapse{" "}
                         <i className="fa-solid fa-minus in__button__icon" />
@@ -633,6 +642,15 @@ const ListingPage = () => {
   let productionDate = new Date(releaseDate);
   productionDate.setHours(productionDate.getHours() - 6);
 
+  const [copyNoti, setCopyNoti] = useState(false);
+
+  const showCopyNoti = async () => {
+    setCopyNoti(true);
+    await delay(1500);
+    setCopyNoti(false);
+  };
+
+  const [showPreviewPop, setShowPerviewPop] = useState(false);
   return (
     <>
       {showMintPopUp && (
@@ -645,7 +663,7 @@ const ListingPage = () => {
         />
       )}
       {validListing && (
-        <div className="player__page">
+        <div className="listing__page">
           <Helmet>
             <title>
               {concertData?.concertName} by {concertData?.concertArtist} - NFT
@@ -656,11 +674,11 @@ const ListingPage = () => {
               content={concertData?.concertDescription}
             />
           </Helmet>
-          {(concertData?.concertPromoClip && (
+          {concertData?.concertPromoClip && (
             <>
               <div className="promo__clip__disclaimer">
-                Enjoy this promo clip. Purchase the NFT Concert to unlock the
-                full performance recording.{" "}
+                Enjoy this promo clip. Mint this NFT Concert to unlock the full
+                performance recording.{" "}
               </div>
               <div className="media__player__div">
                 <ReactPlayer
@@ -681,347 +699,133 @@ const ListingPage = () => {
                 />
               </div>
             </>
-          )) || (
-            <>
-              {/* {(pageMobileMode && (
-                <div className="mobile__spacer mobile__show" />
-              )) || <div className="mobile__spacer mobile__show grey" />} */}
-              <div className="no__clip__div">
-                <div className="no__clip">
-                  {(claiming && (
-                    <div className="img__replacement">
-                      <h3>Minting NFT</h3>
-                      <div className="row__center">
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                        <div className="wave"></div>
-                      </div>
-                    </div>
-                  )) || (
-                    <img
-                      src={concertData?.concertTokenImage}
-                      className="no__clip__token__image"
-                      alt="NFT Concert Token Preview"
-                    />
-                  )}
+          )}
+          <div
+            className="banner__bkg"
+            style={{
+              backgroundImage: `url(${concertData?.concertBanner})`,
+            }}
+          >
+            <div className="no__clip__div">
+              <div className="lp__banner__top__fade" />
+              <div className="no__clip">
+                <div className="lp__two__col">
+                  <div className="lp__col1">
+                    <h3 className="promo__h3">
+                      Mint To Unlock <br />
+                      The Show
+                    </h3>
 
-                  <h3 className="promo__h3">Mint to Unlock the Show</h3>
-
-                  <div className="buy__button__box">
                     <button
-                      className="buy__now my__button preview__button buy__now__button"
+                      className=" my__button preview__button buy__now__button lp__buy__button buy__now lp__buy__now"
                       onClick={() => {
                         setShowMintPopUp(true);
                       }}
                       disabled={claiming || !activeClaimCondition}
                     >
                       <div className="inside__button__div">
-                        <div>Mint</div>{" "}
-                        <div className="button__price">
-                          <img
-                            src="/media/eth-logo.png"
-                            height={25}
-                            className="c__eth__logo white__eth__logo"
-                            alt="eth logo"
-                          />
-                          {formatPrice}{" "}
-                          <span className="c__price__in__usd button__usd__price">
-                            (${priceInUSD})
-                          </span>
-                        </div>
+                        <div>Mint Now</div>{" "}
                       </div>
                     </button>
-                    {/* 
-                    <PaperCheckout
-                      checkoutId="322fab2e-32ab-4065-8e5f-376eb638bcef"
-                      display="DRAWER"
-                      options={paperOptions}
-                    >
-                      <div className="marketplace__icon__div">
-                        <img
-                          src="/media/cc-logo.png"
-                          className="marketplace__icon"
-                        />
-                      </div>
-                    </PaperCheckout> */}
 
-                    {purchased && (
-                      <div className="transaction__result">
-                        Purchase Completed - TX:{" "}
-                        <a
-                          href={transactionLink}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {truncateAddress(tx?.receipt.transactionHash)}
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          <div className="c__token__info__div">
-            <div className="c__token__info__box">
-              <div className="c__token__remaining">
-                <p>
-                  Total Qty:
-                  <br className="mobile__show" />{" "}
-                  <span className="blow__up__text">
-                    {concertData?.concertSupply}
-                  </span>
-                </p>
-              </div>
-              <div className="c__token__supply">
-                <p>
-                  Available:
-                  <br className="mobile__show" />{" "}
-                  <span className="blow__up__text">
-                    {activeClaimCondition?.availableSupply}
-                  </span>
-                </p>
-                <div className="mobile__dots__center">
-                  {!activeClaimCondition?.availableSupply && (
-                    <div className="dots__div">
-                      <div class="dot-flashing"></div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="c__token__price">
-                Price: <br className="mobile__show" />
-                <span className="blow__up__text">
-                  <img
-                    src="/media/eth-logo.png"
-                    height={20}
-                    className="c__eth__logo white__eth__logo"
-                    alt="eth logo"
-                  />
-                  {formatPrice}{" "}
-                </span>
-                <span className="c__price__in__usd mobile__hide">
-                  (${priceInUSD})
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="split__col">
-            <div className="concert__info__div">
-              {(concertData?.concertPromoClip && (
-                <>
-                  {" "}
-                  <div className="mint__div">
-                    <div className="buy__button__box__left">
-                      <button
-                        className="buy__now my__button preview__button buy__now__button"
-                        onClick={() => {
-                          setShowMintPopUp(true);
-                        }}
-                        disabled={claiming || !activeClaimCondition}
-                      >
-                        <div className="inside__button__div">
-                          <div>Mint</div>{" "}
-                          <div className="button__price">
-                            <img
-                              src="/media/eth-logo.png"
-                              height={25}
-                              className="c__eth__logo white__eth__logo"
-                              alt="eth logo"
-                            />
-                            {(formatPrice * mintQty).toFixed(3)}{" "}
-                            <span className="c__price__in__usd button__usd__price">
-                              (${(priceInUSD * mintQty).toFixed(2)})
+                    <div className="c__token__info__div">
+                      <div className="c__token__info__box">
+                        <div className="c__token__remaining">
+                          <p>
+                            {" "}
+                            <span className="blow__up__text">
+                              {concertData?.concertSupply}
                             </span>
+                            <br />
+                            <div className="under__text">Total Qty</div>
+                          </p>
+                        </div>
+                        <div className="c__token__supply">
+                          <p>
+                            <span className="blow__up__text">
+                              {activeClaimCondition?.availableSupply}
+                            </span>
+                            <br />
+                            <div className="under__text">Available </div>
+                          </p>
+                        </div>
+                        <div className="c__token__price">
+                          <div>
+                            <div className="price__center__div">
+                              <span className="blow__up__text">
+                                <img
+                                  src="/media/eth-logo.png"
+                                  height={20}
+                                  className="c__eth__logo white__eth__logo"
+                                  alt="eth logo"
+                                />
+                                {formatPrice}{" "}
+                              </span>
+                              {/* <span className="c__price__in__usd mobile__hide">
+                                  (${priceInUSD})
+                                </span> */}
+                            </div>
+                            <div className="under__text">Price</div>
                           </div>
                         </div>
-                      </button>
-
-                      {/* <PaperCheckout
-                    checkoutId="322fab2e-32ab-4065-8e5f-376eb638bcef"
-                    display="DRAWER"
-                    options={paperOptions}
-                  >
-                    <div className="marketplace__icon__div">
-                      <img
-                        src="/media/cc-logo.png"
-                        className="marketplace__icon"
-                      />
-                    </div>
-                  </PaperCheckout> */}
+                      </div>
                     </div>
                   </div>
-                  {/* <div className="quantity__div mint__quantity__div">
-                    Select Quantity
-                    <input
-                      type="number"
-                      min="1"
-                      max="5"
-                      defaultValue="1"
-                      className="qantity__input"
-                      onChange={(x) => {
-                        setMintQty(parseInt(x.target.value));
+
+                  <div className="lp__col2">
+                    <img
+                      src={concertData?.concertTokenImage}
+                      className="lp__poster"
+                      alt="NFT Concert Token Preview"
+                      onClick={() => {
+                        setShowMintPopUp(true);
                       }}
                     />
-                  </div>{" "} */}
-                  {purchased && (
-                    <div className="transaction__result">
-                      Purchase Completed - TX:{" "}
-                      <a
-                        href={transactionLink}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {truncateAddress(tx?.receipt.transactionHash)}
-                      </a>
-                    </div>
-                  )}
-                </>
-              )) || <></>}
-
-              {releaseDate > nowDate && (
-                <div className="drop__date__div">
-                  <div className="drop__date__highlight">
-                    <h3 className="drop__date__header">
-                      Minting {productionDate?.toLocaleDateString()}
-                    </h3>
-                    Production Team - {dateFormat(productionDate, "h:MM TT Z")}
-                    <br />
-                    Public Sale - {dateFormat(releaseDate, "h:MM TT Z")}
                   </div>
                 </div>
-              )}
+              </div>
+              <div className="lp__banner__bot__fade" />
+            </div>
+          </div>
 
-              <h1 className="c__name">
+          <div className="lp__info__container">
+            <div className="lp__info__top__fade" />
+            <div className="lp__info__header">
+              <h1 className="lp__concert__title">
                 {concertData?.concertName} by {concertData?.concertArtist}
               </h1>
-              {owned > 1 && (
-                <h3 className="owned__info">
-                  {owned}x Copies Owned of {concertData?.concertSupply}
-                </h3>
-              )}
-              {owned === 1 && (
-                <h3 className="owned__info">
-                  {owned} Copy Owned of {concertData?.concertSupply}
-                </h3>
-              )}
-              {owned === 0 && concertData.concertPromoClip !== "" && (
-                <h3 className="owned__info">Mint to access the show.</h3>
-              )}
-              <div className="underplayer__buttons__div listing__buttons__div">
-                <a href={twitterLink} target="_blank" rel="noreferrer">
-                  <button className="fa-brands fa-twitter player__icon__button" />
-                </a>
-                <button
-                  className="fa-solid fa-play player__icon__button"
-                  onClick={() => {
-                    navigate("/player/" + concertID);
-                  }}
-                  disabled={!owned}
-                />
-              </div>
-              <h3 className="c__detail">
-                <i class="fa-solid fa-user c__icons" title="Artist" />
-                {concertData?.concertArtist}
-              </h3>
-              <h3 className="c__detail">
-                <i
-                  class="fa-solid fa-calendar c__icons"
-                  title="Performance Date"
-                />
-                {dateFormat(
-                  concertData.concertPerformanceDate,
-                  "m/d/yyyy, h:MM TT"
-                )}
-              </h3>
-
-              <h3 className="c__detail">
-                <i class="fa-solid fa-warehouse c__icons" title="Venue" />
-                {concertData?.concertVenue}
-              </h3>
-              <h3 className="c__detail">
-                <i
-                  class="fa-solid fa-location-crosshairs c__icons"
-                  title="Location"
-                />
-                {concertData?.concertLocation}
-              </h3>
-              {concertData?.concertTourName && (
-                <h3 className="c__detail">
-                  <i class="fa-solid fa-van-shuttle c__icons" title="Tour" />
-                  {concertData?.concertTourName}
-                </h3>
-              )}
-              {concertData?.concertLiveAttendance && (
-                <h3 className="c__detail">
-                  <i class="fa-solid fa-users-line c__icons" title="Tour" />
-                  {concertData?.concertLiveAttendance}
-                </h3>
-              )}
-              <h3 className="c__detail">
-                <i class="fa-solid fa-video c__icons" title="Recording Type" />
-                {concertData?.concertRecordingType}
-              </h3>
-              <h3 className="c__detail">
-                <i
-                  class="fa-solid fa-clock-rotate-left c__icons"
-                  title="Duration"
-                />
-                {concertData?.concertDuration}
-              </h3>
-              <h3 className="c__detail">
-                <i class="fa-solid fa-chart-pie c__icons" title="Duration" />
-                {resaleFee}% Resale Fee
-              </h3>
-              <p className="c__description">
-                {concertData?.concertDescription}
-              </p>
-              <div className="player__setlist__div">
-                <h3 className="c__detail player__setlist__title">
-                  Setlist - {concertData?.concertNumSongs} Songs
-                </h3>
-                {displaySongs()}
-              </div>
-              {concertData?.splits && (
-                <div className="player__setlist__div">
-                  <h3 className="c__detail player__setlist__title">
-                    Splits Contract -{" "}
-                    <a
-                      href={
-                        "https://app.0xsplits.xyz/accounts/" +
-                        concertData?.splits.contract
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                      className="splits__link"
-                    >
-                      {truncateAddress(concertData?.splits.contract)}
-                    </a>
-                  </h3>
-                  {displaySplits()}
-                </div>
-              )}
             </div>
-            <div className="token__div__container">
-              <div className="token__div player__token__div">
-                <h3 className="token__heading">Non-Fungible Token (NFT)</h3>
-                <img
-                  src={concertData?.concertTokenImage}
-                  className="token__image__image"
-                  alt="NFT Concert Token Preview"
-                />
+            <div className="lp__info__div">
+              <div className="lp__info__columns">
+                <div className="lp__info__col1">
+                  <img
+                    src={concertData?.concertTokenImage}
+                    className="token__image__image"
+                    alt="NFT Concert Token Preview"
+                  />
 
-                <div className="final__buy__button__div">
+                  <div className="mint__progress__bar__container">
+                    <div className="mint__progress__bar__div">
+                      <div
+                        className="mint__progress__bar__inner"
+                        style={{
+                          width: `${
+                            ((concertData?.concertSupply -
+                              activeClaimCondition?.availableSupply) *
+                              100) /
+                            concertData?.concertSupply
+                          }%`,
+                        }}
+                      />
+                    </div>
+                    <div className="lp__mint__progress__div">
+                      {activeClaimCondition?.availableSupply}/{" "}
+                      {concertData?.concertSupply} Available
+                    </div>
+                  </div>
+
                   <button
-                    className="buy__now my__button preview__button buy__now__button"
+                    className="my__button preview__button buy__now__button lp__buy__button"
                     onClick={() => {
                       setShowMintPopUp(true);
                     }}
@@ -1036,90 +840,276 @@ const ListingPage = () => {
                           className="c__eth__logo white__eth__logo"
                           alt="eth logo"
                         />
-                        {(formatPrice * mintQty).toFixed(3)}{" "}
+                        {parseFloat(formatPrice * mintQty)}{" "}
                         <span className="c__price__in__usd button__usd__price">
                           (${(priceInUSD * mintQty).toFixed(2)})
                         </span>
                       </div>
                     </div>
                   </button>
-                  {purchased && (
-                    <div className="transaction__result">
-                      Purchase Completed - TX:{" "}
-                      <a
-                        href={transactionLink}
-                        target="_blank"
-                        className="dark__link"
-                        rel="noreferrer"
-                      >
-                        {truncateAddress(tx?.receipt.transactionHash)}
-                      </a>
+
+                  <div className="marketplace__icons__div token__div__icons">
+                    <div
+                      className="marketplace__icon__div"
+                      onClick={() => {
+                        window.open(
+                          `https://looksrare.org/collections/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
+                        );
+                      }}
+                    >
+                      <img
+                        src="/media/looksrare-logo.png"
+                        className="marketplace__icon invert__icon"
+                        alt="LooksRare Logo"
+                      />
+                    </div>
+                    <div
+                      className="marketplace__icon__div"
+                      onClick={() => {
+                        window.open(
+                          `https://opensea.io/assets/ethereum/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
+                        );
+                      }}
+                    >
+                      <img
+                        src="/media/opensea-logo.png"
+                        className="marketplace__icon"
+                        alt="OpenSea Logo"
+                      />
+                    </div>
+                    <div
+                      className="marketplace__icon__div"
+                      onClick={() => {
+                        window.open(
+                          `https://x2y2.io/eth/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
+                        );
+                      }}
+                    >
+                      <img
+                        src="/media/x2y2-logo.png"
+                        className="marketplace__icon"
+                        alt="X2Y2 Logo"
+                      />
+                    </div>
+                    <div
+                      className="marketplace__icon__div"
+                      onClick={() => {
+                        window.open(
+                          `https://etherscan.io/token/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a?a=${concertID}`
+                        );
+                      }}
+                    >
+                      <img
+                        src="/media/etherscan-logo.png"
+                        className="marketplace__icon"
+                        alt="Etherscan Logo"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="lp__info__col2">
+                  {/* {releaseDate > nowDate && (
+                  <div className="drop__date__div">
+                    <div className="drop__date__highlight">
+                      <h3 className="drop__date__header">
+                        Minting {productionDate?.toLocaleDateString()}
+                      </h3>
+                      Production Team -{" "}
+                      {dateFormat(productionDate, "h:MM TT Z")}
+                      <br />
+                      Public Sale - {dateFormat(releaseDate, "h:MM TT Z")}
+                    </div>
+                  </div>
+                )} */}
+                  <div className="lp__share__div hide__700">
+                    <a href={twitterLink} target="_blank" rel="noreferrer">
+                      <button className="fa-brands fa-twitter player__icon__button" />
+                    </a>
+                    <a href={mailLink} target="_blank" rel="noreferrer">
+                      <button className="fa-solid fa-envelope player__icon__button" />
+                    </a>
+
+                    <button
+                      className="fa-solid fa-clipboard player__icon__button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                        showCopyNoti();
+                      }}
+                    />
+                  </div>
+                  {copyNoti && (
+                    <div className="lp__share__div copy__noti">URL Copied</div>
+                  )}
+                  {(owned === 0 && (
+                    <h3 className="c__name">Mint to Unlock the Show</h3>
+                  )) || <h3 className="c__name">You Own the Show</h3>}
+                  {owned > 1 && (
+                    <h3 className="owned__info">
+                      {owned}x Copies Owned of {concertData?.concertSupply}
+                    </h3>
+                  )}
+                  {owned === 1 && (
+                    <h3 className="owned__info">
+                      {owned} Copy Owned of {concertData?.concertSupply}
+                    </h3>
+                  )}
+
+                  {(owned === 0 && (
+                    <button
+                      className="lp__play__now__button unlock__play__button"
+                      onClick={() => {
+                        navigate("/player/" + concertID);
+                      }}
+                      disabled={!owned}
+                    >
+                      <span>
+                        Play Now{" "}
+                        <i className="fa-solid fa-play lp__play__now__icon" />
+                      </span>
+                    </button>
+                  )) || (
+                    <button
+                      className="lp__play__now__button "
+                      onClick={() => {
+                        navigate("/player/" + concertID);
+                      }}
+                      disabled={!owned}
+                    >
+                      <span>
+                        Play Now{" "}
+                        <i className="fa-solid fa-play lp__play__now__icon" />
+                      </span>
+                    </button>
+                  )}
+
+                  <h3 className="c__detail">
+                    <i class="fa-solid fa-user c__icons" title="Artist" />
+                    {concertData?.concertArtist}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-calendar c__icons"
+                      title="Performance Date"
+                    />
+                    {dateFormat(
+                      concertData.concertPerformanceDate,
+                      "m/d/yyyy, h:MM TT"
+                    )}
+                  </h3>
+
+                  <h3 className="c__detail">
+                    <i class="fa-solid fa-warehouse c__icons" title="Venue" />
+                    {concertData?.concertVenue}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-location-crosshairs c__icons"
+                      title="Location"
+                    />
+                    {concertData?.concertLocation}
+                  </h3>
+                  {concertData?.concertTourName && (
+                    <h3 className="c__detail">
+                      <i
+                        class="fa-solid fa-van-shuttle c__icons"
+                        title="Tour"
+                      />
+                      {concertData?.concertTourName}
+                    </h3>
+                  )}
+                  {concertData?.concertLiveAttendance && (
+                    <h3 className="c__detail">
+                      <i class="fa-solid fa-users-line c__icons" title="Tour" />
+                      {concertData?.concertLiveAttendance}
+                    </h3>
+                  )}
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-video c__icons"
+                      title="Recording Type"
+                    />
+                    {concertData?.concertRecordingType}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-clock-rotate-left c__icons"
+                      title="Duration"
+                    />
+                    {concertData?.concertDuration}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-chart-pie c__icons"
+                      title="Duration"
+                    />
+                    {resaleFee}% Resale Fee
+                  </h3>
+                  <p className="c__description tablet__hide">
+                    {concertData?.concertDescription}
+                  </p>
+                  <div className="player__setlist__div tablet__hide">
+                    <h3 className="player__setlist__title">
+                      Setlist - {concertData?.concertNumSongs} Songs
+                    </h3>
+                    {displaySongs()}
+                  </div>
+                  {concertData?.splits && (
+                    <div className="player__setlist__div tablet__hide">
+                      <h3 className="c__detail player__setlist__title">
+                        Splits Contract -{" "}
+                        <a
+                          href={
+                            "https://app.0xsplits.xyz/accounts/" +
+                            concertData?.splits.contract
+                          }
+                          target="_blank"
+                          rel="noreferrer"
+                          className="splits__link"
+                        >
+                          {truncateAddress(concertData?.splits.contract)}
+                        </a>
+                      </h3>
+                      {displaySplits()}
                     </div>
                   )}
                 </div>
-                <div className="marketplace__icons__div token__div__icons">
-                  <div
-                    className="marketplace__icon__div"
-                    onClick={() => {
-                      window.open(
-                        `https://looksrare.org/collections/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
-                      );
-                    }}
-                  >
-                    <img
-                      src="/media/looksrare-logo.png"
-                      className="marketplace__icon invert__icon"
-                      alt="LooksRare Logo"
-                    />
-                  </div>
-                  <div
-                    className="marketplace__icon__div"
-                    onClick={() => {
-                      window.open(
-                        `https://opensea.io/assets/ethereum/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
-                      );
-                    }}
-                  >
-                    <img
-                      src="/media/opensea-logo.png"
-                      className="marketplace__icon"
-                      alt="OpenSea Logo"
-                    />
-                  </div>
-                  <div
-                    className="marketplace__icon__div"
-                    onClick={() => {
-                      window.open(
-                        `https://x2y2.io/eth/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${concertID}`
-                      );
-                    }}
-                  >
-                    <img
-                      src="/media/x2y2-logo.png"
-                      className="marketplace__icon"
-                      alt="X2Y2 Logo"
-                    />
-                  </div>
-                  <div
-                    className="marketplace__icon__div"
-                    onClick={() => {
-                      window.open(
-                        `https://etherscan.io/token/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a?a=${concertID}`
-                      );
-                    }}
-                  >
-                    <img
-                      src="/media/etherscan-logo.png"
-                      className="marketplace__icon"
-                      alt="Etherscan Logo"
-                    />
-                  </div>
+              </div>
+              <div className="tablet__info">
+                <p className="c__description">
+                  {concertData?.concertDescription}
+                </p>
+                <div className="player__setlist__div">
+                  <h3 className="player__setlist__title">
+                    Setlist - {concertData?.concertNumSongs} Songs
+                  </h3>
+                  {displaySongs()}
                 </div>
+                {concertData?.splits && (
+                  <div className="player__setlist__div">
+                    <h3 className="c__detail player__setlist__title">
+                      Splits Contract -{" "}
+                      <a
+                        href={
+                          "https://app.0xsplits.xyz/accounts/" +
+                          concertData?.splits.contract
+                        }
+                        target="_blank"
+                        rel="noreferrer"
+                        className="splits__link"
+                      >
+                        {truncateAddress(concertData?.splits.contract)}
+                      </a>
+                    </h3>
+                    {displaySplits()}
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-          <div className="c__token__info__div audience__info__div">
-            <p>Mint this NFT Concert for a Permanent Spot in the Audience</p>
+
+            <div className="c__token__info__div audience__info__div">
+              <p>Mint this NFT Concert for a Permanent Spot in the Audience</p>
+            </div>
+            <div className="lp__info__bot__fade" />
           </div>
           <div className="audience__div">
             <div className="audience__content">{showAudience()}</div>

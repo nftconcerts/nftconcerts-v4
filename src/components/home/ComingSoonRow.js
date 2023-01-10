@@ -41,11 +41,8 @@ function ComingSoonRow({ title, isLargeRow, concerts, isFinalRow }) {
           <div className="cs__poster__div posterdiv1">
             <img
               className="cs__poster poster1"
-              src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/public%2FToken%20Image%2FToken%20v1.png?alt=media&token=8e44b174-5f0d-48ea-a905-722e72556d8a"
+              src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FComing%20Soon%20Token%20Template.png?alt=media&token=c3c3498a-6db2-48f0-8c49-e48093cb713a"
               alt={"More NFT Concerts Coming Soon"}
-              onClick={() => {
-                navigate("/concert/4");
-              }}
             />
           </div>{" "}
           <div className="cs__poster__div posterdiv2">
