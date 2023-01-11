@@ -3,11 +3,11 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  background-color: rgb(55, 55, 55);
+  background-color: #101010;
   min-height: 100vh;
   padding-top: 90px;
   box-sizing: border-box;
-  margin-bottom: -230px;
+  margin-bottom: -200px;
   padding-bottom: 180px;
 }
 .media__player__div {
@@ -141,10 +141,11 @@ video {
   width: 100%;
   color: #fff;
   font-size: 22px;
-  font-family: "Saira";
+  font-family: "Space Grotesk";
   text-align: center;
   align-items: center;
   justify-content: center;
+  min-height: 300px;
 }
 
 .not__valid__watcher__text {
@@ -195,7 +196,46 @@ video {
 .final__buy__button__div {
   padding-top: 20px;
 }
+.mp__button {
+  background: #33333388;
 
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-family: "BenchNine";
+  font-size: 26px;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 310px;
+  border-radius: 100px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 43.5308px 31.709px rgb(7 10 30 / 11%),
+    0 9.62029px 7.00767px rgb(7 10 30 / 18%);
+  cursor: pointer;
+  transition: all 0.5s;
+  max-width: 100%;
+}
+.mp__button:hover {
+  background: #333333cb;
+}
+.mp__buy__button {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 100px;
+  height: fit-content;
+}
+.pp__info__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  background-position: center;
+  background-size: cover;
+  z-index: 2;
+}
 @media screen and (max-width: 800px) {
   .split__col {
     flex-direction: column;

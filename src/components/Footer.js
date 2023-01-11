@@ -106,7 +106,7 @@ function Footer() {
         </div>
         <div className="footer_bot">
           <p className="copyright">
-            COPYRIGHT © 2022 NFT CONCERTS INC.{" "}
+            COPYRIGHT © 2023 NFT CONCERTS INC.{" "}
             <br className="super__tiny__only" />
             ALL RIGHTS RESERVED.
           </p>

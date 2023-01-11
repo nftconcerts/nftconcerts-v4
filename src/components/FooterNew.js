@@ -176,7 +176,7 @@ const FooterNew = () => {
       </div>
       <div className="copyright__container">
         <div className="copyright__div">
-          COPYRIGHT © 2022 NFT CONCERTS INC. ALL RIGHTS RESERVED.
+          COPYRIGHT © 2023 NFT CONCERTS INC. ALL RIGHTS RESERVED.
         </div>
       </div>
     </div>

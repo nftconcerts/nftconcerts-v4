@@ -151,9 +151,6 @@ function App() {
     <ThirdwebProvider
       walletConnectors={walletConnectors}
       desiredChainId={ChainId.Mainnet}
-      chainRpc={{
-        [ChainId.Mainnet]: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_PROVIDER}`,
-      }}
     >
       <Web3ReactProvider getLibrary={getLibrary}>
         <Router>

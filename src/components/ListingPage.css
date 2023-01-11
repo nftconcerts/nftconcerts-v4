@@ -281,6 +281,7 @@
   box-sizing: border-box;
   padding-left: 20px;
   padding-right: 20px;
+  z-index: 2;
 }
 .lp__col1 {
   display: flex;
@@ -1211,6 +1212,16 @@
   }
   .hide__700 {
     display: none;
+  }
+  .lp__banner__bot__fade {
+    margin-top: -150px;
+    z-index: 1;
+  }
+  .lp__info__bot__fade {
+    margin-top: -330px;
+  }
+  .audience__header {
+    font-size: 36px;
   }
 }
 

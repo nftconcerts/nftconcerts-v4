@@ -14,13 +14,8 @@ import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
 import { GetUSDExchangeRate } from "./api";
 import FormBox from "./form/FormBox";
-import {
-  useActiveClaimCondition,
-  useContractData,
-  useEditionDrop,
-  useContract,
-} from "@thirdweb-dev/react";
-import editionDrop, { editionDropAddress } from "../scripts/getContract.mjs";
+import { useActiveClaimCondition, useContract, get } from "@thirdweb-dev/react";
+import { editionDropAddress } from "../scripts/getContract.mjs";
 import { useAddress } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import emailjs from "@emailjs/browser";
@@ -43,11 +38,12 @@ const ListingPage = () => {
   const [metamaskDetected, setMetamaskDetected] = useState(false);
 
   let bigId = ethers.BigNumber.from(concertID || 0);
-  const { contract } = useContract(editionDropAddress, "edition-drop");
+  const { contract } = useContract(editionDropAddress);
   const { data: activeClaimCondition } = useActiveClaimCondition(
     contract,
-    bigId
+    concertID
   );
+
   let address = useAddress();
   let pageMobileMode = getMobileMode();
   const [userData, setUserData] = useState();
@@ -204,60 +200,16 @@ const ListingPage = () => {
   };
   //claim button
 
-  const editionDropped = useEditionDrop(editionDropAddress);
-
-  // State to track when a user is claiming an NFT
-  const [claiming, setClaiming] = useState(false);
-  const [tx, setTx] = useState();
-  const [purchased, setPurchased] = useState(false);
-  const [showPurchased, setShowPurchased] = useState(false);
-  var transactionLink =
-    "https://etherscan.io/tx/" + tx?.receipt.transactionHash;
-
-  // Claim our NFT with the claim method - (token id, quantity)
-  const [mintQty, setMintQty] = useState(1);
-  let mintPrice = mintQty * parseFloat(concertData?.concertPrice);
-  const claimButton = async () => {
-    setClaiming(true);
-    try {
-      var result = await editionDropped?.claim(concertID, mintQty);
-      setTx(result);
-      setClaiming(false);
-      setPurchased(true);
-      setShowPurchased(true);
-      setOwned(owned + 1);
-      let currentEmail = userData.email;
-      var template_params = {
-        artistemail: concertData.uploaderEmail,
-        artist: concertData.concertArtist,
-        concertName: concertData.concertName,
-        buyerName: userData.name,
-        buyerEmail: currentEmail,
-        mintQty: mintQty,
-        mintPrice: mintPrice,
-        remaining: activeClaimCondition?.availableSupply,
-        concertSupply: concertData.concertSupply,
-      };
-      sendMintEmails(template_params);
-    } catch (error) {
-      console.log("Failed to claim. Error: ", error);
-      console.log(error.message);
-      setClaiming(false);
-    }
-  };
-
   // Check if user owns the current NFT Concert
   const [owned, setOwned] = useState(0);
 
   useEffect(() => {
     const checkIfOwned = async (userAddress) => {
       try {
-        const balance = await editionDropped.balanceOf(userAddress, concertID);
+        const balance = await contract.balanceOf(userAddress, concertID);
         const balanceNum = parseInt(balance.toString());
         setOwned(balanceNum);
-      } catch (err) {
-        console.log("Fucked up check.");
-      }
+      } catch (err) {}
     };
     if (userData?.walletID) {
       checkIfOwned(userData?.walletID);
@@ -369,7 +321,6 @@ const ListingPage = () => {
   const [width, setWidth] = useState();
 
   useEffect(() => {
-    console.log("w: ", width);
     if (!showExpandAudience) {
     } else if (maxAudience > parseInt(concertData?.concertSupply)) {
       setMaxAudience(concertData.concertSupply);
@@ -641,7 +592,7 @@ const ListingPage = () => {
   let releaseDate = new Date(concertData?.concertReleaseDate);
   let productionDate = new Date(releaseDate);
   productionDate.setHours(productionDate.getHours() - 6);
-
+  //show notification when url is copied
   const [copyNoti, setCopyNoti] = useState(false);
 
   const showCopyNoti = async () => {
@@ -721,7 +672,7 @@ const ListingPage = () => {
                       onClick={() => {
                         setShowMintPopUp(true);
                       }}
-                      disabled={claiming || !activeClaimCondition}
+                      disabled={!activeClaimCondition}
                     >
                       <div className="inside__button__div">
                         <div>Mint Now</div>{" "}
@@ -829,7 +780,7 @@ const ListingPage = () => {
                     onClick={() => {
                       setShowMintPopUp(true);
                     }}
-                    disabled={claiming || !activeClaimCondition}
+                    disabled={!activeClaimCondition}
                   >
                     <div className="inside__button__div">
                       <div>Mint</div>{" "}
@@ -840,9 +791,9 @@ const ListingPage = () => {
                           className="c__eth__logo white__eth__logo"
                           alt="eth logo"
                         />
-                        {parseFloat(formatPrice * mintQty)}{" "}
+                        {parseFloat(formatPrice)}{" "}
                         <span className="c__price__in__usd button__usd__price">
-                          (${(priceInUSD * mintQty).toFixed(2)})
+                          (${(priceInUSD * 1).toFixed(2)})
                         </span>
                       </div>
                     </div>
@@ -988,6 +939,20 @@ const ListingPage = () => {
                   </h3>
                   <h3 className="c__detail">
                     <i
+                      class="fa-solid fa-video c__icons"
+                      title="Recording Type"
+                    />
+                    {concertData?.concertRecordingType}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
+                      class="fa-solid fa-clock-rotate-left c__icons"
+                      title="Duration"
+                    />
+                    {concertData?.concertDuration}
+                  </h3>
+                  <h3 className="c__detail">
+                    <i
                       class="fa-solid fa-calendar c__icons"
                       title="Performance Date"
                     />
@@ -1023,20 +988,7 @@ const ListingPage = () => {
                       {concertData?.concertLiveAttendance}
                     </h3>
                   )}
-                  <h3 className="c__detail">
-                    <i
-                      class="fa-solid fa-video c__icons"
-                      title="Recording Type"
-                    />
-                    {concertData?.concertRecordingType}
-                  </h3>
-                  <h3 className="c__detail">
-                    <i
-                      class="fa-solid fa-clock-rotate-left c__icons"
-                      title="Duration"
-                    />
-                    {concertData?.concertDuration}
-                  </h3>
+
                   <h3 className="c__detail">
                     <i
                       class="fa-solid fa-chart-pie c__icons"
