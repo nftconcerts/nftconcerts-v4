@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Footer.css";
 import "./FooterNew.css";
 import { useNavigate } from "react-router-dom";
 import { logout, fetchCurrentUser } from "./../firebase";
-import { useEffect } from "react";
+
 import { useDisconnect } from "@thirdweb-dev/react";
 
 const FooterNew = () => {
   let navigate = useNavigate();
   const disconnect = useDisconnect();
-  const [currentUser, setCurrentUser] = useState(fetchCurrentUser());
-
+  const [currentUser, setCurrentUser] = useState();
+  //set current user
+  useEffect(() => {
+    setCurrentUser(fetchCurrentUser());
+  }, []);
   //logout user from menu
   const menuLogout = async () => {
     disconnect();
@@ -28,6 +31,7 @@ const FooterNew = () => {
             <div className="icon__column">
               <img
                 src="/media/apple-touch-icon.png"
+                alt="NFT Concerts Icon"
                 className="footer__icon__img"
                 onClick={() => {
                   navigate("/");

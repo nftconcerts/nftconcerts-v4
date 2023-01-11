@@ -1,3 +1,11 @@
+.user__page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  background: #101010;
+  min-height: 80vh;
+}
 .account__name {
   width: 100%;
   color: #fff;
@@ -103,22 +111,28 @@
   width: 310px;
 }
 .user__info__div {
+  width: 90%;
   color: #000;
-  font-family: "Courier";
+  font-family: "Space Grotesk";
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 
-  background: #bbb;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
 }
 .welcome__text {
-  font-size: 24px;
+  font-size: 40px;
+  font-family: "Space Grotesk";
 }
 .name__div {
+  width: 75%;
   text-align: left;
+  padding-left: 60px;
+  box-sizing: border-box;
+  color: #fff;
+  padding-top: 120px;
 }
 .wallet__div {
   text-align: right;
@@ -150,6 +164,14 @@
   display: flex;
   flex-wrap: wrap;
 }
+.single__concert__box {
+  display: flex;
+  width: 50%;
+  max-width: 600px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  border: none;
+}
 .single__concert__container {
   width: 100%;
   display: flex;
@@ -157,10 +179,17 @@
   min-height: 330px;
   justify-content: flex-start;
   align-items: center;
-  border: solid 1px #000;
-  padding-top: 10px;
-  padding-bottom: 0px;
+  box-sizing: border-box;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
   margin-bottom: 20px;
+  background-image: url("/public/media/lib-box.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 20px;
+  text-align: center;
 }
 .single__concert__div {
   display: flex;
@@ -169,31 +198,19 @@
 }
 .single__concert__image {
   width: 350px;
+  max-width: 90%;
   cursor: pointer;
   transition: 0.5s ease;
   backface-visibility: hidden;
 }
 .single__concert__qty {
-  font-size: 20px;
+  font-size: 24px;
+  font-family: "Space Grotesk";
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
-.single__concert__div:hover .single__concert__image {
-  opacity: 0.5;
-}
-.single__concert__div:hover .hidden__play__icon {
-  opacity: 1;
-}
-.hidden__play__icon {
-  transition: 0.5s ease;
-  position: relative;
-  top: -300px;
-  width: 100px;
-  height: 50px;
-  color: #000;
-  font-size: 30px;
-  pointer-events: none;
-  margin-bottom: -40px;
-  opacity: 0;
-}
+
 .single__concert__quantity {
   margin-top: -40px;
 }
@@ -246,17 +263,21 @@
   transition: all 0.5s;
 }
 .library__heading {
-  font-size: 24px;
+  font-size: 30px;
+  padding-top: 60px;
+  padding-bottom: 40px;
 }
 .library__buttons__div {
   width: 100%;
   padding: 10px;
+  padding-top: 30px;
   display: flex;
   justify-content: space-between;
 
   box-sizing: border-box;
 }
 .library__button {
+  flex-wrap: nowrap;
   display: flex;
   min-width: 40%;
   width: 49%;
@@ -266,15 +287,19 @@
   justify-content: center;
   border: none;
   color: #fff;
-  background: rgb(51, 51, 51);
-  border-radius: 5px;
-  padding: 10px;
+  background: #000;
+  border-radius: 100px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.5s;
+  box-sizing: border-box;
 }
 .library__button:hover {
-  background-color: rgba(51, 51, 51, 0.8);
+  background-color: #101010;
 }
 .library__play__button {
   background: #1bac0e;
@@ -285,8 +310,7 @@
 .account__image {
   border-radius: 10px;
   width: 100%;
-  height: 120px;
-  width: 120px;
+  height: auto;
   object-fit: cover;
 
   box-shadow: 0px 0px 5px #00000092;
@@ -294,6 +318,14 @@
 }
 .account__details {
   padding-top: 10px;
+}
+.account__image__div {
+  width: 100%;
+  padding-top: 100%;
+  background: #fff;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
 }
 .account__image__hover {
   opacity: 0;
@@ -315,14 +347,90 @@
   font-size: 30px;
 }
 
+.user__banner {
+  height: 300px;
+  width: 95%;
+  background-size: cover;
+  background-position: center center;
+  margin-top: 90px;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: -200px;
+}
+.user__banner__botfade {
+  width: 100%;
+  height: 150px;
+  background-image: linear-gradient(#00000000 0%, #000 150%);
+}
+.user__info__box {
+  background-image: url("/public/media/acct-box.jpg");
+  background-size: cover;
+  background-position: top center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 20px;
+  width: 25%;
+  max-width: 450px;
+  color: #fff;
+  object-fit: contain;
+  box-sizing: border-box;
+}
+.user__info__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  max-width: 350px;
+}
+.user__info__name {
+  padding-top: 40px;
+  padding-bottom: 20px;
+  font-family: "Space Grotesk";
+  font-size: 30px;
+  font-weight: bold;
+  color: #fff;
+}
+.user__info__button {
+  width: 100%;
+  max-width: 350px;
+  margin-top: 20px;
+}
+.user__info__address {
+  font-size: 22px;
+}
+.user__info__address a {
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.5s;
+}
+.user__info__address a:hover {
+  color: #ffffff88;
+}
+.library__button__inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 @media screen and (max-width: 720px) {
   .single__concert__container {
     width: 100%;
   }
-  .single__concert__image {
-    width: 200px;
-    max-width: 100%;
-  }
+
   .hidden__play__icon {
     top: -180px;
   }
@@ -332,10 +440,7 @@
   .mobile__hide {
     display: none;
   }
-  .library__button {
-    max-width: 100px;
-    justify-content: center;
-  }
+
   .library__play__now__icon {
     padding-left: 0px !important;
   }
@@ -364,19 +469,81 @@
   .concert__name {
     width: 200px;
   }
-  .account__image {
-    height: 80px;
-    width: 80px;
-  }
+
   .account__details {
     padding-top: 6px;
     font-size: 12px;
   }
   .welcome__text {
-    font-size: 16px;
+    font-size: 30px;
   }
   .account__image__hover {
     height: 80px;
     width: 80px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .tab__hidden__text {
+    display: none;
+  }
+  .play__now__icon {
+    padding-left: 0px;
+  }
+  .user__banner {
+    width: 98%;
+  }
+  .user__info__div {
+    width: 95%;
+  }
+  .name__div {
+    padding-left: 40px;
+  }
+  .user__info__name {
+    font-size: 24px;
+  }
+  .user__info__address {
+    font-size: 16px;
+  }
+  .library__button {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .single__concert__box {
+    width: 100%;
+    padding-right: 0px;
+  }
+  .user__info__box {
+    width: 33%;
+  }
+  .user__info__content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .user__info__div {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .user__info__box {
+    width: 100%;
+  }
+  .name__div {
+    width: 100%;
+    padding: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+  }
+  .hide__600 {
+    display: none;
+  }
+  .library__heading {
+    text-align: center;
   }
 }

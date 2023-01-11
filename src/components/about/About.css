@@ -3,14 +3,14 @@
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  background-color: #333;
+  background-color: #101010;
   min-height: 100vh;
   box-sizing: border-box;
   margin-bottom: -230px;
   padding-bottom: 180px;
 }
 .about__header {
-  background-image: url("./../../../public/media/banner3.jpg");
+  background-image: url("/public/media/topfoot.jpg");
   object-fit: contain;
   text-align: center;
   background-size: cover;
@@ -32,12 +32,12 @@
   font-size: 55px;
   font-weight: 700;
   padding-bottom: 0.3rem;
-  font-family: "Oxygen";
+  font-family: "Space Grotesk";
   text-transform: uppercase;
 }
 .about__subtitle {
   font-size: 26px;
-  font-family: "Oxygen";
+  font-family: "Space Grotesk";
   padding-top: 20px;
 }
 
@@ -83,7 +83,7 @@
   justify-content: center;
   width: 100%;
 
-  font-family: "Saira";
+  font-family: "Space Grotesk";
   color: #fff;
   display: flex;
   justify-content: center;
@@ -98,6 +98,8 @@
 }
 .three__fourths {
   width: 75%;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 .one__fourth {
   display: flex;
@@ -113,6 +115,7 @@
 .about__section__heading {
   font-size: 26px;
   padding-bottom: 20px;
+  font-family: "Space Grotesk";
 }
 .about__featured__contained p {
   font-size: 18px;
@@ -121,9 +124,10 @@
   padding-right: 10px;
 }
 .about__team__div {
-  background-image: linear-gradient(#850000, #b90000);
-  padding-top: 150px;
-  padding-bottom: 150px;
+  background-image: url("/public/media/nftcfoot.jpg");
+  background-size: cover;
+  background-position: center center;
+
   text-align: center;
   display: flex;
   justify-content: center;
@@ -132,6 +136,7 @@
   box-shadow: inset #000 0px 0px 30px;
 }
 .about__team__contained {
+  font-family: "Space Grotesk";
   width: 90%;
   max-width: 2200px;
   display: flex;
@@ -172,7 +177,10 @@
   font-size: 24px;
 }
 .jimmy__photo {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  max-height: 80vh;
+  min-height: 150px;
   box-shadow: 0px 0px 10px #000;
   border-radius: 20px;
 }
@@ -196,6 +204,7 @@
     width: 100%;
     justify-content: center;
     align-items: center;
+    padding-right: 0px;
   }
   .one__fourth {
     display: flex;
@@ -229,7 +238,7 @@
   z-index: 5;
 }
 .roadmap__section__heading {
-  font-family: "Saira";
+  font-family: "Space Grotesk";
   font-size: 35px;
   padding-bottom: 20px;
   color: #fff;
@@ -272,7 +281,7 @@
   align-content: center;
 }
 .roadmap__objective {
-  font-family: "Saira";
+  font-family: "Space Grotesk";
   font-size: 24px;
   padding-left: 25px;
   padding-right: 20px;
@@ -291,8 +300,6 @@
   flex-direction: column;
 }
 .feature__div1 {
-  background: #33333388;
-  margin-top: -200px;
   padding-top: 40px;
 }
 
@@ -301,7 +308,22 @@
   padding-bottom: 150px;
   z-index: 3;
 }
-
+.about__team__botfade {
+  height: 200px;
+  width: 100%;
+  background-image: linear-gradient(#10101000 0%, #101010 80%);
+  margin-top: 20px;
+}
+.about__team__topfade {
+  height: 200px;
+  width: 100%;
+  background-image: linear-gradient(#101010 0%, #10101000 80%);
+  margin-bottom: 40px;
+}
+.feature__div1 .about__featured__contained {
+  border-top: 1px #ccc solid;
+  padding-top: 40px;
+}
 @media screen and (max-width: 1100px) {
   .start__col {
     min-width: 100%;
@@ -331,11 +353,15 @@
   .about__header {
     height: 450px;
   }
-  .about__team__div {
-    padding-top: 60px;
-    padding-bottom: 70px;
-  }
+
   .roadmap__div {
     padding-top: 60px;
+  }
+  .about__team__topfade {
+    margin-bottom: 0px;
+    height: 100px;
+  }
+  .about__team__botfade {
+    margin-top: -120px;
   }
 }

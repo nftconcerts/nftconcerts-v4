@@ -140,17 +140,20 @@ const About = () => {
             <img
               src="https://imgur.com/zi1XNyx.jpg"
               className="video__stand__in"
+              alt="Production Team Video Thumbnail"
             />
             <p className="text__center">Video Coming Soon</p>
           </div>
         </div>
       </div>
       <div className="about__team__div">
+        <div className="about__team__topfade" />
         <div className="about__team__contained">
           <h1 className="about__section__heading">The Team</h1>
           <img
             src="https://shoutoutsocal.com/wp-content/uploads/2022/03/c-PersonalJimmyDendrinos__jimmyprofilepic2_1645328489075.jpg"
             className="jimmy__photo"
+            alt="Jimmy Dendrinos - Founder of NFT Concerts"
           />
           <h3 className="team__name">Jimmy Dendrinos</h3>
           <h5>Founder</h5>
@@ -205,11 +208,16 @@ const About = () => {
             </a>{" "}
           </div>
         </div>
+        <div className="about__team__botfade" />
       </div>
       <div className="roadmap__div">
         <div className="about__team__contained">
           <h1 className="roadmap__section__heading">The Roadmap</h1>
-          <img src="/media/nftc-truck.png" className="nftc__truck" />
+          <img
+            src="/media/nftc-truck.png"
+            className="nftc__truck"
+            alt="NFT Concerts Roadmap Truck Graphic"
+          />
           <div className="roadmap__dates__div">
             <div className="start__col">
               <div className="roadmap__single__date">
@@ -315,24 +323,22 @@ const About = () => {
                 </div>
               </div>
               <div className="roadmap__single__date">
-                <div className="roadmap__date">12/30/22</div>
-                <div className="roadmap__objective">Reach 100 NFT Concerts</div>
+                <div className="roadmap__date done__date">12/22/22</div>
+                <div className="roadmap__objective">Release NFT Concert #5</div>
               </div>
               <div className="roadmap__single__date">
                 <div className="roadmap__date">3/1/23</div>
-                <div className="roadmap__objective">Reach 500 NFT Concerts</div>
+                <div className="roadmap__objective">Reach 20 NFT Concerts</div>
               </div>
               <div className="roadmap__single__date">
                 <div className="roadmap__date">6/1/23</div>
                 <div className="roadmap__objective">
-                  iPhone & Android Mobile Applications
+                  Artist to Fan Dashboard
                 </div>
               </div>
               <div className="roadmap__single__date">
                 <div className="roadmap__date">12/30/23</div>
-                <div className="roadmap__objective">
-                  Reach 1500 NFT Concerts
-                </div>
+                <div className="roadmap__objective">Reach 100 NFT Concerts</div>
               </div>
 
               <div className="roadmap__single__date">

@@ -1,13 +1,15 @@
 .banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   color: white;
   object-fit: contain;
   text-align: center;
   background: #8f0000;
-  background-image: url("/public/media/banner5.jpg");
+  background-image: url("/public/media/topfoot.jpg");
   background-size: cover;
-  background-position: center;
+  background-position: top right;
   background-repeat: no-repeat;
-  height: 600px;
 }
 
 .banner__contents {
@@ -20,7 +22,7 @@
   font-size: 55px;
   font-weight: 700;
   padding-bottom: 0.3rem;
-  font-family: "Oxygen";
+  font-family: "Space Grotesk";
   text-transform: uppercase;
   text-shadow: 3px 3px 20px #000;
 }
@@ -53,19 +55,21 @@
   text-transform: uppercase;
 }
 
-.banner__fadeBottom {
-  height: 320px;
-  background-image: linear-gradient(180deg, transparent, rgb(37, 37, 37), #333);
-}
 .prompt {
   padding-top: 10px;
 }
 .banner__subtitle {
   padding-top: 30px;
-  font-size: 20px;
+  font-size: 30px;
   padding-left: 10px;
   padding-right: 10px;
   text-shadow: 3px 3px 10px #000;
+  font-family: "Space Grotesk";
+}
+.banner__fadeBottom {
+  height: 200px;
+  width: 100%;
+  background-image: linear-gradient(#10101000 0%, #101010 80%);
 }
 @media only screen and (min-width: 300px) and (max-width: 499px) {
   .banner__title {

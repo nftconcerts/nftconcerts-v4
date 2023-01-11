@@ -22,6 +22,7 @@ const Blog = () => {
               <img
                 src="/media/nftc-logo.png"
                 className="blog__header__logo__image"
+                alt="Blog Header logo"
               />
             </div>
             <h1 className="blog__title">NFT Concerts Blog</h1>
@@ -80,6 +81,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFT%20Ticketing%20for%20Concerts%20and%20Events.jpg?alt=media&token=4e19e535-5343-43bd-817b-971b9aec737a"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
@@ -114,6 +116,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNew%20Factor%20Authentication.jpg?alt=media&token=7782acaf-2a74-4575-86f3-75bea1b95acb"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
@@ -148,6 +151,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFTs%20Are%20Here%20to%20Stay.jpg?alt=media&token=d9dd3f79-49d5-483c-846d-5797b917e2a3"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
@@ -183,6 +187,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2F10%20Reasons%20to%20Turn%20Your%20Next%20Performance%20into%20a%20NFT%20Concert.jpg?alt=media&token=86bf61cc-7a9c-4025-884c-45ea1f8209b6"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
@@ -216,6 +221,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FMusic%20Festivals%20and%20NFTs%20in%202022.jpg?alt=media&token=19c3dd78-e900-44c8-bc4c-f8b036ab6b03"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail"
               />
             </div>
             <div className="blog__card__info__div">
@@ -249,6 +255,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFTs%20are%20coming%20to%20a%20live%20event%20near%20you%20v2.jpg?alt=media&token=c79799fc-0a92-4ece-a0cf-f2869161e812"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail"
               />
             </div>
             <div className="blog__card__info__div">
@@ -283,6 +290,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fcoachella%20NFTs.jpg?alt=media&token=d8bdf17c-0509-4f00-9c23-b46c23e4e86d"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail"
               />
             </div>
             <div className="blog__card__info__div">
@@ -317,6 +325,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFTs%20Are%20Not%20Just%20Profile%20Pictures.jpg?alt=media&token=1c262487-590a-4965-90d1-8fd9097d01ab"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
@@ -349,6 +358,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FTop%205%20Music%20NFT%20Companies%20web.jpg?alt=media&token=a0e0d55d-e173-4054-b9f1-be1f44c85dde"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
@@ -382,6 +392,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2F10%20days%20nft%20pfp%20thumbnail%20image.jpg?alt=media&token=b9bbfc97-3b4e-4e31-8bce-d0e56873cbc2"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
@@ -415,6 +426,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FHow%20to%20Get%20Started%20with%20NFTs.jpg?alt=media&token=7ccc2e22-0ac6-40d3-86ea-f6d7b895e45a"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
@@ -448,6 +460,7 @@ const Blog = () => {
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFT%20Tickets%20vs%20NFT%20Music.jpg?alt=media&token=f9a30388-a6f8-4043-9a47-150961355679"
                 className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
               />
             </div>
             <div className="blog__card__info__div">
