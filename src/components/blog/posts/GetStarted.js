@@ -33,21 +33,10 @@ const GetStarted = () => {
         setup a crypto wallet use Google Chrome and add the plugin MetaMask to
         your browser.
       </p>
-      {/* <div className="post__photo__div">
-        <a
-          href="https://yh.io/nft-collection/zhu-nft-community-collection"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <img
-            src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/metamask-plugin-v2.jpg"
-            className="post__photo__two"
-          />
-        </a>
-      </div> */}
+
       <div className="post__image__div">
         <img
-          src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/metamask-plugin-v2.jpg"
+          src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fmetamask%20plugin%20v2.jpg?alt=media&token=b2fa365e-42a7-4217-8431-f6cc91e25852"
           className="post__image"
         />
         <p className="post__image__subtext">
@@ -70,7 +59,7 @@ const GetStarted = () => {
       </p>
       <div className="post__image__div">
         <img
-          src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/metamask-new-wallet.jpg"
+          src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fmetamask%20new%20wallet.jpg?alt=media&token=8d2b6bea-4cf5-4b7e-bc2d-ca29712b9332"
           className="post__image"
         />
         <p className="post__image__subtext">Setup a New Wallet</p>
@@ -86,7 +75,7 @@ const GetStarted = () => {
       </p>
       <div className="post__image__div">
         <img
-          src="https://merch.nftconcerts.com/wp-content/uploads/2021/12/metamask-interface.jpg"
+          src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fmetamask%20interface.jpg?alt=media&token=a23523bf-a367-4a0b-8150-d9e95cc2af8a"
           className="post__image"
         />
         <p className="post__image__subtext">

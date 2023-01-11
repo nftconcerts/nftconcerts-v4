@@ -70,9 +70,6 @@ function BlogPost({ children, postDate, postTitle, prevPost, nextPost }) {
         </div>
       </div>{" "}
       <div className="blog__footer">
-        <div className="footer__top__fade">
-          <div className="footer__top__cover" />{" "}
-        </div>{" "}
         <div className="blog__footer__content">
           {" "}
           <ProductionRow

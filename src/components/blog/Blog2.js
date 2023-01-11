@@ -31,7 +31,6 @@ const Blog = () => {
         <div className="blog__fadeBottom"></div>
       </div>
       <div className="blog__cards__div">
-        
         <div className="blog__card__div">
           <div className="blog__card">
             <div
@@ -41,7 +40,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/10/How-to-price-a-music-nft-600x600.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FHow%20to%20price%20a%20music%20nft.jpg?alt=media&token=117272c4-9207-4d3a-9041-dbe7e62133e1"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -80,7 +79,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/09/Top-9-Music-NFTs-600x600.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FTop%209%20Music%20NFTs.jpg?alt=media&token=ec366d8e-7f51-4c56-b8e5-ec2da726251b"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -118,7 +117,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/09/NFTC-Post-Thumbnail-Template-600x600.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fwhat%20is%20concert%20nft.jpg?alt=media&token=b1b2730f-079f-431e-82c4-66b9ca8d8903"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -155,7 +154,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/09/Are-NFTs-a-Scam-600x600.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FAre%20NFTs%20a%20Scam.jpg?alt=media&token=114e8b6a-4cd5-417d-8a1a-740eb3a8dc3d"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -193,7 +192,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/08/5-Ways-Musicians-Can-Make-Money-with-NFTs-600x600.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2F5%20Ways%20Musicians%20Can%20Make%20Money%20with%20NFTs.jpg?alt=media&token=530b03f1-75d9-4309-a7dc-fc82a5d6bdbd"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -231,7 +230,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/08/Can-I-Make-My-Music-Into-NFTs-600x600.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FCan%20I%20Make%20My%20Music%20Into%20NFTs.jpg?alt=media&token=794bb443-3a2f-4a91-975b-9eeaf1f22c61"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -272,7 +271,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/08/NFTs-Explode-600x600.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFTs%20Explode.jpg?alt=media&token=dc832633-084c-45db-b79e-0171d0f871ea"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -314,7 +313,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/05/Live-Music-is-Back-Thumbnail-600x600.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FLive%20Music%20is%20Back%20Thumbnail.jpg?alt=media&token=a953a271-60dc-455e-a26f-2ae9f89d460f"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -354,7 +353,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/05/Unlockable-NFTs-768x768.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FUnlockable%20NFTs.jpg?alt=media&token=fd0fb013-8dff-454c-b209-f4f8298d3991"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -392,7 +391,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/05/NFT-Concerts-Collectibles-web-768x768.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFT%20Concerts%20Collectibles%20web.jpg?alt=media&token=a136de81-bcc5-4e8f-a6ac-0a0e58d5b5e8"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -430,7 +429,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/04/concert-bootlegs-768x768.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fconcert%20bootlegs.jpg?alt=media&token=3b66764c-4508-4bdb-9104-49b03bab9d9c"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -467,7 +466,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://merch.nftconcerts.com/wp-content/uploads/2021/04/DD-3-768x768.jpg"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FDD%203.jpg?alt=media&token=6e325fe5-6ce2-44bc-b118-d94436fe7d51"
                 className="blog__card__thumbnail__image"
               />
             </div>

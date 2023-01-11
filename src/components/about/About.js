@@ -250,14 +250,7 @@ const About = () => {
               <div className="roadmap__single__date">
                 <div className="roadmap__date done__date">9/3/21</div>
                 <div className="roadmap__objective">
-                  Sold the First{" "}
-                  <a
-                    href="https://merch.nftconcerts.com/product/nft-concerts-snapback-hat-black/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    NFT Concert Hat
-                  </a>{" "}
+                  Sold the First NFT Concert Hat
                 </div>
               </div>
               <div className="roadmap__single__date">

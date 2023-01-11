@@ -112,10 +112,12 @@
 }
 .post__button {
   width: 200px;
-  height: 60px;
-  color: #000;
-  background: #fff;
-  border-radius: 10px;
+
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: #fff;
+  background: #000;
+  border-radius: 100px;
   font-family: "BenchNine";
   font-size: 30px;
   border: none;
@@ -123,8 +125,8 @@
   transition: all 0.5s;
 }
 .post__button:hover {
-  background: #ccc;
-  color: #000;
+  background: #00000088;
+  color: #fff;
 }
 .post__youtube__div {
   display: flex;
@@ -225,7 +227,6 @@ li {
     url("/public/media/footer5.jpg");
   background-position: 50%;
   background-size: cover;
-  padding-bottom: 200px;
 }
 
 @media screen {

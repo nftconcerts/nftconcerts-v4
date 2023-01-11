@@ -52,15 +52,6 @@ const FooterNew = () => {
                 <li>
                   <a href="/apply">Artist Application</a>
                 </li>
-                <li>
-                  <a
-                    href="https://merch.nftconcerts.com/merch"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Merch
-                  </a>
-                </li>
               </ul>
             </div>
             <div className="menu__column">
