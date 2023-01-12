@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "./CountdownBanner.css";
 import { useNavigate } from "react-router-dom";
+import { GetUSDExchangeRate } from "../api";
+import { editionDropAddress } from "../../scripts/getContract.mjs";
+import { useActiveClaimCondition, useContract } from "@thirdweb-dev/react";
 
-const CountdownBanner = () => {
+const CountdownBanner = ({ setShowMintPopUp }) => {
+  const [usdExRate, setUsdExRate] = useState();
   let navigate = useNavigate();
+  const { contract } = useContract(editionDropAddress);
+  const { data: activeClaimCondition } = useActiveClaimCondition(contract, 4);
+
+  useEffect(() => {
+    GetUSDExchangeRate().then((res) => {
+      setUsdExRate(parseFloat(res));
+    });
+  }, []);
   return (
     <>
       <div className="countdown__banner__div">
@@ -32,14 +44,29 @@ const CountdownBanner = () => {
       </div>
       <div className="world__calendar__container">
         <div className="world__calendar__div">
-          <div
-            className="drop__date"
+          <button
+            className="buy__now my__button preview__button buy__now__button production__button open__button cbanner__button"
             onClick={() => {
-              navigate("/concert/4");
+              setShowMintPopUp(true);
             }}
+            disabled={!activeClaimCondition}
           >
-            Minting <span className="pt__emph">12/22/2022</span>
-          </div>
+            <div className="inside__button__div">
+              <div>Mint</div>{" "}
+              <div className="button__price">
+                <img
+                  alt="eth logo"
+                  src="/media/eth-logo.png"
+                  height={25}
+                  className="c__eth__logo pt__eth__logo"
+                />
+                0.03{" "}
+                <span className="c__price__in__usd button__usd__price">
+                  (${(0.03 * usdExRate).toFixed(2)})
+                </span>
+              </div>
+            </div>
+          </button>
           <div
             className="drop__info"
             onClick={() => {
@@ -50,12 +77,16 @@ const CountdownBanner = () => {
               Total QTY<span className="pt__emph"> 25</span>
             </p>
             <p className="pt__stat pt__stat__2">
-              Price <span className="pt__emph">0.03 ETH </span>
+              Available{" "}
+              <span className="pt__emph">
+                {activeClaimCondition?.availableSupply || "LDG"}{" "}
+              </span>
             </p>
           </div>
           <div className="zones__div">
             <div className="zone__div zone__div1">
               <h5 className="zone__title">Berlin</h5>
+              <p className="zone__info zone__info1">12/22/22</p>
               <p className="zone__info">
                 Production Team <span className="zone__data">3PM</span>
               </p>
@@ -67,6 +98,7 @@ const CountdownBanner = () => {
 
             <div className="zone__div zone__div2">
               <h5 className="zone__title">London</h5>
+              <p className="zone__info zone__info1">12/22/22</p>
               <p className="zone__info ">
                 Production Team <span className="zone__data">2PM</span>
               </p>
@@ -78,6 +110,7 @@ const CountdownBanner = () => {
 
             <div className="zone__div zone__div3">
               <h5 className="zone__title">NYC</h5>
+              <p className="zone__info zone__info1">12/22/22</p>
               <p className="zone__info">
                 Production Team <span className="zone__data">9AM</span>
               </p>
@@ -89,6 +122,7 @@ const CountdownBanner = () => {
 
             <div className="zone__div zone__div4">
               <h5 className="zone__title">LA</h5>
+              <p className="zone__info zone__info1">12/22/22</p>
               <p className="zone__info">
                 Production Team <span className="zone__data">6AM</span>
               </p>

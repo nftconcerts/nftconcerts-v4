@@ -140,7 +140,7 @@
   padding-top: 15px;
   padding-bottom: 15px;
   border-radius: 100px;
-  border: 1px solid #393939;
+
   box-shadow: 0px 43.5308px 31.709px rgba(7, 10, 30, 0.11),
     0px 9.62029px 7.00767px rgba(7, 10, 30, 0.182445);
 }
@@ -193,6 +193,7 @@
   font-family: "Saira";
   flex-wrap: nowrap;
   font-size: 16px;
+  width: 310px;
 }
 .empty__pt__button:hover {
   background: #ffffff18;

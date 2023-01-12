@@ -57,7 +57,7 @@ const Home = () => {
   }, []);
 
   const [showMintPopUp, setShowMintPopUp] = useState(false);
-  const [singleConcert, setSingleConcert] = useState(0);
+  const [singleConcert, setSingleConcert] = useState(4);
 
   const [showProductionPop, setShowProductionPop] = useState(false);
   const [productionID, setProductionID] = useState(0);
@@ -85,7 +85,7 @@ const Home = () => {
             />
           )}
 
-          <CountdownBanner />
+          <CountdownBanner setShowMintPopUp={setShowMintPopUp} />
           <Row
             title="NFT Concerts Minting Now"
             isLargeRow

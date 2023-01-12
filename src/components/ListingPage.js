@@ -14,7 +14,7 @@ import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
 import { GetUSDExchangeRate } from "./api";
 import FormBox from "./form/FormBox";
-import { useActiveClaimCondition, useContract, get } from "@thirdweb-dev/react";
+import { useActiveClaimCondition, useContract } from "@thirdweb-dev/react";
 import { editionDropAddress } from "../scripts/getContract.mjs";
 import { useAddress } from "@thirdweb-dev/react";
 import { ethers } from "ethers";

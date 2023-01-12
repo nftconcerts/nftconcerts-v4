@@ -117,10 +117,27 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-
+  box-sizing: border-box;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
+}
+.shop__now__button {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 100px;
+  width: 310px;
+  background: none;
+  color: #fff;
+  font-family: "BenchNine";
+  font-size: 26px;
+  border: solid 1px #fff;
+  cursor: pointer;
+  transition: all 0.5s;
+  text-transform: uppercase;
+}
+.shop__now__button:hover {
+  background: #00000088;
 }
 .welcome__text {
   font-size: 40px;
@@ -231,6 +248,7 @@
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   padding-bottom: 100px;
 }
 .artist__buttons__div {
@@ -326,6 +344,9 @@
   border-radius: 10px;
   background-size: cover;
   background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .account__image__hover {
   opacity: 0;
@@ -426,6 +447,7 @@
   padding-left: 20px;
   padding-right: 20px;
 }
+
 @media screen and (max-width: 720px) {
   .single__concert__container {
     width: 100%;
@@ -529,9 +551,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0px;
+  }
+  .user__banner {
+    width: 95%;
   }
   .user__info__box {
-    width: 100%;
+    width: 90%;
   }
   .name__div {
     width: 100%;

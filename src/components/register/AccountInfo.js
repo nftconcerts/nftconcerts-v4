@@ -2,19 +2,29 @@ import React, { useState, useEffect } from "react";
 import Contract from "../form/Contract";
 import Form from "../form/FormBox";
 import { useNavigate } from "react-router-dom";
-import { ref as dRef, onValue, set } from "firebase/database";
 import {
   db,
   fetchCurrentUser,
   truncateAddress,
   logout,
+  storage,
 } from "./../../firebase";
-import "./AccountInfo.css";
+import FormBox from "../form/FormBox";
+
 import { updateProfile, updateEmail, getAuth } from "firebase/auth";
 import { useMetamask, useAddress, useDisconnect } from "@thirdweb-dev/react";
 import WalletConnectProvider from "@walletconnect/ethereum-provider";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletLink from "walletlink";
+import "./MyAccount.css";
+import "./AccountInfo.css";
+import {
+  getDownloadURL,
+  ref as sRef,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { ref as dRef, set, onValue } from "firebase/database";
+import makeid from "./../../scripts/makeid";
 
 const AccountInfo = () => {
   let navigate = useNavigate();
@@ -30,7 +40,11 @@ const AccountInfo = () => {
   const address = useAddress();
   const disconnect = useDisconnect();
   const [metamaskDetected, setMetamaskDetected] = useState(false);
-
+  const banner = userData?.userBanner || "/media/banner.jpg";
+  const [file, setFile] = useState();
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [update, setUpdate] = useState(1);
+  const [fileUrl, setFileUrl] = useState();
   //check if metamask is installed
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
@@ -130,183 +144,332 @@ const AccountInfo = () => {
     window.location.reload();
   };
 
+  //logout user
+  const inlineLogout = () => {
+    logout();
+    setCurrentUser(null);
+    navigate("/");
+    window.location.reload();
+  };
+
+  //upload files to Firebase Storage
+  const uploadFile = async (file, folder) => {
+    if (!file) return;
+    const storageRef = sRef(
+      storage,
+      `/private/${currentUser.user.uid}/${folder}/${makeid(5)}-${file.name}`
+    );
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    // const response = await fetch(file.uri);
+    // const blob = await response.blob();
+    // var ref = storage().ref().child("colors");
+    // ref.put(blob);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setUploadProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log("upload url: ", url);
+          pushChange(url);
+          setFileUrl(url);
+        });
+      }
+    );
+  };
+
+  const pushChange = (url) => {
+    set(dRef(db, "users/" + currentUser.user.uid + "/image"), url).then(
+      setUpdate(update + 1)
+    );
+  };
+
+  const handleChange = (file) => {
+    setFile(file);
+    uploadFile(file, "accountImages");
+  };
+
   return (
     <>
+      {currentUser === null && (
+        <FormBox>
+          <div className="no__user">
+            <h3>No Current User. </h3>
+            <p>Please Register or Login </p>
+            <button
+              className="login__button"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Go To Login Page
+            </button>
+            <button
+              className="login__button"
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              New User? Sign Up
+            </button>
+          </div>
+        </FormBox>
+      )}
       {userData && (
-        <Form className="account__info__contract">
-          {(!editWallet && (
-            <>
-              <h1 className="account__info__title">Welcome {userData?.name}</h1>
+        <>
+          <div className="user__page">
+            {/* <div className="account__name">
+          <p className="user__name">{currentUser.user.name}</p>
+        </div>
+        <div className="account__info">
+          <p className="user__email">{currentUser.user.email}</p>
+          <p className="logged__in__walletID">
+            {truncateAddress(currentUser.user.photoURL)}
+          </p>
+        </div> */}
+            <div
+              className="user__banner"
+              style={{
+                backgroundImage: `url(${banner})`,
+              }}
+            >
+              <div className="user__banner__botfade" />
+            </div>
 
-              <h3 className="account__info__welcome">
-                Edit your account info below
-              </h3>
-              {editEmail && (
-                <>
-                  <input
-                    className="info__email__input"
-                    placeholder="New Email?"
-                    onChange={(e) => {
-                      setTempEmail(e.target.value);
+            <div className="user__info__div">
+              <div className="user__info__box">
+                <div className="user__info__content square">
+                  <div
+                    className="account__image__div"
+                    style={{
+                      backgroundImage: `url(${userData?.image})`,
                     }}
-                  />
+                  ></div>
+
+                  <h3 className="user__info__name">{userData?.name}</h3>
+                  <p className="user__info__address">
+                    <a
+                      href={`https://etherscan.com/address/${userData?.walletID}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {truncateAddress(userData?.walletID)}
+                    </a>
+                  </p>
+
                   <button
+                    className="library__button user__info__button"
                     onClick={() => {
-                      switchEmail();
+                      navigate("/my-account");
                     }}
-                    className="login__button info__return__button"
                   >
-                    Update Email
+                    View Library
                   </button>
-                  <button
-                    onClick={() => {
-                      setEditEmail(false);
-                    }}
-                    className="login__button info__return__button info__back__button"
-                  >
-                    Cancel
-                  </button>
-                </>
-              )}
-              {editName && (
-                <>
-                  <input
-                    className="info__email__input"
-                    placeholder="New Name?"
-                    onChange={(e) => {
-                      setTempName(e.target.value);
-                    }}
-                  />
-                  <button
-                    onClick={() => {
-                      switchName();
-                    }}
-                    className="login__button info__return__button"
-                  >
-                    Update Name
-                  </button>
-                  <button
-                    onClick={() => {
-                      setEditName(false);
-                    }}
-                    className="login__button info__return__button info__back__button"
-                  >
-                    Cancel
-                  </button>
-                </>
-              )}
-              {!editEmail && !editName && (
-                <>
-                  <div className="info__row">
+                  {(userData?.userType === "artist" && (
                     <>
-                      <div className="info__row__header">Email: </div>
+                      <button
+                        className="library__button user__info__button"
+                        onClick={() => {
+                          navigate("/my-account/artist");
+                        }}
+                      >
+                        Artist View{" "}
+                      </button>
+                      <button
+                        className="library__button user__info__button"
+                        onClick={() => {
+                          navigate("/upload");
+                        }}
+                      >
+                        Upload{" "}
+                      </button>
+                    </>
+                  )) || (
+                    <button
+                      className="library__button user__info__button"
+                      onClick={() => {
+                        navigate("/apply");
+                      }}
+                    >
+                      Artist Application
+                    </button>
+                  )}
+                  {userData?.userType === "admin" && (
+                    <>
+                      <button
+                        className="library__button user__info__button"
+                        onClick={() => {
+                          navigate("/admin");
+                        }}
+                      >
+                        Admin View{" "}
+                      </button>
+                    </>
+                  )}
+                  <button
+                    className="library__button user__info__button"
+                    onClick={inlineLogout}
+                  >
+                    Logout{" "}
+                  </button>
+                </div>
+              </div>
+              <div className="name__div">
+                <span className="bold__text welcome__text account__details hide__600">
+                  Welcome {userData?.name}
+                </span>
+                <br />
+                <div className="contained__library settings__library">
+                  <h3 className="library__heading">Your Settings</h3>
+                  <div className="photo__setting__div">
+                    <div className="user__setting__div thumbnail__setting__div">
+                      <p className="user__setting__name">Thumbnail Image:</p>
                       <div
-                        className="info__row__content"
+                        className="account__image__div thumbnail__preview"
+                        style={{
+                          backgroundImage: `url(${userData?.image})`,
+                        }}
+                      >
+                        {" "}
+                        <div className="picture__edit__hover">
+                          <i className="fa-solid fa-pen picture__edit__icon" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="user__setting__div  cover__setting__div">
+                      <p className="user__setting__name">Cover Image:</p>
+
+                      <div
+                        className="cover__preview"
+                        style={{
+                          backgroundImage: `url(${banner})`,
+                        }}
+                      >
+                        <div className="picture__edit__hover">
+                          <i className="fa-solid fa-pen picture__edit__icon" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="user__setting__div">
+                    <p className="user__setting__name">Email:</p>
+
+                    {(editEmail && (
+                      <>
+                        <input
+                          className="info__email__input"
+                          placeholder="New Email?"
+                          onChange={(e) => {
+                            setTempEmail(e.target.value);
+                          }}
+                        />
+                        <button
+                          onClick={() => {
+                            switchEmail();
+                          }}
+                          className="login__button info__return__button change__button"
+                        >
+                          Update Email
+                        </button>
+                        <button
+                          onClick={() => {
+                            setEditEmail(false);
+                          }}
+                          className="login__button info__return__button info__back__button"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )) || (
+                      <p
+                        className="user__setting__data click__setting"
                         onClick={() => {
                           setEditEmail(true);
                         }}
                       >
-                        <>{userData?.email}</>
-                      </div>
-                    </>
+                        {userData?.email}
+                      </p>
+                    )}
                   </div>
-                  <div className="info__row">
-                    <div className="info__row__header">Name:</div>
-                    <div
-                      className="info__row__content"
-                      onClick={() => {
-                        setEditName(true);
-                      }}
-                    >
-                      {userData?.name}
-                    </div>
+                  <div className="user__setting__div">
+                    <p className="user__setting__name">Name:</p>
+                    {(editName && (
+                      <>
+                        <input
+                          className="info__email__input"
+                          placeholder="New Name?"
+                          onChange={(e) => {
+                            setTempName(e.target.value);
+                          }}
+                        />
+                        <button
+                          onClick={() => {
+                            switchName();
+                          }}
+                          className="login__button info__return__button change__button"
+                        >
+                          Update Name
+                        </button>
+                        <button
+                          onClick={() => {
+                            setEditName(false);
+                          }}
+                          className="login__button info__return__button info__back__button"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )) || (
+                      <p
+                        className="user__setting__data click__setting"
+                        onClick={() => {
+                          setEditName(true);
+                        }}
+                      >
+                        {userData?.name}
+                      </p>
+                    )}
                   </div>
-                  <div className="info__row">
-                    <div className="info__row__header">Wallet Connection: </div>
-                    <div
-                      className="info__row__content"
-                      onClick={() => {
-                        setEditWallet(true);
-                      }}
-                    >
+
+                  <div className="user__setting__div">
+                    <p className="user__setting__name">Wallet Connection:</p>
+                    <p className="user__setting__data">
                       {userData?.connectionType}
-                    </div>
+                    </p>
                   </div>
-                  <div className="info__row">
-                    <div className="info__row__header">Wallet: </div>
-                    <div
-                      className="info__row__content"
-                      onClick={() => {
-                        setEditWallet(true);
-                      }}
-                    >
+                  <div className="user__setting__div">
+                    <p className="user__setting__name">Wallet Address:</p>
+                    <p className="user__setting__data">
                       {truncateAddress(userData?.walletID)}
-                    </div>
+                    </p>
                   </div>
-                  <div className="info__row last__info__row">
-                    <div className="info__row__header">
-                      Emaiil Notifications:{" "}
-                    </div>
-                    <div
-                      className="info__row__content"
+                  <div className="user__setting__div">
+                    <p className="user__setting__name">Email Notifications:</p>
+                    <p
+                      className="user__setting__data click__setting"
                       onClick={() => switchEmailNotifications()}
                     >
                       {userData?.emailNotifications}
-                    </div>
-                  </div>{" "}
-                  <button
-                    onClick={() => {
-                      navigate("/my-account");
-                    }}
-                    className="login__button info__return__button"
-                  >
-                    Back to My Account
-                  </button>
-                </>
-              )}
-            </>
-          )) || (
-            <div className="connect__wallet__div">
-              <div className="connect__wallet__buttons__div">
-                <div className="info__break" />
-                <h3 className="connect__wallet__heading">
-                  You account is tied to your wallet.
-                </h3>
-                <div className="info__break" />
-                <div className="info__break" />
-                <div className="info__break" />
-                <h3>Logout & Create a New Account</h3>
-                <div className="info__break" />
-                <input
-                  type="button"
-                  value="Logout"
-                  className="register__button  disconnect__button"
-                  onClick={() => {
-                    infoLogout();
-                  }}
-                  disabled={false}
-                />
-                <></>
-              </div>
-              <div className="info__break" />
-              <div className="info__break" />
-              <p>Or..</p>
-              <div className="info__break" />
-              <div className="info__break" />
-              <div>
-                {" "}
-                <input
-                  type="button"
-                  value="Go Back"
-                  className="register__button disconnect__button info__back__button"
-                  onClick={() => {
-                    setEditWallet(false);
-                  }}
-                />
+                    </p>
+                  </div>
+                  <div className="user__setting__div">
+                    <p className="user__setting__name">Registration Date:</p>
+                    <p className="user__setting__data">
+                      {userData?.registrationDate}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          )}
-        </Form>
+          </div>
+        </>
       )}
     </>
   );

@@ -94,6 +94,7 @@
   border-radius: 20px 0px 0px 20px;
   padding-bottom: 50px;
   padding-left: 50px;
+  padding-top: 20px;
 }
 .drop__date {
   margin-top: 30px;
@@ -150,6 +151,9 @@
   font-weight: bold;
   padding-left: 5px;
 }
+.zone__info1 {
+  padding-top: 0px;
+}
 .zone__div1 {
   padding-bottom: 20px;
 }
@@ -159,7 +163,9 @@
 .calendar__buttons {
   padding-top: 20px;
 }
-
+.cbanner__button {
+  margin-top: 20px;
+}
 @media screen and (max-width: 1400px) {
   .zones__div {
     flex-wrap: wrap;
@@ -247,6 +253,9 @@
   }
   .countdown__banner__col2 {
     width: 80%;
+  }
+  .world__calendar__div {
+    padding-top: 120px;
   }
 }
 .countdown__banner__small__logo {

@@ -37,6 +37,8 @@ const MyAccount = () => {
   const inlineLogout = () => {
     logout();
     setCurrentUser(null);
+    navigate("/");
+    window.location.reload();
   };
 
   //download User Data
@@ -268,9 +270,27 @@ const MyAccount = () => {
                         navigate("/apply");
                       }}
                     >
-                      Apply for Artist Privledges{" "}
+                      Artist Application
                     </button>
                   )}
+                  {userData?.userType === "admin" && (
+                    <>
+                      <button
+                        className="library__button user__info__button"
+                        onClick={() => {
+                          navigate("/admin");
+                        }}
+                      >
+                        Admin View{" "}
+                      </button>
+                    </>
+                  )}
+                  <button
+                    className="library__button user__info__button"
+                    onClick={inlineLogout}
+                  >
+                    Logout{" "}
+                  </button>
                 </div>
               </div>
               <div className="name__div">
@@ -295,7 +315,7 @@ const MyAccount = () => {
                         performances.
                       </p>
                       <button
-                        className="login__button admin__button"
+                        className="shop__now__button"
                         onClick={() => {
                           navigate("/");
                         }}

@@ -28,9 +28,21 @@
 .info__row__header {
   font-size: 16px;
 }
+.info__email__input {
+  border-radius: 100px;
+  margin-top: 20px;
+}
 .info__return__button {
   width: 100%;
   margin-top: 20px;
+  max-width: 310px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-radius: 100px;
+  border: none;
+  font-family: "BenchNine";
+  font-size: 24px;
+  font-weight: bold;
 }
 .info__row__content {
   cursor: pointer;
@@ -46,4 +58,101 @@
 }
 .info__break {
   padding-bottom: 20px;
+}
+.thumbnail__setting__div {
+  max-width: 300px;
+}
+
+.photo__setting__div {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.cover__preview {
+  margin-top: 10px;
+  width: 100%;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.picture__edit__hover {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+}
+.picture__edit__icon {
+  font-size: 30px;
+  filter: opacity(0);
+  transition: all 0.5s;
+  background: #10101088;
+  padding: 30px;
+  border-radius: 100px;
+}
+.thumbnail__preview {
+  margin-top: 10px;
+  transition: all 0.5s;
+  cursor: pointer;
+  width: 300px;
+  height: 300px;
+  padding-top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.thumbnail__preview:hover {
+  filter: grayscale(1);
+}
+.thumbnail__preview:hover .picture__edit__icon {
+  filter: opacity(1);
+}
+.cover__preview:hover {
+  filter: grayscale(1);
+}
+.cover__preview:hover .picture__edit__icon {
+  filter: opacity(1);
+}
+.cover__setting__div {
+  width: 70%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.user__setting__div {
+  font-size: 20px;
+  padding-top: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.user__setting__name {
+  color: #888;
+  padding-bottom: 5px;
+}
+.user__setting__data {
+  font-weight: bold;
+
+  transform: 0.5s all;
+}
+.click__setting {
+  cursor: pointer;
+}
+.click__setting:hover {
+  color: #b90000;
+}
+.settings__library {
+  padding-bottom: 60px;
+}
+.change__button {
+  background: #1bac0e;
+}
+.change__button:hover {
+  background: rgb(26, 222, 8);
 }

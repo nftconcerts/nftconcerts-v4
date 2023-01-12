@@ -1,4 +1,4 @@
-.sc-bczRLJ {
+.sc-bcXHqe {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -70,11 +70,16 @@
   border: dashed #888 2px;
   border-radius: 5px;
   margin-bottom: 08px;
+  min-height: 200px;
+  height: fit-content;
 }
 .uploader__box:hover {
   border-color: #333;
 
   transition: all 0.5s;
+}
+.uploader__box input {
+  min-height: 200px;
 }
 .login__button:disabled {
   background-color: #888;
