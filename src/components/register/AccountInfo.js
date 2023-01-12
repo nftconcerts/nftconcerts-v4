@@ -13,6 +13,7 @@ import FormBox from "../form/FormBox";
 
 import { updateProfile, updateEmail, getAuth } from "firebase/auth";
 import { useMetamask, useAddress, useDisconnect } from "@thirdweb-dev/react";
+import { FileUploader } from "react-drag-drop-files";
 import WalletConnectProvider from "@walletconnect/ethereum-provider";
 import { Web3Provider } from "@ethersproject/providers";
 import WalletLink from "walletlink";
@@ -25,6 +26,8 @@ import {
 } from "firebase/storage";
 import { ref as dRef, set, onValue } from "firebase/database";
 import makeid from "./../../scripts/makeid";
+
+const fileTypes = ["JPG", "PNG", "GIF"];
 
 const AccountInfo = () => {
   let navigate = useNavigate();
@@ -43,8 +46,10 @@ const AccountInfo = () => {
   const banner = userData?.userBanner || "/media/banner.jpg";
   const [file, setFile] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadCoverProgress, setUploadCoverProgress] = useState(0);
   const [update, setUpdate] = useState(1);
   const [fileUrl, setFileUrl] = useState();
+  const [coverFileUrl, setCoverFileUrl] = useState();
   //check if metamask is installed
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
@@ -183,17 +188,60 @@ const AccountInfo = () => {
       }
     );
   };
-
   const pushChange = (url) => {
     set(dRef(db, "users/" + currentUser.user.uid + "/image"), url).then(
       setUpdate(update + 1)
     );
   };
 
+  //upload files to Firebase Storage
+  const uploadCoverFile = async (file, folder) => {
+    if (!file) return;
+    const storageRef = sRef(
+      storage,
+      `/private/${currentUser.user.uid}/${folder}/${makeid(5)}-${file.name}`
+    );
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    // const response = await fetch(file.uri);
+    // const blob = await response.blob();
+    // var ref = storage().ref().child("colors");
+    // ref.put(blob);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setUploadCoverProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          console.log("upload url: ", url);
+          pushCoverChange(url);
+          setCoverFileUrl(url);
+        });
+      }
+    );
+  };
+
+  const pushCoverChange = (url) => {
+    set(dRef(db, "users/" + currentUser.user.uid + "/userBanner"), url).then(
+      setUpdate(update + 1)
+    );
+  };
+
   const handleChange = (file) => {
-    setFile(file);
     uploadFile(file, "accountImages");
   };
+  const handleCoverChange = (file) => {
+    uploadCoverFile(file, "accountCovers");
+  };
+
+  //thumbnail and cover edit toggles
+  const [editThumbnail, setEditThumbnail] = useState(false);
+  const [editCover, setEditCover] = useState(false);
 
   return (
     <>
@@ -335,13 +383,61 @@ const AccountInfo = () => {
                         style={{
                           backgroundImage: `url(${userData?.image})`,
                         }}
+                        onClick={() => {
+                          setEditThumbnail(!editThumbnail);
+                        }}
                       >
                         {" "}
                         <div className="picture__edit__hover">
                           <i className="fa-solid fa-pen picture__edit__icon" />
                         </div>
                       </div>
+                      {editThumbnail && (
+                        <>
+                          {(fileUrl && (
+                            <h3 className="change__account__title">
+                              Image Updated
+                            </h3>
+                          )) || (
+                            <>
+                              {(uploadProgress > 0 && (
+                                <h3 className="change__account__title">
+                                  Uploading...
+                                </h3>
+                              )) || (
+                                <h3 className="change__account__title">
+                                  Upload a New Profile Image
+                                </h3>
+                              )}
+                            </>
+                          )}
+                          <div className="image__uploader__box">
+                            <FileUploader
+                              handleChange={handleChange}
+                              name="account__image"
+                              className="image__uploader__box"
+                              types={fileTypes}
+                              multiple={false}
+                              children={
+                                <div className="inside__image__uploader__div">
+                                  <div>Drag & Drop or Click to Upload</div>
+                                  <div>[JPG, PNG, GIF]</div>
+                                </div>
+                              }
+                            />
+                          </div>
+                          <button
+                            onClick={() => {
+                              setEditThumbnail(false);
+                            }}
+                            className="login__button info__return__button info__back__button"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      )}
                     </div>
+
                     <div className="user__setting__div  cover__setting__div">
                       <p className="user__setting__name">Cover Image:</p>
 
@@ -350,11 +446,58 @@ const AccountInfo = () => {
                         style={{
                           backgroundImage: `url(${banner})`,
                         }}
+                        onClick={() => {
+                          setEditCover(!editCover);
+                        }}
                       >
                         <div className="picture__edit__hover">
                           <i className="fa-solid fa-pen picture__edit__icon" />
                         </div>
                       </div>
+                      {editCover && (
+                        <>
+                          {(coverFileUrl && (
+                            <h3 className="change__account__title">
+                              Cover Updated
+                            </h3>
+                          )) || (
+                            <>
+                              {(uploadCoverProgress > 0 && (
+                                <h3 className="change__account__title">
+                                  Uploading...
+                                </h3>
+                              )) || (
+                                <h3 className="change__account__title">
+                                  Upload a New Cover Photo
+                                </h3>
+                              )}
+                            </>
+                          )}
+                          <div className="image__uploader__box">
+                            <FileUploader
+                              handleChange={handleCoverChange}
+                              name="account__image"
+                              className="image__uploader__box"
+                              types={fileTypes}
+                              multiple={false}
+                              children={
+                                <div className="inside__image__uploader__div">
+                                  <div>Drag & Drop or Click to Upload</div>
+                                  <div>[JPG, PNG, GIF]</div>
+                                </div>
+                              }
+                            />
+                          </div>
+                          <button
+                            onClick={() => {
+                              setEditCover(false);
+                            }}
+                            className="login__button info__return__button info__back__button"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
 

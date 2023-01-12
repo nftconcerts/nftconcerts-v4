@@ -60,7 +60,6 @@ const UploadRecording = ({
           Back
         </button>
         <form className="upload__form">
-          <label>Concert Recording</label>
           <div className="center__title">
             {file && <h3 className="float__title">File: {file.name}</h3>}
             {file === "" && (

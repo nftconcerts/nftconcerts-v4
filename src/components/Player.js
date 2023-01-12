@@ -200,6 +200,14 @@ const Player = () => {
   const turnOffLights = () => {
     document.getElementsByClassName("player__page")[0].style.backgroundColor =
       "black";
+    document.getElementsByClassName("lp__info__bot__fade")[0].style.background =
+      "linear-gradient(#00000000, #000 80%)";
+    document.getElementsByClassName("lp__info__top__fade")[0].style.background =
+      "linear-gradient(#000000 35%, #00000000 100%)";
+    document.getElementsByClassName("lp__info__columns")[0].style.background =
+      "#101010aa";
+    document.getElementsByClassName("pp__info__container")[0].style.background =
+      "#000000cc";
     setDarkMode(true);
   };
 
@@ -207,6 +215,14 @@ const Player = () => {
   const turnOnLights = () => {
     document.getElementsByClassName("player__page")[0].style.backgroundColor =
       "#101010";
+    document.getElementsByClassName("lp__info__bot__fade")[0].style.background =
+      "linear-gradient(#10101000, #101010 80%)";
+    document.getElementsByClassName("lp__info__top__fade")[0].style.background =
+      "linear-gradient(#101010 35%, #10101000 100%)";
+    document.getElementsByClassName("lp__info__columns")[0].style.background =
+      "none";
+    document.getElementsByClassName("pp__info__container")[0].style.background =
+      "#none";
     setDarkMode(false);
   };
 

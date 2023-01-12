@@ -70,7 +70,7 @@
   border: dashed #888 2px;
   border-radius: 5px;
   margin-bottom: 08px;
-  min-height: 200px;
+
   height: fit-content;
 }
 .uploader__box:hover {

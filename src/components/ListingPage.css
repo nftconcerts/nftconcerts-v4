@@ -389,8 +389,7 @@
   width: 90%;
   max-width: 1500px;
   align-self: center;
-  padding-bottom: 50px;
-  padding: 40px;
+
   z-index: 2;
   box-sizing: border-box;
 }
@@ -1094,6 +1093,11 @@
   text-align: right;
   padding-right: 20px;
 }
+
+.flipped__icon {
+  filter: invert(1);
+  transition: all 0.5s;
+}
 @media screen and (max-width: 1026px) {
   .sales__div {
     height: 170px;
@@ -1155,6 +1159,8 @@
 .lp__info__columns {
   display: flex;
   width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
 }
 @media screen and (max-width: 1050px) {
   .lp__poster {

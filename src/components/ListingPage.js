@@ -293,14 +293,14 @@ const ListingPage = () => {
                   >
                     <img
                       src="/media/etherscan-logo.png"
-                      className="marketplace__icon"
+                      className="marketplace__icon flipped__icon"
                       alt="Etherscan Logo"
                     />
                   </a>
                 )) || (
                   <img
                     src="/media/etherscan-logo.png"
-                    className="marketplace__icon"
+                    className="marketplace__icon flipped__icon"
                     alt="Etherscan Logo"
                   />
                 )}
