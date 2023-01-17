@@ -5,11 +5,14 @@ import { GetUSDExchangeRate } from "../api";
 import { editionDropAddress } from "../../scripts/getContract.mjs";
 import { useActiveClaimCondition, useContract } from "@thirdweb-dev/react";
 
-const CountdownBanner = ({ setShowMintPopUp }) => {
+const CountdownBanner = ({ setShowMintPopUp, concertData, concertID }) => {
   const [usdExRate, setUsdExRate] = useState();
   let navigate = useNavigate();
   const { contract } = useContract(editionDropAddress);
-  const { data: activeClaimCondition } = useActiveClaimCondition(contract, 4);
+  const { data: activeClaimCondition } = useActiveClaimCondition(
+    contract,
+    concertID
+  );
 
   useEffect(() => {
     GetUSDExchangeRate().then((res) => {
@@ -31,10 +34,10 @@ const CountdownBanner = ({ setShowMintPopUp }) => {
           </div>
           <div className="countdown__banner__col2">
             <img
-              src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/public%2FToken%20Image%2FToken%20v1.png?alt=media&token=8e44b174-5f0d-48ea-a905-722e72556d8a"
+              src={concertData[concertID]?.concertTokenImage}
               className="row__poster welcome__poster"
               onClick={() => {
-                navigate("/concert/4");
+                navigate(`/concert/${concertID}`);
               }}
             />
           </div>
@@ -44,6 +47,16 @@ const CountdownBanner = ({ setShowMintPopUp }) => {
       </div>
       <div className="world__calendar__container">
         <div className="world__calendar__div">
+          <div className="calendar__concert__title__div">
+            <h3
+              className="calendar__concert__title zone__title"
+              onClick={() => {
+                navigate(`/concert/${concertID}`);
+              }}
+            >
+              Godmother's First Concert in 2022
+            </h3>
+          </div>
           <button
             className="buy__now my__button preview__button buy__now__button production__button open__button cbanner__button"
             onClick={() => {
@@ -60,21 +73,20 @@ const CountdownBanner = ({ setShowMintPopUp }) => {
                   height={25}
                   className="c__eth__logo pt__eth__logo"
                 />
-                0.03{" "}
+                {parseFloat(concertData[concertID]?.concertPrice)}{" "}
                 <span className="c__price__in__usd button__usd__price">
                   (${(0.03 * usdExRate).toFixed(2)})
                 </span>
               </div>
             </div>
           </button>
-          <div
-            className="drop__info"
-            onClick={() => {
-              navigate("/concert/4");
-            }}
-          >
+          <div className="drop__info">
             <p className="pt__stat pt__stat__1">
-              Total QTY<span className="pt__emph"> 25</span>
+              Total QTY
+              <span className="pt__emph">
+                {" "}
+                {concertData[concertID]?.concertSupply}
+              </span>
             </p>
             <p className="pt__stat pt__stat__2">
               Available{" "}
@@ -136,7 +148,7 @@ const CountdownBanner = ({ setShowMintPopUp }) => {
             <button
               className="empty__pt__button"
               onClick={() => {
-                navigate("/concert/4");
+                navigate(`/concert/${concertID}`);
               }}
             >
               View Concert Info

@@ -216,7 +216,6 @@ const ConcertInfo = ({
             onChange={handleFormData("concertVenue")}
           />{" "}
           {/* Concert Location Input (city, state, country) */}
-          <label>Location (City, State, Country)</label>
           {autocompleteErr && console.log(autocompleteErr)}
           <input
             list="places"

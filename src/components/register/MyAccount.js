@@ -18,7 +18,8 @@ import {
   useContract,
 } from "@thirdweb-dev/react";
 import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
-import checkProductionTeam from "../../scripts/checkProductionTeam";
+import CheckProductionTeam from "../../scripts/checkProductionTeam";
+import AccountPage from "./AccountPage";
 
 const MyAccount = () => {
   let navigate = useNavigate();
@@ -60,43 +61,24 @@ const MyAccount = () => {
       setConcertData(cData);
     });
   }, [currentUser]);
-
-  //check if user is holding production team NFT
+  //check if user is in production team
   const [productionTeam, setProductionTeam] = useState(false);
-  const [showResult, setShowResult] = useState(false);
-  const [ptBalance, setPtBalance] = useState(0);
-  const [plBalance, setPlBalance] = useState(0);
+  const [userPt, setUserPt] = useState(0);
+  const [userPl, setUserPl] = useState(0);
 
-  const productionCheck = async () => {
-    if (address) {
-      var checkResult = await checkProductionTeam(address);
+  const userProdCheck = CheckProductionTeam(userData?.walletID);
+  userProdCheck.then(function (result) {
+    setUserPt(result[0]);
+    setUserPl(result[1]);
+  });
 
-      setPtBalance(checkResult[0]);
-      setPlBalance(checkResult[1]);
-      if (checkResult[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    } else if (!address && userData?.walletID) {
-      var checkResult = await checkProductionTeam(userData.walletID);
-
-      setPtBalance(checkResult[0]);
-      setPlBalance(checkResult[1]);
-      if (checkResult[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    }
-  };
   useEffect(() => {
-    productionCheck();
-  }, [address, userData]);
+    if (userPt > 0) {
+      setProductionTeam(true);
+    } else if (userPl > 0) {
+      setProductionTeam(true);
+    }
+  }, [userPt, userPl]);
 
   //get owned NFTs by user
   const { contract } = useContract(editionDropAddress);
@@ -116,14 +98,7 @@ const MyAccount = () => {
       nfts.push(
         <div className="single__concert__box">
           <div className="single__concert__container">
-            <div
-              className="single__concert__div"
-              name={ownedID}
-              onClick={(i) => {
-                console.log(i);
-                navigate("/player/" + i.target.name);
-              }}
-            >
+            <div className="single__concert__div" name={ownedID}>
               <div className="single__concert__qty">
                 You Own {ownedNFTs[i].quantityOwned.toString()} of{" "}
                 {concertData[ownedID].concertSupply} Copies
@@ -170,166 +145,125 @@ const MyAccount = () => {
   const banner = userData?.userBanner || "/media/banner.jpg";
   return (
     <>
-      <>
-        {currentUser === null && (
-          <FormBox>
-            <div className="no__user">
-              <h3>No Current User. </h3>
-              <p>Please Register or Login </p>
-              <button
-                className="login__button"
-                onClick={() => {
-                  navigate("/login");
-                }}
-              >
-                Go To Login Page
-              </button>
-              <button
-                className="login__button"
-                onClick={() => {
-                  navigate("/register");
-                }}
-              >
-                New User? Sign Up
-              </button>
-            </div>
-          </FormBox>
-        )}
-        {currentUser && userData && (
-          <div className="user__page">
-            {/* <div className="account__name">
-            <p className="user__name">{currentUser.user.name}</p>
-          </div>
-          <div className="account__info">
-            <p className="user__email">{currentUser.user.email}</p>
-            <p className="logged__in__walletID">
-              {truncateAddress(currentUser.user.photoURL)}
-            </p>
-          </div> */}
-            <div
-              className="user__banner"
-              style={{
-                backgroundImage: `url(${banner})`,
+      {currentUser === null && (
+        <FormBox>
+          <div className="no__user">
+            <h3>No Current User. </h3>
+            <p>Please Register or Login </p>
+            <button
+              className="login__button"
+              onClick={() => {
+                navigate("/login");
               }}
             >
-              <div className="user__banner__botfade" />
-            </div>
+              Go To Login Page
+            </button>
+            <button
+              className="login__button"
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              New User? Sign Up
+            </button>
+          </div>
+        </FormBox>
+      )}
+      {currentUser && userData && (
+        <AccountPage>
+          {productionTeam && (
+            <div className="ptlead__container">
+              {(userPl > 0 && (
+                <>
+                  <h3 className="library__heading">Production Lead</h3>
+                  <div className="ptlead__container__div">
+                    <img
+                      src="/media/production-lead.jpg"
+                      className="ptlead__image"
+                    />
+                    <div className="ptlead__info__div">
+                      <h3 className="ptlead__heading">Production Lead</h3>
+                      <p className="ptlead__qty">
+                        You Own {userPl} of 55 Production Lead NFTs
+                      </p>
+                      <p className="ptlead__subheading">
+                        You are a valued leader of NFT Concerts
+                      </p>
 
-            <div className="user__info__div">
-              <div className="user__info__box">
-                <div className="user__info__content square">
-                  <div
-                    className="account__image__div"
-                    style={{
-                      backgroundImage: `url(${userData?.image})`,
-                    }}
+                      <button
+                        className="library__button user__info__button"
+                        onClick={() => {
+                          window.open("https://t.me/+jwqk92uzZxc1M2Fh");
+                        }}
+                      >
+                        Join Telegram Chat
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )) || (
+                <>
+                  <h3 className="library__heading">Production Team Member</h3>
+                </>
+              )}
+              {userPl > 0 && userPt > 0 && (
+                <div className="pt__superfan__spacer" />
+              )}
+              {userPt > 0 && (
+                <div className="ptlead__container__div">
+                  <img
+                    src="/media/production-team.jpg"
+                    className="ptlead__image"
                   />
+                  <div className="ptlead__info__div">
+                    <h3 className="ptlead__heading">Production Team</h3>
+                    <p className="ptlead__qty">
+                      You Own {userPt} of 5000 Production Team NFTs
+                    </p>
+                    <p className="ptlead__subheading">
+                      You are building the future of live music.
+                    </p>
 
-                  <h3 className="user__info__name">{userData?.name}</h3>
-                  <p className="user__info__address">
-                    <a
-                      href={`https://etherscan.com/address/${userData?.walletID}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {truncateAddress(userData?.walletID)}
-                    </a>
-                  </p>
-
-                  <button
-                    className="library__button user__info__button"
-                    onClick={() => {
-                      navigate("/my-account/settings");
-                    }}
-                  >
-                    Edit Profile
-                  </button>
-                  {(userData?.userType === "artist" && (
-                    <>
-                      <button
-                        className="library__button user__info__button"
-                        onClick={() => {
-                          navigate("/my-account/artist");
-                        }}
-                      >
-                        Artist View{" "}
-                      </button>
-                      <button
-                        className="library__button user__info__button"
-                        onClick={() => {
-                          navigate("/upload");
-                        }}
-                      >
-                        Upload{" "}
-                      </button>
-                    </>
-                  )) || (
                     <button
                       className="library__button user__info__button"
                       onClick={() => {
-                        navigate("/apply");
+                        navigate("/production-lounge");
                       }}
                     >
-                      Artist Application
+                      Enter Lounge
                     </button>
-                  )}
-                  {userData?.userType === "admin" && (
-                    <>
-                      <button
-                        className="library__button user__info__button"
-                        onClick={() => {
-                          navigate("/admin");
-                        }}
-                      >
-                        Admin View{" "}
-                      </button>
-                    </>
-                  )}
-                  <button
-                    className="library__button user__info__button"
-                    onClick={inlineLogout}
-                  >
-                    Logout{" "}
-                  </button>
+                  </div>
                 </div>
-              </div>
-              <div className="name__div">
-                <span className="bold__text welcome__text account__details hide__600">
-                  Welcome {userData?.name}
-                </span>
-                <br />
-                <div className="contained__library">
-                  <h3 className="library__heading">Your Library</h3>
-                  {(ownedNFTs && ownedNFTs.length > 0 && (
-                    <>
-                      <div className="concert__library">
-                        {concertData && showConcerts()}
-                      </div>
-                    </>
-                  )) || (
-                    <div className="no__owned__shows__div">
-                      {" "}
-                      <p>There are no NFT Concerts in your wallet.</p>
-                      <p>
-                        Mint or purchase a NFT Concert to unlock full concert
-                        performances.
-                      </p>
-                      <button
-                        className="shop__now__button"
-                        onClick={() => {
-                          navigate("/");
-                        }}
-                      >
-                        Shop Now
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
+              )}
             </div>
-          </div>
-        )}
-      </>
+          )}
+          <h3 className="library__heading">Your Library</h3>
+          {(ownedNFTs && ownedNFTs.length > 0 && (
+            <>
+              <div className="concert__library">
+                {concertData && showConcerts()}
+              </div>
+            </>
+          )) || (
+            <div className="no__owned__shows__div">
+              {" "}
+              <p>There are no NFT Concerts in your wallet.</p>
+              <p>
+                Mint or purchase a NFT Concert to unlock full concert
+                performances.
+              </p>
+              <button
+                className="shop__now__button"
+                onClick={() => {
+                  navigate("/");
+                }}
+              >
+                Shop Now
+              </button>
+            </div>
+          )}
+        </AccountPage>
+      )}
     </>
   );
 };

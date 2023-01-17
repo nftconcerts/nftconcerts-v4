@@ -52,7 +52,7 @@ const CoachellaNfts = () => {
       </p>
       <div className="post__image__div">
         <img
-          src="https://merch.nftconcerts.com/wp-content/uploads/2022/02/Coachella-from-a-distance-scaled.jpg"
+          src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FCoachella%20from%20a%20distance.jpg?alt=media&token=bb6483ac-f316-47c9-9263-e5dcea8cb5df"
           className="post__image"
         />
         <p className="post__image__subtext">

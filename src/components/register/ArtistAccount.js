@@ -20,6 +20,7 @@ import {
 import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
 import checkProductionTeam from "../../scripts/checkProductionTeam";
 import "./ArtistAccount.css";
+import AccountPage from "./AccountPage";
 
 const ArtistAccount = () => {
   let navigate = useNavigate();
@@ -295,62 +296,19 @@ const ArtistAccount = () => {
           </FormBox>
         )}
         {userData && (
-          <Contract>
-            {/* <div className="account__name">
-            <p className="user__name">{currentUser.user.name}</p>
-          </div>
-          <div className="account__info">
-            <p className="user__email">{currentUser.user.email}</p>
-            <p className="logged__in__walletID">
-              {truncateAddress(currentUser.user.photoURL)}
-            </p>
-          </div> */}
-            <div className="user__info__div artist__info__div">
-              <div className="info__header__div">
-                <div className="name__div">
-                  <span className="bold__text welcome__text account__details">
-                    Welcome {userData?.name}
-                  </span>
-                  <br />
-                  <div className="first__letter account__details">
-                    {userData?.userType} Acccount
-                  </div>
-                  <div className="first__letter account__details">
-                    Wallet - {truncateAddress(userData?.walletID)}
-                  </div>
-                  <div className="first__letter account__details">
-                    <a href="/my-account/settings">Account Settings -{`>`}</a>
-                  </div>
-                </div>
-
-                <div className="account__image">
-                  <div
-                    className="account__image__hover"
-                    onClick={() => {
-                      navigate("/my-account/image");
-                    }}
-                  >
-                    <i className="fa-solid fa-pen account__image__hover" />
-                  </div>
-                  <img src={userData?.image} className="account__image" />
-                </div>
-              </div>
+          <AccountPage>
+            <h3 className="library__heading">Artist Dashboard</h3>
+            <div className="artist__info__div">
               <div className="artist__dashboard__div">
                 <div className="artist__info__box center__info__box">
                   <h5 className="artist__info__box__title">Total Sales</h5>
                   <p className="artist__info__box__info">
-                    <img
-                      src="/media/eth-logo.png"
-                      height={15}
-                      className="c__eth__logo"
-                      alt="eth logo"
-                    />
-                    <span className="artist__info__box__info__res">0.000</span>
+                    <span className="artist__info__box__info__res">0</span>
                   </p>
                 </div>
                 <div className="artist__info__box">
                   <h5 className="artist__info__box__title">
-                    Next Payout <br />
+                    Payout <br />
                   </h5>
                   <p className="artist__info__box__info">
                     <img
@@ -360,9 +318,6 @@ const ArtistAccount = () => {
                       alt="eth logo"
                     />
                     <span className="artist__info__box__info__res">0.000</span>
-                  </p>
-                  <p>
-                    <span className="deposit__date">(Deposits December 1)</span>
                   </p>
                 </div>
               </div>
@@ -429,20 +384,7 @@ const ArtistAccount = () => {
                 </div>
               </>
             )}
-            <div className="artist__buttons__div artist__acct__buttons__div">
-              <button
-                className="artist__account__button"
-                onClick={() => {
-                  navigate("/my-account");
-                }}
-              >
-                <div className="inner__button">
-                  Back to My Account{" "}
-                  <i className="fa-solid fa-circle-arrow-right artist__button__arrow" />
-                </div>
-              </button>
-            </div>
-          </Contract>
+          </AccountPage>
         )}
       </>
     </>

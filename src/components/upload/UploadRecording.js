@@ -82,17 +82,14 @@ const UploadRecording = ({
                       <span className="highlight">Click to Upload</span>
                     </>
                   </div>
-                  <p className="upload__box__bottom">[MP4, MOV, MP3, WAV]</p>
+                  <p className="upload__form__box__bottom">
+                    [MP4, MOV, MP3, WAV]
+                  </p>
                 </div>
               }
             />
           </div>
-          {/* <input name="concertRecording" placeholder="Upload Concert Recording" />{" "}
-        <label>Secret Content </label>
-        <input
-          name="concertSecretConctent"
-          placeholder="Attach Additional Secret Content"
-        />{" "} */}
+
           <input
             type="button"
             className="login__button"

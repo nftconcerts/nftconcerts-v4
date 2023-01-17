@@ -94,18 +94,10 @@ const MintPopUp = ({
     }
   }, [tempUser, currentUser]);
 
-  //login temp user
-  const inlineLogin = async () => {
-    await login(email, password);
-    setTempUser(fetchCurrentUser());
-    logout();
-    setLoginProcess(true);
-  };
-
   //confirm user
   const confirmUser = async () => {
     await login(email, password);
-    setCurrentUser(tempUser);
+    setCurrentUser(fetchCurrentUser());
     setNewUser(true);
     setLoginProcess(false);
   };
@@ -198,64 +190,6 @@ const MintPopUp = ({
     } catch (error) {
       console.log(error);
     }
-  };
-
-  //vanilla walletconnect
-  const [walletConnectProvider, setWalletConnectProvider] = useState();
-  const connectWalletConnect = async () => {
-    try {
-      const RPC_URLS = {
-        1: "https://mainnet.infura.io/v3/55d040fb60064deaa7acc8e320d99bd4",
-      };
-      const provider = new WalletConnectProvider({
-        rpc: {
-          1: RPC_URLS[1],
-        },
-        qrcode: true,
-        pollingInterval: 15000,
-      });
-      setWalletConnectProvider(provider);
-      const accounts = await provider.enable();
-      const account = accounts[0];
-      updateWalletID(account, "walletconnect");
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-  const disconnectWalletConnect = () => {
-    walletConnectProvider.disconnect();
-    setWalletConnectProvider(null);
-  };
-
-  //vanilla coinbase
-  const [walletlinkProvider, setWalletlinkProvider] = useState();
-  const connectCoinbase = async () => {
-    try {
-      // Initialize WalletLink
-      const walletLink = new WalletLink({
-        appName: "NFT Concerts",
-        darkMode: true,
-      });
-
-      const provider = walletLink.makeWeb3Provider(
-        "https://rinkeby.infura.io/v3/55d040fb60064deaa7acc8e320d99bd4",
-        4
-      );
-      setWalletlinkProvider(provider);
-      const accounts = await provider.request({
-        method: "eth_requestAccounts",
-      });
-      const account = accounts[0];
-
-      updateWalletID(account, "coinbase");
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
-  const disconnectCoinbase = () => {
-    walletlinkProvider.close();
-    setWalletlinkProvider(null);
   };
 
   function getRandomInt(max) {
@@ -548,23 +482,27 @@ const MintPopUp = ({
   const noUserWelcomePage = () => {
     return (
       <>
-        <h3 className="welcome__motto">Register or Login to Mint</h3>
-        <button
-          onClick={() => {
-            setShowRegister(true);
-          }}
-          className="buy__now my__button preview__button buy__now__button "
-        >
-          <div className="play__now__button__div">Register Now</div>
-        </button>
-        <button
-          onClick={() => {
-            setShowLogin(true);
-          }}
-          className="buy__now my__button preview__button buy__now__button welcome__login__button"
-        >
-          <div className="play__now__button__div">Login</div>
-        </button>
+        <h3 className="welcome__motto login__motto">
+          Register or Login to Mint
+        </h3>
+        <div className="mp__login__buttons__div">
+          <button
+            onClick={() => {
+              setShowRegister(true);
+            }}
+            className="buy__now my__button preview__button buy__now__button mintp__button mintp__register__button"
+          >
+            <div className="play__now__button__div">Register Now</div>
+          </button>
+          <button
+            onClick={() => {
+              setShowLogin(true);
+            }}
+            className="buy__now my__button preview__button buy__now__button welcome__login__button mintp__button"
+          >
+            <div className="play__now__button__div">Login</div>
+          </button>
+        </div>
         <p>
           On Mobile?{" "}
           <a
@@ -589,19 +527,19 @@ const MintPopUp = ({
             onClick={() => {
               updateWalletID("comingSoon", "managedWallet");
             }}
-            className="buy__now my__button preview__button buy__now__button  mint__pop__button"
+            className="buy__now my__button preview__button buy__now__button mintp__button"
           >
             <div className="play__now__button__div">Create a Wallet</div>
           </button>
         </div>
         <div className="or__div"> Or..</div>
-        <div>
+        <div className="wallet__options__div">
           {(metamaskDetected && (
             <button
               onClick={() => {
                 connectMetamask();
               }}
-              className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"
+              className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button mintp__button"
             >
               <div className="play__now__button__div">Connect to MetaMask</div>
             </button>
@@ -610,20 +548,20 @@ const MintPopUp = ({
               onClick={() => {
                 window.open("https://metamask.io/");
               }}
-              className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"
+              className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button mintp__button"
             >
               <div className="play__now__button__div">Download MetaMask</div>
             </button>
           )}
           <button
             onClick={connectWalletConnect2}
-            className="buy__now my__button preview__button buy__now__button  mint__pop__button walletconnect__pop__button"
+            className="buy__now my__button preview__button buy__now__button  mint__pop__button walletconnect__pop__button mintp__button"
           >
             <div className="play__now__button__div">Use Wallet Connect</div>
           </button>
           <button
             onClick={connectCoinbase2}
-            className="buy__now my__button preview__button buy__now__button  mint__pop__button coinbase__pop__button"
+            className="buy__now my__button preview__button buy__now__button  mint__pop__button coinbase__pop__button mintp__button"
           >
             <div className="connect__wallet__button__div">
               Use Coinbase Wallet
@@ -647,11 +585,7 @@ const MintPopUp = ({
   const registerInfo = () => {
     return (
       <>
-        {(rcType === "managedWallet" && (
-          <h3 className="mint__pop__subtitle register__subtitle">
-            Welcome to NFT Concerts
-          </h3>
-        )) || (
+        {(rcType === "managedWallet" && <></>) || (
           <h3 className="mint__pop__subtitle register__subtitle">
             Welcome {truncateAddress(savedUserAddress)}
           </h3>
@@ -708,7 +642,7 @@ const MintPopUp = ({
           I agree to the NFT Concerts <br />
           <a
             href="/terms-of-service"
-            className="nftc__link2"
+            className="terms__mp__link"
             target="_blank"
             rel="noopener noreferrer"
             required="required"
@@ -719,14 +653,14 @@ const MintPopUp = ({
         {(rcType === "managedWallet" && (
           <button
             onClick={tryMagic}
-            className="buy__now my__button preview__button buy__now__button welcome__login__button"
+            className="buy__now my__button preview__button buy__now__button welcome__login__button mintp__button"
           >
             <div className="play__now__button__div ">Register</div>
           </button>
         )) || (
           <button
             onClick={checkThenRegister}
-            className="buy__now my__button preview__button buy__now__button welcome__login__button"
+            className="buy__now my__button preview__button buy__now__button welcome__login__button mintp__button"
           >
             <div className="play__now__button__div ">Register</div>
           </button>
@@ -758,7 +692,7 @@ const MintPopUp = ({
         {rcType === "walletconnect" && (
           <div
             onClick={() => {
-              disconnectWalletConnect();
+              disconnect();
               setSavedUserAddress();
               setDisplayName();
             }}
@@ -770,7 +704,7 @@ const MintPopUp = ({
         {rcType === "coinbase" && (
           <div
             onClick={() => {
-              disconnectCoinbase();
+              disconnect();
               setSavedUserAddress();
               setDisplayName();
             }}
@@ -815,8 +749,8 @@ const MintPopUp = ({
             />
           </form>
           <button
-            onClick={inlineLogin}
-            className="buy__now my__button preview__button buy__now__button welcome__login__button"
+            onClick={confirmUser}
+            className="buy__now my__button preview__button buy__now__button welcome__login__button mintp__button"
           >
             <div className="play__now__button__div ">Log in</div>
           </button>
@@ -833,182 +767,66 @@ const MintPopUp = ({
     );
   };
 
-  const loginConfirm = () => {
-    return (
-      <>
-        <h3 className="welcome__motto">Logging in as {userData?.name}</h3>
-        {userData?.connectionType == "metamask" && (
-          <>
-            {!address && (
-              <button
-                onClick={connectWithMetamask}
-                className="buy__now my__button preview__button buy__now__button welcome__login__button metamask__pop__button"
-              >
-                <div className="play__now__button__div ">
-                  Confirm with Metamask{" "}
-                </div>
-              </button>
-            )}
-            {address && address !== userData?.walletID && (
-              <>
-                <p>Wrong Address. Connected as {truncateAddress(address)}</p>
-
-                {userData && (
-                  <p>Please switch to {truncateAddress(userData?.walletID)}</p>
-                )}
-                <button
-                  onClick={disconnect}
-                  className="buy__now my__button preview__button buy__now__button welcome__login__button metamask__pop__button"
-                >
-                  <div className="play__now__button__div ">Disconnect </div>
-                </button>
-              </>
-            )}
-          </>
-        )}
-        {userData?.connectionType === "coinbase" && (
-          <>
-            {!address && (
-              <button
-                onClick={connectWithCoinbaseWallet}
-                className="buy__now my__button preview__button buy__now__button welcome__login__button coinbase__pop__button"
-              >
-                <div className="play__now__button__div ">
-                  Confirm with Coinbase{" "}
-                </div>
-              </button>
-            )}
-            {address && address !== userData?.walletID && (
-              <>
-                <p>Wrong Address. Connected as {truncateAddress(address)}</p>
-
-                {userData && (
-                  <p>Please switch to {truncateAddress(userData?.walletID)}</p>
-                )}
-                <button
-                  onClick={disconnect}
-                  className="buy__now my__button preview__button buy__now__button welcome__login__button coinbase__pop__button"
-                >
-                  <div className="play__now__button__div ">Disconnect </div>
-                </button>
-              </>
-            )}
-          </>
-        )}
-        {userData?.connectionType === "walletconnect" && (
-          <>
-            {!address && (
-              <button
-                onClick={connectWithWalletConnect}
-                className="buy__now my__button preview__button buy__now__button welcome__login__button walletconnect__pop__button"
-              >
-                <div className="play__now__button__div ">
-                  Confirm with Wallet Connect{" "}
-                </div>
-              </button>
-            )}
-            {address && address !== userData?.walletID && (
-              <>
-                <p>Wrong Address. Connected as {truncateAddress(address)}</p>
-
-                {userData && (
-                  <p>Please switch to {truncateAddress(userData?.walletID)}</p>
-                )}
-                <button
-                  onClick={disconnect}
-                  className="buy__now my__button preview__button buy__now__button welcome__login__button walletconnect__pop__button"
-                >
-                  <div className="play__now__button__div ">Disconnect </div>
-                </button>
-              </>
-            )}
-          </>
-        )}
-        {userData?.connectionType === "magic" && (
-          <>
-            {!address && (
-              <button
-                onClick={confirmMagic}
-                className="buy__now my__button preview__button buy__now__button welcome__login__button"
-              >
-                <div className="play__now__button__div ">
-                  Confirm with Magic{" "}
-                </div>
-              </button>
-            )}
-            {address && address !== userData?.walletID && (
-              <>
-                <p>Wrong Address. Connected as {truncateAddress(address)}</p>
-
-                {userData && (
-                  <p>Please switch to {truncateAddress(userData?.walletID)}</p>
-                )}
-                <button
-                  onClick={disconnect}
-                  className="buy__now my__button preview__button buy__now__button welcome__login__button"
-                >
-                  <div className="play__now__button__div ">Disconnect </div>
-                </button>
-              </>
-            )}
-          </>
-        )}
-        <div
-          className="text__only__button"
-          onClick={() => {
-            setTempUser(null);
-          }}
-        >
-          Wrong Account? Go Back
-        </div>
-      </>
-    );
-  };
-
   //show completed purhcase info and invite to watch
   const purchasedInfo = () => {
     return (
       <>
+        <div className="mint__pop__header">
+          <>
+            <div className="mint__pop__header__col1">
+              <h3 className="purchased__pop__up__heading">
+                Congratulations, you've successfully purchased <br />
+              </h3>{" "}
+              <h1 className="mint__pop__title">
+                {concertData?.concertName} by {concertData.concertArtist}
+              </h1>
+              <img
+                src={concertData?.concertTokenImage}
+                className="mint__pop__img show__500"
+                alt="NFT Concet Token Image"
+              ></img>
+            </div>
+            <div className="mint__pop__header__col2">
+              <img
+                src={concertData?.concertTokenImage}
+                className="mint__pop__img hide__500"
+                alt="NFT Concet Token Image"
+              ></img>
+            </div>
+          </>
+        </div>
         <div className="mint__pop__purchased__div">
-          <h3 className="purchased__pop__up__heading">
-            Congratulations, you've successfuly purchased <br />
-          </h3>
-          <h1 className="purchased__title">
-            {concertData.concertName} by {concertData.concertArtist}
-          </h1>
-          <img
-            src={concertData.concertTokenImage}
-            className="purchased__token__img"
-            alt="NFT Concert Token Peview"
-          ></img>
-          <h3 className="motto">You Own the Show</h3>
+          <div className="price__pop__div">
+            <h3>You Own the Show</h3>
+          </div>
           <p className="motto">
             Out of{" "}
             <span className="bold__text">{concertData?.concertSupply}</span>{" "}
             Copies, You Own <span className="bold__text">{owned}</span>
           </p>
           <button
-            className="buy__now my__button preview__button buy__now__button play__now__button"
+            className="buy__now my__button preview__button buy__now__button play__now__button mintp__button"
             onClick={() => {
               navigate("/player/" + concertID);
             }}
-            disabled={!owned}
           >
             <div className="play__now__button__div">
-              Play Now <i className="fa-solid fa-play play__now__icon" />
+              Play Now <i className="fa-solid fa-play play__now__icon " />
             </div>
           </button>
 
           {purchased && (
-            <div>
+            <div className="tx__link__div">
               <a
                 href={transactionLink}
                 target="_blank"
-                className="dark__link"
+                className="tx__link"
                 rel="noreferrer"
               >
                 View Your Receipt - TX:{" "}
-                {truncateAddress(tx?.receipt.transactionHash)}
+                {(tx && (
+                  <>{truncateAddress(tx?.receipt.transactionHash)}</>
+                )) || <>{truncateAddress("101010101010101")}</>}
               </a>
             </div>
           )}
@@ -1020,8 +838,8 @@ const MintPopUp = ({
   return (
     <>
       <div className="welcome__reveal__div">
-        <div className="home__welcome__pop__up__overlay__div">
-          <div className="home__purchased__pop__up__div">
+        <div className="mint__welcome__pop__up__overlay__div">
+          <div className="mint__purchased__pop__up__div">
             <div className="close__pop__up__div">
               <i
                 onClick={() => {
@@ -1037,6 +855,7 @@ const MintPopUp = ({
 
             {(showRegister && !showPurchased && (
               <div className="mint__pop__register__div">
+                <h3 className="mint__pop__logo__title">Welcome to</h3>
                 <img
                   src="/media/nftc-logo.png"
                   className="mint__pop__logo"
@@ -1051,157 +870,181 @@ const MintPopUp = ({
                   <>
                     {" "}
                     <div className="mint__pop__header">
-                      <h1 className="purchased__title mint__pop__title minting__title">
-                        Minting
-                      </h1>
-                      {(claiming && (
-                        <div className="pop__img__replacement">
-                          <div className="row__center">
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                            <div className="wave"></div>
-                          </div>
+                      <>
+                        <div className="mint__pop__header__col1">
+                          <h1 className="minting__title">Minting</h1>
+                          <img
+                            src={concertData?.concertTokenImage}
+                            className="mint__pop__img show__500"
+                            alt="NFT Concet Token Image"
+                          ></img>
+                          <h1 className="mint__pop__title">
+                            {concertData?.concertName} by{" "}
+                            {concertData.concertArtist}
+                          </h1>
                         </div>
-                      )) || (
-                        <img
-                          src={concertData?.concertTokenImage}
-                          className="mint__pop__img"
-                          alt="NFT Concet Token Image"
-                        ></img>
-                      )}
-                      <h1 className="purchased__title mint__pop__title">
-                        {concertData?.concertName} by{" "}
-                        {concertData.concertArtist}
-                      </h1>
+                        <div className="mint__pop__header__col2">
+                          <img
+                            src={concertData?.concertTokenImage}
+                            className="mint__pop__img hide__500"
+                            alt="NFT Concet Token Image"
+                          ></img>
+                        </div>
+                      </>
                     </div>
                     {(!showCreditCard && (
                       <div className="mint__pop__content">
                         {(!currentUser && (
                           <>
-                            {(showLogin && (
-                              <>
-                                {(!tempUser && loginStart()) || loginConfirm()}
-                              </>
-                            )) ||
+                            {(showLogin && <>{loginStart()}</>) ||
                               noUserWelcomePage()}
                           </>
                         )) || (
                           <>
-                            <div className="quantity__pop__div">
-                              <div
-                                className="quantity__pop__button"
-                                onClick={mintMinus}
-                              >
-                                <i className="fa-solid fa-minus" />{" "}
+                            {(claiming && (
+                              <div className="pop__img__replacement">
+                                <div className="row__center">
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                  <div className="wave"></div>
+                                </div>
                               </div>
-                              <div>
-                                Quantity: {mintQty}{" "}
-                                {showMaxLimit && (
-                                  <span className="max__limit">(Max 5)</span>
-                                )}
-                              </div>
-                              <div
-                                className="quantity__pop__button"
-                                onClick={mintPlus}
-                              >
-                                <i className="fa-solid fa-plus" />{" "}
-                              </div>
-                            </div>
-                            <div className="price__pop__div">
-                              Price:{" "}
-                              <img
-                                src="/media/eth-logo.png"
-                                height={25}
-                                className="c__eth__logo"
-                                alt="eth logo"
-                              />
-                              {(
-                                mintQty * parseFloat(concertData?.concertPrice)
-                              ).toFixed(3)}{" "}
-                              <span className="mint__pop__usd__price">
-                                (${(priceInUSD * mintQty).toFixed(2)})
-                              </span>
-                            </div>
+                            )) || (
+                              <>
+                                <div className="price__pop__div">
+                                  Price:{" "}
+                                  <img
+                                    src="/media/eth-logo.png"
+                                    height={30}
+                                    className="c__eth__logo white__eth__logo"
+                                    alt="eth logo"
+                                  />
+                                  <span className="price__pop__price__highlight">
+                                    {mintQty *
+                                      parseFloat(concertData?.concertPrice)}
+                                  </span>{" "}
+                                  <span className="mint__pop__usd__price">
+                                    (${(priceInUSD * mintQty).toFixed(2)})
+                                  </span>
+                                </div>
+                                <div className="quantity__pop__div">
+                                  <div
+                                    className="quantity__pop__button"
+                                    onClick={mintMinus}
+                                  >
+                                    <i className="fa-solid fa-minus" />{" "}
+                                  </div>
+                                  <div>
+                                    Quantity: {mintQty}{" "}
+                                    {showMaxLimit && (
+                                      <span className="max__limit">
+                                        (Max 5)
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div
+                                    className="quantity__pop__button"
+                                    onClick={mintPlus}
+                                  >
+                                    <i className="fa-solid fa-plus" />{" "}
+                                  </div>
+                                </div>
+                              </>
+                            )}
                             {(userData?.connectionType !== "magic" && (
                               <>
-                                {(networkMistmatch && (
+                                <div className="mp__login__buttons__div">
                                   <button
-                                    onClick={() =>
-                                      switchNetwork(ChainId.Mainnet)
-                                    }
-                                    className="buy__now my__button preview__button buy__now__button "
+                                    onClick={() => {
+                                      launchCredit();
+                                    }}
+                                    className="buy__now my__button preview__button buy__now__button welcome__login__button mintp__button hide__500"
                                   >
                                     <div className="play__now__button__div">
-                                      Switch to Ethereum
+                                      Mint with Credit Card
                                     </div>
                                   </button>
-                                )) || (
-                                  <>
-                                    {(address && (
+                                  {(networkMistmatch && (
+                                    <button
+                                      onClick={() =>
+                                        switchNetwork(ChainId.Mainnet)
+                                      }
+                                      className="buy__now my__button preview__button buy__now__button  mintp__button"
+                                    >
+                                      <div className="play__now__button__div">
+                                        Switch to Ethereum
+                                      </div>
+                                    </button>
+                                  )) || (
+                                    <>
+                                      {(address && (
+                                        <button
+                                          onClick={claimButton}
+                                          className="buy__now my__button preview__button buy__now__button mintp__button mintp__register__button "
+                                        >
+                                          <div className="play__now__button__div">
+                                            Mint Now
+                                          </div>
+                                        </button>
+                                      )) || (
+                                        <>
+                                          {userData?.connectionType ===
+                                            "metamask" && (
+                                            <button
+                                              onClick={connectWithMetamask}
+                                              className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button mintp__button"
+                                            >
+                                              <div className="play__now__button__div">
+                                                Connect to Metamask
+                                              </div>
+                                            </button>
+                                          )}
+                                          {userData?.connectionType ===
+                                            "walletconnect" && (
+                                            <button
+                                              onClick={connectWithWalletConnect}
+                                              className="buy__now my__button preview__button buy__now__button mint__pop__button walletconnect__pop__button mintp__button"
+                                            >
+                                              <div className="play__now__button__div">
+                                                Connect to Wallet Connect
+                                              </div>
+                                            </button>
+                                          )}
+                                          {userData?.connectionType ===
+                                            "coinbase" && (
+                                            <button
+                                              onClick={
+                                                connectWithCoinbaseWallet
+                                              }
+                                              className="buy__now my__button preview__button buy__now__button mint__pop__button coinbase__pop__button mintp__button"
+                                            >
+                                              <div className="play__now__button__div">
+                                                Connect to Coinbase
+                                              </div>
+                                            </button>
+                                          )}
+                                        </>
+                                      )}
                                       <button
-                                        onClick={claimButton}
-                                        className="buy__now my__button preview__button buy__now__button "
+                                        onClick={() => {
+                                          launchCredit();
+                                        }}
+                                        className="buy__now my__button preview__button buy__now__button welcome__login__button mintp__button show__500"
                                       >
                                         <div className="play__now__button__div">
-                                          Mint Now
+                                          Mint with Credit Card
                                         </div>
                                       </button>
-                                    )) || (
-                                      <>
-                                        {userData?.connectionType ===
-                                          "metamask" && (
-                                          <button
-                                            onClick={connectWithMetamask}
-                                            className="buy__now my__button preview__button buy__now__button mint__pop__button metamask__pop__button"
-                                          >
-                                            <div className="play__now__button__div">
-                                              Connect to Metamask
-                                            </div>
-                                          </button>
-                                        )}
-                                        {userData?.connectionType ===
-                                          "walletconnect" && (
-                                          <button
-                                            onClick={connectWithWalletConnect}
-                                            className="buy__now my__button preview__button buy__now__button mint__pop__button walletconnect__pop__button"
-                                          >
-                                            <div className="play__now__button__div">
-                                              Connect to Wallet Connect
-                                            </div>
-                                          </button>
-                                        )}
-                                        {userData?.connectionType ===
-                                          "coinbase" && (
-                                          <button
-                                            onClick={connectWithCoinbaseWallet}
-                                            className="buy__now my__button preview__button buy__now__button mint__pop__button coinbase__pop__button"
-                                          >
-                                            <div className="play__now__button__div">
-                                              Connect to Coinbase
-                                            </div>
-                                          </button>
-                                        )}
-                                      </>
-                                    )}
-                                  </>
-                                )}
-                                <button
-                                  onClick={() => {
-                                    launchCredit();
-                                  }}
-                                  className="buy__now my__button preview__button buy__now__button welcome__login__button"
-                                >
-                                  <div className="play__now__button__div">
-                                    Mint with Credit Card
-                                  </div>
-                                </button>
+                                    </>
+                                  )}
+                                </div>
                                 {claimError && (
                                   <>
                                     <p>
@@ -1231,7 +1074,7 @@ const MintPopUp = ({
                                   onClick={() => {
                                     launchCredit();
                                   }}
-                                  className="buy__now my__button preview__button buy__now__button "
+                                  className="buy__now my__button preview__button buy__now__button mintp__button mintp__register__button "
                                 >
                                   <div className="play__now__button__div">
                                     Mint Now
@@ -1256,10 +1099,8 @@ const MintPopUp = ({
                                   className="c__eth__logo"
                                   alt="eth logo"
                                 />
-                                {(
-                                  mintQty *
-                                  parseFloat(concertData?.concertPrice)
-                                ).toFixed(3)}{" "}
+                                {mintQty *
+                                  parseFloat(concertData?.concertPrice)}{" "}
                                 <span className="mint__pop__usd__price credit__usd__price">
                                   (${(priceInUSD * mintQty).toFixed(2)})
                                 </span>{" "}
@@ -1323,8 +1164,6 @@ const MintPopUp = ({
                 )}
               </>
             )}
-
-            <p className="motto"> </p>
           </div>
         </div>
       </div>

@@ -326,7 +326,6 @@ function Register() {
             )}
             Welcome, Register with your Email
           </h3>
-          <label>Email</label>
           <input
             name="email"
             placeholder="Email"
@@ -335,7 +334,6 @@ function Register() {
             required={true}
             type="email"
           />
-          <label>Username</label>
           <input
             name="dispalyName"
             placeholder="Name"
@@ -343,7 +341,6 @@ function Register() {
             required={true}
             defaultValue={displayName}
           />
-          <label>Password</label>
           <input
             name="password"
             placeholder="Password"
@@ -351,7 +348,6 @@ function Register() {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />{" "}
-          <label>Confirm Password</label>
           <input
             name="confirm__password"
             placeholder="Confirm Password"

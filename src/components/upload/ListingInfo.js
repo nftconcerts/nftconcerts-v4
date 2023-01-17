@@ -169,7 +169,6 @@ const ListingInfo = ({
                 />
               </div>
             </div>
-            <label>Description</label>
             <textarea
               name="concertDescription"
               placeholder="Description"
@@ -178,7 +177,6 @@ const ListingInfo = ({
               className="my__text__area"
               rows="7"
             />{" "}
-            <label>Tour Name</label>
             <input
               name="concertTourName"
               type="text"
@@ -187,7 +185,6 @@ const ListingInfo = ({
               onChange={handleFormData("concertTourName")}
               className="cd__input first__input"
             />{" "}
-            <label>Live Attendance</label>
             <input
               name="concertLiveAttendance"
               type="text"

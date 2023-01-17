@@ -26,6 +26,7 @@ import {
 } from "firebase/storage";
 import { ref as dRef, set, onValue } from "firebase/database";
 import makeid from "./../../scripts/makeid";
+import AccountPage from "./AccountPage";
 
 const fileTypes = ["JPG", "PNG", "GIF"];
 
@@ -123,6 +124,21 @@ const AccountInfo = () => {
       .catch((error) => {
         alert("Error Updating Email. Please try again or contact support.");
       });
+  };
+
+  //switch account slug
+  const [editSlug, setEditSlug] = useState(false);
+  const [tempSlug, setTempSlug] = useState();
+  const switchSlug = () => {
+    set(dRef(db, "users/" + currentUser.user.uid + "/userSlug"), tempSlug).then(
+      () => {
+        refreshUserData();
+        alert(
+          `Slug Updated. View Your Public Profile - https://nftconcerts.com/u/${tempSlug}`
+        );
+        setEditSlug(false);
+      }
+    );
   };
 
   //switch account name
@@ -271,347 +287,280 @@ const AccountInfo = () => {
       )}
       {userData && (
         <>
-          <div className="user__page">
-            {/* <div className="account__name">
-          <p className="user__name">{currentUser.user.name}</p>
-        </div>
-        <div className="account__info">
-          <p className="user__email">{currentUser.user.email}</p>
-          <p className="logged__in__walletID">
-            {truncateAddress(currentUser.user.photoURL)}
-          </p>
-        </div> */}
-            <div
-              className="user__banner"
-              style={{
-                backgroundImage: `url(${banner})`,
-              }}
-            >
-              <div className="user__banner__botfade" />
-            </div>
-
-            <div className="user__info__div">
-              <div className="user__info__box">
-                <div className="user__info__content square">
-                  <div
-                    className="account__image__div"
-                    style={{
-                      backgroundImage: `url(${userData?.image})`,
-                    }}
-                  ></div>
-
-                  <h3 className="user__info__name">{userData?.name}</h3>
-                  <p className="user__info__address">
-                    <a
-                      href={`https://etherscan.com/address/${userData?.walletID}`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {truncateAddress(userData?.walletID)}
-                    </a>
-                  </p>
-
-                  <button
-                    className="library__button user__info__button"
-                    onClick={() => {
-                      navigate("/my-account");
-                    }}
-                  >
-                    View Library
-                  </button>
-                  {(userData?.userType === "artist" && (
-                    <>
-                      <button
-                        className="library__button user__info__button"
-                        onClick={() => {
-                          navigate("/my-account/artist");
-                        }}
-                      >
-                        Artist View{" "}
-                      </button>
-                      <button
-                        className="library__button user__info__button"
-                        onClick={() => {
-                          navigate("/upload");
-                        }}
-                      >
-                        Upload{" "}
-                      </button>
-                    </>
-                  )) || (
+          <AccountPage>
+            <h3 className="library__heading">Your Settings</h3>
+            <div className="photo__setting__div">
+              <div className="user__setting__div thumbnail__setting__div">
+                <p className="user__setting__name">Profile Image:</p>
+                <div
+                  className="account__image__div thumbnail__preview"
+                  style={{
+                    backgroundImage: `url(${userData?.image})`,
+                  }}
+                  onClick={() => {
+                    setEditThumbnail(!editThumbnail);
+                  }}
+                >
+                  {" "}
+                  <div className="picture__edit__hover">
+                    <i className="fa-solid fa-pen picture__edit__icon" />
+                  </div>
+                </div>
+                {editThumbnail && (
+                  <>
+                    {(fileUrl && (
+                      <h3 className="change__account__title">Image Updated</h3>
+                    )) || (
+                      <>
+                        {(uploadProgress > 0 && (
+                          <h3 className="change__account__title">
+                            Uploading...
+                          </h3>
+                        )) || (
+                          <h3 className="change__account__title">
+                            Upload a New Profile Image
+                          </h3>
+                        )}
+                      </>
+                    )}
+                    <div className="image__uploader__box">
+                      <FileUploader
+                        handleChange={handleChange}
+                        name="account__image"
+                        className="image__uploader__box"
+                        types={fileTypes}
+                        multiple={false}
+                        children={
+                          <div className="inside__image__uploader__div">
+                            <div>Drag & Drop or Click to Upload</div>
+                            <div>[JPG, PNG, GIF]</div>
+                          </div>
+                        }
+                      />
+                    </div>
                     <button
-                      className="library__button user__info__button"
                       onClick={() => {
-                        navigate("/apply");
+                        setEditThumbnail(false);
                       }}
+                      className="login__button info__return__button info__back__button"
                     >
-                      Artist Application
+                      Cancel
                     </button>
-                  )}
-                  {userData?.userType === "admin" && (
-                    <>
-                      <button
-                        className="library__button user__info__button"
-                        onClick={() => {
-                          navigate("/admin");
-                        }}
-                      >
-                        Admin View{" "}
-                      </button>
-                    </>
-                  )}
-                  <button
-                    className="library__button user__info__button"
-                    onClick={inlineLogout}
-                  >
-                    Logout{" "}
-                  </button>
-                </div>
+                  </>
+                )}
               </div>
-              <div className="name__div">
-                <span className="bold__text welcome__text account__details hide__600">
-                  Welcome {userData?.name}
-                </span>
-                <br />
-                <div className="contained__library settings__library">
-                  <h3 className="library__heading">Your Settings</h3>
-                  <div className="photo__setting__div">
-                    <div className="user__setting__div thumbnail__setting__div">
-                      <p className="user__setting__name">Thumbnail Image:</p>
-                      <div
-                        className="account__image__div thumbnail__preview"
-                        style={{
-                          backgroundImage: `url(${userData?.image})`,
-                        }}
-                        onClick={() => {
-                          setEditThumbnail(!editThumbnail);
-                        }}
-                      >
-                        {" "}
-                        <div className="picture__edit__hover">
-                          <i className="fa-solid fa-pen picture__edit__icon" />
-                        </div>
-                      </div>
-                      {editThumbnail && (
-                        <>
-                          {(fileUrl && (
-                            <h3 className="change__account__title">
-                              Image Updated
-                            </h3>
-                          )) || (
-                            <>
-                              {(uploadProgress > 0 && (
-                                <h3 className="change__account__title">
-                                  Uploading...
-                                </h3>
-                              )) || (
-                                <h3 className="change__account__title">
-                                  Upload a New Profile Image
-                                </h3>
-                              )}
-                            </>
-                          )}
-                          <div className="image__uploader__box">
-                            <FileUploader
-                              handleChange={handleChange}
-                              name="account__image"
-                              className="image__uploader__box"
-                              types={fileTypes}
-                              multiple={false}
-                              children={
-                                <div className="inside__image__uploader__div">
-                                  <div>Drag & Drop or Click to Upload</div>
-                                  <div>[JPG, PNG, GIF]</div>
-                                </div>
-                              }
-                            />
-                          </div>
-                          <button
-                            onClick={() => {
-                              setEditThumbnail(false);
-                            }}
-                            className="login__button info__return__button info__back__button"
-                          >
-                            Cancel
-                          </button>
-                        </>
-                      )}
-                    </div>
 
-                    <div className="user__setting__div  cover__setting__div">
-                      <p className="user__setting__name">Cover Image:</p>
+              <div className="user__setting__div  cover__setting__div">
+                <p className="user__setting__name">Cover Image:</p>
 
-                      <div
-                        className="cover__preview"
-                        style={{
-                          backgroundImage: `url(${banner})`,
-                        }}
-                        onClick={() => {
-                          setEditCover(!editCover);
-                        }}
-                      >
-                        <div className="picture__edit__hover">
-                          <i className="fa-solid fa-pen picture__edit__icon" />
-                        </div>
-                      </div>
-                      {editCover && (
-                        <>
-                          {(coverFileUrl && (
-                            <h3 className="change__account__title">
-                              Cover Updated
-                            </h3>
-                          )) || (
-                            <>
-                              {(uploadCoverProgress > 0 && (
-                                <h3 className="change__account__title">
-                                  Uploading...
-                                </h3>
-                              )) || (
-                                <h3 className="change__account__title">
-                                  Upload a New Cover Photo
-                                </h3>
-                              )}
-                            </>
-                          )}
-                          <div className="image__uploader__box">
-                            <FileUploader
-                              handleChange={handleCoverChange}
-                              name="account__image"
-                              className="image__uploader__box"
-                              types={fileTypes}
-                              multiple={false}
-                              children={
-                                <div className="inside__image__uploader__div">
-                                  <div>Drag & Drop or Click to Upload</div>
-                                  <div>[JPG, PNG, GIF]</div>
-                                </div>
-                              }
-                            />
-                          </div>
-                          <button
-                            onClick={() => {
-                              setEditCover(false);
-                            }}
-                            className="login__button info__return__button info__back__button"
-                          >
-                            Cancel
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="user__setting__div">
-                    <p className="user__setting__name">Email:</p>
-
-                    {(editEmail && (
-                      <>
-                        <input
-                          className="info__email__input"
-                          placeholder="New Email?"
-                          onChange={(e) => {
-                            setTempEmail(e.target.value);
-                          }}
-                        />
-                        <button
-                          onClick={() => {
-                            switchEmail();
-                          }}
-                          className="login__button info__return__button change__button"
-                        >
-                          Update Email
-                        </button>
-                        <button
-                          onClick={() => {
-                            setEditEmail(false);
-                          }}
-                          className="login__button info__return__button info__back__button"
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    )) || (
-                      <p
-                        className="user__setting__data click__setting"
-                        onClick={() => {
-                          setEditEmail(true);
-                        }}
-                      >
-                        {userData?.email}
-                      </p>
-                    )}
-                  </div>
-                  <div className="user__setting__div">
-                    <p className="user__setting__name">Name:</p>
-                    {(editName && (
-                      <>
-                        <input
-                          className="info__email__input"
-                          placeholder="New Name?"
-                          onChange={(e) => {
-                            setTempName(e.target.value);
-                          }}
-                        />
-                        <button
-                          onClick={() => {
-                            switchName();
-                          }}
-                          className="login__button info__return__button change__button"
-                        >
-                          Update Name
-                        </button>
-                        <button
-                          onClick={() => {
-                            setEditName(false);
-                          }}
-                          className="login__button info__return__button info__back__button"
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    )) || (
-                      <p
-                        className="user__setting__data click__setting"
-                        onClick={() => {
-                          setEditName(true);
-                        }}
-                      >
-                        {userData?.name}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="user__setting__div">
-                    <p className="user__setting__name">Wallet Connection:</p>
-                    <p className="user__setting__data">
-                      {userData?.connectionType}
-                    </p>
-                  </div>
-                  <div className="user__setting__div">
-                    <p className="user__setting__name">Wallet Address:</p>
-                    <p className="user__setting__data">
-                      {truncateAddress(userData?.walletID)}
-                    </p>
-                  </div>
-                  <div className="user__setting__div">
-                    <p className="user__setting__name">Email Notifications:</p>
-                    <p
-                      className="user__setting__data click__setting"
-                      onClick={() => switchEmailNotifications()}
-                    >
-                      {userData?.emailNotifications}
-                    </p>
-                  </div>
-                  <div className="user__setting__div">
-                    <p className="user__setting__name">Registration Date:</p>
-                    <p className="user__setting__data">
-                      {userData?.registrationDate}
-                    </p>
+                <div
+                  className="cover__preview"
+                  style={{
+                    backgroundImage: `url(${banner})`,
+                  }}
+                  onClick={() => {
+                    setEditCover(!editCover);
+                  }}
+                >
+                  <div className="picture__edit__hover">
+                    <i className="fa-solid fa-pen picture__edit__icon" />
                   </div>
                 </div>
+                {editCover && (
+                  <>
+                    {(coverFileUrl && (
+                      <h3 className="change__account__title">Cover Updated</h3>
+                    )) || (
+                      <>
+                        {(uploadCoverProgress > 0 && (
+                          <h3 className="change__account__title">
+                            Uploading...
+                          </h3>
+                        )) || (
+                          <h3 className="change__account__title">
+                            Upload a New Cover Photo
+                          </h3>
+                        )}
+                      </>
+                    )}
+                    <div className="image__uploader__box">
+                      <FileUploader
+                        handleChange={handleCoverChange}
+                        name="account__image"
+                        className="image__uploader__box"
+                        types={fileTypes}
+                        multiple={false}
+                        children={
+                          <div className="inside__image__uploader__div">
+                            <div>Drag & Drop or Click to Upload</div>
+                            <div>[JPG, PNG, GIF]</div>
+                          </div>
+                        }
+                      />
+                    </div>
+                    <button
+                      onClick={() => {
+                        setEditCover(false);
+                      }}
+                      className="login__button info__return__button info__back__button"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                )}
               </div>
             </div>
-          </div>
+
+            <div className="user__setting__div">
+              <p className="user__setting__name">Email:</p>
+
+              {(editEmail && (
+                <>
+                  <input
+                    className="info__email__input"
+                    placeholder="New Email?"
+                    onChange={(e) => {
+                      setTempEmail(e.target.value);
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      switchEmail();
+                    }}
+                    className="login__button info__return__button change__button"
+                  >
+                    Update Email
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditEmail(false);
+                    }}
+                    className="login__button info__return__button info__back__button"
+                  >
+                    Cancel
+                  </button>
+                </>
+              )) || (
+                <p
+                  className="user__setting__data click__setting"
+                  onClick={() => {
+                    setEditEmail(true);
+                  }}
+                >
+                  {userData?.email}
+                </p>
+              )}
+            </div>
+            <div className="user__setting__div">
+              <p className="user__setting__name">Name:</p>
+              {(editName && (
+                <>
+                  <input
+                    className="info__email__input"
+                    placeholder="New Name?"
+                    onChange={(e) => {
+                      setTempName(e.target.value);
+                    }}
+                  />
+                  <button
+                    onClick={() => {
+                      switchName();
+                    }}
+                    className="login__button info__return__button change__button"
+                  >
+                    Update Name
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditName(false);
+                    }}
+                    className="login__button info__return__button info__back__button"
+                  >
+                    Cancel
+                  </button>
+                </>
+              )) || (
+                <p
+                  className="user__setting__data click__setting"
+                  onClick={() => {
+                    setEditName(true);
+                  }}
+                >
+                  {userData?.name}
+                </p>
+              )}
+            </div>
+            {userData?.userSlug && (
+              <div className="user__setting__div">
+                <p className="user__setting__name">Slug:</p>
+                {(editSlug && (
+                  <>
+                    <input
+                      className="info__email__input"
+                      placeholder="New Slug?"
+                      onChange={(e) => {
+                        setTempSlug(e.target.value);
+                        console.log(e.target);
+                        this.val(this.val().replace(/\s+/g, ""));
+                      }}
+                      value={tempSlug}
+                    />
+                    <button
+                      onClick={() => {
+                        switchSlug();
+                      }}
+                      className="login__button info__return__button change__button"
+                    >
+                      Update Slug
+                    </button>
+                    <button
+                      onClick={() => {
+                        setEditSlug(false);
+                      }}
+                      className="login__button info__return__button info__back__button"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                )) || (
+                  <p
+                    className="user__setting__data click__setting"
+                    onClick={() => {
+                      setEditSlug(true);
+                    }}
+                  >
+                    /{userData?.userSlug}
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div className="user__setting__div">
+              <p className="user__setting__name">Wallet Connection:</p>
+              <p className="user__setting__data">{userData?.connectionType}</p>
+            </div>
+            <div className="user__setting__div">
+              <p className="user__setting__name">Wallet Address:</p>
+              <p className="user__setting__data">
+                {truncateAddress(userData?.walletID)}
+              </p>
+            </div>
+            <div className="user__setting__div">
+              <p className="user__setting__name">Email Notifications:</p>
+              <p
+                className="user__setting__data click__setting"
+                onClick={() => switchEmailNotifications()}
+              >
+                {userData?.emailNotifications}
+              </p>
+            </div>
+            <div className="user__setting__div last__setting__div">
+              <p className="user__setting__name">Registration Date:</p>
+              <p className="user__setting__data">
+                {userData?.registrationDate}
+              </p>
+            </div>
+          </AccountPage>
         </>
       )}
     </>

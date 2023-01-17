@@ -24,7 +24,7 @@ const ProductionRow = ({
 
   results.then(function (result) {
     setRemainingPT(result[0] - 100);
-    setRemainingPL(result[1] - 1);
+    setRemainingPL(result[1] - 2);
   });
 
   useEffect(() => {

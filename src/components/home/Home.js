@@ -85,7 +85,11 @@ const Home = () => {
             />
           )}
 
-          <CountdownBanner setShowMintPopUp={setShowMintPopUp} />
+          <CountdownBanner
+            setShowMintPopUp={setShowMintPopUp}
+            concertData={concertData}
+            concertID={4}
+          />
           <Row
             title="NFT Concerts Minting Now"
             isLargeRow
@@ -95,43 +99,14 @@ const Home = () => {
             setSingleConcert={setSingleConcert}
             setShowMintPopUp={setShowMintPopUp}
           />
-          {/* <ComingSoonRow
-            title="Trending Now"
-            concertData={concertData}
-            concerts={trendingConcerts}
-          />
-          <ComingSoonRow
-            title="Recommended"
-            concertData={concertData}
-            concerts={concerts}
-          />
-          <ComingSoonRow
-            title="Resale Marketplace"
-            concertData={concertData}
-            concerts={concerts
-            }
-          /> */}
+
           <ProductionRow
             setShowProductionPop={setShowProductionPop}
             productionID={productionID}
             setProductionID={setProductionID}
             intro="Go Backstage"
           />
-          {/* <ComingSoonRow
-            title="1/1"
-            concertData={concertData}
-            concerts={concerts}
-          />
-          <ComingSoonRow
-            title="Trending Now"
-            concertData={concertData}
-            concerts={concerts}
-          />
-          <ComingSoonRow
-            title="Classic Shows"
-            concertData={concertData}
-            concerts={concerts}
-          />*/}
+
           <ComingSoonRow
             title="Upcoming Shows"
             concertData={concertData}

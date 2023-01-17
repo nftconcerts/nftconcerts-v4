@@ -93,6 +93,12 @@ label {
   justify-content: space-between;
   text-align: center;
 }
+.terms__mp__link {
+  color: #aaa;
+}
+.terms__mp__link:hover {
+  color: #fff;
+}
 @media screen and (max-width: 720px) {
   .review__content__div {
     flex-direction: column;

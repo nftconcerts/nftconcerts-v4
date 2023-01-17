@@ -1062,7 +1062,7 @@
   opacity: 1;
   transition: all 0.5s;
   white-space: nowrap;
-  border: 4px solid #373737;
+  border: 4px solid #373737bb;
   color: #ccc;
 }
 .audprod__div:hover .apt__info__hover {
