@@ -43,6 +43,7 @@ function App() {
   const ArtistApp = lazy(() => import("./components/register/ArtistApp"));
   const ArtistPage = lazy(() => import("./components/ArtistPage"));
   const Collectors = lazy(() => import("./components/collectors/Collectors"));
+  const ProfilePage = lazy(() => import("./components/register/PublicProfile"));
 
   const PromoPage = lazy(() => import("./components/register/Partner"));
 
@@ -196,6 +197,9 @@ function App() {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/artist" element={<ArtistPage />}>
                   <Route path=":id" element={<ArtistPage />} />
+                </Route>
+                <Route path="/u" element={<ProfilePage />}>
+                  <Route path=":slug" element={<ProfilePage />} />
                 </Route>
                 <Route path="/blog/page/2" element={<Blog2 />} />
                 <Route

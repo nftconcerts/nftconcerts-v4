@@ -398,7 +398,7 @@ const Nav = () => {
 
         <img
           className="nav__avatar"
-          src="/media/apple-touch-icon.png"
+          src={"/media/apple-touch-icon.png"}
           alt="NFT Concerts Icon"
           onClick={menuPop}
         />

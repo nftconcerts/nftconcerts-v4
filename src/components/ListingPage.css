@@ -132,7 +132,6 @@
   max-height: 35px;
 }
 
-/* new stuff */
 .purchased__pop__up__overlay__div {
   position: absolute;
   min-height: 600px;
@@ -460,12 +459,16 @@
 }
 .tablet__info {
   width: 100%;
-  border-top: 1px solid #aaa;
   padding-bottom: 20px;
   margin-top: 20px;
   display: none;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-sizing: border-box;
 }
-
+.tablet__description {
+  border-top: 1px solid #aaa;
+}
 @keyframes aliveBar {
   0% {
     background: linear-gradient(90deg, #222, #555);
@@ -745,11 +748,16 @@
   width: 30%;
   display: flex;
   justify-content: center;
+  cursor: pointer;
+}
+.list__audience__name:hover {
+  text-decoration: underline;
 }
 .list__audience__member__image {
   width: 100px;
   height: 100px;
   object-fit: cover;
+  cursor: pointer;
 }
 .list__audience__member__image__div {
   width: 20%;
@@ -902,6 +910,8 @@
   box-sizing: border-box;
   border: solid 2px #fff;
   border-top: none;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 @media screen and (max-width: 725px) {
@@ -949,6 +959,7 @@
   border-radius: 10px;
   overflow: hidden;
   transition: all 0.5s;
+  cursor: pointer;
 }
 .sale__hover__div:hover {
   opacity: 1;
@@ -1202,6 +1213,7 @@
   }
   .lp__info__columns {
     flex-direction: column;
+    padding: 10px;
   }
   .lp__info__col1 {
     width: 100%;

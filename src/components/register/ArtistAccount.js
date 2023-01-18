@@ -300,7 +300,7 @@ const ArtistAccount = () => {
             <h3 className="library__heading">Artist Dashboard</h3>
             <div className="artist__info__div">
               <div className="artist__dashboard__div">
-                <div className="artist__info__box center__info__box">
+                <div className="artist__info__box">
                   <h5 className="artist__info__box__title">Total Sales</h5>
                   <p className="artist__info__box__info">
                     <span className="artist__info__box__info__res">0</span>

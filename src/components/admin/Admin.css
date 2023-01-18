@@ -14,6 +14,7 @@
 }
 .admin__page__content {
   z-index: 3;
+  color: #000;
 }
 .admin__user__table {
   background: #fff;
@@ -22,6 +23,8 @@
   padding-top: 10px;
   padding-bottom: 0px;
   z-index: 3;
+  font-family: "Oxygen";
+  color: #000;
 }
 .approve__button {
   background: #aaa;
@@ -41,11 +44,20 @@
 .admin__control__button {
   width: 200px;
   margin-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
   font-size: 20px;
   font-family: "Saira";
-  border-radius: 5px;
+
+  cursor: pointer;
+  transition: all 0.5s;
+  border-radius: 100px;
+}
+.admin__control__button:disabled {
+  pointer-events: none;
+}
+.admin__control__button:hover {
+  filter: opacity(0.8);
 }
 .approve__button:hover {
   transition: all 0.5s;
@@ -259,6 +271,13 @@
 }
 .table__hide__mobile {
   display: inline;
+}
+.admin__panel {
+  padding-top: 0px;
+  padding-bottom: 40px;
+}
+.admin__heading {
+  color: #fff;
 }
 @media screen and (max-width: 725px) {
   .wrong__network__text {

@@ -7,6 +7,7 @@ import FormBox from "../form/FormBox";
 import emailjs from "@emailjs/browser";
 import "../register/MyAccount.css";
 import "./Admin.css";
+import AccountPage from "../register/AccountPage";
 
 const AdminConcerts = () => {
   let navigate = useNavigate();
@@ -164,8 +165,7 @@ const AdminConcerts = () => {
                 {parseFloat(tempConcert.concertPrice)}
               </div>
               <div className="approved__concert__minted">
-                {tempConcert?.sales?.mintID - 1 || "0"}/
-                {tempConcert.concertSupply}
+                {tempConcert?.mintID - 1 || "0"}/{tempConcert.concertSupply}
               </div>
               <div className="approved__concert__minted">
                 <img
@@ -395,78 +395,39 @@ const AdminConcerts = () => {
         </FormBox>
       )}
       {adminUser && concertData && (
-        <>
+        <AccountPage>
           {" "}
-          <div className="admin__page">
-            <div className="admin__page__content">
-              <div className="user__info__div">
-                <div className="name__div">
-                  <span className="bold__text welcome__text account__details">
-                    Welcome {userData?.name} - Admin Portal
-                  </span>
-                  <br />
-
-                  <>
-                    <div className="first__letter account__details">
-                      <button
-                        onClick={() => {
-                          navigate("/admin");
-                        }}
-                        className="admin__control__button"
-                      >
-                        View Users
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          navigate("/admin/concerts");
-                        }}
-                        className="admin__control__button"
-                        disabled={true}
-                      >
-                        View Concerts
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          navigate("/admin/payouts");
-                        }}
-                        className="admin__control__button"
-                      >
-                        Artist Payouts
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          navigate("/admin/partners");
-                        }}
-                        className="admin__control__button"
-                      >
-                        Partner Payouts
-                      </button>
-                    </div>
-                  </>
-                </div>
-
-                <div className="account__image">
-                  <div
-                    className="account__image__hover"
+          <div className="admin__page__content">
+            <h3 className="library__heading admin__heading">Admin Panel</h3>
+            <div className="admin__panel">
+              <>
+                <div className="first__letter account__details">
+                  <button
                     onClick={() => {
-                      navigate("/my-account/image");
+                      navigate("/admin");
                     }}
+                    className="admin__control__button"
                   >
-                    <i className="fa-solid fa-pen account__image__hover" />
-                  </div>
-                  <img src={userData?.image} className="account__image" />
-                </div>
-              </div>
+                    View Users
+                  </button>
 
-              {showConcerts()}
+                  <button
+                    onClick={() => {
+                      navigate("/admin/concerts");
+                    }}
+                    className="admin__control__button"
+                    disabled={true}
+                  >
+                    View Concerts
+                  </button>
+                </div>
+              </>
             </div>
+
+            {showConcerts()}
           </div>
-        </>
+        </AccountPage>
       )}
-      ;
     </>
   );
 };

@@ -63,7 +63,10 @@ input[type="submit"] {
 }
 input {
   text-align: center;
-  height: 50px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
   width: 310px;
   margin: 0px;
   display: block;
@@ -71,20 +74,20 @@ input {
   margin-bottom: 5px;
   font-family: "Oxygen";
   color: #000;
-  border-radius: 5px;
+  border-radius: 100px;
   border: 1px solid #333;
-  padding: 0px;
+
   box-sizing: border-box;
   margin-top: 03px;
 }
 .login__button {
-  font-family: "Courier";
+  font-family: "BenchNine";
   text-transform: uppercase;
-  border-radius: 5px;
+  border-radius: 100px;
   border: 1px #333 solid;
   padding: 15px 0px 15px 0px;
   background: #131313;
-  font-family: "Courier";
+
   color: #fff;
   font-size: 18px;
 }
@@ -335,7 +338,17 @@ select::-ms-expand {
   background: rgb(26, 222, 8);
 }
 .play__now__button:disabled {
-  background: #aaa;
-  color: #ccc;
-  pointer-events: none;
+  background: #000;
+  filter: opacity(0.5);
+  cursor: default;
+  transition: all 0.5s;
+}
+.play__now__button:disabled:hover {
+  background: #101010;
+}
+.play__now__button:disabled:hover::after {
+  content: "Own to Unlock";
+}
+.play__now__button:disabled:hover .play__inner {
+  display: none;
 }

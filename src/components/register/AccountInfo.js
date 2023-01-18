@@ -24,7 +24,7 @@ import {
   ref as sRef,
   uploadBytesResumable,
 } from "firebase/storage";
-import { ref as dRef, set, onValue } from "firebase/database";
+import { ref as dRef, set, get, onValue, remove } from "firebase/database";
 import makeid from "./../../scripts/makeid";
 import AccountPage from "./AccountPage";
 
@@ -129,18 +129,31 @@ const AccountInfo = () => {
   //switch account slug
   const [editSlug, setEditSlug] = useState(false);
   const [tempSlug, setTempSlug] = useState();
-  const switchSlug = () => {
-    set(dRef(db, "users/" + currentUser.user.uid + "/userSlug"), tempSlug).then(
-      () => {
-        refreshUserData();
-        alert(
-          `Slug Updated. View Your Public Profile - https://nftconcerts.com/u/${tempSlug}`
-        );
-        setEditSlug(false);
-      }
-    );
+
+  const checkSlug = async (slug) => {
+    let slugExists;
+    let checkSlugRef = dRef(db, "userSlugs/" + slug);
+    let snapshot = await get(checkSlugRef);
+    slugExists = snapshot.val();
+    return slugExists;
   };
 
+  const slugReplacement = async () => {
+    let newSlugRef = dRef(db, "userSlugs/" + tempSlug);
+    let currentSlugRef = dRef(db, "userSlugs/" + userData.userSlug);
+    let userSlugRef = dRef(db, "users/" + currentUser.user.uid + "/userSlug");
+    var slugExists = await checkSlug(tempSlug);
+    console.log("Slug Exists : ", slugExists);
+    if (slugExists) {
+      return alert("Slug Taken - Modify and Try Again");
+    } else {
+      await set(newSlugRef, currentUser.user.uid);
+      await set(userSlugRef, tempSlug);
+      await remove(currentSlugRef);
+      setEditSlug(false);
+      return alert(`Slug Updated - ${tempSlug}`);
+    }
+  };
   //switch account name
   const [editName, setEditName] = useState(false);
   const [tempName, setTempName] = useState();
@@ -152,25 +165,6 @@ const AccountInfo = () => {
         setEditName(false);
       }
     );
-  };
-
-  //switch wallet
-  const [editWallet, setEditWallet] = useState(false);
-
-  //logout user
-  const infoLogout = async () => {
-    disconnect();
-    await logout();
-    navigate("/");
-    window.location.reload();
-  };
-
-  //logout user
-  const inlineLogout = () => {
-    logout();
-    setCurrentUser(null);
-    navigate("/");
-    window.location.reload();
   };
 
   //upload files to Firebase Storage
@@ -500,14 +494,12 @@ const AccountInfo = () => {
                       placeholder="New Slug?"
                       onChange={(e) => {
                         setTempSlug(e.target.value);
-                        console.log(e.target);
-                        this.val(this.val().replace(/\s+/g, ""));
                       }}
                       value={tempSlug}
                     />
                     <button
                       onClick={() => {
-                        switchSlug();
+                        slugReplacement();
                       }}
                       className="login__button info__return__button change__button"
                     >

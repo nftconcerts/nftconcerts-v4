@@ -127,7 +127,7 @@ const AccountPage = ({ children }) => {
                     </button>
                   </>
                 )}
-                {(userData?.userType === "artist" && (
+                {userData?.userType === "artist" && (
                   <>
                     {currentUrl != "/my-account/artist" && (
                       <button
@@ -148,17 +148,16 @@ const AccountPage = ({ children }) => {
                       Upload{" "}
                     </button>
                   </>
-                )) || (
-                  <button
-                    className="library__button user__info__button"
-                    onClick={() => {
-                      navigate("/apply");
-                    }}
-                  >
-                    Artist Application
-                  </button>
                 )}
 
+                <button
+                  className="library__button user__info__button"
+                  onClick={() => {
+                    navigate("/u/" + userData.userSlug);
+                  }}
+                >
+                  View Public Profile{" "}
+                </button>
                 <button
                   className="library__button user__info__button"
                   onClick={inlineLogout}

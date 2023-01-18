@@ -711,7 +711,7 @@ const ContractPage = () => {
             />
           </div>
           {adminUser && (
-            <div className="admin__panel">
+            <div className="contract__admin__panel">
               <h3>Admin Panel</h3>
               <button
                 onClick={() => {

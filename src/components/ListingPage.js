@@ -268,13 +268,23 @@ const ListingPage = () => {
                 </span>
               </p>
               <p className=" list__audience__name">
-                <span className="song__emp">{buyerData?.name}</span>
+                <span
+                  className="song__emp"
+                  onClick={() => {
+                    navigate("/u/" + buyerData?.userSlug);
+                  }}
+                >
+                  {buyerData?.name}
+                </span>
               </p>
               <div className="list__audience__member__image__div">
                 {(sale && (
                   <img
                     src={buyerData?.image}
                     className="audience__member__image list__audience__member__image"
+                    onClick={() => {
+                      navigate("/u/" + buyerData?.userSlug);
+                    }}
                   />
                 )) || (
                   <img
@@ -373,7 +383,12 @@ const ListingPage = () => {
           <div className="audience__member__div">
             {(sale && (
               <div className="sales__div">
-                <div className="sale__hover__div">
+                <div
+                  className="sale__hover__div"
+                  onClick={() => {
+                    navigate("/u/" + buyerData?.userSlug);
+                  }}
+                >
                   <div className="hover__buyer__name">{buyerData?.name}</div>
                   <div className="hover__buyer__date">
                     <div className="hover__date__text">
@@ -1027,7 +1042,7 @@ const ListingPage = () => {
                 </div>
               </div>
               <div className="tablet__info">
-                <p className="c__description">
+                <p className="c__description tablet__description">
                   {concertData?.concertDescription}
                 </p>
                 <div className="player__setlist__div">
