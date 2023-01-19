@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import "./Row.css";
 import { useNavigate } from "react-router-dom";
 
@@ -40,6 +40,9 @@ function Row({ concertData, concerts }) {
           </div>
         )}
       </div>
+      {/* <div className="marketplace__button__div">
+        <button className="empty__pt__button">View Marketplace</button>
+      </div> */}
     </div>
   );
 }

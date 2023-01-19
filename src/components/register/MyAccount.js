@@ -1,23 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  db,
-  fetchCurrentUser,
-  logout,
-  truncateAddress,
-  resetMobileMode,
-} from "./../../firebase";
+import { db, fetchCurrentUser } from "./../../firebase";
 import FormBox from "../form/FormBox";
-import Contract from "../form/Contract";
 import { useNavigate } from "react-router-dom";
 import "./MyAccount.css";
 import { ref as dRef, onValue } from "firebase/database";
-import {
-  useAddress,
-  useMetamask,
-  useOwnedNFTs,
-  useContract,
-} from "@thirdweb-dev/react";
-import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
+import { useOwnedNFTs, useContract } from "@thirdweb-dev/react";
+import { editionDropAddress } from "../../scripts/getContract.mjs";
 import CheckProductionTeam from "../../scripts/checkProductionTeam";
 import AccountPage from "./AccountPage";
 
@@ -26,21 +14,11 @@ const MyAccount = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const [concertData, setConcertData] = useState();
-  const address = useAddress();
-  const connectWithMetamask = useMetamask();
 
   //set current user
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
   }, []);
-
-  //logout user
-  const inlineLogout = () => {
-    logout();
-    setCurrentUser(null);
-    navigate("/");
-    window.location.reload();
-  };
 
   //download User Data
   useEffect(() => {
@@ -61,6 +39,7 @@ const MyAccount = () => {
       setConcertData(cData);
     });
   }, [currentUser]);
+
   //check if user is in production team
   const [productionTeam, setProductionTeam] = useState(false);
   const [userPt, setUserPt] = useState(0);
@@ -82,11 +61,7 @@ const MyAccount = () => {
 
   //get owned NFTs by user
   const { contract } = useContract(editionDropAddress);
-  const {
-    data: ownedNFTs,
-    isLoading3,
-    error3,
-  } = useOwnedNFTs(contract, userData?.walletID);
+  const { data: ownedNFTs } = useOwnedNFTs(contract, userData?.walletID);
 
   //show users owned concerts
   const showConcerts = () => {
@@ -107,6 +82,7 @@ const MyAccount = () => {
                 src={concertData[ownedID].concertTokenImage}
                 className="single__concert__image"
                 name={ownedID}
+                alt="Concert Token Thumbnail"
               />
             </div>
 
@@ -141,8 +117,6 @@ const MyAccount = () => {
     return nfts;
   };
 
-  //userbanner
-  const banner = userData?.userBanner || "/media/banner.jpg";
   return (
     <>
       {currentUser === null && (
@@ -180,6 +154,7 @@ const MyAccount = () => {
                     <img
                       src="/media/production-lead.jpg"
                       className="ptlead__image"
+                      alt="Production Lead"
                     />
                     <div className="ptlead__info__div">
                       <h3 className="ptlead__heading">Production Lead</h3>
@@ -214,6 +189,7 @@ const MyAccount = () => {
                   <img
                     src="/media/production-team.jpg"
                     className="ptlead__image"
+                    alt="Production Team"
                   />
                   <div className="ptlead__info__div">
                     <h3 className="ptlead__heading">Production Team</h3>
@@ -227,7 +203,7 @@ const MyAccount = () => {
                     <button
                       className="library__button user__info__button"
                       onClick={() => {
-                        navigate("/production-lounge");
+                        navigate("/lounge");
                       }}
                     >
                       Enter Lounge

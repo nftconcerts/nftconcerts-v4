@@ -23,13 +23,18 @@ const CountdownBanner = ({ setShowMintPopUp, concertData, concertID }) => {
     <>
       <div className="countdown__banner__div">
         <div className="countdown__banner__small__logo">
-          <img src="/media/nftc-logo.png" className="welcome__logo" />
+          <img
+            src="/media/nftc-logo.png"
+            className="welcome__logo"
+            alt="NFT Concerts Logo"
+          />
         </div>
         <div className="countdown__banner__inner">
           <div className="countdown__banner__col1">
             <img
               src="/media/nftc-logo.png"
               className="welcome__logo big__logo"
+              alt="NFT Concerts Logo"
             />
           </div>
           <div className="countdown__banner__col2">
@@ -39,6 +44,7 @@ const CountdownBanner = ({ setShowMintPopUp, concertData, concertID }) => {
               onClick={() => {
                 navigate(`/concert/${concertID}`);
               }}
+              alt="NFT Concert Token"
             />
           </div>
         </div>

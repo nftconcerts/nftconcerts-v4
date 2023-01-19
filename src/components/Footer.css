@@ -65,7 +65,6 @@
   transition: all 0.5s;
 }
 
-/* Add a hover effect if you want */
 .fa:hover {
   opacity: 0.7;
   background-color: #ff0000;

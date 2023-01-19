@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./ProductionRow.css";
+import "./ProductionTeam.css";
 import { GetUSDExchangeRate } from "../api";
 import CheckProductionTeam from "../../scripts/checkProductionTeam";
-import { editionDropAddress } from "../../scripts/getProductionContract";
-import { useContract } from "@thirdweb-dev/react";
 
 const ProductionRow = ({
   setShowProductionPop,
@@ -11,9 +10,7 @@ const ProductionRow = ({
   setProductionID,
   intro,
 }) => {
-  const [showProductionLead, setShowProductionLead] = useState(false);
   const [usdExRate, setUsdExRate] = useState();
-  const [priceInUSD, setPriceInUSD] = useState("0.00");
 
   const [remainingPT, setRemainingPT] = useState();
   const [remainingPL, setRemainingPL] = useState();
@@ -47,7 +44,7 @@ const ProductionRow = ({
               <div className="production__row__first__col">
                 <div className="prouction__team__image__div pt__image__div">
                   <img
-                    alt="production team image"
+                    alt="production team"
                     src="/media/production-team.jpg"
                     className="production__team__image"
                     onClick={() => {
@@ -162,7 +159,7 @@ const ProductionRow = ({
                       Support the Build & Join the Community
                     </p>
                     <div className="full__w">
-                      <p> Want a bigger role? </p>
+                      <p className="pad__right"> Want a bigger role? </p>
                       <button
                         className="empty__pt__button"
                         onClick={() => {
@@ -185,7 +182,7 @@ const ProductionRow = ({
                 <div className="production__row__first__col">
                   <div className="prouction__team__image__div pt__image__div">
                     <img
-                      alt="production team image"
+                      alt="production lead"
                       src="/media/production-lead.jpg"
                       className="production__team__image pt__image"
                       onClick={() => {
@@ -301,7 +298,7 @@ const ProductionRow = ({
                         Determine the Future of Live Music
                       </p>
                       <div className="full__w">
-                        <p> Too much commitment? </p>
+                        <p className="pad__right"> Too much commitment? </p>
                         <button
                           className="empty__pt__button"
                           onClick={() => {

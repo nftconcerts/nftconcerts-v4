@@ -1,36 +1,21 @@
 import React, { useState, useEffect } from "react";
-import Banner from "./Banner";
 import Row from "./Row";
 import ComingSoonRow from "./ComingSoonRow";
 import FooterTop from "../FooterTop";
 import { ref as dRef, onValue } from "firebase/database";
-import { db, getMobileMode, fetchCurrentUser } from "./../../firebase";
+import { db, fetchCurrentUser } from "./../../firebase";
 import "./Home.css";
-
-import FormBox from "../form/FormBox";
-import { useAddress, useNetworkMismatch } from "@thirdweb-dev/react";
-import { useNavigate } from "react-router-dom";
 import MintPopUp from "../MintPopUp";
 import ProductionRow from "./ProductionRow";
 import ProductionPop from "./ProductionPop";
 import CountdownBanner from "./CountdownBanner";
 
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-
 const Home = () => {
-  let navigate = useNavigate();
-  const networkMismatch = useNetworkMismatch();
   const [concertData, setConcertData] = useState();
   const firstReleaseConcerts = [3, 0, 1, 2];
-  const trendingConcerts = [8, 2, 4, 6, 10];
   const concerts = [5, 4, 7, 2];
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
-  const [pageMobileMode, setPageMobileMode] = useState(false);
-
-  useEffect(() => {
-    setPageMobileMode(getMobileMode());
-  }, [networkMismatch]);
 
   //set current user
   useEffect(() => {
@@ -69,6 +54,7 @@ const Home = () => {
           {showMintPopUp && (
             <MintPopUp
               currentUser={currentUser}
+              userData={userData}
               concertData={concertData[singleConcert]}
               concertID={singleConcert}
               setShowMintPopUp={setShowMintPopUp}
@@ -78,6 +64,7 @@ const Home = () => {
           {showProductionPop && (
             <ProductionPop
               currentUser={currentUser}
+              userData={userData}
               productionID={productionID}
               setProductionID={setProductionID}
               setShowProductionPop={setShowProductionPop}
@@ -114,7 +101,7 @@ const Home = () => {
             isFinalRow
           />
           <div className="row__gradient__blend" />
-          <FooterTop />
+          <FooterTop currentUser={currentUser} userData={userData} />
         </div>
       )}
     </>

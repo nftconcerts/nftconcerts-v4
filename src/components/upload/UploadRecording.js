@@ -17,9 +17,6 @@ const UploadRecording = ({
   whileUploading,
   infoBox,
 }) => {
-  //creating error state for validation
-  const [error, setError] = useState(false);
-
   const [showInfo, setShowInfo] = useState(false);
 
   const switchShowInfo = () => {

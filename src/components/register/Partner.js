@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Partner.css";
-import Contract from "../form/Contract";
 import makeid from "../../scripts/makeid";
-import Banner from "../home/Banner";
+import Banner from "../about/Banner";
 import Popup from "../form/Popup";
 import { fetchCurrentUser, db } from "../../firebase";
 import { ref as dRef, onValue, set } from "firebase/database";
 import { useNavigate } from "react-router-dom";
-import { networkInterfaces } from "os";
 import { Helmet } from "react-helmet";
 
 const Partner = () => {
@@ -60,7 +58,6 @@ const Partner = () => {
       e.preventDefault();
     }
   };
-  const [partnerData, setPartnerData] = useState();
 
   const checkPartnerCode = () => {
     let codeRef = dRef(db, "partners/" + tempCode);
@@ -217,11 +214,19 @@ const Partner = () => {
               <div className="percentage__pies__div">
                 <div className="standard__percentage__div">
                   <h3 className="percentage__title">Standard Fee Breakdown</h3>
-                  <img src="/media/standard-pie.png" className="pie__image" />
+                  <img
+                    src="/media/standard-pie.png"
+                    className="pie__image"
+                    alt="Standard Fee Piechart"
+                  />
                 </div>
                 <div className="partner__percentage__div">
                   <h3 className="percentage__title">Partner Fee Breakdown</h3>
-                  <img src="/media/partner-pie.png" className="pie__image" />
+                  <img
+                    src="/media/partner-pie.png"
+                    className="pie__image"
+                    alt="Partner Fee Piechart"
+                  />
                 </div>
               </div>
               <div className="percentage__pie__div"></div>

@@ -38,6 +38,7 @@ const GetStarted = () => {
         <img
           src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fmetamask%20plugin%20v2.jpg?alt=media&token=b2fa365e-42a7-4217-8431-f6cc91e25852"
           className="post__image"
+          alt="Metamask Tip 1"
         />
         <p className="post__image__subtext">
           Download the{" "}
@@ -45,6 +46,7 @@ const GetStarted = () => {
             href="https://jdendrinos.com/photography/events/coachella/"
             target="_blank"
             rel="noreferrer"
+            alt="Metamask Tip 2"
           >
             Metamask Plugin
           </a>{" "}
@@ -61,6 +63,7 @@ const GetStarted = () => {
         <img
           src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fmetamask%20new%20wallet.jpg?alt=media&token=8d2b6bea-4cf5-4b7e-bc2d-ca29712b9332"
           className="post__image"
+          alt="Metamask Tip 3"
         />
         <p className="post__image__subtext">Setup a New Wallet</p>
       </div>
@@ -77,6 +80,7 @@ const GetStarted = () => {
         <img
           src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fmetamask%20interface.jpg?alt=media&token=a23523bf-a367-4a0b-8150-d9e95cc2af8a"
           className="post__image"
+          alt="Metamask Tip 4"
         />
         <p className="post__image__subtext">
           Copy Your Wallet Address by Clicking on the 'Account 1' Button

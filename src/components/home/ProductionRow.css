@@ -186,7 +186,7 @@
   color: #fff;
   padding-left: 20px;
   padding-right: 20px;
-  margin-left: 20px;
+
   font-size: 20px;
   cursor: pointer;
   transition: all 0.5s;
@@ -210,6 +210,10 @@
   filter: brightness(0.8);
   opacity: 0.5;
 }
+.pad__right {
+  padding-right: 20px;
+}
+
 @media screen and (max-width: 550px) {
   .inner__pt__title {
     font-size: 30px;

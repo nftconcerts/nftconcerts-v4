@@ -65,12 +65,11 @@
 }
 .row {
   color: #fff;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  margin-top: -200px;
   padding-bottom: 40px;
 }
 .row__posters {
@@ -82,7 +81,14 @@
 
   flex-wrap: wrap;
 }
-
+.marketplace__button__div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
 .row__posters::-webkit-scrollbar {
   display: none;
 }

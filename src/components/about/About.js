@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./About.css";
 import YouTube from "react-youtube";
 import { Helmet } from "react-helmet";
-import Banner from "./../home/Banner";
+import Banner from "./Banner";
 import ProductionPop from "./../home/ProductionPop";
 import ProductionRow from "./../home/ProductionRow";
 import { fetchCurrentUser } from "../../firebase";

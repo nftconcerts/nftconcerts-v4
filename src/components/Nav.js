@@ -1,27 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Nav.css";
-import {
-  logout,
-  fetchCurrentUser,
-  setMobileMode,
-  getMobileMode,
-  truncateAddress,
-} from "./../firebase";
+import { logout, fetchCurrentUser } from "./../firebase";
 import { useNavigate } from "react-router-dom";
 import { ref as dRef, onValue } from "firebase/database";
 import { db } from "./../firebase";
-import {
-  useAddress,
-  useNetwork,
-  useNetworkMismatch,
-  ChainId,
-  useMetamask,
-  useWalletConnect,
-  useDisconnect,
-} from "@thirdweb-dev/react";
-import { GetUSDExchangeRate, getGas } from "./api";
-import checkEthBalance from "../scripts/checkEthBalance";
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+import { useDisconnect } from "@thirdweb-dev/react";
 
 const Nav = () => {
   const [show, handleShow] = useState(false);
@@ -32,63 +15,6 @@ const Nav = () => {
   const [artistUser, setArtistUser] = useState(false);
   const navigate = useNavigate();
   const disconnect = useDisconnect();
-  const [, switchNetwork] = useNetwork();
-  const networkMismatch = useNetworkMismatch();
-  const [navMobileMode, setNavMobileMode] = useState(false);
-  const address = useAddress();
-  const connectWithMetamask = useMetamask();
-  const connectWithWalletConnect = useWalletConnect();
-  const [ethBalance, setEthBalance] = useState("");
-  const [maticBalance, setMaticBalance] = useState("");
-  const [walletAddress, setWalletAddress] = useState();
-  const [metamaskDetected, setMetamaskDetected] = useState(false);
-  const [usdExRate, setUsdExRate] = useState();
-  const [balanceInUSD, setBalanceInUSD] = useState("0.00");
-  const [gasPrice, setGasPrice] = useState();
-  const [apiRefresh, setApiRefresh] = useState();
-  const [showWalletInfo, setShowWalletInfo] = useState(false);
-  const [userConnectionType, setUserConnectionType] = useState();
-
-  //eth to usd api call
-  useEffect(() => {
-    Refresh(10);
-    GetUSDExchangeRate().then((res) => {
-      setUsdExRate(parseFloat(res));
-    });
-    getGas()
-      .then((res) => {
-        if (res) {
-          setGasPrice(res);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    if (typeof window.ethereum !== "undefined") {
-      setMetamaskDetected(true);
-    }
-  }, [apiRefresh]);
-
-  //price formatting
-  useEffect(() => {
-    if (usdExRate && ethBalance) {
-      var newPrice = ethBalance * usdExRate;
-
-      let roundedPrice = newPrice.toFixed(2);
-
-      setBalanceInUSD(roundedPrice);
-    } else setBalanceInUSD("err");
-  }, [usdExRate, ethBalance]);
-
-  //check if mobile mode is enabled.
-  useEffect(() => {
-    setNavMobileMode(getMobileMode());
-  }, [networkMismatch]);
-
-  const Refresh = async (time) => {
-    await delay(time * 1000);
-    setApiRefresh(!apiRefresh);
-  };
 
   const scrollClr = () => {};
 
@@ -123,7 +49,7 @@ const Nav = () => {
         setUserData(data);
       });
     }
-  }, []);
+  }, [currentUser]);
 
   //check if user is admin or artist
   useEffect(() => {
@@ -146,246 +72,8 @@ const Nav = () => {
     window.location.reload();
   };
 
-  //check if metamask is detected and set wallet address
-  useEffect(() => {
-    if (typeof window.ethereum !== "undefined") {
-      setMetamaskDetected(true);
-    }
-
-    if (address) {
-      setEthBalance(checkEthBalance(address));
-    } else if (userData?.walletID) {
-      setEthBalance(checkEthBalance(userData?.walletID));
-    }
-  }, [address, userData, networkMismatch]);
-
-  //determine what type of connection used by user
-  useEffect(() => {
-    if (userData?.connectionType) {
-      setUserConnectionType(userData?.connectionType);
-    }
-  }, [currentUser, userData]);
-
-  //check user eth balance and update
-  const ethBalanceCheck = async () => {
-    if (address) {
-      var currentBalance = await checkEthBalance(address);
-      setEthBalance(currentBalance);
-    } else if (userData?.walletID) {
-      var mobileBalance = await checkEthBalance(userData?.walletID);
-      setEthBalance(mobileBalance);
-    }
-  };
-
-  useEffect(() => {
-    ethBalanceCheck();
-    addressCheck();
-  }, [address, userData]);
-
-  //check if address is account address, if not logout
-
-  const addressCheck = () => {
-    if (address) {
-      if (userData?.walletID) {
-        if (address !== userData.walletID) {
-          menuLogout();
-        }
-      }
-    }
-  };
-
-  //click outside menu to close
-
-  const concernedElement = document.getElementById("popped__menu");
-
   return (
     <div className="total_nav">
-      {navMobileMode && userData && (
-        <div className="network__mismatch__div">
-          <div className="network__mismatch__prompt wallet__balance__prompt">
-            <div className="wallet__prompt__top">
-              <div className="icon__spacer__div"> </div>
-              <div>
-                Welcome {userData?.name}{" "}
-                {!userData && address && <>{truncateAddress(address)}</>}
-              </div>
-              <div
-                className="wallet__info__icon"
-                onClick={() => {
-                  setShowWalletInfo(!showWalletInfo);
-                }}
-              >
-                <i className="fa-solid fa-wallet" />
-              </div>
-            </div>
-            {showWalletInfo && (
-              <div className="two__buttons__div">
-                <button
-                  className="network__prompt__button buy__matic__button full__width__button"
-                  onClick={() => {
-                    navigate("/my-account");
-                  }}
-                >
-                  {ethBalance && (
-                    <span>ETH: {ethBalance.substring(0, 6) || "0.00"} </span>
-                  )}
-                  <span className="wallet__usd__bal">(${balanceInUSD})</span>
-                </button>
-                <div className="gas__div">
-                  <i className="fa-solid fa-gas-pump" />
-                  {gasPrice}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-      {!navMobileMode && (
-        <>
-          {userConnectionType === "metamask" && (
-            <>
-              {address && networkMismatch && (
-                <div className="network__mismatch__div">
-                  <div className="network__mismatch__prompt">
-                    Wrong Network. Switch to Mainnet{" "}
-                    <div className="two__buttons__div">
-                      <button
-                        onClick={() => switchNetwork(ChainId.Mainnet)}
-                        className="network__prompt__button"
-                      >
-                        Switch to Ethereum
-                      </button>
-                      <button
-                        className="network__prompt__button network__prompt__button__right"
-                        onClick={() => {
-                          setMobileMode();
-                          setNavMobileMode(true);
-                          window.location.reload(false);
-                        }}
-                      >
-                        Use in Mobile Mode
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {!networkMismatch && (
-                <div className="network__mismatch__div">
-                  <div className="network__mismatch__prompt wallet__balance__prompt">
-                    <div className="wallet__prompt__top">
-                      <div className="icon__spacer__div"> </div>
-                      <div>
-                        Welcome {userData?.name}{" "}
-                        {!userData && address && (
-                          <>{truncateAddress(address)}</>
-                        )}
-                      </div>
-                      <div
-                        className="wallet__info__icon"
-                        onClick={() => {
-                          setShowWalletInfo(!showWalletInfo);
-                        }}
-                      >
-                        <i className="fa-solid fa-wallet" />
-                      </div>
-                    </div>
-                    {showWalletInfo && (
-                      <div className="two__buttons__div">
-                        <button
-                          className="network__prompt__button buy__matic__button full__width__button"
-                          onClick={() => {
-                            navigate("/my-account");
-                          }}
-                        >
-                          {(userConnectionType === "magic" && (
-                            <span>ET</span>
-                          )) || (
-                            <>
-                              {ethBalance && (
-                                <>
-                                  <span>
-                                    ETH: {ethBalance.substring(0, 6) || "0.00"}{" "}
-                                  </span>
-                                  <span className="wallet__usd__bal">
-                                    (${balanceInUSD})
-                                  </span>
-                                </>
-                              )}
-                            </>
-                          )}
-                        </button>
-                        <div className="gas__div">
-                          <i className="fa-solid fa-gas-pump" />
-                          {gasPrice}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-          {userConnectionType !== "metamask" && userData && currentUser && (
-            <div className="network__mismatch__div">
-              <div className="network__mismatch__prompt wallet__balance__prompt">
-                <div className="wallet__prompt__top">
-                  <div className="icon__spacer__div"> </div>
-                  <div>
-                    Welcome {userData?.name}{" "}
-                    {!userData && address && <>{truncateAddress(address)}</>}
-                  </div>
-                  <div
-                    className="wallet__info__icon"
-                    onClick={() => {
-                      setShowWalletInfo(!showWalletInfo);
-                    }}
-                  >
-                    <i className="fa-solid fa-wallet" />
-                  </div>
-                </div>
-                {showWalletInfo && (
-                  <div className="two__buttons__div">
-                    <button
-                      className="network__prompt__button buy__matic__button full__width__button"
-                      onClick={() => {
-                        navigate("/my-account");
-                      }}
-                    >
-                      {(userConnectionType === "magic" && (
-                        <>
-                          <span>ETH/USD </span>
-                          <span className="wallet__usd__bal">
-                            (${usdExRate.toFixed(2)})
-                          </span>
-                        </>
-                      )) || (
-                        <>
-                          {ethBalance && (
-                            <>
-                              <span>
-                                ETH: {ethBalance.substring(0, 6) || "0.00"}{" "}
-                              </span>
-                              <span className="wallet__usd__bal">
-                                (${balanceInUSD})
-                              </span>
-                            </>
-                          )}
-                        </>
-                      )}
-                    </button>
-                    <div className="gas__div">
-                      <i className="fa-solid fa-gas-pump" />
-                      {gasPrice}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* {address && currentUser && <div className="user__wallet"></div>} */}
       <div className={`nav ${show && "nav__black"}`}>
         <img
           className="nav__logo"

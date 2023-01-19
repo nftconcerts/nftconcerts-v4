@@ -54,6 +54,7 @@ const CoachellaNfts = () => {
         <img
           src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FCoachella%20from%20a%20distance.jpg?alt=media&token=bb6483ac-f316-47c9-9263-e5dcea8cb5df"
           className="post__image"
+          alt="Coachella Keys NFTs"
         />
         <p className="post__image__subtext">
           I’ve taken over 4,000 photographs at Coachella yet this is the only

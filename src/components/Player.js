@@ -3,11 +3,10 @@ import ReactPlayer from "react-player";
 import "./Player.css";
 import "./ListingPage.css";
 import "./upload/Confirmation.css";
-import { useNavigate, useSearchParams, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { db, fetchCurrentUser, truncateAddress } from "../firebase";
 import { ref as dRef, onValue } from "firebase/database";
 import dateFormat from "dateformat";
-import { useAddress } from "@thirdweb-dev/react";
 import FormBox from "./form/FormBox";
 import { useActiveClaimCondition, useContract } from "@thirdweb-dev/react";
 import { editionDropAddress } from "./../scripts/getContract.mjs";
@@ -19,8 +18,6 @@ const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const Player = () => {
   let navigate = useNavigate();
   let { id } = useParams();
-  let [searchParams, setSearchParams] = useSearchParams();
-  let oldID = parseInt(searchParams.get("id"));
   let concertID = id;
   const [concertData, setConcertData] = useState();
   const [currentUser, setCurrentUser] = useState(null);
@@ -28,7 +25,6 @@ const Player = () => {
   const [userData, setUserData] = useState();
   const [darkMode, setDarkMode] = useState(false);
   const [owned, setOwned] = useState(0);
-  const address = useAddress();
   const [validListing, setValidListing] = useState(false);
   const [formatPrice, setFormatPrice] = useState();
   const resaleFee = parseFloat(concertData?.concertResaleFee) + 5;
@@ -97,7 +93,13 @@ const Player = () => {
         setValidUser(true);
       }
     }
-  }, [currentUser, userData, owned]);
+  }, [
+    currentUser,
+    userData,
+    owned,
+    userData?.walletID,
+    concertData?.uploaderWalletID,
+  ]);
 
   const checkIfOwned = async (userAddress) => {
     try {
@@ -265,14 +267,14 @@ const Player = () => {
       );
     } else {
       for (var i = 1; i <= maxList; i++) {
-        var sale = concertData.sales[i];
+        const singlesale = concertData.sales[i];
 
         const rowDiv = (n) => {
           var saledate;
           var buyerData;
-          if (sale) {
-            saledate = new Date(sale.date);
-            var buyerDataRef = dRef(db, "users/" + sale.buyerUID);
+          if (singlesale) {
+            saledate = new Date(singlesale.date);
+            var buyerDataRef = dRef(db, "users/" + singlesale.buyerUID);
             onValue(buyerDataRef, (snapshot) => {
               var data = snapshot.val();
               buyerData = data;
@@ -284,7 +286,7 @@ const Player = () => {
               <p className=" list__tx__date">
                 <span className="song__emp">
                   {" "}
-                  {(sale && (
+                  {(singlesale && (
                     <>
                       {saledate.toLocaleTimeString() +
                         ", " +
@@ -298,22 +300,24 @@ const Player = () => {
                 <span className="song__emp">{buyerData?.name}</span>
               </p>
               <div className="list__audience__member__image__div">
-                {(sale && (
+                {(singlesale && (
                   <img
                     src={buyerData?.image}
                     className="audience__member__image list__audience__member__image"
+                    alt="Buyer Thumbnail"
                   />
                 )) || (
                   <img
                     src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fmissing%20m1.jpg?alt=media&token=3d1222d8-711f-4bc4-a074-b7d4f77268a1"
                     className="audience__member__image list__audience__member__image empty__member"
+                    alt="Empty Buyer Placeholder"
                   />
                 )}
               </div>
               <div className="marketplace__icon__div list__icon__div">
-                {(sale && (
+                {(singlesale && (
                   <a
-                    href={"https://etherscan.io/tx/" + sale.tx}
+                    href={"https://etherscan.io/tx/" + singlesale.tx}
                     className="marketplace__icon__div list__icon__div"
                     target="_blank"
                     rel="noreferrer"
@@ -381,9 +385,8 @@ const Player = () => {
   };
   const showAudience = () => {
     var audienceRows = [];
-    var supply = parseInt(concertData?.concertSupply);
     for (var i = 1; i <= maxAudience; i++) {
-      var sale = concertData?.sales[i];
+      const sale = concertData?.sales[i];
 
       const audience = (i) => {
         var saledate;
@@ -423,7 +426,7 @@ const Player = () => {
                     </div>
                   </div>
                 </div>
-                {buyerData?.productionRank == 1 && (
+                {buyerData?.productionRank === 1 && (
                   <div
                     className="audprod__div"
                     onClick={() => {
@@ -437,11 +440,12 @@ const Player = () => {
                       <img
                         src="/media/production-team-icon.jpg"
                         className="audience__production__team__icon"
+                        alt="Production Team Icon"
                       />
                     </div>
                   </div>
                 )}
-                {buyerData?.productionRank == 2 && (
+                {buyerData?.productionRank === 2 && (
                   <div
                     className="audprod__div"
                     onClick={() => {
@@ -453,6 +457,7 @@ const Player = () => {
                       <img
                         src="/media/production-lead-icon.jpg"
                         className="audience__production__team__icon"
+                        alt="Production Lead Icon"
                       />
                     </div>
                   </div>
@@ -460,15 +465,17 @@ const Player = () => {
                 <img
                   src={buyerData?.image}
                   className="audience__member__image"
+                  alt="Audience Member"
                 />
               </div>
             )) || (
               <div className="sales__div">
                 <div className="not__minted__div">
-                  <div class="hover__text">Not Minted</div>
+                  <div className="hover__text">Not Minted</div>
                   <img
                     src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fmissing%20m1.jpg?alt=media&token=3d1222d8-711f-4bc4-a074-b7d4f77268a1"
                     className="audience__member__image empty__member"
+                    alt="Empty Audience Member"
                   />
                 </div>
               </div>
@@ -922,28 +929,28 @@ const Player = () => {
 
                           <h3 className="c__detail">
                             <i
-                              class="fa-solid fa-user c__icons"
+                              className="fa-solid fa-user c__icons"
                               title="Artist"
                             />
                             {concertData?.concertArtist}
                           </h3>
                           <h3 className="c__detail">
                             <i
-                              class="fa-solid fa-video c__icons"
+                              className="fa-solid fa-video c__icons"
                               title="Recording Type"
                             />
                             {concertData?.concertRecordingType}
                           </h3>
                           <h3 className="c__detail">
                             <i
-                              class="fa-solid fa-clock-rotate-left c__icons"
+                              className="fa-solid fa-clock-rotate-left c__icons"
                               title="Duration"
                             />
                             {concertData?.concertDuration}
                           </h3>
                           <h3 className="c__detail">
                             <i
-                              class="fa-solid fa-calendar c__icons"
+                              className="fa-solid fa-calendar c__icons"
                               title="Performance Date"
                             />
                             {dateFormat(
@@ -954,14 +961,14 @@ const Player = () => {
 
                           <h3 className="c__detail">
                             <i
-                              class="fa-solid fa-warehouse c__icons"
+                              className="fa-solid fa-warehouse c__icons"
                               title="Venue"
                             />
                             {concertData?.concertVenue}
                           </h3>
                           <h3 className="c__detail">
                             <i
-                              class="fa-solid fa-location-crosshairs c__icons"
+                              className="fa-solid fa-location-crosshairs c__icons"
                               title="Location"
                             />
                             {concertData?.concertLocation}
@@ -969,7 +976,7 @@ const Player = () => {
                           {concertData?.concertTourName && (
                             <h3 className="c__detail">
                               <i
-                                class="fa-solid fa-van-shuttle c__icons"
+                                className="fa-solid fa-van-shuttle c__icons"
                                 title="Tour"
                               />
                               {concertData?.concertTourName}
@@ -978,7 +985,7 @@ const Player = () => {
                           {concertData?.concertLiveAttendance && (
                             <h3 className="c__detail">
                               <i
-                                class="fa-solid fa-users-line c__icons"
+                                className="fa-solid fa-users-line c__icons"
                                 title="Tour"
                               />
                               {concertData?.concertLiveAttendance}
@@ -987,7 +994,7 @@ const Player = () => {
 
                           <h3 className="c__detail">
                             <i
-                              class="fa-solid fa-chart-pie c__icons"
+                              className="fa-solid fa-chart-pie c__icons"
                               title="Duration"
                             />
                             {resaleFee}% Resale Fee

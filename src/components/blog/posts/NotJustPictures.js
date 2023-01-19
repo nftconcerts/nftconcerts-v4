@@ -31,7 +31,7 @@ const NotJustPictures = () => {
         Twitter users to upgrade to a premium Twitter Blue subscription.
       </p>
       <div className="post__tweet__div">
-        <blockquote class="twitter-tweet">
+        <blockquote className="twitter-tweet">
           <p lang="en" dir="ltr">
             If my pfp is ever a hexagon you can unfollow. I won&#39;t even be
             mad.
@@ -65,6 +65,7 @@ const NotJustPictures = () => {
           <img
             src="https://merch.nftconcerts.com/wp-content/uploads/2022/01/screenshot-a-nft.jpg"
             className="post__photo__two"
+            alt="Screenshot a NFT"
           />
         </a>
       </div>

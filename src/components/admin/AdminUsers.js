@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { db, fetchCurrentUser, logout, truncateAddress } from "../../firebase";
-
-import { ref as dRef, set, get, onValue } from "firebase/database";
+import React from "react";
+import { truncateAddress } from "../../firebase";
 
 const AdminUsers = (allUserData) => {
-  const switchUserToArtist = (user) => {
-    var userTypeRef = dRef(db, "users/" + user + "/userType");
-    set(userTypeRef, "artist");
-  };
-
   const sortTable = (n) => {
     var table,
       rows,
@@ -40,13 +33,13 @@ const AdminUsers = (allUserData) => {
         y = rows[i + 1].getElementsByTagName("TD")[n];
         /*check if the two rows should switch place,
         based on the direction, asc or desc:*/
-        if (dir == "asc") {
+        if (dir === "asc") {
           if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
             //if so, mark as a switch and break the loop:
             shouldSwitch = true;
             break;
           }
-        } else if (dir == "desc") {
+        } else if (dir === "desc") {
           if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
             //if so, mark as a switch and break the loop:
             shouldSwitch = true;
@@ -64,24 +57,31 @@ const AdminUsers = (allUserData) => {
       } else {
         /*If no switching has been done AND the direction is "asc",
         set the direction to "desc" and run the while loop again.*/
-        if (switchcount == 0 && dir == "asc") {
+        if (switchcount === 0 && dir === "asc") {
           dir = "desc";
           switching = true;
         }
       }
     }
   };
+
+  const countUsers = () => {
+    if (allUserData) {
+      console.log("Counting UD: ", allUserData);
+      console.log("Count: ", Object.keys(allUserData).length);
+      return Object.keys(allUserData).length;
+    } else {
+      return 5;
+    }
+  };
+
   //show the users in a nice table
   const showUsers = () => {
-    var usercount = 0;
-    for (var user in allUserData) {
-      usercount++;
-    }
     return (
       <>
         {allUserData && (
           <div className="admin__user__table">
-            <h3>Users - {usercount} Total</h3>
+            <h3>Users - {countUsers()} Total</h3>
             <table className="users__table" id="userTable">
               <tr className="concert__table__headers user__row">
                 <th
@@ -159,19 +159,18 @@ const AdminUsers = (allUserData) => {
   //turn user list into pretty table
   const UserRow = () => {
     var rows = [];
-    var usercount = 0;
-    for (var user in allUserData) {
-      const tempUser = new String(user);
-      usercount++;
 
+    for (var user in allUserData) {
+      const tempUser = user;
       var regDate = new Date(allUserData[user].registrationDate);
       rows.push(
-        <tr className="user__row" key={usercount}>
+        <tr className="user__row" key={user}>
           <td className="concert__thumbnail">
             <img
               src={allUserData[user].image}
               height="50px"
               className="account__page__concert__thumbnail"
+              alt="User Thumbnail"
             />
           </td>
           <td className="user__name__entry">{allUserData[user].name}</td>

@@ -13,7 +13,6 @@ import {
   ref as sRef,
   uploadBytesResumable,
 } from "firebase/storage";
-import makeid from "./../scripts/makeid";
 import createNFT from "../scripts/createNft.mjs";
 import setNFTclaim from "../scripts/setNftClaim";
 import { FileUploader } from "react-drag-drop-files";
@@ -36,9 +35,6 @@ const ContractPage = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [validUser, setValidUser] = useState(false);
   const [adminUser, setAdminUser] = useState(false);
-  const [fileUrl, updateFileUrl] = useState(``);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showError, setShowError] = useState(false);
   const [approvedListing, setApprovedListing] = useState(false);
 
   //Set the current user
@@ -74,7 +70,7 @@ const ContractPage = () => {
         setValidUser(true);
       }
     } else setValidUser(false);
-  }, [currentUser, userData]);
+  }, [currentUser, userData, concertData?.uploaderWalletID]);
 
   //download concert data
   useEffect(() => {
@@ -128,7 +124,6 @@ const ContractPage = () => {
     } else {
       for (var i = 1; i <= rowNums; i++) {
         const songDiv = (n) => {
-          const songPlaceholder = `Song ${n}`;
           return (
             <div className="song__div">
               <p className="song__num">{n}:</p>
@@ -149,8 +144,6 @@ const ContractPage = () => {
   //ADMIN VIEW ONLY - screenshot + donwload image for corrections.
 
   const [showUploadPop, setShowUploadPop] = useState(false);
-
-  const [tokenFileUrl, setTokenFileUrl] = useState();
 
   const printRef = React.useRef();
   const captureImage = async () => {
@@ -181,8 +174,6 @@ const ContractPage = () => {
   //ADMIN UPLOAD FINAL TOKEN IMAGE
   //upload token image files to Firebase Storage
   const [file, setFile] = useState("");
-  const [whileUploading, setWhileUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
 
   const uploadFile = async (file, folder) => {
     var tokenRef = dRef(
@@ -191,7 +182,7 @@ const ContractPage = () => {
     );
     if (!file) return;
     const storageRef = sRef(storage, `/public/${folder}/${file.name}`);
-    setWhileUploading(true);
+
     const uploadTask = uploadBytesResumable(storageRef, file);
     // const response = await fetch(file.uri);
     // const blob = await response.blob();
@@ -200,15 +191,7 @@ const ContractPage = () => {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        const prog = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setUploadProgress(prog);
-        if (prog === 100) {
-          setWhileUploading(true);
-        }
-      },
+
       (err) => console.log(err),
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
@@ -245,7 +228,6 @@ const ContractPage = () => {
   useEffect(() => {
     if (concertData) {
       setIpfsUrl(concertData.tokenIpfs);
-      setTokenFileUrl(concertData.tokenFileUrl);
       console.log("ipfs: ", concertData.tokenIpfs);
     }
   }, [concertData]);
@@ -257,13 +239,10 @@ const ContractPage = () => {
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
       const ipfsUrl = `ipfs://${added.path}`;
       set(ipfsRef, ipfsUrl);
-      updateFileUrl(url);
       setIpfsUrl(ipfsUrl);
       console.log("File Url: ", url);
     } catch (error) {
       console.log("Error uploading file: ", error);
-      setErrorMessage("Error uploading file: ", error);
-      setShowError(true);
     }
   }
   //approve concert toggles
@@ -425,8 +404,8 @@ const ContractPage = () => {
       uploaderEmail: concertData.uploaderEmail,
       uploadTime: concertData.uploadTime,
       tokenIpfs: ipfsUrl,
-      submittedConcertId: concertID,
       mintID: 1,
+      sales: "",
     }).then(
       emailjs
         .send(
@@ -614,6 +593,7 @@ const ContractPage = () => {
                       src="/media/eth-logo.png"
                       height={15}
                       className="c__eth__logo"
+                      alt="Eth Logo"
                     />
                     <span className="with__emp">{formatPrice}</span>{" "}
                     <span className="c__price__in__usd">(${priceInUSD})</span>
@@ -670,6 +650,7 @@ const ContractPage = () => {
                     <img
                       src={concertData?.concertThumbnailImage + "?not-cache"}
                       height="300px"
+                      alt="Concert Thumbnail"
                     />
                   </div>
                   <div className="token__footer">
@@ -750,6 +731,7 @@ const ContractPage = () => {
                         <img
                           src={concertData.concertTokenImage}
                           className="token__preview__img"
+                          alt="Concert Token Thumbnail"
                         />
                       </div>
                       <input
@@ -828,6 +810,7 @@ const ContractPage = () => {
                         <img
                           src={URL.createObjectURL(file)}
                           className="token__preview__img"
+                          alt="Token Preview"
                         />
                       </div>
                       <input

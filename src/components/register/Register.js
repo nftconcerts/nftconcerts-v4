@@ -15,8 +15,6 @@ import { ref as dRef, set, onValue } from "firebase/database";
 import {
   useAddress,
   useMetamask,
-  useNetworkMismatch,
-  useNetwork,
   useDisconnect,
   useCoinbaseWallet,
   useWalletConnect,
@@ -38,10 +36,8 @@ function Register() {
   const connectWithCoinbase = useCoinbaseWallet();
   const disconnect = useDisconnect();
   const address = useAddress();
-  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
-  const [, switchNetwork] = useNetwork();
-  const networkMismatch = useNetworkMismatch();
   const [metamaskDetected, setMetamaskDetected] = useState(false);
   const [wcAddress, setWcAddress] = useState();
   const [cbAddress, setCbAddress] = useState();
@@ -111,7 +107,7 @@ function Register() {
     if (password === passwordConfirm) {
       var registrationDate = new Date();
       var dateString = dateFormat(registrationDate, "m/d/yyyy, h:MM TT Z ");
-      setLoading(true);
+
       const newUser = await register(email, password, displayName, address);
       if (newUser) {
         var uid = newUser.user.uid;
@@ -137,7 +133,6 @@ function Register() {
             console.log("error");
           });
       }
-      setLoading(false);
     } else {
       alert("Passwords do not match");
     }
@@ -248,7 +243,6 @@ function Register() {
 
   //connect with magic.
 
-  const [firstMagic, setFirstMagic] = useState(false);
   const tryMagic = async () => {
     try {
       var magicRes = await magic.auth.loginWithMagicLink({ email: email });
@@ -256,7 +250,6 @@ function Register() {
       console.log("Account: ", publicAddress);
       setSavedUserAddress(publicAddress);
       setRcType("magic");
-      setFirstMagic(true);
     } catch (error) {
       console.log(error);
     }
@@ -266,13 +259,6 @@ function Register() {
       checkThenRegister();
     }
   }, [rcType, savedUserAddress]);
-
-  const [showCurrentAddress, setShowCurrentAddress] = useState(false);
-  useEffect(() => {
-    if (address) {
-      setShowCurrentAddress(true);
-    }
-  }, [address, wcAddress]);
 
   const disconnectCoinbase = () => {
     walletlinkProvider.close();
@@ -294,8 +280,6 @@ function Register() {
     }
   }, [userData]);
 
-  const [showEmailCheck, setShowEmailCheck] = useState(false);
-
   return (
     <FormBox>
       {currentUser && userData && (
@@ -316,7 +300,7 @@ function Register() {
           </div>
         </div>
       )}
-      {currentUser == null && !showWC && !showEmailCheck && (
+      {currentUser == null && !showWC && (
         <div className="register__form connect__wallet__div">
           <h3 className="register__prompt__header">
             {rcType !== "managedWallet" && (
@@ -542,11 +526,6 @@ function Register() {
             )}
           </div>
         </div>
-      )}
-      {showEmailCheck && (
-        <>
-          <h3>Please confirm your email address.</h3>
-        </>
       )}
     </FormBox>
   );

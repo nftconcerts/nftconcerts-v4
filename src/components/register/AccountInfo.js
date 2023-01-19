@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Contract from "../form/Contract";
-import Form from "../form/FormBox";
 import { useNavigate } from "react-router-dom";
 import {
   db,
   fetchCurrentUser,
   truncateAddress,
-  logout,
   storage,
 } from "./../../firebase";
 import FormBox from "../form/FormBox";
-
-import { updateProfile, updateEmail, getAuth } from "firebase/auth";
-import { useMetamask, useAddress, useDisconnect } from "@thirdweb-dev/react";
+import { updateEmail, getAuth } from "firebase/auth";
 import { FileUploader } from "react-drag-drop-files";
-import WalletConnectProvider from "@walletconnect/ethereum-provider";
-import { Web3Provider } from "@ethersproject/providers";
-import WalletLink from "walletlink";
 import "./MyAccount.css";
 import "./AccountInfo.css";
 import {
@@ -34,29 +26,12 @@ const AccountInfo = () => {
   let navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
-  const connectWithMetamask = useMetamask();
-  const [rcType, setRcType] = useState();
-  const [showWC, setShowWC] = useState(true);
-
-  const [savedUserAddress, setSavedUserAddress] = useState("");
-  const [wcAddress, setWcAddress] = useState();
-  const [cbAddress, setCbAddress] = useState();
-  const address = useAddress();
-  const disconnect = useDisconnect();
-  const [metamaskDetected, setMetamaskDetected] = useState(false);
   const banner = userData?.userBanner || "/media/banner.jpg";
-  const [file, setFile] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadCoverProgress, setUploadCoverProgress] = useState(0);
   const [update, setUpdate] = useState(1);
   const [fileUrl, setFileUrl] = useState();
   const [coverFileUrl, setCoverFileUrl] = useState();
-  //check if metamask is installed
-  useEffect(() => {
-    if (typeof window.ethereum !== "undefined") {
-      setMetamaskDetected(true);
-    }
-  }, []);
 
   //set current user
   useEffect(() => {
@@ -252,6 +227,72 @@ const AccountInfo = () => {
   //thumbnail and cover edit toggles
   const [editThumbnail, setEditThumbnail] = useState(false);
   const [editCover, setEditCover] = useState(false);
+
+  //twitter toggles
+  const [attachTwitter, setAttachTwitter] = useState(false);
+  const [showTwitterConfirm, setShowTwitterConfrim] = useState(false);
+
+  //custom twitter confirm link
+  var twitterLink =
+    "https://twitter.com/intent/tweet?text=Confirming%20my%20account%20on%20%40nftconcerts%0A%0ADiscover%20my%20profile%20-%3E%20https%3A%2F%2Fnftconcerts.com%2Fu%2F" +
+    encodeURI(userData?.userSlug) +
+    "%0A%0AConfirmation%20ID%20-%20" +
+    makeid(8).toUpperCase() +
+    "%20%20%0A%0A%23nftconcerts%20%23musicnfts";
+
+  //personal website toggles
+  const [attachWebsite, setAttachWebsite] = useState(false);
+  const [tempWebsite, setTempWebsite] = useState("");
+
+  const isValidUrl = (string) => {
+    let url;
+    try {
+      url = new URL(string);
+    } catch (_) {
+      return false;
+    }
+    return url.protocol === "http:" || url.protocol === "https:";
+  };
+
+  const switchLink = () => {
+    if (isValidUrl(tempWebsite) || tempWebsite === "") {
+      set(
+        dRef(db, "users/" + currentUser.user.uid + "/personalLink"),
+        tempWebsite
+      ).then(() => {
+        refreshUserData();
+        alert(`Personal Link Updated`);
+        setAttachWebsite(false);
+      });
+    } else {
+      return alert("Not a valid link - check and try again");
+    }
+  };
+
+  //spotify toggles
+  const [attachSpotify, setAttachSpotify] = useState(false);
+  const [tempSpotify, setTempSpotify] = useState();
+
+  const switchSpotify = () => {
+    if (isValidUrl(tempSpotify)) {
+      let stringStart = tempSpotify.substr(0, 30);
+      let properStart = "https://open.spotify.com/user/";
+      if (stringStart === properStart) {
+        set(
+          dRef(db, "users/" + currentUser.user.uid + "/spotifyLink"),
+          tempSpotify
+        ).then(() => {
+          refreshUserData();
+          alert(`Spotify Link Updated`);
+          setAttachSpotify(false);
+        });
+      } else {
+        return alert("Not a valid Spotify link - check and try again");
+      }
+    } else {
+      return alert("Not a valid link - check and try again");
+    }
+  };
 
   return (
     <>
@@ -526,7 +567,173 @@ const AccountInfo = () => {
                 )}
               </div>
             )}
-
+            <div className="user__setting__div">
+              <p className="user__setting__name">Twitter:</p>
+              {(attachTwitter && (
+                <>
+                  {" "}
+                  <button
+                    onClick={() => {
+                      window.open(twitterLink);
+                      setShowTwitterConfrim(true);
+                    }}
+                    className="login__button info__return__button change__button"
+                  >
+                    Confirm Twitter
+                  </button>
+                  {showTwitterConfirm && (
+                    <p className="user__setting__data twitter__verification">
+                      Our team will attach your Twitter Account after the
+                      verification tweet.
+                    </p>
+                  )}
+                  <button
+                    onClick={() => {
+                      setAttachTwitter(false);
+                    }}
+                    className="login__button info__return__button info__back__button"
+                  >
+                    Cancel
+                  </button>
+                </>
+              )) || (
+                <>
+                  {(userData?.twitterProfile && (
+                    <a
+                      href={"https://twitter.com/" + userData.twitterProfile}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="settings__url"
+                    >
+                      https://twitter.com/{userData.twitterProfile}
+                    </a>
+                  )) || (
+                    <p
+                      className="user__setting__data click__setting"
+                      onClick={() => {
+                        setAttachTwitter(true);
+                      }}
+                    >
+                      Attach Twitter Account
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="user__setting__div">
+              <p className="user__setting__name">Personal Link:</p>
+              {(attachWebsite && (
+                <>
+                  <input
+                    className="info__email__input"
+                    placeholder="Links Only - https://"
+                    onChange={(e) => {
+                      setTempWebsite(e.target.value);
+                    }}
+                    value={tempSlug}
+                    type="url"
+                    pattern="https://.*"
+                  />{" "}
+                  <button
+                    onClick={() => {
+                      switchLink();
+                    }}
+                    className="login__button info__return__button change__button"
+                  >
+                    Confirm Link
+                  </button>
+                  <button
+                    onClick={() => {
+                      setAttachWebsite(false);
+                    }}
+                    className="login__button info__return__button info__back__button"
+                  >
+                    Cancel
+                  </button>
+                </>
+              )) || (
+                <>
+                  {(userData?.personalLink && (
+                    <>
+                      <p
+                        className="user__setting__data click__setting"
+                        onClick={() => {
+                          setAttachWebsite(true);
+                        }}
+                      >
+                        {userData.personalLink}
+                      </p>
+                    </>
+                  )) || (
+                    <p
+                      className="user__setting__data click__setting"
+                      onClick={() => {
+                        setAttachWebsite(true);
+                      }}
+                    >
+                      Attach Personal Website
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="user__setting__div">
+              <p className="user__setting__name">Spotify Profile:</p>
+              {(attachSpotify && (
+                <>
+                  <input
+                    className="info__email__input"
+                    placeholder="Spotify Profile Links Only"
+                    onChange={(e) => {
+                      setTempSpotify(e.target.value);
+                    }}
+                    value={tempSlug}
+                    type="url"
+                    pattern="https://.*"
+                  />{" "}
+                  <button
+                    onClick={() => {
+                      switchSpotify();
+                    }}
+                    className="login__button info__return__button change__button"
+                  >
+                    Confirm Link
+                  </button>
+                  <button
+                    onClick={() => {
+                      setAttachSpotify(false);
+                    }}
+                    className="login__button info__return__button info__back__button"
+                  >
+                    Cancel
+                  </button>
+                </>
+              )) || (
+                <>
+                  {(userData?.spotifyLink && (
+                    <>
+                      <p
+                        className="user__setting__data click__setting"
+                        onClick={() => {
+                          setAttachSpotify(true);
+                        }}
+                      >
+                        {userData.spotifyLink}
+                      </p>
+                    </>
+                  )) || (
+                    <p
+                      className="user__setting__data click__setting"
+                      onClick={() => {
+                        setAttachSpotify(true);
+                      }}
+                    >
+                      Attach Spotify Page
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
             <div className="user__setting__div">
               <p className="user__setting__name">Wallet Connection:</p>
               <p className="user__setting__data">{userData?.connectionType}</p>
@@ -546,11 +753,22 @@ const AccountInfo = () => {
                 {userData?.emailNotifications}
               </p>
             </div>
-            <div className="user__setting__div last__setting__div">
+            <div className="user__setting__div">
               <p className="user__setting__name">Registration Date:</p>
               <p className="user__setting__data">
                 {userData?.registrationDate}
               </p>
+            </div>
+            <div className="user__setting__div last__setting__div">
+              <button
+                className="library__button settings__button"
+                onClick={() => {
+                  navigate("/contact");
+                }}
+              >
+                {" "}
+                Contact Support
+              </button>
             </div>
           </AccountPage>
         </>

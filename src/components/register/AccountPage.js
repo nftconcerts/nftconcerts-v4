@@ -72,6 +72,7 @@ const AccountPage = ({ children }) => {
               backgroundImage: `url(${banner})`,
             }}
           >
+            <div className="user__social__div"> </div>
             <div className="user__banner__botfade" />
           </div>
 
@@ -95,7 +96,43 @@ const AccountPage = ({ children }) => {
                     {truncateAddress(userData?.walletID)}
                   </a>
                 </p>
-                {currentUrl != "/my-account" && (
+                <div className="small__social__div">
+                  {userData?.twitterProfile && (
+                    <a
+                      href={"https://twitter.com/" + userData.twitterProfile}
+                      className="fa fa-twitter"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-hidden="true"
+                    >
+                      <span>Twitter Profile</span>
+                    </a>
+                  )}
+
+                  {userData?.spotifyLink && (
+                    <a
+                      href={userData.spotifyLink}
+                      className="fa fa-brands fa-spotify"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-hidden="true"
+                    >
+                      <span>Spotify Profile</span>
+                    </a>
+                  )}
+                  {userData?.personalLink && (
+                    <a
+                      href={userData.personalLink}
+                      className="fa fa-solid fa-globe"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-hidden="true"
+                    >
+                      <span>Personal Website</span>
+                    </a>
+                  )}
+                </div>
+                {currentUrl !== "/my-account" && (
                   <button
                     className="library__button user__info__button"
                     onClick={() => {
@@ -105,7 +142,7 @@ const AccountPage = ({ children }) => {
                     View Library
                   </button>
                 )}
-                {currentUrl != "/my-account/settings" && (
+                {currentUrl !== "/my-account/settings" && (
                   <button
                     className="library__button user__info__button"
                     onClick={() => {
@@ -129,7 +166,7 @@ const AccountPage = ({ children }) => {
                 )}
                 {userData?.userType === "artist" && (
                   <>
-                    {currentUrl != "/my-account/artist" && (
+                    {currentUrl !== "/my-account/artist" && (
                       <button
                         className="library__button user__info__button"
                         onClick={() => {

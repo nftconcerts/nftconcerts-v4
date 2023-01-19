@@ -5,7 +5,6 @@ import {
   db,
   fetchCurrentUser,
   login,
-  logout,
   truncateAddress,
   register,
 } from "../firebase";
@@ -24,8 +23,6 @@ import {
   useWalletConnect,
 } from "@thirdweb-dev/react";
 import checkEns from "../scripts/checkEns";
-import WalletConnectProvider from "@walletconnect/ethereum-provider";
-import WalletLink from "walletlink";
 import dateFormat from "dateformat";
 import emailjs from "@emailjs/browser";
 import { GetUSDExchangeRate } from "./api";
@@ -55,13 +52,13 @@ const MintPopUp = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [tempUser, setTempUser] = useState(null);
+
   const [userData, setUserData] = useState();
   const [displayName, setDisplayName] = useState();
   const [savedUserAddress, setSavedUserAddress] = useState("");
   const [rcType, setRcType] = useState("");
   const [metamaskDetected, setMetamaskDetected] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   const [mintQty, setMintQty] = useState(1);
   const [newUser, setNewUser] = useState(false);
   const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
@@ -79,36 +76,21 @@ const MintPopUp = ({
 
   //download User Data
   useEffect(() => {
-    if (tempUser) {
-      var userDataRef = dRef(db, "users/" + tempUser.user.uid);
-      onValue(userDataRef, (snapshot) => {
-        var data = snapshot.val();
-        setUserData(data);
-      });
-    } else if (currentUser) {
+    if (currentUser) {
       var userDataRef2 = dRef(db, "users/" + currentUser.user.uid);
       onValue(userDataRef2, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
       });
     }
-  }, [tempUser, currentUser]);
+  }, [currentUser]);
 
   //confirm user
   const confirmUser = async () => {
     await login(email, password);
     setCurrentUser(fetchCurrentUser());
     setNewUser(true);
-    setLoginProcess(false);
   };
-
-  //auto-confirm user if saved wallet address matches current address
-  const [loginProcess, setLoginProcess] = useState(false);
-  useEffect(() => {
-    if (address && address === userData?.walletID && loginProcess) {
-      confirmUser();
-    }
-  }, [address, tempUser, loginProcess]);
 
   //check if metamask is installed
   useEffect(() => {
@@ -179,19 +161,6 @@ const MintPopUp = ({
     }
   }, [rcType, savedUserAddress]);
 
-  const confirmMagic = async () => {
-    try {
-      var magicRes = await magic.auth.loginWithMagicLink({ email: email });
-      const { publicAddress } = await magic.user.getMetadata();
-      setSavedUserAddress(publicAddress);
-      if (publicAddress === userData?.walletID) {
-        confirmUser();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
@@ -204,23 +173,22 @@ const MintPopUp = ({
     if (photoid === 1) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Ff4.jpg?alt=media&token=bedd3ed8-6db9-4fac-9874-245c2ffff456";
-    } else if (photoid == 2) {
+    } else if (photoid === 2) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm1.jpg?alt=media&token=f536fd31-6fd0-478b-ba6e-34a25c47a917";
-    } else if (photoid == 3) {
+    } else if (photoid === 3) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm2.jpg?alt=media&token=7e54dc2f-b324-4761-bfea-b4d4ce45110e";
     }
-    if (email == "") return alert("Missing email address");
-    if (displayName == "") return alert("Missing Account Name");
-    if (password == "") return alert("Missing Password");
-    if (passwordConfirm == "") return alert("Missing Password Confirmation");
+    if (email === "") return alert("Missing email address");
+    if (displayName === "") return alert("Missing Account Name");
+    if (password === "") return alert("Missing Password");
+    if (passwordConfirm === "") return alert("Missing Password Confirmation");
     if (!document.getElementById("acceptTerms").checked)
       return alert("Please accept the terms of service.");
-    if (password == passwordConfirm) {
+    if (password === passwordConfirm) {
       var registrationDate = new Date();
       var dateString = dateFormat(registrationDate, "m/d/yyyy, h:MM TT Z ");
-      setLoading(true);
       const newUser = await register(email, password, displayName, address);
       if (newUser) {
         var uid = newUser.user.uid;
@@ -248,7 +216,6 @@ const MintPopUp = ({
             console.log("error");
           });
       }
-      setLoading(false);
     } else {
       alert("Passwords do not match");
     }
@@ -345,6 +312,7 @@ const MintPopUp = ({
   const [purchased, setPurchased] = useState(false);
 
   // Check if user owns the current NFT Concert
+  const editionDropped = useContract(editionDropAddress);
   const [owned, setOwned] = useState(0);
 
   useEffect(() => {
@@ -357,13 +325,13 @@ const MintPopUp = ({
         console.log("Fucked up check.");
       }
     };
-    if (address) {
-      checkIfOwned(address);
+    if (userData?.walletID) {
+      checkIfOwned(userData?.walletID);
     }
-  }, [address]);
+  }, [userData?.walletID, editionDropped, concertID]);
 
   //mint the nft, transaction data
-  const editionDropped = useContract(editionDropAddress);
+
   const [claimError, setClaimError] = useState(false);
   const [tx, setTx] = useState();
   var transactionLink =
@@ -442,7 +410,6 @@ const MintPopUp = ({
   //mint with credit card
   const [showCreditCard, setShowCreditCard] = useState(false);
   const [paperSecret, setPaperSecret] = useState();
-  const [paperLink, setPaperLink] = useState();
 
   const launchCredit = async () => {
     setShowCreditCard(true);
@@ -476,7 +443,15 @@ const MintPopUp = ({
           mintQty
       );
     }
-  }, [paperSecret]);
+  }, [
+    paperSecret,
+    concertData?.concertName,
+    concertData?.concertArtist,
+    mintPrice,
+    concertID,
+    mintQty,
+    concertData?.concertTokenImage,
+  ]);
 
   //no user logged in - register or login to continue
   const noUserWelcomePage = () => {
@@ -783,14 +758,14 @@ const MintPopUp = ({
               <img
                 src={concertData?.concertTokenImage}
                 className="mint__pop__img show__500"
-                alt="NFT Concet Token Image"
+                alt="NFT Concet Token"
               ></img>
             </div>
             <div className="mint__pop__header__col2">
               <img
                 src={concertData?.concertTokenImage}
                 className="mint__pop__img hide__500"
-                alt="NFT Concet Token Image"
+                alt="NFT Concet Token"
               ></img>
             </div>
           </>
@@ -876,7 +851,7 @@ const MintPopUp = ({
                           <img
                             src={concertData?.concertTokenImage}
                             className="mint__pop__img show__500"
-                            alt="NFT Concet Token Image"
+                            alt="NFT Concet Token"
                           ></img>
                           <h1 className="mint__pop__title">
                             {concertData?.concertName} by{" "}
@@ -887,7 +862,7 @@ const MintPopUp = ({
                           <img
                             src={concertData?.concertTokenImage}
                             className="mint__pop__img hide__500"
-                            alt="NFT Concet Token Image"
+                            alt="NFT Concet Token"
                           ></img>
                         </div>
                       </>

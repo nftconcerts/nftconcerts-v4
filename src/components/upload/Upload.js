@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Rules from "./Rules";
 import UploadRecording from "./UploadRecording";
 import Compliance from "./Compliance";
@@ -18,8 +18,12 @@ import "react-datepicker/dist/react-datepicker.css";
 function Upload() {
   //State for Steps
   const [formNum, setFormNum] = useState(1);
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-  const [currentUser, setCurrentUser] = useState(fetchCurrentUser());
+  const [currentUser, setCurrentUser] = useState();
+
+  //set current user
+  useEffect(() => {
+    setCurrentUser(fetchCurrentUser());
+  }, []);
 
   // State for form data
   const [formData, setFormData] = useState({

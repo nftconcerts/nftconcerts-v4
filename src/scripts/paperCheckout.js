@@ -1,13 +1,11 @@
-import React from "react";
-
 const paperCheckout = async (token, wallet, email, mintQty) => {
   const options = {
-    mode: "cors",
     method: "POST",
     headers: {
       accept: "application/json",
       "content-type": "application/json",
       Authorization: `Bearer ${process.env.REACT_APP_PAPER_API}`,
+      origin: "https://nftconcerts.com",
     },
     body: JSON.stringify({
       quantity: mintQty,
@@ -22,7 +20,10 @@ const paperCheckout = async (token, wallet, email, mintQty) => {
     }),
   };
   console.log(options);
-  return fetch("https://paper.xyz/api/2022-08-12/checkout-sdk-intent", options)
+  return fetch(
+    "https://cors-anywhere.herokuapp.com/https://paper.xyz/api/2022-08-12/checkout-sdk-intent",
+    options
+  )
     .then((response) => response.json())
     .then((response) => {
       return response.sdkClientSecret;

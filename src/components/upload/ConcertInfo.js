@@ -50,15 +50,6 @@ const ConcertInfo = ({
     res.error ? setAutocompleteErr(res.error) : setAutocompleteErr("");
   };
 
-  const getETH = async () => {
-    const val = await fetch("https://api.coinbase.com/v2/prices/ETH-USD/spot");
-
-    return val;
-  };
-  useEffect(() => {
-    var eth = getETH();
-  }, []);
-
   const handleThumbnailChange = (file) => {
     setThumbnailFile(file);
     handleFormData("concertThumnbailImage");
@@ -140,7 +131,7 @@ const ConcertInfo = ({
             </div>
             <div className="uploader__box">
               <FileUploader
-                class="uploader__box"
+                className="uploader__box"
                 required={true}
                 handleChange={handleThumbnailChange}
                 name="concertRecording"
@@ -180,10 +171,8 @@ const ConcertInfo = ({
             showTimeSelect
             maxDate={new Date()}
             onChange={(date) => {
-              {
-                setStartDate(date);
-                setFormDate(date, "concertPerformanceDate");
-              }
+              setStartDate(date);
+              setFormDate(date, "concertPerformanceDate");
             }}
             onSelect={handleFormData("concertDate")}
             closeOnScroll={true}
@@ -332,7 +321,7 @@ const ConcertInfo = ({
               className="tiny__input"
               placeholder="0.00"
               onKeyPress={(event) => {
-                if (!/[0-9\.]/.test(event.key)) {
+                if (!/[0-9.]/.test(event.key)) {
                   event.preventDefault();
                 }
               }}
@@ -344,6 +333,7 @@ const ConcertInfo = ({
               src="/media/eth-logo.png"
               height={25}
               className="token__price__eth__logo"
+              alt="ETH Logo"
             />
             <div className="token__eth__to__usd">(${priceInUSD})</div>
           </div>

@@ -1,24 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  db,
-  fetchCurrentUser,
-  logout,
-  truncateAddress,
-  resetMobileMode,
-} from "./../../firebase";
+import { db, fetchCurrentUser } from "./../../firebase";
 import FormBox from "../form/FormBox";
-import Contract from "../form/Contract";
+
 import { useNavigate } from "react-router-dom";
 import "./MyAccount.css";
 import { ref as dRef, onValue } from "firebase/database";
-import {
-  useAddress,
-  useMetamask,
-  useOwnedNFTs,
-  useContract,
-} from "@thirdweb-dev/react";
-import editionDrop, { editionDropAddress } from "../../scripts/getContract.mjs";
-import checkProductionTeam from "../../scripts/checkProductionTeam";
 import "./ArtistAccount.css";
 import AccountPage from "./AccountPage";
 
@@ -27,23 +13,12 @@ const ArtistAccount = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
   const [concertData, setConcertData] = useState();
-  const [validUser, setValidUser] = useState(false);
-  const [admin, setAdmin] = useState(false);
-  const address = useAddress();
-  const connectWithMetamask = useMetamask();
-
   const [liveConcertData, setLiveConcertData] = useState();
 
   //set current user
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
   }, []);
-
-  //logout user
-  const inlineLogout = () => {
-    logout();
-    setCurrentUser(null);
-  };
 
   //download User Data
   useEffect(() => {
@@ -63,7 +38,6 @@ const ArtistAccount = () => {
       var cData = snapshot.val();
       setConcertData(cData);
     });
-    submittedConcertTable();
   }, [currentUser]);
 
   //download actual concert data
@@ -73,20 +47,7 @@ const ArtistAccount = () => {
       var cData = snapshot.val();
       setLiveConcertData(cData);
     });
-    approvedConcertTable();
   }, [currentUser]);
-
-  //Check if user is admin or was uploader
-  useEffect(() => {
-    if (userData?.userType === "admin") {
-      setValidUser(true);
-      setAdmin(true);
-    } else if (userData?.userType === "fan") {
-      if (userData?.walletID === concertData?.uploaderWalletID) {
-        setValidUser(true);
-      }
-    } else setValidUser(false);
-  }, [currentUser, userData]);
 
   //pull users submitted concerts
   const submittedConcertTable = () => {
@@ -97,41 +58,39 @@ const ArtistAccount = () => {
 
       const rows = [];
       for (var i = 0; i < arrayLength; i++) {
-        var row = [];
         var tempConcertId = parseInt(concertArray[i]);
         var tempConcert = concertData[tempConcertId];
 
         var contractStr = JSON.stringify(tempConcertId);
 
         rows.push(
-          <>
-            <div className="concert__row">
-              <div className="concert__id">L-{tempConcert?.concertId}</div>
-              <div className="concert__thumbnail">
-                <img
-                  src={tempConcert?.concertThumbnailImage}
-                  className="account__page__concert__thumbnail"
-                />
-              </div>
-              <div className="concert__name">{tempConcert?.concertName}</div>
-              <div className="concert__perf__date">
-                {tempConcert?.concertPerformanceDate}
-              </div>
-              <div className="concert__listing__approval">
-                {tempConcert?.listingApproval}
-              </div>
-              <div className="concert__expand__button">
-                <button
-                  type="submit"
-                  className="fa-solid fa-file-signature icon__button"
-                  name={contractStr}
-                  onClick={(i) => {
-                    navigate("/contract?id=" + i.target.name);
-                  }}
-                />
-              </div>
+          <div className="concert__row" key={i}>
+            <div className="concert__id">L-{tempConcert?.concertId}</div>
+            <div className="concert__thumbnail">
+              <img
+                src={tempConcert?.concertThumbnailImage}
+                className="account__page__concert__thumbnail"
+                alt="Concert Token"
+              />
             </div>
-          </>
+            <div className="concert__name">{tempConcert?.concertName}</div>
+            <div className="concert__perf__date">
+              {tempConcert?.concertPerformanceDate}
+            </div>
+            <div className="concert__listing__approval">
+              {tempConcert?.listingApproval}
+            </div>
+            <div className="concert__expand__button">
+              <button
+                type="submit"
+                className="fa-solid fa-file-signature icon__button"
+                name={contractStr}
+                onClick={(i) => {
+                  navigate("/contract?id=" + i.target.name);
+                }}
+              />
+            </div>
+          </div>
         );
       }
 
@@ -148,7 +107,6 @@ const ArtistAccount = () => {
 
       const rows = [];
       for (var i = 0; i < arrayLength; i++) {
-        var row = [];
         var tempConcertId = parseInt(concertArray[i]);
         var tempConcert = liveConcertData[tempConcertId];
 
@@ -162,6 +120,7 @@ const ArtistAccount = () => {
                 <img
                   src={tempConcert?.concertThumbnailImage}
                   className="account__page__concert__thumbnail"
+                  alt="Concert Token"
                 />
               </div>
               <div className="concert__name">{tempConcert?.concertName}</div>
@@ -188,84 +147,6 @@ const ArtistAccount = () => {
 
       return rows;
     }
-  };
-
-  //check if user is holding production team NFT
-  const [productionTeam, setProductionTeam] = useState(false);
-  const [showResult, setShowResult] = useState(false);
-  const [ptBalance, setPtBalance] = useState(0);
-  const [plBalance, setPlBalance] = useState(0);
-
-  const productionCheck = async () => {
-    if (address) {
-      var checkResult = await checkProductionTeam(address);
-
-      setPtBalance(checkResult[0]);
-      setPlBalance(checkResult[1]);
-      if (checkResult[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    } else if (!address && userData?.walletID) {
-      var checkResult = await checkProductionTeam(userData.walletID);
-
-      setPtBalance(checkResult[0]);
-      setPlBalance(checkResult[1]);
-      if (checkResult[0] > 0) {
-        setProductionTeam(true);
-      } else if (checkResult[1] > 0) {
-        setProductionTeam(true);
-      } else {
-        setProductionTeam(false);
-      }
-    }
-  };
-  useEffect(() => {
-    productionCheck();
-  }, [address, userData]);
-
-  //get owned NFTs by user
-  const { contract } = useContract(editionDropAddress);
-  const {
-    data: ownedNFTs,
-    isLoading3,
-    error3,
-  } = useOwnedNFTs(contract, address);
-
-  //show users owned concerts
-  const showConcerts = () => {
-    var arrayLength = ownedNFTs.length;
-
-    const nfts = [];
-    for (var i = 0; i < arrayLength; i++) {
-      nfts.push(
-        <div className="single__concert__container">
-          <div
-            className="single__concert__div"
-            name={ownedNFTs[i].metadata.id.toString()}
-            onClick={(i) => {
-              console.log(i);
-              navigate("/player/" + i.target.name);
-            }}
-          >
-            <img
-              src={ownedNFTs[i].metadata.image}
-              className="single__concert__image"
-              name={ownedNFTs[i].metadata.id.toString()}
-            />
-            <i className="fa-solid fa-play hidden__play__icon" />
-          </div>
-          <div className="single__concert__qty">
-            You Own {ownedNFTs[i].quantityOwned.toString()} of{" "}
-            {ownedNFTs[i].supply.toString()} Copies
-          </div>
-        </div>
-      );
-    }
-    return nfts;
   };
 
   return (

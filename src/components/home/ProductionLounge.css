@@ -1,0 +1,11 @@
+.lounge__div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 300px;
+  padding-top: 40px;
+}
+.knocked__button {
+  pointer-events: none;
+  filter: opacity(0.5);
+}

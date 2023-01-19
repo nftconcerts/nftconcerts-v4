@@ -236,6 +236,22 @@ label {
 .last__setting__div {
   padding-bottom: 40px;
 }
+.twitter__verification {
+  padding-top: 20px;
+}
+.settings__url {
+  color: #fff;
+}
+.settings__url:hover {
+  color: #aaa;
+}
+.settings__button {
+  width: 310px;
+  min-width: none;
+}
+.settings__button:hover {
+  background: #050505;
+}
 @media screen and (max-width: 900px) {
   .cover__setting__div {
     width: 100%;

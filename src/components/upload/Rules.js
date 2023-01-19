@@ -5,20 +5,8 @@ import "./Rules.css";
 import { useNavigate } from "react-router-dom";
 
 // creating functional component ans getting props from upload.js and destucturing them
-const Rules = ({
-  nextStep,
-  handleFormData,
-  values,
-  whileUploading,
-  infoBox,
-}) => {
-  //creating error state for validation
-  const [error, setError] = useState(false);
-  const [info, setInfo] = useState(
-    "Fill out this form to create a NFT Concert"
-  );
+const Rules = ({ nextStep, whileUploading, infoBox }) => {
   const [currentUser, setCurrentUser] = useState(fetchCurrentUser()?.user);
-  const [loggedIn, setLoggedIn] = useState("");
   const [showInfo, setShowInfo] = useState(false);
   // after form submit validating the form data using validator
   const submitFormData = (e) => {

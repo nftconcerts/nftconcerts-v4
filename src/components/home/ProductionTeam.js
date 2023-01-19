@@ -3,35 +3,25 @@ import Contract from "../form/Contract";
 import "./ProductionTeam.css";
 import { GetUSDExchangeRate } from "./../api";
 import { useNavigate } from "react-router-dom";
-import { useAddress, ChainId } from "@thirdweb-dev/react";
 import CheckProductionTeam from "../../scripts/checkProductionTeam";
-import {
-  truncateAddress,
-  fetchCurrentUser,
-  db,
-  getMobileMode,
-} from "../../firebase";
-import { PaperCheckout } from "@paperxyz/react-client-sdk";
+import { truncateAddress, fetchCurrentUser, db } from "../../firebase";
+
 import { Helmet } from "react-helmet";
-import { ref as dRef, onValue, set } from "firebase/database";
+import { ref as dRef, onValue } from "firebase/database";
 import ProductionPop from "./ProductionPop";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const ProductionTeam = () => {
   let navigate = useNavigate();
-  const address = useAddress();
-
   const [currentUser, setCurrentUser] = useState(null);
   const [userData, setUserData] = useState();
-
   const [remainingPT, setRemainingPT] = useState();
   const [remainingPL, setRemainingPL] = useState();
 
+  //see how many pt items remain in nftconcerts.eth wallet
   const nftcaddress = "0x478bF0bedd29CA15cF34611C965F6F39FEcebF7F";
-
   const results = CheckProductionTeam(nftcaddress);
-
   results.then(function (result) {
     setRemainingPT(result[0] - 100);
     setRemainingPL(result[1] - 1);
@@ -76,8 +66,6 @@ const ProductionTeam = () => {
   const [priceInUSD, setPriceInUSD] = useState("0.00");
 
   const [leadPriceInUSD, setLeadPriceInUSD] = useState("0.00");
-  const [orderPriceInUSD, setOrderPriceInUSD] = useState("0.00");
-  const [leadOrderPriceInUSD, setLeadOrderPriceInUSD] = useState("0.00");
 
   useEffect(() => {
     GetUSDExchangeRate().then((res) => {
@@ -146,7 +134,7 @@ const ProductionTeam = () => {
               }}
             >
               <img
-                alt="production team image"
+                alt="production team"
                 src="/media/production-team.jpg"
                 className="production__team__image"
               />
@@ -212,7 +200,11 @@ const ProductionTeam = () => {
               );
             }}
           >
-            <img src="/media/x2y2-logo.png" className="marketplace__icon" />
+            <img
+              src="/media/x2y2-logo.png"
+              className="marketplace__icon"
+              alt="X2Y2 Logo"
+            />
           </div>
           <div
             className="marketplace__icon__div"
@@ -225,6 +217,7 @@ const ProductionTeam = () => {
             <img
               src="/media/looksrare-logo.png"
               className="marketplace__icon invert__icon"
+              alt="LooksRare Logo"
             />
           </div>
           <div
@@ -235,7 +228,11 @@ const ProductionTeam = () => {
               );
             }}
           >
-            <img src="/media/opensea-logo.png" className="marketplace__icon" />
+            <img
+              src="/media/opensea-logo.png"
+              className="marketplace__icon"
+              alt="OpenSea Logo"
+            />
           </div>
           <div
             className="marketplace__icon__div"
@@ -248,6 +245,7 @@ const ProductionTeam = () => {
             <img
               src="/media/etherscan-logo.png"
               className="marketplace__icon"
+              alt="Etherscan Logo"
             />
           </div>
         </div>
@@ -292,7 +290,7 @@ const ProductionTeam = () => {
                   <a href="/Register">Register</a> or <a href="/Login">Login</a>
                 </>
               )}
-              {currentUser && <a href="/home">Enter Lounge</a>}
+              {currentUser && <a href="/lounge">Enter Lounge</a>}
             </p>
           )}
         </div>
@@ -306,6 +304,7 @@ const ProductionTeam = () => {
               <img
                 src="/media/production-lead.jpg"
                 className="production__team__image"
+                alt="Production Lead"
               />
             </div>
             <div className="no__clip__button right__no__clip__button">
@@ -323,6 +322,7 @@ const ProductionTeam = () => {
                       src="/media/eth-logo.png"
                       height={25}
                       className="c__eth__logo white__eth__logo"
+                      alt="ETH Logo"
                     />
                     {leadBuyPrice}{" "}
                     <span className="c__price__in__usd button__usd__price">
@@ -364,6 +364,7 @@ const ProductionTeam = () => {
               <img
                 src="/media/production-lead.jpg"
                 className="production__team__image"
+                alt="Production Lead"
               />
             </div>
           </div>
@@ -377,7 +378,11 @@ const ProductionTeam = () => {
               );
             }}
           >
-            <img src="/media/x2y2-logo.png" className="marketplace__icon" />
+            <img
+              src="/media/x2y2-logo.png"
+              className="marketplace__icon"
+              alt="X2Y2 Logo"
+            />
           </div>
           <div
             className="marketplace__icon__div"
@@ -390,6 +395,7 @@ const ProductionTeam = () => {
             <img
               src="/media/looksrare-logo.png"
               className="marketplace__icon invert__icon"
+              alt="LooksRare Logo"
             />
           </div>
           <div
@@ -400,7 +406,11 @@ const ProductionTeam = () => {
               );
             }}
           >
-            <img src="/media/opensea-logo.png" className="marketplace__icon" />
+            <img
+              src="/media/opensea-logo.png"
+              className="marketplace__icon"
+              alt="OpenSea Logo"
+            />
           </div>
           <div
             className="marketplace__icon__div"
@@ -413,6 +423,7 @@ const ProductionTeam = () => {
             <img
               src="/media/etherscan-logo.png"
               className="marketplace__icon"
+              alt="Etherscan Logo"
             />
           </div>
         </div>

@@ -9,7 +9,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import Home from "./components/home/Home";
-import ProductionTeam from "./components/home/ProductionTeam";
 import ResetPassword from "./components/register/ResetPassword";
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 import { Web3ReactProvider } from "@web3-react/core";
@@ -41,10 +40,13 @@ function App() {
   const Payouts = lazy(() => import("./components/admin/Payouts"));
   const AdminConcerts = lazy(() => import("./components/admin/AdminConcerts"));
   const ArtistApp = lazy(() => import("./components/register/ArtistApp"));
-  const ArtistPage = lazy(() => import("./components/ArtistPage"));
+
   const Collectors = lazy(() => import("./components/collectors/Collectors"));
   const ProfilePage = lazy(() => import("./components/register/PublicProfile"));
-
+  const ProductionTeam = lazy(() => import("./components/home/ProductionTeam"));
+  const ProductionLounge = lazy(() =>
+    import("./components/home/ProductionLounge")
+  );
   const PromoPage = lazy(() => import("./components/register/Partner"));
 
   const Player = lazy(() => import("./components/Player"));
@@ -195,9 +197,7 @@ function App() {
                 <Route path="/faqs" element={<FAQs />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/blog" element={<Blog />} />
-                <Route path="/artist" element={<ArtistPage />}>
-                  <Route path=":id" element={<ArtistPage />} />
-                </Route>
+
                 <Route path="/u" element={<ProfilePage />}>
                   <Route path=":slug" element={<ProfilePage />} />
                 </Route>
@@ -297,6 +297,7 @@ function App() {
                   element={<DonDiablo />}
                 />
                 <Route path="/production-team" element={<ProductionTeam />} />
+                <Route path="/lounge" element={<ProductionLounge />} />
                 <Route exact path="/" element={<Home />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>

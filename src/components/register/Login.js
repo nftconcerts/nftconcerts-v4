@@ -6,29 +6,16 @@ import {
   logout,
   fetchCurrentUser,
   truncateAddress,
-  setMobileMode,
   db,
 } from "./../../firebase";
-import {
-  useAddress,
-  useDisconnect,
-  useMetamask,
-  useNetworkMismatch,
-  useNetwork,
-  ChainId,
-} from "@thirdweb-dev/react";
 import { useNavigate } from "react-router-dom";
-import { ref as dRef, set, update, onValue } from "firebase/database";
-import { Web3Provider } from "@ethersproject/providers";
-import WalletConnectProvider from "@walletconnect/ethereum-provider";
-import WalletLink from "walletlink";
+import { ref as dRef, onValue } from "firebase/database";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
-  const [tempUser, setTempUser] = useState(null);
-  const networkMismatch = useNetworkMismatch();
+
   const [userData, setUserData] = useState();
 
   let navigate = useNavigate();
@@ -37,31 +24,24 @@ function Login() {
   }, []);
   //download User Data
   useEffect(() => {
-    if (tempUser) {
-      var userDataRef = dRef(db, "users/" + tempUser.user.uid);
-      onValue(userDataRef, (snapshot) => {
-        var data = snapshot.val();
-        setUserData(data);
-      });
-    } else if (currentUser) {
+    if (currentUser) {
       var userDataRef = dRef(db, "users/" + currentUser.user.uid);
       onValue(userDataRef, (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
       });
     }
-  }, [tempUser, currentUser]);
+  }, [currentUser]);
 
   const inlineLogout = () => {
     logout();
-    setTempUser(null);
     setCurrentUser(null);
     window.location.reload();
   };
 
   const confirmUser = async () => {
     await login(email, password);
-    setCurrentUser(tempUser);
+    setCurrentUser(fetchCurrentUser());
     navigate("/my-account");
     window.location.reload();
   };
@@ -118,7 +98,6 @@ function Login() {
             {userData?.walletID && (
               <p className="logged__in__email">
                 {truncateAddress(userData?.walletID)}
-                {networkMismatch}
               </p>
             )}
             <button

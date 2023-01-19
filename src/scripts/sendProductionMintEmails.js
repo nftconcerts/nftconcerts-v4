@@ -1,4 +1,3 @@
-import React from "react";
 import emailjs from "@emailjs/browser";
 
 const sendProductionMintEmails = (template_params) => {

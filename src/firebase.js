@@ -1,25 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { useState } from "react";
 import {
-  GoogleAuthProvider,
   getAuth,
-  onAuthStateChanged,
-  signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
   updateProfile,
-  createProfileChangeRequest,
 } from "firebase/auth";
-import {
-  getFirestore,
-  query,
-  getDocs,
-  collection,
-  where,
-  addDoc,
-} from "firebase/firestore";
 import { getDatabase } from "firebase/database";
 import { getStorage } from "firebase/storage";
 
@@ -68,9 +55,6 @@ const fetchCurrentUser = () => {
   const userString = localStorage.getItem("user");
   const userCredential = JSON.parse(userString);
   if (userCredential) {
-    const userEmail = userCredential.user.email;
-    const userDisplayName = userCredential.user.displayName;
-    const userWalletAddress = userCredential.user.photoURL;
     return userCredential;
     // ...
   } else {

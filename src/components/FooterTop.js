@@ -1,28 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./FooterTop.css";
-import { ref as dRef, set, update, onValue } from "firebase/database";
-import { db, fetchCurrentUser } from "./../firebase";
 
-function FooterTop() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [userData, setUserData] = useState();
-  //check if there is logged in user already
-  useEffect(() => {
-    setCurrentUser(fetchCurrentUser());
-  }, []);
-
-  //download User Data
-  useEffect(() => {
-    if (currentUser) {
-      var userDataRef = dRef(db, "users/" + currentUser.user.uid);
-      onValue(userDataRef, (snapshot) => {
-        var data = snapshot.val();
-        setUserData(data);
-      });
-    }
-  }, [currentUser]);
-
+function FooterTop({ currentUser }) {
   let navigate = useNavigate();
   return (
     <div className="footer">

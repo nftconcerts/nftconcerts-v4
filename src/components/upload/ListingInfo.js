@@ -3,7 +3,6 @@ import "./ListingInfo.css";
 import "./ConcertInfo.css";
 import Contract from "../form/Contract";
 import { FileUploader } from "react-drag-drop-files";
-import dateFormat from "dateformat";
 import DatePicker from "react-datepicker";
 import { addDays } from "date-fns";
 
@@ -150,7 +149,7 @@ const ListingInfo = ({
               </div>
               <div className="uploader__box">
                 <FileUploader
-                  class="uploader__box"
+                  className="uploader__box"
                   handleChange={handlePromoChange}
                   name="concertRecording"
                   types={fileTypes}
@@ -233,10 +232,8 @@ const ListingInfo = ({
             showTimeSelect
             minDate={addDays(new Date(), 2)}
             onChange={(date) => {
-              {
-                setStartDate(date);
-                setFormDate(date, "concertReleaseDate");
-              }
+              setStartDate(date);
+              setFormDate(date, "concertReleaseDate");
             }}
             closeOnScroll={true}
             popperPlacement="bottom"

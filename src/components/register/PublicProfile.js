@@ -7,8 +7,8 @@ import FormBox from "../form/FormBox";
 import { useContract, useOwnedNFTs } from "@thirdweb-dev/react";
 import CheckProductionTeam from "../../scripts/checkProductionTeam";
 import { editionDropAddress } from "../../scripts/getContract";
-import dateFormat from "dateformat";
 import "./PublicProfile.css";
+import { Helmet } from "react-helmet";
 
 const PublicProfile = () => {
   let navigate = useNavigate();
@@ -44,7 +44,6 @@ const PublicProfile = () => {
     }
   }, [uid]);
 
-  let currentUrl = window.location.pathname;
   const banner = userData?.userBanner || "/media/banner.jpg";
 
   //check if user is in production team
@@ -68,11 +67,7 @@ const PublicProfile = () => {
 
   //get owned NFTs by user
   const { contract } = useContract(editionDropAddress);
-  const {
-    data: ownedNFTs,
-    isLoading3,
-    error3,
-  } = useOwnedNFTs(contract, userData?.walletID);
+  const { data: ownedNFTs } = useOwnedNFTs(contract, userData?.walletID);
 
   //download concert data
   useEffect(() => {
@@ -102,6 +97,7 @@ const PublicProfile = () => {
                 src={concertData[ownedID].concertTokenImage}
                 className="single__concert__image"
                 name={ownedID}
+                alt="Concert Token"
               />
             </div>
 
@@ -140,12 +136,36 @@ const PublicProfile = () => {
     <>
       {(userData && (
         <div className="user__page">
+          <Helmet>
+            <title>{userData?.name} - NFT Concerts Profile</title>
+            <meta
+              name="description"
+              content={
+                "Check out the NFT Concerts collection of " + userData?.name
+              }
+            />
+            <meta property="og:type" content="website" />
+            <meta name="twitter:card" content="summary" />
+            <meta name="twitter:site" content="https://nftconcerts.com" />
+            <meta
+              name="twitter:title"
+              content={userData?.name + " - NFT Concerts Profile"}
+            />
+            <meta
+              name="twitter:description"
+              content={
+                "Check out the NFT Concerts collection of " + userData?.name
+              }
+            />
+            <meta name="twitter:image" content={userData?.image} />
+          </Helmet>
           <div
             className="user__banner"
             style={{
               backgroundImage: `url(${banner})`,
             }}
           >
+            <div className="user__social__div"> </div>
             <div className="user__banner__botfade" />
           </div>
 
@@ -169,7 +189,42 @@ const PublicProfile = () => {
                     {truncateAddress(userData?.walletID)}
                   </a>
                 </p>
+                <div className="small__social__div">
+                  {userData?.twitterProfile && (
+                    <a
+                      href={"https://twitter.com/" + userData.twitterProfile}
+                      className="fa fa-twitter"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-hidden="true"
+                    >
+                      <span>Twitter Profile</span>
+                    </a>
+                  )}
 
+                  {userData?.spotifyLink && (
+                    <a
+                      href={userData.spotifyLink}
+                      className="fa fa-brands fa-spotify"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-hidden="true"
+                    >
+                      <span>Spotify Profile</span>
+                    </a>
+                  )}
+                  {userData?.personalLink && (
+                    <a
+                      href={userData.personalLink}
+                      className="fa fa-solid fa-globe"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-hidden="true"
+                    >
+                      <span>Personal Website</span>
+                    </a>
+                  )}
+                </div>
                 <button
                   className="library__button user__info__button"
                   onClick={() => {
@@ -192,10 +247,7 @@ const PublicProfile = () => {
             </div>
             <div className="name__div">
               <span className="bold__text welcome__text account__details hide__600">
-                {userData?.name} -{" "}
-                <span className="capitalize__text">
-                  {userData?.userType} Account
-                </span>
+                {userData?.name}
               </span>
               <br />
               <div className="contained__library">
@@ -208,6 +260,7 @@ const PublicProfile = () => {
                           <img
                             src="/media/production-lead.jpg"
                             className="ptlead__image"
+                            alt="Production Lead"
                           />
                           <div className="ptlead__info__div">
                             <h3 className="ptlead__heading">Production Lead</h3>
@@ -246,6 +299,7 @@ const PublicProfile = () => {
                         <img
                           src="/media/production-team.jpg"
                           className="ptlead__image"
+                          alt="Production Team"
                         />
                         <div className="ptlead__info__div">
                           <h3 className="ptlead__heading">Production Team</h3>

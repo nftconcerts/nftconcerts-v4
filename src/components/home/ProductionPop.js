@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { ref as dRef, onValue, set, runTransaction } from "firebase/database";
+import { ref as dRef, onValue, set } from "firebase/database";
 import {
   db,
   fetchCurrentUser,
@@ -19,19 +19,16 @@ import {
   useNetworkMismatch,
   useNetwork,
   ChainId,
-  useActiveClaimCondition,
   useContract,
   useCoinbaseWallet,
   useWalletConnect,
 } from "@thirdweb-dev/react";
 import checkEns from "./../../scripts/checkEns";
-import WalletConnectProvider from "@walletconnect/ethereum-provider";
-import WalletLink from "walletlink";
+
 import dateFormat from "dateformat";
 import emailjs from "@emailjs/browser";
 import { GetUSDExchangeRate } from "./../api";
 import { marketplaceAddress } from "./../../scripts/getProductionContract";
-import { ethers } from "ethers";
 import sendProductionMintEmails from "./../../scripts/sendProductionMintEmails";
 import paperCheckoutProduction from "./../../scripts/paperCheckoutProduction";
 import { Magic } from "magic-sdk";
@@ -62,7 +59,7 @@ const ProductionPop = ({
   const [savedUserAddress, setSavedUserAddress] = useState("");
   const [rcType, setRcType] = useState("");
   const [metamaskDetected, setMetamaskDetected] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   const [mintQty, setMintQty] = useState(1);
   const [newUser, setNewUser] = useState(false);
   const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
@@ -117,7 +114,7 @@ const ProductionPop = ({
     if (address && address === userData?.walletID && loginProcess) {
       confirmUser();
     }
-  }, [address, tempUser, loginProcess]);
+  }, [address, tempUser, loginProcess, userData?.walletID]);
 
   //check if metamask is installed
   useEffect(() => {
@@ -147,7 +144,7 @@ const ProductionPop = ({
   };
 
   //connect with magic.
-  const [firstMagic, setFirstMagic] = useState(false);
+
   const tryMagic = async () => {
     try {
       var magicRes = await magic.auth.loginWithMagicLink({ email: email });
@@ -155,87 +152,17 @@ const ProductionPop = ({
 
       setSavedUserAddress(publicAddress);
       setRcType("magic");
-      setFirstMagic(true);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    if (rcType === "magic" && savedUserAddress !== "comingSoon" && firstMagic) {
+    if (rcType === "magic" && savedUserAddress !== "comingSoon") {
       checkThenRegister();
       disconnect();
     }
   }, [rcType, savedUserAddress]);
 
-  const confirmMagic = async () => {
-    try {
-      var magicRes = await magic.auth.loginWithMagicLink({ email: email });
-      const { publicAddress } = await magic.user.getMetadata();
-      setSavedUserAddress(publicAddress);
-      if (publicAddress === userData?.walletID) {
-        confirmUser();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  //vanilla walletconnect
-  const [walletConnectProvider, setWalletConnectProvider] = useState();
-  const connectWalletConnect = async () => {
-    try {
-      const RPC_URLS = {
-        1: "https://mainnet.infura.io/v3/55d040fb60064deaa7acc8e320d99bd4",
-      };
-      const provider = new WalletConnectProvider({
-        rpc: {
-          1: RPC_URLS[1],
-        },
-        qrcode: true,
-        pollingInterval: 15000,
-      });
-      setWalletConnectProvider(provider);
-      const accounts = await provider.enable();
-      const account = accounts[0];
-      updateWalletID(account, "walletconnect");
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-  const disconnectWalletConnect = () => {
-    walletConnectProvider.disconnect();
-    setWalletConnectProvider(null);
-  };
-
-  //vanilla coinbase
-  const [walletlinkProvider, setWalletlinkProvider] = useState();
-  const connectCoinbase = async () => {
-    try {
-      // Initialize WalletLink
-      const walletLink = new WalletLink({
-        appName: "NFT Concerts",
-        darkMode: true,
-      });
-
-      const provider = walletLink.makeWeb3Provider(
-        "https://rinkeby.infura.io/v3/55d040fb60064deaa7acc8e320d99bd4",
-        4
-      );
-      setWalletlinkProvider(provider);
-      const accounts = await provider.request({
-        method: "eth_requestAccounts",
-      });
-      const account = accounts[0];
-
-      updateWalletID(account, "coinbase");
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-  const disconnectCoinbase = () => {
-    walletlinkProvider.close();
-    setWalletlinkProvider(null);
-  };
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
@@ -247,23 +174,23 @@ const ProductionPop = ({
     if (photoid === 1) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Ff4.jpg?alt=media&token=bedd3ed8-6db9-4fac-9874-245c2ffff456";
-    } else if (photoid == 2) {
+    } else if (photoid === 2) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm1.jpg?alt=media&token=f536fd31-6fd0-478b-ba6e-34a25c47a917";
-    } else if (photoid == 3) {
+    } else if (photoid === 3) {
       image =
         "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fm2.jpg?alt=media&token=7e54dc2f-b324-4761-bfea-b4d4ce45110e";
     }
-    if (email == "") return alert("Missing email address");
-    if (displayName == "") return alert("Missing Account Name");
-    if (password == "") return alert("Missing Password");
-    if (passwordConfirm == "") return alert("Missing Password Confirmation");
+    if (email === "") return alert("Missing email address");
+    if (displayName === "") return alert("Missing Account Name");
+    if (password === "") return alert("Missing Password");
+    if (passwordConfirm === "") return alert("Missing Password Confirmation");
     if (!document.getElementById("acceptTerms").checked)
       return alert("Please accept the terms of service.");
-    if (password == passwordConfirm) {
+    if (password === passwordConfirm) {
       var registrationDate = new Date();
       var dateString = dateFormat(registrationDate, "m/d/yyyy, h:MM TT Z ");
-      setLoading(true);
+
       const newUser = await register(email, password, displayName, address);
       if (newUser) {
         var uid = newUser.user.uid;
@@ -291,7 +218,6 @@ const ProductionPop = ({
             console.log("error");
           });
       }
-      setLoading(false);
     } else {
       alert("Passwords do not match");
     }
@@ -363,7 +289,7 @@ const ProductionPop = ({
   };
 
   //eth to usd api call
-  const [usdExRate, setUsdExRate] = useState();
+
   const [priceInUSD, setPriceInUSD] = useState("0.00");
 
   useEffect(() => {
@@ -436,7 +362,6 @@ const ProductionPop = ({
   //mint with credit card
   const [showCreditCard, setShowCreditCard] = useState(false);
   const [paperSecret, setPaperSecret] = useState();
-  const [paperLink, setPaperLink] = useState();
 
   const launchCredit = async () => {
     setShowCreditCard(true);
@@ -470,7 +395,7 @@ const ProductionPop = ({
           mintQty
       );
     }
-  }, [paperSecret]);
+  }, [paperSecret, mintPrice, mintQty, productionID]);
 
   const connectCoinbase2 = async () => {
     try {
@@ -795,7 +720,7 @@ const ProductionPop = ({
               <img
                 src="/media/production-team.jpg"
                 className="production__pop__image"
-                alt="NFT Concert Token Image"
+                alt="NFT Concert Token"
               />
               <h3 className="motto">You Rock!</h3>
               <p className="motto">
@@ -824,7 +749,7 @@ const ProductionPop = ({
               <img
                 src="/media/production-lead.jpg"
                 className="production__pop__image"
-                alt="NFT Concert Token Image"
+                alt="NFT Concert Token"
               />
               <h3 className="motto">You Rock!</h3>
               <p className="motto">
@@ -905,7 +830,7 @@ const ProductionPop = ({
                               <img
                                 src="/media/production-team.jpg"
                                 className="mint__prod__pop__img show__500"
-                                alt="NFT Concet Token Image"
+                                alt="NFT Concet Token"
                               ></img>
                               <h1 className="mint__pop__title">
                                 NFT Concerts Production Team
@@ -917,7 +842,7 @@ const ProductionPop = ({
                               <img
                                 src="/media/production-lead.jpg"
                                 className="mint__prod__pop__img show__500"
-                                alt="NFT Concet Token Image"
+                                alt="NFT Concet Token"
                               ></img>
                               <h1 className="mint__pop__title">
                                 NFT Concerts Production Lead
@@ -931,7 +856,7 @@ const ProductionPop = ({
                               <img
                                 src="/media/production-team.jpg"
                                 className="mint__prod__pop__img hide__500"
-                                alt="NFT Concet Token Image"
+                                alt="NFT Concet Token"
                               />{" "}
                             </>
                           )) || (
@@ -939,7 +864,7 @@ const ProductionPop = ({
                               <img
                                 src="/media/production-lead.jpg"
                                 className="mint__prod__pop__img hide__500"
-                                alt="NFT Concet Token Image"
+                                alt="NFT Concet Token"
                               />
                             </>
                           )}

@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { db, fetchCurrentUser, logout, truncateAddress } from "../../firebase";
+import { db, fetchCurrentUser } from "../../firebase";
 import FormBox from "../form/FormBox";
-import Contract from "../form/Contract";
 import { useNavigate } from "react-router-dom";
 import "../register/MyAccount.css";
-import { ref as dRef, set, get, onValue } from "firebase/database";
+import { ref as dRef, onValue } from "firebase/database";
 import "./Admin.css";
-import emailjs from "@emailjs/browser";
-import createNFT from "../../scripts/createNft.mjs";
-import { useNetworkMismatch, useNetwork, ChainId } from "@thirdweb-dev/react";
 import AdminUsers from "./AdminUsers";
-import Payouts from "./Payouts";
-import checkEthBalance from "../../scripts/checkEthBalance";
 import AccountPage from "../register/AccountPage";
-
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const Admin = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -22,7 +14,6 @@ const Admin = () => {
   const [userData, setUserData] = useState();
 
   const [allUserData, setAllUserData] = useState();
-  const [adminView, setAdminView] = useState(0);
 
   let navigate = useNavigate();
 
@@ -133,7 +124,7 @@ const Admin = () => {
               </>
             </div>
 
-            {adminView === 0 && AdminUsers(allUserData)}
+            {AdminUsers(allUserData)}
           </div>
         </AccountPage>
       )}

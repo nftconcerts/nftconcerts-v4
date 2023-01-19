@@ -1,5 +1,4 @@
 import { editionDropAddress } from "./getProductionContract";
-import { useState } from "react";
 import { useContract } from "@thirdweb-dev/react";
 
 const CheckProductionTeam = async (address) => {

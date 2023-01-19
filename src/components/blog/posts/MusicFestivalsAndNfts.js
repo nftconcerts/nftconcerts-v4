@@ -45,6 +45,7 @@ const MusicFestivalsAndNfts = () => {
           <img
             src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FCoachella%20NFTs%20screenshot.jpg?alt=media&token=73df6da1-b9ef-47b9-840b-84413ba8de29"
             className="post__photo__two"
+            alt="Coachella from Afar"
           />
         </a>
       </div>
@@ -71,6 +72,7 @@ const MusicFestivalsAndNfts = () => {
           <img
             src="https://pbs.twimg.com/media/FMdd4AHWUAkrZPj?format=jpg&name=4096x4096"
             className="post__photo__two"
+            alt="Coachella NFTs"
           />
         </a>
       </div>

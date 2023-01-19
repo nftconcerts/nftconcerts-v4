@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { db, fetchCurrentUser, logout, truncateAddress } from "../../firebase";
-import { ref as dRef, set, get, onValue } from "firebase/database";
+import { db, fetchCurrentUser } from "../../firebase";
+import { ref as dRef, onValue } from "firebase/database";
 import { useNavigate } from "react-router-dom";
-import { useNetworkMismatch, useNetwork, ChainId } from "@thirdweb-dev/react";
 import FormBox from "../form/FormBox";
-import emailjs from "@emailjs/browser";
+
 import "../register/MyAccount.css";
 import "./Admin.css";
 import AccountPage from "../register/AccountPage";
@@ -16,9 +15,7 @@ const AdminConcerts = () => {
   const [adminUser, setAdminUser] = useState(false);
   const [concertData, setConcertData] = useState();
   const [submittedConcertData, setSubmittedConcertData] = useState();
-  const networkMismatch = useNetworkMismatch();
-  const [uploaderEmail, setUploaderEmail] = useState();
-  const [adminView, setAdminView] = useState(0);
+
   //set current user
   useEffect(() => {
     setCurrentUser(fetchCurrentUser());
@@ -64,7 +61,6 @@ const AdminConcerts = () => {
 
     const rows = [];
     for (var i = 0; i < arrayLength; i++) {
-      var row = [];
       var tempConcertId = parseInt(concertArray[i].concertId);
       var tempConcert = submittedConcertData[tempConcertId];
 
@@ -80,6 +76,7 @@ const AdminConcerts = () => {
                   src={tempConcert.concertThumbnailImage}
                   height="50px"
                   className="account__page__concert__thumbnail"
+                  alt="NFT Concert Token"
                 />
               </div>
               <div className="concert__name admin__concert__name">
@@ -96,7 +93,7 @@ const AdminConcerts = () => {
                   onClick={(i) => {
                     navigate("/player/" + i.target.name);
                   }}
-                  class="fa-solid fa-play icon__button"
+                  className="fa-solid fa-play icon__button"
                 />
               </div>
 
@@ -104,7 +101,6 @@ const AdminConcerts = () => {
                 <button
                   type="sumbit"
                   name={contractStr}
-                  disabled={networkMismatch}
                   onClick={(i) => {
                     navigate("/contract?id=" + i.target.name);
                   }}
@@ -117,10 +113,7 @@ const AdminConcerts = () => {
                 <button
                   type="sumbit"
                   name={contractStr}
-                  onClick={(i) => {
-                    rejectConcert(i.target.name);
-                  }}
-                  class="fa-solid fa-trash icon__button red__icon"
+                  className="fa-solid fa-trash icon__button red__icon"
                 />
               </div>
             </div>
@@ -147,6 +140,7 @@ const AdminConcerts = () => {
                   src={tempConcert.concertTokenImage}
                   height="50px"
                   className="payout__concert__thumbnail"
+                  alt="NFT concert Thumbnail"
                 />
               </div>
               <div className="approved__concert__name">
@@ -161,6 +155,7 @@ const AdminConcerts = () => {
                   src="/media/eth-logo.png"
                   height={15}
                   className="c__eth__logo"
+                  alt="ETH Logo"
                 />
                 {parseFloat(tempConcert.concertPrice)}
               </div>
@@ -172,6 +167,7 @@ const AdminConcerts = () => {
                   src="/media/eth-logo.png"
                   height={15}
                   className="c__eth__logo"
+                  alt="ETH Logo"
                 />
                 {(tempConcert?.mintID - 1) * tempConcert.concertPrice}
               </div>
@@ -181,6 +177,7 @@ const AdminConcerts = () => {
                   src="/media/eth-logo.png"
                   height={15}
                   className="c__eth__logo"
+                  alt="ETH Logo"
                 />
                 {(
                   (tempConcert?.mintID - 1) *
@@ -193,6 +190,7 @@ const AdminConcerts = () => {
                   src="/media/eth-logo.png"
                   height={15}
                   className="c__eth__logo"
+                  alt="ETH Logo"
                 />
                 {(
                   (tempConcert?.mintID - 1) * tempConcert.concertPrice * 0.2 -
@@ -229,57 +227,44 @@ const AdminConcerts = () => {
     return rows;
   };
 
-  //get reasoning, flag as rejected in db, and
-  const setAsRejected = (id) => {
-    var rejectionReason = prompt("Reason for Rejection?");
-    var concertApprovalDataRef = dRef(
-      db,
-      "submittedConcerts/" + id + "/listingApproval"
-    );
-    var concertApprovalMsgDataRef = dRef(
-      db,
-      "submittedConcerts/" + id + "/approvalMessage"
-    );
+  // //get reasoning, flag as rejected in db, and
+  // const setAsRejected = (id) => {
+  //   var rejectionReason = prompt("Reason for Rejection?");
+  //   var concertApprovalDataRef = dRef(
+  //     db,
+  //     "submittedConcerts/" + id + "/listingApproval"
+  //   );
+  //   var concertApprovalMsgDataRef = dRef(
+  //     db,
+  //     "submittedConcerts/" + id + "/approvalMessage"
+  //   );
 
-    var template_params = {
-      email: concertData[id].uploaderEmail,
-      artits: concertData[id].concertArtist,
-      concertId: id,
-      concertName: concertData[id].concertName,
-      username: userData.name,
-      message: rejectionReason,
-    };
-    if (rejectionReason) {
-      set(concertApprovalDataRef, "Rejected").then(
-        set(concertApprovalMsgDataRef, rejectionReason).then(
-          emailjs
-            .send(
-              process.env.REACT_APP_EMAIL_SERVICE_ID,
-              "template_artist_reject",
-              template_params,
-              process.env.REACT_APP_EMAIL_USER_ID
-            )
-            .then(alert("Concert Rejected")),
-          (error) => {
-            console.log(error.text);
-          }
-        )
-      );
-    } else alert("No Rejection Reason. Try again.");
-  };
-
-  //reject concert
-  const rejectConcert = async (id) => {
-    var uploaderUID = concertData[id].uploaderUID;
-    var uploaderUserDataRef = dRef(db, "users/" + uploaderUID + "/email");
-
-    get(uploaderUserDataRef, (snapshot) => {
-      var data = snapshot.val();
-      setUploaderEmail(data);
-    }).then(() => {
-      setAsRejected(id);
-    });
-  };
+  //   var template_params = {
+  //     email: concertData[id].uploaderEmail,
+  //     artits: concertData[id].concertArtist,
+  //     concertId: id,
+  //     concertName: concertData[id].concertName,
+  //     username: userData.name,
+  //     message: rejectionReason,
+  //   };
+  //   if (rejectionReason) {
+  //     set(concertApprovalDataRef, "Rejected").then(
+  //       set(concertApprovalMsgDataRef, rejectionReason).then(
+  //         emailjs
+  //           .send(
+  //             process.env.REACT_APP_EMAIL_SERVICE_ID,
+  //             "template_artist_reject",
+  //             template_params,
+  //             process.env.REACT_APP_EMAIL_USER_ID
+  //           )
+  //           .then(alert("Concert Rejected")),
+  //         (error) => {
+  //           console.log(error.text);
+  //         }
+  //       )
+  //     );
+  //   } else alert("No Rejection Reason. Try again.");
+  // };
 
   //show the concert tables
   const showConcerts = () => {
@@ -300,10 +285,10 @@ const AdminConcerts = () => {
               <div className="approved__concert__minted">Profit</div>
 
               <div className="approved__concert__icon">
-                <i class="fa-solid fa-play" />
+                <i className="fa-solid fa-play" />
               </div>
               <div className="approved__concert__icon">
-                <i class="fa-solid fa-dollar-sign" />
+                <i className="fa-solid fa-dollar-sign" />
               </div>
             </div>
             {userData && concertData && approvedConcertTable(userData)}
@@ -323,7 +308,7 @@ const AdminConcerts = () => {
               <div className="concert__perf__date admin__date">Upload Date</div>
 
               <div className="header__play__button">
-                <i class="fa-solid fa-play" />
+                <i className="fa-solid fa-play" />
               </div>
 
               <div className="concert__approve__button">
@@ -332,7 +317,7 @@ const AdminConcerts = () => {
                 </button>
               </div>
               <div className="concert__delete__button">
-                <i class="fa-solid fa-trash " />
+                <i className="fa-solid fa-trash " />
               </div>
             </div>
             {userData && concertData && submittedConcertTable(userData)}

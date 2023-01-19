@@ -9,6 +9,7 @@
   justify-content: flex-start;
   align-items: center;
   margin-bottom: -200px;
+  margin-top: 0px;
 }
 .coming__soon__row__posters {
   display: flex;
