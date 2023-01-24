@@ -9,7 +9,12 @@ import CheckProductionTeam from "../../scripts/checkProductionTeam";
 import { editionDropAddress } from "../../scripts/getContract";
 import "./PublicProfile.css";
 import { Helmet } from "react-helmet";
+import { GetUSDExchangeRate } from "./../api";
+import dateFormat from "dateformat";
+import "./../ListingPage.css";
+import "./../Player.css";
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const PublicProfile = () => {
   let navigate = useNavigate();
   let { slug } = useParams();
@@ -53,8 +58,8 @@ const PublicProfile = () => {
 
   const userProdCheck = CheckProductionTeam(userData?.walletID);
   userProdCheck.then(function (result) {
-    setUserPt(result[0]);
-    setUserPl(result[1]);
+    setUserPt(result[0] || 0);
+    setUserPl(result[1] || 0);
   });
 
   useEffect(() => {
@@ -132,6 +137,339 @@ const PublicProfile = () => {
     }
     return nfts;
   };
+
+  //show notification when url is copied
+  const [copyNoti, setCopyNoti] = useState(false);
+
+  const showCopyNoti = async () => {
+    setCopyNoti(true);
+    await delay(1500);
+    setCopyNoti(false);
+  };
+
+  //show artists created NFT Concerts and launch mint pop
+  const [showMintPopUp, setShowMintPopUp] = useState(false);
+  const resaleFee = parseFloat(concertData?.concertResaleFee) + 5;
+  //eth to usd api call
+  const [usdExRate, setUsdExRate] = useState();
+  useEffect(() => {
+    GetUSDExchangeRate().then((res) => {
+      setUsdExRate(parseFloat(res));
+    });
+  }, []);
+
+  const showCreatedConcerts = () => {
+    const concerts = [];
+
+    if (userData?.approvedConcerts) {
+      var concertArray = Object.keys(userData?.approvedConcerts);
+      var arrayLength = concertArray.length;
+
+      for (var i = 0; i < arrayLength; i++) {
+        var tempConcertId = parseInt(concertArray[i]);
+        var tempConcert = concertData[tempConcertId];
+        var owned = parseInt(0);
+        //custom twitter share link
+        var twitterLink =
+          "https://twitter.com/intent/tweet?text=%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%20Listen%20to%20this%20insane%20performance%20by%20" +
+          encodeURI(tempConcert?.concertArtist) +
+          "%20available%20exclusively%20on%20%40nftconcerts%20%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%0A%0APick%20up%20a%20copy%20(if%20you%20can)%20and%20check%20it%20out%20-%3E%20https%3A%2F%2Fnftconcerts.com%2Fconcert%2F" +
+          tempConcertId +
+          "%0A%0A%23nftconcerts%20%23livemusic%20%23nfts%20";
+
+        var mailLink =
+          "mailto:?subject=Check Out this NFT Concert - " +
+          tempConcert?.concertName +
+          " by " +
+          tempConcert?.concertArtist +
+          "&body=This performance is amazing - https://nftconcerts.com/concert/" +
+          tempConcertId;
+        concerts.push(
+          <div className="created__container">
+            <div className="created__div">
+              <div className="lp__info__div">
+                <div className="lp__info__columns">
+                  <div className="lp__info__col1">
+                    <img
+                      src={tempConcert.concertTokenImage}
+                      className="token__image__image"
+                      alt="NFT Concert Token Preview"
+                    />
+
+                    <div className="mint__progress__bar__container">
+                      <div className="mint__progress__bar__div">
+                        <div
+                          className="mint__progress__bar__inner"
+                          style={{
+                            width: `${
+                              (tempConcert.mintID * 100) /
+                              tempConcert.concertSupply
+                            }%`,
+                          }}
+                        />
+                      </div>
+                      <div className="lp__mint__progress__div">
+                        {tempConcert.concertSupply - tempConcert.mintID + 1} /{" "}
+                        {tempConcert.concertSupply} Available
+                      </div>
+                    </div>
+
+                    <button
+                      className="my__button preview__button buy__now__button lp__buy__button"
+                      onClick={() => {
+                        setShowMintPopUp(true);
+                      }}
+                    >
+                      <div className="inside__button__div">
+                        <div>Mint</div>{" "}
+                        <div className="button__price">
+                          <img
+                            src="/media/eth-logo.png"
+                            height={25}
+                            className="c__eth__logo white__eth__logo"
+                            alt="eth logo"
+                          />
+                          {parseFloat(tempConcert.concertPrice)}{" "}
+                          <span className="c__price__in__usd button__usd__price">
+                            ($
+                            {(
+                              parseFloat(tempConcert.concertPrice) * usdExRate
+                            ).toFixed(2)}
+                            )
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+
+                    <div className="marketplace__icons__div token__div__icons">
+                      <div
+                        className="marketplace__icon__div"
+                        onClick={() => {
+                          window.open(
+                            `https://looksrare.org/collections/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${tempConcertId}`
+                          );
+                        }}
+                      >
+                        <img
+                          src="/media/looksrare-logo.png"
+                          className="marketplace__icon invert__icon"
+                          alt="LooksRare Logo"
+                        />
+                      </div>
+                      <div
+                        className="marketplace__icon__div"
+                        onClick={() => {
+                          window.open(
+                            `https://opensea.io/assets/ethereum/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${tempConcertId}`
+                          );
+                        }}
+                      >
+                        <img
+                          src="/media/opensea-logo.png"
+                          className="marketplace__icon"
+                          alt="OpenSea Logo"
+                        />
+                      </div>
+                      <div
+                        className="marketplace__icon__div"
+                        onClick={() => {
+                          window.open(
+                            `https://x2y2.io/eth/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a/${tempConcertId}`
+                          );
+                        }}
+                      >
+                        <img
+                          src="/media/x2y2-logo.png"
+                          className="marketplace__icon"
+                          alt="X2Y2 Logo"
+                        />
+                      </div>
+                      <div
+                        className="marketplace__icon__div"
+                        onClick={() => {
+                          window.open(
+                            `https://etherscan.io/token/0x878D3F87C163951Ef2923D09859Aff45Dc34a45a?a=${tempConcertId}`
+                          );
+                        }}
+                      >
+                        <img
+                          src="/media/etherscan-logo.png"
+                          className="marketplace__icon"
+                          alt="Etherscan Logo"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="lp__info__col2">
+                    {/* {releaseDate > nowDate && (
+                  <div className="drop__date__div">
+                    <div className="drop__date__highlight">
+                      <h3 className="drop__date__header">
+                        Minting {productionDate?.toLocaleDateString()}
+                      </h3>
+                      Production Team -{" "}
+                      {dateFormat(productionDate, "h:MM TT Z")}
+                      <br />
+                      Public Sale - {dateFormat(releaseDate, "h:MM TT Z")}
+                    </div>
+                  </div>
+                )} */}
+                    <div className="lp__share__div hide__700">
+                      <a href={twitterLink} target="_blank" rel="noreferrer">
+                        <button className="fa-brands fa-twitter player__icon__button" />
+                      </a>
+                      <a href={mailLink} target="_blank" rel="noreferrer">
+                        <button className="fa-solid fa-envelope player__icon__button" />
+                      </a>
+
+                      <button
+                        className="fa-solid fa-clipboard player__icon__button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(window.location.href);
+                          showCopyNoti();
+                        }}
+                      />
+                    </div>
+                    {copyNoti && (
+                      <div className="lp__share__div copy__noti">
+                        URL Copied
+                      </div>
+                    )}
+
+                    <h3 className="c__name">{tempConcert?.concertName}</h3>
+
+                    {owned > 1 && (
+                      <h3 className="owned__info">
+                        {owned}x Copies Owned of {tempConcert?.concertSupply}
+                      </h3>
+                    )}
+                    {owned === 1 && (
+                      <h3 className="owned__info">
+                        {owned} Copy Owned of {tempConcert?.concertSupply}
+                      </h3>
+                    )}
+
+                    {(owned === 0 && (
+                      <button
+                        className="my__button preview__button buy__now__button lp__buy__button "
+                        onClick={() => {
+                          navigate("/concert/" + tempConcertId);
+                        }}
+                      >
+                        <span>
+                          Marketplace{" "}
+                          <i className="fa-solid fa-dollar-sign lp__play__now__icon" />
+                        </span>
+                      </button>
+                    )) || (
+                      <button
+                        className="lp__play__now__button "
+                        onClick={() => {
+                          navigate("/player/" + tempConcertId);
+                        }}
+                        disabled={!owned}
+                      >
+                        <span>
+                          Play Now{" "}
+                          <i className="fa-solid fa-play lp__play__now__icon" />
+                        </span>
+                      </button>
+                    )}
+
+                    <h3 className="c__detail">
+                      <i className="fa-solid fa-user c__icons" title="Artist" />
+                      {tempConcert?.concertArtist}
+                    </h3>
+                    <h3 className="c__detail">
+                      <i
+                        className="fa-solid fa-video c__icons"
+                        title="Recording Type"
+                      />
+                      {tempConcert?.concertRecordingType}
+                    </h3>
+                    <h3 className="c__detail">
+                      <i
+                        className="fa-solid fa-clock-rotate-left c__icons"
+                        title="Duration"
+                      />
+                      {tempConcert?.concertDuration}
+                    </h3>
+                    <h3 className="c__detail">
+                      <i
+                        className="fa-solid fa-calendar c__icons"
+                        title="Performance Date"
+                      />
+                      {dateFormat(
+                        tempConcert.concertPerformanceDate,
+                        "m/d/yyyy, h:MM TT"
+                      )}
+                    </h3>
+
+                    <h3 className="c__detail">
+                      <i
+                        className="fa-solid fa-warehouse c__icons"
+                        title="Venue"
+                      />
+                      {tempConcert?.concertVenue}
+                    </h3>
+                    <h3 className="c__detail">
+                      <i
+                        className="fa-solid fa-location-crosshairs c__icons"
+                        title="Location"
+                      />
+                      {tempConcert?.concertLocation}
+                    </h3>
+                    {tempConcert?.concertTourName && (
+                      <h3 className="c__detail">
+                        <i
+                          className="fa-solid fa-van-shuttle c__icons"
+                          title="Tour"
+                        />
+                        {tempConcert?.concertTourName}
+                      </h3>
+                    )}
+                    {tempConcert?.concertLiveAttendance && (
+                      <h3 className="c__detail">
+                        <i
+                          className="fa-solid fa-users-line c__icons"
+                          title="Tour"
+                        />
+                        {tempConcert?.concertLiveAttendance}
+                      </h3>
+                    )}
+
+                    <h3 className="c__detail">
+                      <i
+                        className="fa-solid fa-chart-pie c__icons"
+                        title="Duration"
+                      />
+                      {resaleFee}% Resale Fee
+                    </h3>
+                    <p className="c__description tablet__hide">
+                      {tempConcert?.concertDescription}
+                    </p>
+                  </div>
+                </div>
+                <div className="tablet__info">
+                  <p className="c__description tablet__description">
+                    {tempConcert?.concertDescription}
+                  </p>
+                </div>
+              </div>
+
+              <div className="c__token__info__div audience__info__div">
+                <p>
+                  Mint this NFT Concert for a Permanent Spot in the Audience
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      }
+    }
+    return concerts;
+  };
+
   return (
     <>
       {(userData && (
@@ -325,30 +663,52 @@ const PublicProfile = () => {
                     )}
                   </div>
                 )}
-                <h3 className="library__heading">{userData?.name}'s Library</h3>
+                {userData?.approvedConcerts && (
+                  <div className="created__library">
+                    {" "}
+                    <h3 className="library__heading">
+                      Created by {userData?.name}
+                    </h3>
+                    <div>{showCreatedConcerts()}</div>
+                  </div>
+                )}
+
                 {(ownedNFTs && ownedNFTs.length > 0 && (
                   <>
+                    <h3 className="library__heading">
+                      {userData?.name}'s Library
+                    </h3>
                     <div className="concert__library">
                       {concertData && showConcerts()}
                     </div>
                   </>
                 )) || (
-                  <div className="no__owned__shows__div">
-                    {" "}
-                    <p>There are no NFT Concerts in this wallet.</p>
-                    <p>
-                      Mint or purchase a NFT Concert to unlock full concert
-                      performances.
-                    </p>
-                    <button
-                      className="shop__now__button"
-                      onClick={() => {
-                        navigate("/");
-                      }}
-                    >
-                      Shop Now
-                    </button>
-                  </div>
+                  <>
+                    {userData.userType !== "artist" && (
+                      <>
+                        {" "}
+                        <h3 className="library__heading">
+                          {userData?.name}'s Library
+                        </h3>
+                        <div className="no__owned__shows__div">
+                          {" "}
+                          <p>There are no NFT Concerts in this wallet.</p>
+                          <p>
+                            Mint or purchase a NFT Concert to unlock full
+                            concert performances.
+                          </p>
+                          <button
+                            className="shop__now__button"
+                            onClick={() => {
+                              navigate("/");
+                            }}
+                          >
+                            Shop Now
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </>
                 )}
               </div>
             </div>

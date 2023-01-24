@@ -190,7 +190,7 @@ function App() {
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/admin/payouts" element={<Payouts />} />
                 <Route path="/admin/concerts" element={<AdminConcerts />} />
-                <Route path="/collectors" element={<Collectors />} />
+                {/* <Route path="/collectors" element={<Collectors />} /> */}
                 <Route path="/apply" element={<ArtistApp />} />
                 <Route path="/terms-of-service" element={<TermsOfService />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />

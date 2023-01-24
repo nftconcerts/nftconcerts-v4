@@ -232,7 +232,7 @@ const Player = () => {
   var twitterLink =
     "https://twitter.com/intent/tweet?text=%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%20Watching%20an%20insane%20performance%20by%20" +
     encodeURI(concertData?.concertArtist) +
-    "%20available%20exclusively%20on%20%40nftconcerts%20%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%0A%0APick%20up%20a%20copy%20(if%20you%20can)%20and%20check%20it%20out%20-%3E%20https%3A%2F%2Fnftconcerts.com%2Fconcert%3Fid%3D" +
+    "%20available%20exclusively%20on%20%40nftconcerts%20%F0%9F%94%A5%F0%9F%94%A5%F0%9F%94%A5%0A%0APick%20up%20a%20copy%20(if%20you%20can)%20and%20check%20it%20out%20-%3E%20https%3A%2F%2Fnftconcerts.com%2Fconcert%2F" +
     concertID +
     "%0A%0A%23nftconcerts%20%23livemusic%20%23nfts%20";
 
@@ -426,7 +426,7 @@ const Player = () => {
                     </div>
                   </div>
                 </div>
-                {buyerData?.productionRank === 1 && (
+                {buyerData?.productionRank === "1" && (
                   <div
                     className="audprod__div"
                     onClick={() => {
@@ -445,7 +445,7 @@ const Player = () => {
                     </div>
                   </div>
                 )}
-                {buyerData?.productionRank === 2 && (
+                {buyerData?.productionRank === "2" && (
                   <div
                     className="audprod__div"
                     onClick={() => {
