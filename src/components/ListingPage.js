@@ -11,7 +11,7 @@ import { GetUSDExchangeRate } from "./api";
 import FormBox from "./form/FormBox";
 import { useActiveClaimCondition, useContract } from "@thirdweb-dev/react";
 import { editionDropAddress } from "../scripts/getContract.mjs";
-import MintPopUp from "./MintPopUp";
+import MintPopUp from "./popup/MintPopUp";
 import { Helmet } from "react-helmet";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));

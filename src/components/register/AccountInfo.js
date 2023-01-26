@@ -275,8 +275,8 @@ const AccountInfo = () => {
 
   const switchSpotify = () => {
     if (isValidUrl(tempSpotify)) {
-      let stringStart = tempSpotify.substr(0, 30);
-      let properStart = "https://open.spotify.com/user/";
+      let stringStart = tempSpotify.substr(0, 25);
+      let properStart = "https://open.spotify.com/";
       if (stringStart === properStart) {
         set(
           dRef(db, "users/" + currentUser.user.uid + "/spotifyLink"),

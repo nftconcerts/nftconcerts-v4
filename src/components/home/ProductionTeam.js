@@ -8,7 +8,7 @@ import { truncateAddress, fetchCurrentUser, db } from "../../firebase";
 
 import { Helmet } from "react-helmet";
 import { ref as dRef, onValue } from "firebase/database";
-import ProductionPop from "./ProductionPop";
+import ProductionPop from "../popup/ProductionPop";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 

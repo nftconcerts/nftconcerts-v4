@@ -207,6 +207,10 @@
   cursor: pointer;
   color: #ddd;
   transition: all 0.5s;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-family: "Space Grotesk";
 }
 .text__only__button:hover {
   color: #fff;
@@ -413,7 +417,28 @@
 .tx__link {
   color: #ccc;
 }
-
+.magic__confirm__div {
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Space Grotesk";
+  padding-top: 20px;
+  box-sizing: border-box;
+  font-size: 20px;
+}
+.magic__icon {
+  font-size: 60px;
+  color: #000;
+}
+.confirm__magic__icon {
+  color: #fff;
+}
+.magic__confirm__title {
+  font-size: 30px;
+  font-weight: bold;
+}
 @media screen and (max-width: 850px) {
   .mp__login__buttons__div {
     flex-direction: column;

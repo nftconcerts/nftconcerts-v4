@@ -3,7 +3,7 @@ import "./BlogPost.css";
 import "./../Blog.css";
 import { useNavigate } from "react-router-dom";
 import ProductionRow from "../../home/ProductionRow";
-import ProductionPop from "../../home/ProductionPop";
+import ProductionPop from "../../popup/ProductionPop";
 import { fetchCurrentUser } from "../../../firebase";
 
 function BlogPost({ children, postDate, postTitle, prevPost, nextPost }) {

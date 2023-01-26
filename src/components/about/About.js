@@ -3,7 +3,7 @@ import "./About.css";
 import YouTube from "react-youtube";
 import { Helmet } from "react-helmet";
 import Banner from "./Banner";
-import ProductionPop from "./../home/ProductionPop";
+import ProductionPop from "../popup/ProductionPop";
 import ProductionRow from "./../home/ProductionRow";
 import { fetchCurrentUser } from "../../firebase";
 

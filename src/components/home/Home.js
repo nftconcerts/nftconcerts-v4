@@ -5,9 +5,9 @@ import FooterTop from "../FooterTop";
 import { ref as dRef, onValue } from "firebase/database";
 import { db, fetchCurrentUser } from "./../../firebase";
 import "./Home.css";
-import MintPopUp from "../MintPopUp";
+import MintPopUp from "../popup/MintPopUp";
 import ProductionRow from "./ProductionRow";
-import ProductionPop from "./ProductionPop";
+import ProductionPop from "../popup/ProductionPop";
 import CountdownBanner from "./CountdownBanner";
 
 const Home = () => {

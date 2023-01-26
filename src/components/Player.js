@@ -12,7 +12,7 @@ import { useActiveClaimCondition, useContract } from "@thirdweb-dev/react";
 import { editionDropAddress } from "./../scripts/getContract.mjs";
 import { Helmet } from "react-helmet";
 import { GetUSDExchangeRate } from "./api";
-import MintPopUp from "./MintPopUp";
+import MintPopUp from "./popup/MintPopUp";
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 const Player = () => {
