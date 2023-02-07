@@ -40,9 +40,16 @@ function Row({ concertData, concerts }) {
           </div>
         )}
       </div>
-      {/* <div className="marketplace__button__div">
-        <button className="empty__pt__button">View Marketplace</button>
-      </div> */}
+      <div className="marketplace__button__div">
+        <button
+          className="empty__pt__button"
+          onClick={() => {
+            navigate("/market");
+          }}
+        >
+          View Marketplace
+        </button>
+      </div>
     </div>
   );
 }

@@ -41,6 +41,9 @@ const FooterNew = () => {
             <div className="menu__column">
               <ul className="footer__menu__list">
                 <li>
+                  <a href="/market">Marketplace</a>
+                </li>
+                <li>
                   <a href="/about">About</a>
                 </li>
                 <li>

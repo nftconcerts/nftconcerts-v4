@@ -13,7 +13,7 @@ import {
   useCoinbaseWallet,
   useWalletConnect,
 } from "@thirdweb-dev/react";
-import { ref as dRef, set } from "firebase/database";
+import { ref as dRef, set, get } from "firebase/database";
 import emailjs from "@emailjs/browser";
 import checkEns from "../../scripts/checkEns";
 import { Magic, RPCError, RPCErrorCode } from "magic-sdk";
@@ -96,11 +96,45 @@ const PopRegister = ({
     }
   };
 
+  //check if user slug exists
+
+  const checkSlug = async (slug) => {
+    let slugExists;
+    let checkSlugRef = dRef(db, "userSlugs/" + slug);
+    let snapshot = await get(checkSlugRef);
+    slugExists = snapshot.val();
+    return slugExists;
+  };
+
   //connect with magic.
   const [confirmMagic, setConfirmMagic] = useState(false);
   const [emailConfirm, setEmailConfirm] = useState(false);
   const [magicError, setMagicError] = useState();
   const tryMagic = async () => {
+    var nameString = displayName.toString();
+    const spacereg = /\s/g;
+    var newSlug = nameString.replace(spacereg, "-");
+    const reg = /[^A-Za-z0-9-]/g;
+    var cleanSlug = newSlug.replace(reg, "");
+    cleanSlug = cleanSlug.toLowerCase();
+    var slugExists = await checkSlug(cleanSlug);
+    for (var i = 1; i < 10; i++) {
+      var tempSlug;
+      if (slugExists) {
+        tempSlug = cleanSlug + i;
+        slugExists = await checkSlug(tempSlug);
+        if (!slugExists) {
+          cleanSlug = tempSlug;
+        }
+        if (i == 9) {
+          cleanSlug = cleanSlug + "1";
+          i = 0;
+        }
+      } else {
+        i = 10;
+      }
+    }
+    console.log("Cleaned and unique slug: ", cleanSlug);
     if (email === "") return alert("Missing email address");
     if (displayName === "") return alert("Missing Account Name");
     if (password === "") return alert("Missing Password");
@@ -150,8 +184,10 @@ const PopRegister = ({
             connectionType: "magic",
             emailNotifications: "ON",
             image: image,
+            userSlug: cleanSlug,
           })
             .then(() => {
+              set(dRef(db, "userSlugs/" + cleanSlug), uid);
               alert(`Welcome ${displayName} to NFT Concerts`);
               setCurrentUser(fetchCurrentUser());
               setShowRegister(false);
@@ -168,15 +204,12 @@ const PopRegister = ({
           switch (err.code) {
             case RPCErrorCode.MagicLinkFailedVerification:
               setMagicError("Verification Failed, Please Try Again.");
-              break;
             case RPCErrorCode.MagicLinkExpired:
               setMagicError("Verification Expired, Please Try Again.");
-              break;
             case RPCErrorCode.MagicLinkRateLimited:
               setMagicError(
                 "Too Many Requests. Please wait a moment before trying again."
               );
-              break;
             case RPCErrorCode.UserAlreadyLoggedIn:
               setMagicError(
                 "User Error - Already Logged In. Try Refreshing Your Browser."
@@ -193,6 +226,29 @@ const PopRegister = ({
 
   //basic security checks before registering user.
   const checkThenRegister = async () => {
+    var nameString = displayName.toString();
+    const spacereg = /\s/g;
+    var newSlug = nameString.replace(spacereg, "-");
+    const reg = /[^A-Za-z0-9-]/g;
+    var cleanSlug = newSlug.replace(reg, "");
+    cleanSlug = cleanSlug.toLowerCase();
+    var slugExists = await checkSlug(cleanSlug);
+    for (var i = 1; i < 10; i++) {
+      var tempSlug;
+      if (slugExists) {
+        tempSlug = cleanSlug + i;
+        slugExists = await checkSlug(tempSlug);
+        if (!slugExists) {
+          cleanSlug = tempSlug;
+        }
+        if (i == 9) {
+          cleanSlug = cleanSlug + "1";
+          i = 0;
+        }
+      } else {
+        i = 10;
+      }
+    }
     var photoid = getRandomInt(4);
     var image =
       "https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Ff1.jpg?alt=media&token=91903ed9-82c3-47aa-ab2d-7b015c7a90a8";
@@ -231,7 +287,9 @@ const PopRegister = ({
           image: image,
         })
           .then(() => {
+            set(dRef(db, "userSlugs/" + cleanSlug), uid);
             alert(`Welcome ${displayName} to NFT Concerts`);
+
             setCurrentUser(fetchCurrentUser());
             setShowRegister(false);
             sendEmail(savedUserAddress, rcType);
@@ -530,11 +588,7 @@ const PopRegister = ({
             )) || (
               <div className="magic__confirm__div">
                 <i className="fa-solid fa-rectangle-xmark magic__icon" />
-                {(!magicError && (
-                  <h3 className="magic__confirm__title">
-                    Do Not Close This Tab
-                  </h3>
-                )) || <h3 className="magic__confirm__title">{magicError}</h3>}
+                <h3 className="magic__confirm__title">Do Not Close This Tab</h3>
                 <p>
                   Please Confrim Your Email Address and return to this page.
                 </p>

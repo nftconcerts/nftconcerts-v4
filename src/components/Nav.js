@@ -114,12 +114,8 @@ const Nav = () => {
                 >
                   Login
                 </div>{" "}
-                <a
-                  href="https://nftconcerts.com/about"
-                  className="menu__item"
-                  onClick={menuPop}
-                >
-                  Learn More..
+                <a href="/market" className="menu__item" onClick={menuPop}>
+                  Marketplace
                 </a>
               </>
             )}
@@ -139,7 +135,7 @@ const Nav = () => {
                   className="menu__item"
                   onClick={() => {
                     menuPop();
-                    navigate("/");
+                    navigate("/market");
                   }}
                 >
                   Discover

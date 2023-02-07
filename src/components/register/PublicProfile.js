@@ -700,7 +700,7 @@ const PublicProfile = () => {
                           <button
                             className="shop__now__button"
                             onClick={() => {
-                              navigate("/");
+                              navigate("/market");
                             }}
                           >
                             Shop Now

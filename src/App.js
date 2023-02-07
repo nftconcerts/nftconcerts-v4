@@ -48,7 +48,9 @@ function App() {
     import("./components/home/ProductionLounge")
   );
   const PromoPage = lazy(() => import("./components/register/Partner"));
-
+  const Marketplace = lazy(() =>
+    import("./components/marketplace/Marketplace")
+  );
   const Player = lazy(() => import("./components/Player"));
   const ContractPage = lazy(() => import("./components/ContractPage"));
   const ListingPage = lazy(() => import("./components/ListingPage"));
@@ -179,6 +181,7 @@ function App() {
                 <Route path="/partner" element={<PromoPage />} />
                 <Route path="/upload" element={<Upload />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/market" element={<Marketplace />} />
                 <Route path="/player" element={<Player />}>
                   <Route path=":id" element={<Player />} />
                 </Route>
