@@ -33,6 +33,72 @@ const Blog = () => {
       </div>
       <div className="blog__cards__div">
         <div className="blog__card__div">
+          <div
+            className="blog__card"
+            onClick={() => {
+              navigate("/how-to-get-started-with-nfts");
+            }}
+          >
+            <div className="blog__card__thumbnail__div">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FHow%20to%20Get%20Started%20with%20NFTs.jpg?alt=media&token=7ccc2e22-0ac6-40d3-86ea-f6d7b895e45a"
+                className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
+              />
+            </div>
+            <div className="blog__card__info__div">
+              <h3 className="blog__card__title">
+                How to Get Started with NFTs
+              </h3>
+              <p className="blog__card__preview">
+                Do you want to discover the potential of NFTs? Follow this
+                simple guide to learn how to setup a crypto wallet, receive a
+                free NFT, fund your account, and begin to explore the
+                possibilities of web3.
+              </p>
+              <button className="blog__read__more__button">
+                Read More &#187;
+              </button>
+            </div>
+            <div className="blog__card__metadata__div">
+              <p>Jimmy Dendrinos</p>
+              <p>December 1, 2021</p>{" "}
+            </div>
+          </div>
+        </div>
+        <div className="blog__card__div">
+          <div
+            className="blog__card"
+            onClick={() => {
+              navigate("/nft-tickets-vs-nft-music-music-entertainment-nfts");
+            }}
+          >
+            <div className="blog__card__thumbnail__div">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFT%20Tickets%20vs%20NFT%20Music.jpg?alt=media&token=f9a30388-a6f8-4043-9a47-150961355679"
+                className="blog__card__thumbnail__image"
+                alt="Blog Thumbnail "
+              />
+            </div>
+            <div className="blog__card__info__div">
+              <h3 className="blog__card__title">NFT Tickets vs. NFT Music</h3>
+              <p className="blog__card__preview">
+                The music community is quickly engaging non-fungible tokens in
+                new and creative ways. While certain artists are using NFTs as a
+                lottery system to send some of their fans to space, others are
+                taking a more practical approach.
+              </p>
+              <button className="blog__read__more__button">
+                Read More &#187;
+              </button>
+            </div>
+            <div className="blog__card__metadata__div">
+              <p>Jimmy Dendrinos</p>
+              <p>November 15, 2021</p>{" "}
+            </div>
+          </div>
+        </div>
+        <div className="blog__card__div">
           <div className="blog__card">
             <div
               className="blog__card__thumbnail__div"

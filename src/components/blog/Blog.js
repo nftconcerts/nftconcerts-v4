@@ -32,7 +32,45 @@ const Blog = () => {
         <div className="blog__fadeBottom"></div>
       </div>
       <div className="blog__cards__div">
-        {/* <div className="blog__card__div">
+        <div className="blog__card__div">
+          <div className="blog__card">
+            <div
+              className="blog__card__thumbnail__div"
+              onClick={() => {
+                navigate("/future-of-music");
+              }}
+            >
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FThe%20Future%20of%20Music%20is%20Here.jpg?alt=media&token=73d92a4b-bd37-4550-b7d3-48644fa3dcfa"
+                className="blog__card__thumbnail__image"
+              />
+            </div>
+            <div className="blog__card__info__div">
+              <h3 className="blog__card__title">
+                The Future of Music is Here: NFT Concerts Take the Stage
+              </h3>
+              <p className="blog__card__preview">
+                While many are becoming aware of music NFTs representing
+                individual songs are albums, a few savvy artists and collectors
+                are experimenting with NFT Concerts.
+              </p>
+              <button
+                className="blog__read__more__button"
+                onClick={() => {
+                  navigate("/future-of-music");
+                }}
+              >
+                Read More &#187;
+              </button>
+            </div>
+            <div className="blog__card__metadata__div">
+              <p>Jimmy Dendrinos</p>
+              <p>February 13, 2022</p>{" "}
+            </div>
+          </div>
+        </div>
+
+        <div className="blog__card__div">
           <div className="blog__card">
             <div
               className="blog__card__thumbnail__div"
@@ -41,7 +79,7 @@ const Blog = () => {
               }}
             >
               <img
-                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fhistory%20of%20recorded%20music.jpg?alt=media&token=a31cca00-43e0-4b5f-abc8-7a5554033cf6"
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2Fhistory%20of%20recorded%20music.jpg?alt=media&token=2d4ae40c-138d-48c2-b965-9da554fcd3d5"
                 className="blog__card__thumbnail__image"
               />
             </div>
@@ -51,13 +89,14 @@ const Blog = () => {
                 Music NFTs
               </h3>
               <p className="blog__card__preview">
-                The history of recorded music started in the late 1800's. Does
-                it end with NFTs?
+                The history of recorded music started in the late 1800's. Now we
+                have music NFTs. How did we get here and are things better or
+                worse for artists?
               </p>
               <button
                 className="blog__read__more__button"
                 onClick={() => {
-                  navigate("/nft-ticketing-for-concerts-events");
+                  navigate("/evolution-of-recorded-music");
                 }}
               >
                 Read More &#187;
@@ -68,7 +107,7 @@ const Blog = () => {
               <p>December 12, 2022</p>{" "}
             </div>
           </div>
-        </div> */}
+        </div>
 
         <div className="blog__card__div">
           <div
@@ -415,72 +454,6 @@ const Blog = () => {
           </div>
         </div>
 
-        <div className="blog__card__div">
-          <div
-            className="blog__card"
-            onClick={() => {
-              navigate("/how-to-get-started-with-nfts");
-            }}
-          >
-            <div className="blog__card__thumbnail__div">
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FHow%20to%20Get%20Started%20with%20NFTs.jpg?alt=media&token=7ccc2e22-0ac6-40d3-86ea-f6d7b895e45a"
-                className="blog__card__thumbnail__image"
-                alt="Blog Thumbnail "
-              />
-            </div>
-            <div className="blog__card__info__div">
-              <h3 className="blog__card__title">
-                How to Get Started with NFTs
-              </h3>
-              <p className="blog__card__preview">
-                Do you want to discover the potential of NFTs? Follow this
-                simple guide to learn how to setup a crypto wallet, receive a
-                free NFT, fund your account, and begin to explore the
-                possibilities of web3.
-              </p>
-              <button className="blog__read__more__button">
-                Read More &#187;
-              </button>
-            </div>
-            <div className="blog__card__metadata__div">
-              <p>Jimmy Dendrinos</p>
-              <p>December 1, 2021</p>{" "}
-            </div>
-          </div>
-        </div>
-        <div className="blog__card__div">
-          <div
-            className="blog__card"
-            onClick={() => {
-              navigate("/nft-tickets-vs-nft-music-music-entertainment-nfts");
-            }}
-          >
-            <div className="blog__card__thumbnail__div">
-              <img
-                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2Fpost__images%2FNFT%20Tickets%20vs%20NFT%20Music.jpg?alt=media&token=f9a30388-a6f8-4043-9a47-150961355679"
-                className="blog__card__thumbnail__image"
-                alt="Blog Thumbnail "
-              />
-            </div>
-            <div className="blog__card__info__div">
-              <h3 className="blog__card__title">NFT Tickets vs. NFT Music</h3>
-              <p className="blog__card__preview">
-                The music community is quickly engaging non-fungible tokens in
-                new and creative ways. While certain artists are using NFTs as a
-                lottery system to send some of their fans to space, others are
-                taking a more practical approach.
-              </p>
-              <button className="blog__read__more__button">
-                Read More &#187;
-              </button>
-            </div>
-            <div className="blog__card__metadata__div">
-              <p>Jimmy Dendrinos</p>
-              <p>November 15, 2021</p>{" "}
-            </div>
-          </div>
-        </div>
         <div className="blog__page__buttons">
           <button className="page__button" disabled={true}>
             &#171; Previous

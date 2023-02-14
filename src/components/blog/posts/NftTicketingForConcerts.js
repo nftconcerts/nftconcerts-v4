@@ -8,6 +8,7 @@ const NftTicketingForConcerts = () => {
       postTitle="NFT Ticketing for Concerts & Events"
       postDate="August 6, 2022"
       prevPost="/can-web3-end-two-factor-authentication"
+      nextPost="/evolution-of-recorded-music"
     >
       <Helmet>
         <title>NFT Ticketing for Concerts & Events</title>

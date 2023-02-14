@@ -2,13 +2,13 @@ import React from "react";
 import BlogPost from "./BlogPost";
 import { Helmet } from "react-helmet";
 
-const DonDiablo = () => {
+const RecHistory = () => {
   return (
     <BlogPost
       postTitle="The Evolution of Recorded Music: From Edison's Phonograph to Music NFTs"
-      postDate="April 12, 2021"
-      prevPost="/blog"
-      nextPost="/the-past-present-and-future-of-concert-bootlegs"
+      postDate="December 12, 2022"
+      nextPost="/blog"
+      prevPost="/nft-ticketing-for-concerts-events"
     >
       <Helmet>
         <title>
@@ -157,4 +157,4 @@ const DonDiablo = () => {
   );
 };
 
-export default DonDiablo;
+export default RecHistory;

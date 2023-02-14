@@ -139,9 +139,11 @@ function App() {
     import("./components/blog/posts/ConcertBootlegs")
   );
   const DonDiablo = lazy(() => import("./components/blog/posts/DonDiablo"));
-  const RecHistory = lazy(() => {
-    import("./components/blog/posts/RecHistory");
-  });
+  const FutureOfMusic = lazy(() =>
+    import("./components/blog/posts/FutureOfMusic")
+  );
+
+  const RecHistory = lazy(() => import("./components/blog/posts/RecHistory"));
   const getLibrary = (provider) => {
     const library = new Web3Provider(provider, "any");
     library.pollingInterval = 15000;
@@ -299,6 +301,7 @@ function App() {
                   path="/don-diablos-600eth-1-2m-nft-concert"
                   element={<DonDiablo />}
                 />
+                <Route path="/future-of-music" element={<FutureOfMusic />} />
                 <Route path="/production-team" element={<ProductionTeam />} />
                 <Route path="/lounge" element={<ProductionLounge />} />
                 <Route exact path="/" element={<Home />} />
