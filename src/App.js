@@ -142,6 +142,7 @@ function App() {
   const FutureOfMusic = lazy(() =>
     import("./components/blog/posts/FutureOfMusic")
   );
+  const SpotifyGate = lazy(() => import("./components/blog/posts/SpotifyGate"));
 
   const RecHistory = lazy(() => import("./components/blog/posts/RecHistory"));
   const getLibrary = (provider) => {
@@ -300,6 +301,10 @@ function App() {
                 <Route
                   path="/don-diablos-600eth-1-2m-nft-concert"
                   element={<DonDiablo />}
+                />
+                <Route
+                  path="/spotify-embraces-token-gated-content"
+                  element={<SpotifyGate />}
                 />
                 <Route path="/future-of-music" element={<FutureOfMusic />} />
                 <Route path="/production-team" element={<ProductionTeam />} />

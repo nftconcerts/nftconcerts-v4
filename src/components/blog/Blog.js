@@ -37,6 +37,44 @@ const Blog = () => {
             <div
               className="blog__card__thumbnail__div"
               onClick={() => {
+                navigate("/spotify-embraces-token-gated-content");
+              }}
+            >
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/nftconcerts-v1.appspot.com/o/images%2FSpotify%20Embraces%20Token%20Gated%20Content.jpg?alt=media&token=d07edc00-b9db-4a35-9ebd-094908d5030c"
+                className="blog__card__thumbnail__image"
+              />
+            </div>
+            <div className="blog__card__info__div">
+              <h3 className="blog__card__title">
+                Spotify's Embrace of Token-Gated Content: A Major Milestone for
+                NFTs and Music Fans
+              </h3>
+              <p className="blog__card__preview">
+                Spotify has made headlines by partnering with KINGSHIP to launch
+                its first token-gated playlist, accessible only to those who
+                hold a KINGSHIP Key Card NFT.
+              </p>
+              <button
+                className="blog__read__more__button"
+                onClick={() => {
+                  navigate("/spotify-embraces-token-gated-content");
+                }}
+              >
+                Read More &#187;
+              </button>
+            </div>
+            <div className="blog__card__metadata__div">
+              <p>Jimmy Dendrinos</p>
+              <p>February 23, 2022</p>{" "}
+            </div>
+          </div>
+        </div>
+        <div className="blog__card__div">
+          <div className="blog__card">
+            <div
+              className="blog__card__thumbnail__div"
+              onClick={() => {
                 navigate("/future-of-music");
               }}
             >

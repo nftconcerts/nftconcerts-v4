@@ -7,7 +7,7 @@ const FutureOfMusic = () => {
     <BlogPost
       postTitle="The Future of Music is Here: NFT Concerts Take the Stage"
       postDate="Feb 12, 2023"
-      prevPost="/blog"
+      prevPost="/spotify-embraces-token-gated-content"
       nextPost="/the-past-present-and-future-of-concert-bootlegs"
     >
       <Helmet>
